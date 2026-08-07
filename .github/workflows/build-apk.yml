@@ -1,25 +1,22 @@
-name: Build Anglers Log Pro APK
-
-on:
-  workflow_dispatch:
-
+name: Build APK
+on: workflow_dispatch
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - name: Clone adair-flutter-lib dependency
+        run: |
+          git clone https://github.com/cohenadair/adair-flutter-lib.git ../adair-flutter-lib
+
+      - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.0'
           channel: 'stable'
 
       - name: Install Dependencies
@@ -29,3 +26,8 @@ jobs:
       - name: Build Release APK
         working-directory: ./mobile
         run: flutter build apk --release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: anglers-log-pro-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
