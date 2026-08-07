@@ -23,7 +23,7 @@ jobs:
         working-directory: ./mobile
         run: flutter pub get
 
-      - - name: Build Release APK
+      - name: Build Release APK
         working-directory: ./mobile
         run: flutter build apk --release --enable-experiment=dot-shorthands
 
