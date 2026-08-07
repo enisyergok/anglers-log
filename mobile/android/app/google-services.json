@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "944752135471",
+    "project_id": "fishing-94bb0",
+    "storage_bucket": "fishing-94bb0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944752135471:android:cc028e5c81792b90bee5da",
+        "android_client_info": {
+          "package_name": "com.cohenadair.anglerslog"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM9aNEJGmHaXaQP-jCZZGf_oagBQdQ6zA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
