@@ -12,6 +12,11 @@ jobs:
         run: |
           git clone https://github.com/cohenadair/adair-flutter-lib.git ../adair-flutter-lib
 
+      - name: Create dummy sensitive.properties
+        run: |
+          echo "# Dummy config for CI build" > mobile/assets/sensitive.properties
+          echo "mapbox.token=dummy" >> mobile/assets/sensitive.properties
+
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -27,7 +32,7 @@ jobs:
 
       - name: Build Release APK
         working-directory: ./mobile
-        run: flutter build apk --release --enable-experiment=dot-shorthands
+        run: flutter build apk --release
 
       - uses: actions/upload-artifact@v4
         with:
