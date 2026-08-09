@@ -1,4 +1,4 @@
-﻿/// Lightweight shell bridge so nested Mera pages can switch bottom tabs.
+/// Lightweight shell bridge so nested Mera pages can switch bottom tabs.
 class MeraShell {
   static void Function(int index)? switchTab;
 

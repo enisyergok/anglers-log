@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:adair_flutter_lib/utils/page.dart';
+import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/location_monitor.dart';
+import 'package:mobile/mera/mera_boat_profile.dart';
 import 'package:mobile/mera/mera_route_detail_page.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
 import 'package:mobile/mera/mera_theme.dart';
@@ -22,15 +24,21 @@ class MeraBoatPage extends StatefulWidget {
 class _MeraBoatPageState extends State<MeraBoatPage> {
   MarineTelemetry? _telemetry;
   StreamSubscription? _nmeaSub;
+  StreamSubscription? _profileSub;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await MeraBoatProfileManager.get.ensureLoaded();
+      if (mounted) setState(() {});
       _refresh();
       _timer = Timer.periodic(const Duration(minutes: 5), (_) => _refresh());
       _nmeaSub = NmeaUdpListener.get.stream.listen((_) {
+        if (mounted) setState(() {});
+      });
+      _profileSub = MeraBoatProfileManager.get.stream.listen((_) {
         if (mounted) setState(() {});
       });
     });
@@ -40,6 +48,7 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
   void dispose() {
     _timer?.cancel();
     _nmeaSub?.cancel();
+    _profileSub?.cancel();
     super.dispose();
   }
 
@@ -52,23 +61,104 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
     } catch (_) {}
   }
 
+  Future<void> _toggleNmea() async {
+    final nmea = NmeaUdpListener.get;
+    try {
+      if (nmea.isRunning) {
+        await nmea.stop();
+        if (mounted) showNoticeSnackBar(context, 'NMEA dinleyici kapalı');
+      } else {
+        await nmea.start(port: 10110);
+        if (mounted) {
+          showSuccessSnackBar(context, 'NMEA UDP :10110 dinleniyor');
+        }
+      }
+      if (mounted) setState(() {});
+    } catch (e) {
+      if (mounted) showErrorSnackBar(context, 'NMEA: $e');
+    }
+  }
+
+  Future<void> _editProfile() async {
+    final p = MeraBoatProfileManager.get.profile;
+    final captain = TextEditingController(text: p.captainName);
+    final boat = TextEditingController(text: p.boatName);
+    final fuel = TextEditingController(
+      text: p.fuelPercent.toStringAsFixed(0),
+    );
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: MeraColors.card,
+        title: const Text('Tekne profili'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: captain,
+              decoration: const InputDecoration(labelText: 'Kaptan adı'),
+            ),
+            TextField(
+              controller: boat,
+              decoration: const InputDecoration(labelText: 'Tekne adı'),
+            ),
+            TextField(
+              controller: fuel,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Yakıt %'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Kaydet'),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    final fuelVal = double.tryParse(fuel.text.trim()) ?? p.fuelPercent;
+    await MeraBoatProfileManager.get.save(
+      p.copyWith(
+        captainName: captain.text.trim().isEmpty ? 'Kaptan' : captain.text.trim(),
+        boatName: boat.text.trim().isEmpty ? 'Teknem' : boat.text.trim(),
+        fuelPercent: fuelVal.clamp(0, 100),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final routes = MeraRouteManager.get.routes;
     final last = routes.isEmpty ? null : routes.first;
     final nmea = NmeaUdpListener.get.latest;
     final speedKn = nmea?.sogKnots;
+    final nmeaOn = NmeaUdpListener.get.isRunning;
+    final profile = MeraBoatProfileManager.get.profile;
     final gpsAcc = LocationMonitor.of(context).currentLatLng != null
-        ? '1.2 m'
+        ? (nmeaOn ? 'NMEA' : 'GPS')
         : '—';
+    final fuelFrac = (profile.fuelPercent / 100).clamp(0.0, 1.0);
 
     return MeraPageScaffold(
       title: 'Gemim',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.edit_outlined, size: 20),
+          tooltip: 'Profili düzenle',
+          onPressed: _editProfile,
+        ),
+      ],
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         children: [
           Text(
-            'Hoş geldin, Kaptan',
+            'Hoş geldin, ${profile.captainName}',
             style: TextStyle(
               fontSize: SirenScale.clampOf(context, 20, min: 18, max: 22),
               fontWeight: FontWeight.w600,
@@ -86,6 +176,7 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
               Expanded(
                 flex: 2,
                 child: MeraCard(
+                  onTap: _editProfile,
                   padding: const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,9 +189,9 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      const Text(
-                        'POSEIDON 48',
-                        style: TextStyle(
+                      Text(
+                        profile.boatName,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 15,
                         ),
@@ -109,16 +200,18 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(MeraRadii.sm),
                         child: LinearProgressIndicator(
-                          value: 0.68,
+                          value: fuelFrac,
                           minHeight: 6,
                           backgroundColor: MeraColors.borderSecondary,
-                          color: MeraColors.blue,
+                          color: fuelFrac < 0.25
+                              ? MeraColors.danger
+                              : MeraColors.blue,
                         ),
                       ),
                       const SizedBox(height: 6),
-                      const Text(
-                        'Yakıt 68%',
-                        style: TextStyle(
+                      Text(
+                        'Yakıt ${profile.fuelPercent.toStringAsFixed(0)}%',
+                        style: const TextStyle(
                           color: MeraColors.textSecondary,
                           fontSize: 11,
                         ),
@@ -170,6 +263,48 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 10),
+          MeraCard(
+            onTap: _toggleNmea,
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Icon(
+                  nmeaOn ? Icons.sensors : Icons.sensors_off,
+                  color: nmeaOn ? MeraColors.green : MeraColors.textMuted,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        nmeaOn ? 'NMEA UDP açık' : 'NMEA UDP kapalı',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        nmeaOn
+                            ? 'Port 10110 · dokunarak kapat'
+                            : 'Wi‑Fi multiplekser için dokunun (:10110)',
+                        style: const TextStyle(
+                          color: MeraColors.textSecondary,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Switch(
+                  value: nmeaOn,
+                  activeThumbColor: MeraColors.green,
+                  onChanged: (_) => _toggleNmea(),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 10),
           MeraCard(

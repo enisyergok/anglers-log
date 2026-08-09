@@ -175,6 +175,45 @@ class MeraRouteManager {
     _controller.add(null);
   }
 
+  Future<void> rename(String id, String name) async {
+    await ensureLoaded();
+    final trimmed = name.trim();
+    if (trimmed.isEmpty) return;
+    _routes = [
+      for (final r in _routes)
+        if (r.id == id)
+          MeraRoute(
+            id: r.id,
+            name: trimmed,
+            points: r.points,
+            createdMs: r.createdMs,
+          )
+        else
+          r,
+    ];
+    await _persist();
+    _controller.add(null);
+  }
+
+  Future<void> updatePoints(String id, List<MeraRoutePoint> points) async {
+    await ensureLoaded();
+    if (points.length < 2) return;
+    _routes = [
+      for (final r in _routes)
+        if (r.id == id)
+          MeraRoute(
+            id: r.id,
+            name: r.name,
+            points: points,
+            createdMs: r.createdMs,
+          )
+        else
+          r,
+    ];
+    await _persist();
+    _controller.add(null);
+  }
+
   MeraRoute? byId(String id) {
     for (final r in _routes) {
       if (r.id == id) return r;

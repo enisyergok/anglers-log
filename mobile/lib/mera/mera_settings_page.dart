@@ -1,8 +1,14 @@
 import 'package:adair_flutter_lib/utils/page.dart';
+import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/catch_manager.dart';
+import 'package:mobile/mera/mera_boat_profile.dart';
+import 'package:mobile/mera/mera_no_catch_manager.dart';
+import 'package:mobile/mera/mera_route_manager.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
+import 'package:mobile/navigation/mera_manager.dart';
 import 'package:mobile/pages/about_page.dart';
 import 'package:mobile/pages/backup_restore_page.dart';
 import 'package:mobile/pages/map_region_page.dart';
@@ -10,11 +16,27 @@ import 'package:mobile/pages/units_page.dart';
 import 'package:mobile/user_preference_manager.dart';
 
 /// Mockup screen 12 — Ayarlar.
-class MeraSettingsPage extends StatelessWidget {
+class MeraSettingsPage extends StatefulWidget {
   const MeraSettingsPage({super.key});
 
   @override
+  State<MeraSettingsPage> createState() => _MeraSettingsPageState();
+}
+
+class _MeraSettingsPageState extends State<MeraSettingsPage> {
+  @override
+  void initState() {
+    super.initState();
+    MeraBoatProfileManager.get.ensureLoaded().then((_) {
+      if (mounted) setState(() {});
+    });
+    MeraRouteManager.get.ensureLoaded();
+    MeraNoCatchManager.get.ensureLoaded();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final profile = MeraBoatProfileManager.get.profile;
     return MeraPageScaffold(
       title: 'Ayarlar',
       body: ListView(
@@ -29,51 +51,16 @@ class MeraSettingsPage extends StatelessWidget {
                   context,
                   Icons.person_outline,
                   'Profil Bilgileri',
-                  'Yerel kullanım — hesap gerekmez',
-                  () {
-                    showDialog<void>(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        backgroundColor: MeraColors.card,
-                        title: const Text('Profil'),
-                        content: const Text(
-                          'Mera Asistanı çevrimdışı çalışır. Hesap veya giriş yoktur; '
-                          'tüm av, rota ve işaret verileri bu telefonda saklanır.',
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(ctx),
-                            child: const Text('Tamam'),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                  '${profile.captainName} · ${profile.boatName}',
+                  () => _editProfile(context),
                 ),
                 const Divider(height: 1, color: MeraColors.cardBorder),
                 _tile(
                   context,
                   Icons.workspace_premium_outlined,
                   'Abonelik',
-                  'Tüm özellikler açık (Pro)',
-                  () {
-                    showDialog<void>(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        backgroundColor: MeraColors.card,
-                        title: const Text('Abonelik'),
-                        content: const Text(
-                          'Bu yapıda Pro kilitleri açıktır. Ek abonelik gerekmez.',
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(ctx),
-                            child: const Text('Tamam'),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                  'Pro açık — tüm özellikler',
+                  () => _showSubscription(context),
                 ),
               ],
             ),
@@ -107,33 +94,7 @@ class MeraSettingsPage extends StatelessWidget {
                   UserPreferenceManager.get.autoBackup
                       ? 'Yedekleme bildirimleri açık'
                       : 'Yedekleme bildirimleri kapalı',
-                  () {
-                    showDialog<void>(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        backgroundColor: MeraColors.card,
-                        title: const Text('Bildirimler'),
-                        content: Text(
-                          UserPreferenceManager.get.autoBackup
-                              ? 'Otomatik yedekleme açık; bildirim izni ayarlardan yönetilir.'
-                              : 'Otomatik yedekleme kapalı. Açmak için Yedekle ekranını kullanın.',
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(ctx),
-                            child: const Text('Tamam'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(ctx);
-                              present(context, BackupPage());
-                            },
-                            child: const Text('Yedekle'),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                  () => present(context, BackupPage()),
                 ),
                 const Divider(height: 1, color: MeraColors.cardBorder),
                 _tile(
@@ -148,34 +109,8 @@ class MeraSettingsPage extends StatelessWidget {
                   context,
                   Icons.lock_outline,
                   'Gizlilik ve güvenlik',
-                  'Veriler yalnızca bu cihazda',
-                  () {
-                    showDialog<void>(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        backgroundColor: MeraColors.card,
-                        title: const Text('Gizlilik'),
-                        content: const Text(
-                          'Av kayıtları, rotalar ve işaretler telefonda tutulur. '
-                          'Buluta zorunlu senkron yoktur. Yedek ZIP’i istediğiniz '
-                          'zaman dışa aktarabilirsiniz.',
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(ctx),
-                            child: const Text('Tamam'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(ctx);
-                              present(context, BackupPage());
-                            },
-                            child: const Text('Yedekle'),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                  'Veri özeti · yedek · temizleme',
+                  () => _showPrivacy(context),
                 ),
               ],
             ),
@@ -201,28 +136,9 @@ class MeraSettingsPage extends StatelessWidget {
           const SizedBox(height: 28),
           Center(
             child: TextButton(
-              onPressed: () {
-                showDialog<void>(
-                  context: context,
-                  builder: (ctx) => AlertDialog(
-                    backgroundColor: MeraColors.card,
-                    title: const Text('Çıkış'),
-                    content: const Text(
-                      'Bu uygulama çevrimdışı çalışır; hesap oturumu yoktur. '
-                      'Verilerinizi silmek için yedekten geri yükleme veya '
-                      'uygulama verisini temizleme kullanın.',
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(ctx),
-                        child: const Text('Tamam'),
-                      ),
-                    ],
-                  ),
-                );
-              },
+              onPressed: () => _clearLocalData(context),
               child: const Text(
-                'Çıkış Yap',
+                'Yerel Mera verilerini temizle',
                 style: TextStyle(
                   color: MeraColors.danger,
                   fontWeight: FontWeight.w700,
@@ -234,6 +150,176 @@ class MeraSettingsPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _editProfile(BuildContext context) async {
+    await MeraBoatProfileManager.get.ensureLoaded();
+    final p = MeraBoatProfileManager.get.profile;
+    final captain = TextEditingController(text: p.captainName);
+    final boat = TextEditingController(text: p.boatName);
+    final fuel = TextEditingController(text: p.fuelPercent.toStringAsFixed(0));
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: MeraColors.card,
+        title: const Text('Profil'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Hesap yoktur — bilgiler yalnızca bu telefonda saklanır.',
+              style: TextStyle(color: MeraColors.textSecondary, fontSize: 12),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: captain,
+              decoration: const InputDecoration(labelText: 'Kaptan adı'),
+            ),
+            TextField(
+              controller: boat,
+              decoration: const InputDecoration(labelText: 'Tekne adı'),
+            ),
+            TextField(
+              controller: fuel,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Yakıt %'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Kaydet'),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    final fuelVal = double.tryParse(fuel.text.trim()) ?? p.fuelPercent;
+    await MeraBoatProfileManager.get.save(
+      p.copyWith(
+        captainName:
+            captain.text.trim().isEmpty ? 'Kaptan' : captain.text.trim(),
+        boatName: boat.text.trim().isEmpty ? 'Teknem' : boat.text.trim(),
+        fuelPercent: fuelVal.clamp(0, 100),
+      ),
+    );
+    if (mounted) setState(() {});
+    if (context.mounted) showSuccessSnackBar(context, 'Profil kaydedildi');
+  }
+
+  Future<void> _showSubscription(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: MeraColors.card,
+        title: const Text('Abonelik — Pro'),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Bu sürümde Pro kilitleri açıktır; ödeme veya mağaza aboneliği gerekmez.',
+            ),
+            SizedBox(height: 12),
+            Text('· Sınırsız av / işaret / rota'),
+            Text('· Bathymetry + seamark katmanları'),
+            Text('· NMEA UDP dinleyici'),
+            Text('· Yerel yedek / geri yükleme'),
+            Text('· Çevrimdışı harita bölgeleri'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Tamam'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showPrivacy(BuildContext context) async {
+    await MeraRouteManager.get.ensureLoaded();
+    await MeraNoCatchManager.get.ensureLoaded();
+    final catches = CatchManager.get.entityCount;
+    final routes = MeraRouteManager.get.routes.length;
+    final marks = MeraManager.get.spots.length;
+    final noCatch = MeraNoCatchManager.get.items.length;
+    if (!context.mounted) return;
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: MeraColors.card,
+        title: const Text('Gizlilik'),
+        content: Text(
+          'Veriler yalnızca bu cihazda tutulur; zorunlu bulut senkronu yoktur.\n\n'
+          'Özet:\n'
+          '· $catches yakalama\n'
+          '· $marks mera işareti\n'
+          '· $routes rota\n'
+          '· $noCatch “balık alınmadı”\n\n'
+          'Dışa aktarım için Yedekle kullanın.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Kapat'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              present(context, BackupPage());
+            },
+            child: const Text('Yedekle'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _clearLocalData(BuildContext context) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: MeraColors.card,
+        title: const Text('Yerel verileri temizle'),
+        content: const Text(
+          'Mera işaretleri, rotalar ve “balık alınmadı” kayıtları silinir. '
+          'Av kayıtları (Catch) ve yedek ZIP’ler etkilenmez. Emin misiniz?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Temizle', style: TextStyle(color: MeraColors.danger)),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    final marks = List.of(MeraManager.get.spots);
+    for (final m in marks) {
+      await MeraManager.get.remove(m.id);
+    }
+    await MeraRouteManager.get.ensureLoaded();
+    for (final r in List.of(MeraRouteManager.get.routes)) {
+      await MeraRouteManager.get.delete(r.id);
+    }
+    await MeraNoCatchManager.get.ensureLoaded();
+    for (final n in List.of(MeraNoCatchManager.get.items)) {
+      await MeraNoCatchManager.get.delete(n.id);
+    }
+    if (!context.mounted) return;
+    showSuccessSnackBar(context, 'Yerel Mera verileri temizlendi');
+    setState(() {});
   }
 
   Widget _tile(

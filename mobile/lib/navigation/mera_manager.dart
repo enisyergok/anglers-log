@@ -52,14 +52,16 @@ class MeraSpot {
     double? depthM,
     String? bottomType,
     String? note,
+    bool clearNote = false,
+    bool clearBottomType = false,
   }) {
     return MeraSpot(
       id: id,
       lat: lat,
       lng: lng,
       depthM: depthM ?? this.depthM,
-      bottomType: bottomType ?? this.bottomType,
-      note: note ?? this.note,
+      bottomType: clearBottomType ? null : (bottomType ?? this.bottomType),
+      note: clearNote ? null : (note ?? this.note),
       timestampMs: timestampMs,
     );
   }
@@ -130,6 +132,20 @@ class MeraManager {
   Future<void> remove(String id) async {
     _spots.removeWhere((s) => s.id == id);
     await _persist();
+  }
+
+  Future<void> update(MeraSpot spot) async {
+    final i = _spots.indexWhere((s) => s.id == spot.id);
+    if (i < 0) return;
+    _spots[i] = spot;
+    await _persist();
+  }
+
+  MeraSpot? byId(String id) {
+    for (final s in _spots) {
+      if (s.id == id) return s;
+    }
+    return null;
   }
 
   /// JSON export for QR/file share.

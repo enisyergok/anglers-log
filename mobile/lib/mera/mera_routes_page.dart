@@ -39,7 +39,7 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text(
-                  'Rota modu açık — haritada A ve B noktalarına dokunun',
+                  'Rota modu açık — haritaya dokunarak waypoint ekleyin',
                 ),
               ),
             );
@@ -78,6 +78,30 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
                       ),
                       child: const Icon(Icons.delete, color: MeraColors.danger),
                     ),
+                    confirmDismiss: (_) async {
+                      final ok = await showDialog<bool>(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          backgroundColor: MeraColors.card,
+                          title: const Text('Rotayı sil'),
+                          content: Text('"${r.name}" silinsin mi?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx, false),
+                              child: const Text('İptal'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx, true),
+                              child: const Text(
+                                'Sil',
+                                style: TextStyle(color: MeraColors.danger),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                      return ok == true;
+                    },
                     onDismissed: (_) => MeraRouteManager.get.delete(r.id),
                     child: MeraCard(
                       onTap: () {
@@ -115,23 +139,36 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(14),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Row(
                               children: [
-                                Text(
-                                  r.name,
-                                  style: const TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w800,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        r.name,
+                                        style: const TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        '${r.distanceNm.toStringAsFixed(1)} NM · ${fmt.format(DateTime.fromMillisecondsSinceEpoch(r.createdMs))}',
+                                        style: const TextStyle(
+                                          color: MeraColors.textSecondary,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '${r.distanceNm.toStringAsFixed(1)} NM · ${fmt.format(DateTime.fromMillisecondsSinceEpoch(r.createdMs))}',
-                                  style: const TextStyle(
-                                    color: MeraColors.textSecondary,
-                                    fontSize: 13,
-                                  ),
+                                IconButton(
+                                  icon: const Icon(Icons.edit_outlined, size: 20),
+                                  color: MeraColors.textMuted,
+                                  tooltip: 'Yeniden adlandır',
+                                  onPressed: () => _renameRoute(context, r),
                                 ),
                               ],
                             ),
@@ -147,6 +184,34 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
         },
       ),
     );
+  }
+
+  Future<void> _renameRoute(BuildContext context, MeraRoute r) async {
+    final ctrl = TextEditingController(text: r.name);
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: MeraColors.card,
+        title: const Text('Rota adı'),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          decoration: const InputDecoration(labelText: 'Ad'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Kaydet'),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    await MeraRouteManager.get.rename(r.id, ctrl.text);
   }
 }
 

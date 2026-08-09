@@ -1,12 +1,18 @@
+import 'package:adair_flutter_lib/utils/page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/catch_manager.dart';
 import 'package:mobile/fishing_spot_manager.dart';
+import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_no_catch_manager.dart';
+import 'package:mobile/mera/mera_shell.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/mera/siren_fish_art.dart';
+import 'package:mobile/model/gen/anglers_log.pb.dart';
+import 'package:mobile/pages/catch_page.dart';
 import 'package:mobile/species_manager.dart';
+import 'package:mobile/utils/protobuf_utils.dart';
 
 /// Mockup screen 07 — Kayıtlarım.
 class MeraRecordsPage extends StatefulWidget {
@@ -110,6 +116,28 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
     );
   }
 
+  Future<bool> _confirmDelete(BuildContext context, String msg) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: MeraColors.card,
+        title: const Text('Sil'),
+        content: Text(msg),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Sil', style: TextStyle(color: MeraColors.danger)),
+          ),
+        ],
+      ),
+    );
+    return ok == true;
+  }
+
   List<Widget> _buildItems(BuildContext context) {
     final speciesMgr = SpeciesManager.of(context);
     final spotMgr = FishingSpotManager.get;
@@ -132,67 +160,89 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
         rows.add(
           _Row(
             ts: c.timestamp.toInt(),
-            widget: MeraCard(
-              child: Row(
-                children: [
-                  Container(
-                    width: 56,
-                    height: 40,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: MeraColors.surface,
-                      borderRadius: BorderRadius.circular(MeraRadii.sm),
+            widget: Dismissible(
+              key: ValueKey('catch-${c.id.uuid}'),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                  color: MeraColors.danger.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(MeraRadii.lg),
+                ),
+                child: const Icon(Icons.delete, color: MeraColors.danger),
+              ),
+              confirmDismiss: (_) =>
+                  _confirmDelete(context, 'Bu yakalamayı sil?'),
+              onDismissed: (_) => CatchManager.get.delete(c.id),
+              child: MeraCard(
+                onTap: () => present(context, CatchPage(c)),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 56,
+                      height: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: MeraColors.surface,
+                        borderRadius: BorderRadius.circular(MeraRadii.sm),
+                      ),
+                      child: SirenFishArt.image(
+                        speciesName: species?.name,
+                        height: 28,
+                      ),
                     ),
-                    child: SirenFishArt.image(
-                      speciesName: species?.name,
-                      height: 28,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          species?.name ?? 'Tür',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          [
-                            if (weight != null) '$weight kg',
-                            if (length != null) '$length cm',
-                          ].join(' · '),
-                          style: const TextStyle(
-                            color: MeraColors.textSecondary,
-                            fontSize: 13,
-                          ),
-                        ),
-                        Text(
-                          fmt.format(
-                            DateTime.fromMillisecondsSinceEpoch(
-                              c.timestamp.toInt(),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            species?.name ?? 'Tür',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 16,
                             ),
                           ),
-                          style: const TextStyle(
-                            color: MeraColors.textMuted,
-                            fontSize: 12,
-                          ),
-                        ),
-                        if (spot != null)
                           Text(
-                            '${spot.lat.toStringAsFixed(4)}, ${spot.lng.toStringAsFixed(4)}',
+                            [
+                              if (weight != null) '$weight kg',
+                              if (length != null) '$length cm',
+                            ].join(' · '),
+                            style: const TextStyle(
+                              color: MeraColors.textSecondary,
+                              fontSize: 13,
+                            ),
+                          ),
+                          Text(
+                            fmt.format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                c.timestamp.toInt(),
+                              ),
+                            ),
                             style: const TextStyle(
                               color: MeraColors.textMuted,
-                              fontSize: 11,
+                              fontSize: 12,
                             ),
                           ),
-                      ],
+                          if (spot != null)
+                            Text(
+                              '${spot.lat.toStringAsFixed(4)}, ${spot.lng.toStringAsFixed(4)}',
+                              style: const TextStyle(
+                                color: MeraColors.textMuted,
+                                fontSize: 11,
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    IconButton(
+                      icon: const Icon(Icons.more_vert, size: 20),
+                      color: MeraColors.textMuted,
+                      onPressed: () => _catchActions(context, c, spot),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -205,59 +255,81 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
         rows.add(
           _Row(
             ts: r.timestampMs,
-            widget: MeraCard(
-              child: Row(
-                children: [
-                  Container(
-                    width: 52,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      color: MeraColors.danger.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12),
+            widget: Dismissible(
+              key: ValueKey('nocatch-${r.id}'),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                  color: MeraColors.danger.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(MeraRadii.lg),
+                ),
+                child: const Icon(Icons.delete, color: MeraColors.danger),
+              ),
+              confirmDismiss: (_) =>
+                  _confirmDelete(context, 'Bu kaydı sil?'),
+              onDismissed: (_) => MeraNoCatchManager.get.delete(r.id),
+              child: MeraCard(
+                onTap: () => _noCatchActions(context, r),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: MeraColors.danger.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(Icons.close, color: MeraColors.danger),
                     ),
-                    child: const Icon(Icons.close, color: MeraColors.danger),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Balık alınmadı',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                          ),
-                        ),
-                        if (r.note != null && r.note!.isNotEmpty)
-                          Text(
-                            r.note!,
-                            style: const TextStyle(
-                              color: MeraColors.textSecondary,
-                              fontSize: 13,
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Balık alınmadı',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 16,
                             ),
                           ),
-                        Text(
-                          fmt.format(
-                            DateTime.fromMillisecondsSinceEpoch(r.timestampMs),
-                          ),
-                          style: const TextStyle(
-                            color: MeraColors.textMuted,
-                            fontSize: 12,
-                          ),
-                        ),
-                        if (r.lat != null && r.lng != null)
+                          if (r.note != null && r.note!.isNotEmpty)
+                            Text(
+                              r.note!,
+                              style: const TextStyle(
+                                color: MeraColors.textSecondary,
+                                fontSize: 13,
+                              ),
+                            ),
                           Text(
-                            '${r.lat!.toStringAsFixed(4)}, ${r.lng!.toStringAsFixed(4)}',
+                            fmt.format(
+                              DateTime.fromMillisecondsSinceEpoch(r.timestampMs),
+                            ),
                             style: const TextStyle(
                               color: MeraColors.textMuted,
-                              fontSize: 11,
+                              fontSize: 12,
                             ),
                           ),
-                      ],
+                          if (r.lat != null && r.lng != null)
+                            Text(
+                              '${r.lat!.toStringAsFixed(4)}, ${r.lng!.toStringAsFixed(4)}',
+                              style: const TextStyle(
+                                color: MeraColors.textMuted,
+                                fontSize: 11,
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    IconButton(
+                      icon: const Icon(Icons.more_vert, size: 20),
+                      color: MeraColors.textMuted,
+                      onPressed: () => _noCatchActions(context, r),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -267,6 +339,98 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
 
     rows.sort((a, b) => b.ts.compareTo(a.ts));
     return rows.map((e) => e.widget).toList();
+  }
+
+  Future<void> _catchActions(
+    BuildContext context,
+    Catch c,
+    FishingSpot? spot,
+  ) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: MeraColors.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(MeraRadii.lg)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.visibility_outlined, color: MeraColors.blue),
+              title: const Text('Görüntüle / düzenle'),
+              onTap: () {
+                Navigator.pop(ctx);
+                present(context, CatchPage(c));
+              },
+            ),
+            if (spot != null)
+              ListTile(
+                leading: const Icon(Icons.map_outlined, color: MeraColors.green),
+                title: const Text('Haritada göster'),
+                onTap: () async {
+                  Navigator.pop(ctx);
+                  MeraShell.goHome();
+                  await MeraMapInteraction.instance.centerOn(spot.latLng, zoom: 14);
+                },
+              ),
+            ListTile(
+              leading: const Icon(Icons.delete_outline, color: MeraColors.danger),
+              title: const Text('Sil'),
+              onTap: () async {
+                Navigator.pop(ctx);
+                if (await _confirmDelete(context, 'Bu yakalamayı sil?')) {
+                  await CatchManager.get.delete(c.id);
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _noCatchActions(
+    BuildContext context,
+    MeraNoCatchReport r,
+  ) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: MeraColors.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(MeraRadii.lg)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (r.lat != null && r.lng != null)
+              ListTile(
+                leading: const Icon(Icons.map_outlined, color: MeraColors.green),
+                title: const Text('Haritada göster'),
+                onTap: () async {
+                  Navigator.pop(ctx);
+                  MeraShell.goHome();
+                  await MeraMapInteraction.instance.centerOn(
+                    LatLng(lat: r.lat!, lng: r.lng!),
+                    zoom: 14,
+                  );
+                },
+              ),
+            ListTile(
+              leading: const Icon(Icons.delete_outline, color: MeraColors.danger),
+              title: const Text('Sil'),
+              onTap: () async {
+                Navigator.pop(ctx);
+                if (await _confirmDelete(context, 'Bu kaydı sil?')) {
+                  await MeraNoCatchManager.get.delete(r.id);
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

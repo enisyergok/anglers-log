@@ -6,6 +6,7 @@ import 'package:adair_flutter_lib/utils/page.dart';
 import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/location_monitor.dart';
 import 'package:mobile/map/map_region_manager.dart';
 import 'package:mobile/mera/mera_balik_aldim_sheet.dart';
@@ -61,7 +62,10 @@ class _MeraMapHudState extends State<MeraMapHud> {
         const Duration(minutes: 10),
         (_) => _refreshTelemetry(),
       );
-      _locSub = _location.stream.listen((_) {
+      _locSub = _location.stream.listen((point) {
+        _mapIx.updateNavigationPosition(
+          ll.LatLng(point.latLng.lat, point.latLng.lng),
+        );
         if (mounted) setState(() {});
       });
       _nmeaSub = NmeaUdpListener.get.stream.listen((_) {
@@ -71,13 +75,21 @@ class _MeraMapHudState extends State<MeraMapHud> {
   }
 
   void _onMapIx() {
-    final a = _mapIx.routeA;
-    final b = _mapIx.routeB;
-    if (a != null && b != null) {
+    final pts = _mapIx.draftPoints;
+    if (pts.length >= 2) {
       final polys = ShallowPolygonCatalog.forRegion(
         MapRegionManager.get.activeRegionId,
       );
-      _mapIx.setShallowHit(NavGeo.routeHitsShallows(a, b, polys));
+      var hit = false;
+      for (var i = 0; i < pts.length - 1; i++) {
+        if (NavGeo.routeHitsShallows(pts[i], pts[i + 1], polys)) {
+          hit = true;
+          break;
+        }
+      }
+      _mapIx.setShallowHit(hit);
+    } else {
+      _mapIx.setShallowHit(false);
     }
     if (mounted) setState(() {});
   }
@@ -466,7 +478,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
                       if (next) {
                         showNoticeSnackBar(
                           context,
-                          'Rota: haritaya dokun → A, tekrar dokun → B',
+                          'Rota: haritaya dokunarak nokta ekleyin (çoklu waypoint)',
                         );
                       }
                     },
@@ -509,7 +521,66 @@ class _MeraMapHudState extends State<MeraMapHud> {
             ),
           ),
         ),
-        if (_mapIx.routeMode)
+        if (_mapIx.navActive)
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 100),
+                child: Material(
+                  color: MeraColors.hudGlass,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 10, 12, 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          _navLabel(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 6),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextButton(
+                              onPressed: _mapIx.skipToPrevWaypoint,
+                              child: const Text(
+                                '◀',
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: _mapIx.skipToNextWaypoint,
+                              child: const Text(
+                                '▶',
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _mapIx.stopNavigation();
+                                showNoticeSnackBar(context, 'Navigasyon bitti');
+                              },
+                              child: const Text(
+                                'Durdur',
+                                style: TextStyle(color: MeraColors.danger),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        else if (_mapIx.routeMode)
           SafeArea(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -530,16 +601,38 @@ class _MeraMapHudState extends State<MeraMapHud> {
                           style: const TextStyle(color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
-                        if (_mapIx.routeA != null && _mapIx.routeB != null) ...[
-                          const SizedBox(height: 8),
-                          TextButton(
-                            onPressed: _saveRoute,
-                            child: const Text(
-                              'Rotayı kaydet',
-                              style: TextStyle(color: MeraColors.green),
-                            ),
-                          ),
-                        ],
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (_mapIx.draftPoints.isNotEmpty)
+                              TextButton(
+                                onPressed: _mapIx.undoLastWaypoint,
+                                child: const Text(
+                                  'Geri al',
+                                  style: TextStyle(color: Colors.white70),
+                                ),
+                              ),
+                            if (_mapIx.draftPoints.isNotEmpty)
+                              TextButton(
+                                onPressed: _mapIx.clearDraftPoints,
+                                child: const Text(
+                                  'Temizle',
+                                  style: TextStyle(color: Colors.white70),
+                                ),
+                              ),
+                            if (_mapIx.draftPoints.length >= 2)
+                              TextButton(
+                                onPressed: _saveRoute,
+                                child: Text(
+                                  _mapIx.editingRouteId != null
+                                      ? 'Rotayı güncelle'
+                                      : 'Rotayı kaydet',
+                                  style: const TextStyle(color: MeraColors.green),
+                                ),
+                              ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -624,19 +717,51 @@ class _MeraMapHudState extends State<MeraMapHud> {
   }
 
   String _routeLabel() {
-    final a = _mapIx.routeA;
-    final b = _mapIx.routeB;
-    if (a == null) {
-      return 'Rota: haritaya dokun → nokta A';
+    final pts = _mapIx.draftPoints;
+    final edit = _mapIx.editingRouteId != null ? ' (düzenleme)' : '';
+    if (pts.isEmpty) {
+      return 'Rota$edit: haritaya dokunarak waypoint ekleyin';
     }
-    if (b == null) {
-      return 'Nokta B için haritaya tekrar dokun';
+    if (pts.length == 1) {
+      return '1 nokta — devam etmek için haritaya dokunun';
     }
-    final dist = NavGeo.haversineMeters(a, b);
-    final brg = NavGeo.bearingDegrees(a, b);
+    var meters = 0.0;
+    for (var i = 0; i < pts.length - 1; i++) {
+      meters += NavGeo.haversineMeters(pts[i], pts[i + 1]);
+    }
     final warn = _mapIx.shallowHit ? '\n⚠ Sığlık kesişimi!' : '';
-    return 'Mesafe: ${(dist / 1852).toStringAsFixed(2)} Nm · '
-        'Kerteriz: ${brg.toStringAsFixed(0)}°$warn';
+    return '${pts.length} nokta · ${(meters / 1852).toStringAsFixed(2)} Nm$warn';
+  }
+
+  String _navLabel() {
+    final target = _mapIx.navTarget;
+    final name = _mapIx.navRouteName ?? 'Rota';
+    final idx = _mapIx.navWaypointIndex + 1;
+    final total = _mapIx.navPoints.length;
+    final pos = _location.currentLatLng;
+    if (target == null || pos == null) {
+      return '$name · WP $idx/$total · GPS bekleniyor';
+    }
+    final here = ll.LatLng(pos.lat, pos.lng);
+    final dist = NavGeo.haversineMeters(here, target);
+    final brg = NavGeo.bearingDegrees(here, target);
+    final sog = NmeaUdpListener.get.latest?.sogKnots;
+    String eta = '—';
+    if (sog != null && sog > 0.3) {
+      final hours = (dist / 1852) / sog;
+      final mins = (hours * 60).round();
+      eta = mins < 60 ? '$mins dk' : '${mins ~/ 60} sa ${mins % 60} dk';
+    } else {
+      final hours = (dist / 1852) / MeraRoute.cruiseKnots;
+      final mins = (hours * 60).round();
+      eta = '~$mins dk @ ${MeraRoute.cruiseKnots} kn';
+    }
+    if (_mapIx.navArrived && dist < 80) {
+      return '$name · Varış! · ${dist.toStringAsFixed(0)} m';
+    }
+    return '$name · WP $idx/$total\n'
+        '${dist < 1000 ? '${dist.toStringAsFixed(0)} m' : '${(dist / 1852).toStringAsFixed(2)} Nm'}'
+        ' · ${brg.toStringAsFixed(0)}° · ETA $eta';
   }
 
   Future<void> _showLayersSheet(BuildContext context) async {
@@ -812,27 +937,38 @@ class _MeraMapHudState extends State<MeraMapHud> {
   }
 
   Future<void> _saveRoute() async {
-    final a = _mapIx.routeA;
-    final b = _mapIx.routeB;
-    if (a == null || b == null) return;
-    final dist = NavGeo.haversineMeters(a, b);
-    if (dist < 20) {
+    final pts = _mapIx.draftPoints;
+    if (pts.length < 2) return;
+    var meters = 0.0;
+    for (var i = 0; i < pts.length - 1; i++) {
+      meters += NavGeo.haversineMeters(pts[i], pts[i + 1]);
+    }
+    if (meters < 20) {
       showErrorSnackBar(
         context,
-        'Rota çok kısa — A ve B için haritada farklı noktalara dokunun',
+        'Rota çok kısa — en az iki farklı noktaya dokunun',
       );
       return;
     }
-    final name = 'Rota ${TimeOfDay.now().format(context)}';
-    await MeraRouteManager.get.add(
-      name: name,
-      points: [
-        MeraRoutePoint(lat: a.latitude, lng: a.longitude, label: 'A'),
-        MeraRoutePoint(lat: b.latitude, lng: b.longitude, label: 'B'),
-      ],
-    );
-    if (!mounted) return;
-    showSuccessSnackBar(context, 'Rota kaydedildi');
+    final points = [
+      for (var i = 0; i < pts.length; i++)
+        MeraRoutePoint(
+          lat: pts[i].latitude,
+          lng: pts[i].longitude,
+          label: '${i + 1}',
+        ),
+    ];
+    final editId = _mapIx.editingRouteId;
+    if (editId != null) {
+      await MeraRouteManager.get.updatePoints(editId, points);
+      if (!mounted) return;
+      showSuccessSnackBar(context, 'Rota güncellendi');
+    } else {
+      final name = 'Rota ${TimeOfDay.now().format(context)}';
+      await MeraRouteManager.get.add(name: name, points: points);
+      if (!mounted) return;
+      showSuccessSnackBar(context, 'Rota kaydedildi');
+    }
     _mapIx.setRouteMode(false);
   }
 

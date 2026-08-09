@@ -250,11 +250,28 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
 
   List<fm.Marker> _routeEndpointMarkers(List<ll.LatLng> pts) {
     if (pts.isEmpty) return const [];
-    final markers = <fm.Marker>[
-      _endpointMarker(pts.first, 'A', MeraColors.green),
-    ];
-    if (pts.length >= 2) {
-      markers.add(_endpointMarker(pts.last, 'B', MeraColors.warning));
+    final markers = <fm.Marker>[];
+    final navIdx = _interaction.navActive
+        ? _interaction.navWaypointIndex
+        : -1;
+    for (var i = 0; i < pts.length; i++) {
+      final isTarget = i == navIdx;
+      final label = i == 0
+          ? 'A'
+          : (i == pts.length - 1 ? 'B' : '${i + 1}');
+      markers.add(
+        _endpointMarker(
+          pts[i],
+          label,
+          isTarget
+              ? MeraColors.green
+              : (i == 0
+                  ? MeraColors.green
+                  : (i == pts.length - 1
+                      ? MeraColors.warning
+                      : MeraColors.blue)),
+        ),
+      );
     }
     return markers;
   }

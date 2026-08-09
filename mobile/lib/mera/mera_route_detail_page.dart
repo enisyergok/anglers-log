@@ -66,7 +66,21 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
 
     return Scaffold(
       backgroundColor: MeraColors.bg,
-      appBar: AppBar(title: Text(r.name)),
+      appBar: AppBar(
+        title: Text(r.name),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit_outlined),
+            tooltip: 'Yeniden adlandır',
+            onPressed: () => _rename(context, r),
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete_outline, color: MeraColors.danger),
+            tooltip: 'Sil',
+            onPressed: () => _delete(context, r),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
@@ -145,7 +159,10 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
                         .toList();
                     Navigator.of(context).popUntil((route) => route.isFirst);
                     MeraShell.goHome();
-                    await MeraMapInteraction.instance.previewRoute(pts);
+                    await MeraMapInteraction.instance.startNavigation(
+                      pts,
+                      name: route.name,
+                    );
                   },
                 ),
                 TextButton(
@@ -156,8 +173,10 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
                         .toList();
                     Navigator.of(context).popUntil((route) => route.isFirst);
                     MeraShell.goHome();
-                    await MeraMapInteraction.instance.previewRoute(pts);
-                    MeraMapInteraction.instance.setRouteMode(true);
+                    await MeraMapInteraction.instance.beginEditRoute(
+                      routeId: route.id,
+                      points: pts,
+                    );
                   },
                   child: const Text(
                     'Rota Düzenle',
@@ -194,5 +213,60 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _rename(BuildContext context, MeraRoute r) async {
+    final ctrl = TextEditingController(text: r.name);
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: MeraColors.card,
+        title: const Text('Rota adı'),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          decoration: const InputDecoration(labelText: 'Ad'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Kaydet'),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    await MeraRouteManager.get.rename(r.id, ctrl.text);
+    if (!mounted) return;
+    setState(() => _route = MeraRouteManager.get.byId(widget.routeId));
+  }
+
+  Future<void> _delete(BuildContext context, MeraRoute r) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: MeraColors.card,
+        title: const Text('Rotayı sil'),
+        content: Text('"${r.name}" silinsin mi?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Sil', style: TextStyle(color: MeraColors.danger)),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    await MeraRouteManager.get.delete(r.id);
+    if (!mounted) return;
+    Navigator.of(context).pop();
   }
 }
