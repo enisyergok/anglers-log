@@ -243,7 +243,8 @@ class FishingSpotMapState extends State<FishingSpotMap> {
 
   Widget _buildMap() {
     return DefaultMapboxMap(
-      isMyLocationEnabled: _myLocationEnabled,
+      // Always draw GPS marker when available (button is separate HUD control).
+      isMyLocationEnabled: true,
       style: _mapType.url,
       startPosition:
           _activeFishingSpot?.latLng ??

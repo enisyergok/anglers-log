@@ -6,10 +6,10 @@ import 'package:adair_flutter_lib/utils/page.dart';
 import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/location_monitor.dart';
 import 'package:mobile/map/map_region_manager.dart';
 import 'package:mobile/mera/mera_balik_aldim_sheet.dart';
+import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_no_catch_sheet.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
 import 'package:mobile/mera/mera_theme.dart';
@@ -41,18 +41,15 @@ class _MeraMapHudState extends State<MeraMapHud> {
   StreamSubscription? _locSub;
   StreamSubscription? _nmeaSub;
   Timer? _telemetryTimer;
-
-  ll.LatLng? _routeA;
-  ll.LatLng? _routeB;
-  var _routeMode = false;
-  var _shallowHit = false;
   final _search = TextEditingController();
 
   LocationMonitor get _location => LocationMonitor.of(context);
+  MeraMapInteraction get _mapIx => MeraMapInteraction.instance;
 
   @override
   void initState() {
     super.initState();
+    _mapIx.addListener(_onMapIx);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _refreshTelemetry();
       _telemetryTimer = Timer.periodic(
@@ -68,8 +65,21 @@ class _MeraMapHudState extends State<MeraMapHud> {
     });
   }
 
+  void _onMapIx() {
+    final a = _mapIx.routeA;
+    final b = _mapIx.routeB;
+    if (a != null && b != null) {
+      final polys = ShallowPolygonCatalog.forRegion(
+        MapRegionManager.get.activeRegionId,
+      );
+      _mapIx.setShallowHit(NavGeo.routeHitsShallows(a, b, polys));
+    }
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
+    _mapIx.removeListener(_onMapIx);
     _locSub?.cancel();
     _nmeaSub?.cancel();
     _telemetryTimer?.cancel();
@@ -113,14 +123,6 @@ class _MeraMapHudState extends State<MeraMapHud> {
 
     return Stack(
       children: [
-        // Under chrome: empty-map taps set A/B without blocking HUD buttons.
-        if (_routeMode)
-          Positioned.fill(
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: _onRouteTap,
-            ),
-          ),
         SafeArea(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
@@ -181,11 +183,6 @@ class _MeraMapHudState extends State<MeraMapHud> {
                       ],
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                _chromeCircle(
-                  Icons.bolt_outlined,
-                  onTap: () => present(context, const MeraWeatherPage()),
                 ),
               ],
             ),
@@ -281,15 +278,17 @@ class _MeraMapHudState extends State<MeraMapHud> {
                   _sideBtn(
                     Icons.route,
                     'Rotalar',
-                    active: _routeMode,
-                    onTap: () => setState(() {
-                      _routeMode = !_routeMode;
-                      if (!_routeMode) {
-                        _routeA = null;
-                        _routeB = null;
-                        _shallowHit = false;
+                    active: _mapIx.routeMode,
+                    onTap: () {
+                      final next = !_mapIx.routeMode;
+                      _mapIx.setRouteMode(next);
+                      if (next) {
+                        showNoticeSnackBar(
+                          context,
+                          'Rota: haritaya dokun → A, tekrar dokun → B',
+                        );
                       }
-                    }),
+                    },
                   ),
                   const SizedBox(height: 10),
                   _sideBtn(
@@ -302,14 +301,41 @@ class _MeraMapHudState extends State<MeraMapHud> {
             ),
           ),
         ),
-        if (_routeMode)
+        SafeArea(
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: EdgeInsets.only(
+                right: SirenScale.clampOf(context, 14, min: 10, max: 16),
+                bottom: SirenScale.clampOf(context, 118, min: 100, max: 130),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _chromeCircle(
+                    Icons.my_location,
+                    onTap: () async {
+                      final pos = _location.currentLatLng;
+                      if (pos == null) {
+                        showErrorSnackBar(context, 'Konum yok — GPS açın');
+                        return;
+                      }
+                      await _mapIx.centerOn(pos);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        if (_mapIx.routeMode)
           SafeArea(
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 100),
                 child: Material(
-                  color: _shallowHit
+                  color: _mapIx.shallowHit
                       ? const Color(0xE8B71C1C)
                       : MeraColors.hudGlass,
                   borderRadius: BorderRadius.circular(12),
@@ -323,7 +349,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
                           style: const TextStyle(color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
-                        if (_routeA != null && _routeB != null) ...[
+                        if (_mapIx.routeA != null && _mapIx.routeB != null) ...[
                           const SizedBox(height: 8),
                           TextButton(
                             onPressed: _saveRoute,
@@ -417,15 +443,17 @@ class _MeraMapHudState extends State<MeraMapHud> {
   }
 
   String _routeLabel() {
-    if (_routeA == null) {
-      return 'Rota: dokun → nokta A (GPS)';
+    final a = _mapIx.routeA;
+    final b = _mapIx.routeB;
+    if (a == null) {
+      return 'Rota: haritaya dokun → nokta A';
     }
-    if (_routeB == null) {
-      return 'Nokta B için tekrar dokun';
+    if (b == null) {
+      return 'Nokta B için haritaya tekrar dokun';
     }
-    final dist = NavGeo.haversineMeters(_routeA!, _routeB!);
-    final brg = NavGeo.bearingDegrees(_routeA!, _routeB!);
-    final warn = _shallowHit ? '\n⚠ Sığlık kesişimi!' : '';
+    final dist = NavGeo.haversineMeters(a, b);
+    final brg = NavGeo.bearingDegrees(a, b);
+    final warn = _mapIx.shallowHit ? '\n⚠ Sığlık kesişimi!' : '';
     return 'Mesafe: ${(dist / 1852).toStringAsFixed(2)} Nm · '
         'Kerteriz: ${brg.toStringAsFixed(0)}°$warn';
   }
@@ -602,35 +630,15 @@ class _MeraMapHudState extends State<MeraMapHud> {
     );
   }
 
-  void _onRouteTap() {
-    final pos = _location.currentLatLng;
-    if (pos == null) {
-      showErrorSnackBar(context, 'Konum yok — GPS açın');
-      return;
-    }
-    final point = ll.LatLng(pos.lat, pos.lng);
-    setState(() {
-      if (_routeA == null || _routeB != null) {
-        _routeA = point;
-        _routeB = null;
-        _shallowHit = false;
-      } else {
-        _routeB = point;
-        final polys = ShallowPolygonCatalog.forRegion(
-          MapRegionManager.get.activeRegionId,
-        );
-        _shallowHit = NavGeo.routeHitsShallows(_routeA!, _routeB!, polys);
-      }
-    });
-  }
-
   Future<void> _saveRoute() async {
-    if (_routeA == null || _routeB == null) return;
-    final dist = NavGeo.haversineMeters(_routeA!, _routeB!);
+    final a = _mapIx.routeA;
+    final b = _mapIx.routeB;
+    if (a == null || b == null) return;
+    final dist = NavGeo.haversineMeters(a, b);
     if (dist < 20) {
       showErrorSnackBar(
         context,
-        'Rota çok kısa — nokta B için tekneyi hareket ettirip tekrar dokunun',
+        'Rota çok kısa — A ve B için haritada farklı noktalara dokunun',
       );
       return;
     }
@@ -638,25 +646,13 @@ class _MeraMapHudState extends State<MeraMapHud> {
     await MeraRouteManager.get.add(
       name: name,
       points: [
-        MeraRoutePoint(
-          lat: _routeA!.latitude,
-          lng: _routeA!.longitude,
-          label: 'A',
-        ),
-        MeraRoutePoint(
-          lat: _routeB!.latitude,
-          lng: _routeB!.longitude,
-          label: 'B',
-        ),
+        MeraRoutePoint(lat: a.latitude, lng: a.longitude, label: 'A'),
+        MeraRoutePoint(lat: b.latitude, lng: b.longitude, label: 'B'),
       ],
     );
     if (!mounted) return;
     showSuccessSnackBar(context, 'Rota kaydedildi');
-    setState(() {
-      _routeMode = false;
-      _routeA = null;
-      _routeB = null;
-    });
+    _mapIx.setRouteMode(false);
   }
 
   Future<void> _showPins() async {

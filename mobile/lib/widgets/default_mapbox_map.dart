@@ -9,6 +9,7 @@ import 'package:mobile/map/flutter_map_controller.dart';
 import 'package:mobile/map/map_controller.dart';
 import 'package:mobile/map/map_region_manager.dart';
 import 'package:mobile/map/mbtiles_tile_provider.dart';
+import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/user_preference_manager.dart';
 
@@ -68,6 +69,7 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
   Future<MbtilesTileProvider>? _mbtilesFuture;
 
   LocationMonitor get _locationMonitor => LocationMonitor.of(context);
+  MeraMapInteraction get _interaction => MeraMapInteraction.instance;
 
   @override
   void initState() {
@@ -75,10 +77,16 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
     _mapFuture = Future.delayed(const Duration(milliseconds: 300), () => true);
     _fmController = fm.MapController();
     _controller = FlutterMapController(_fmController);
+    _interaction.addListener(_onInteractionChanged);
+  }
+
+  void _onInteractionChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
+    _interaction.removeListener(_onInteractionChanged);
     _mbtilesProvider?.close();
     _controller.dispose();
     _fmController.dispose();
@@ -161,6 +169,7 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
         final baseUrl = widget.style ?? _controller.mapType.url;
         final showBathymetry = UserPreferenceManager.get.showMapBathymetry;
         final showSeamarks = UserPreferenceManager.get.showMapSeamarks;
+        final routePts = _interaction.routePoints;
         final children = <Widget>[
           if (baseProvider != null)
             fm.TileLayer(tileProvider: baseProvider)
@@ -170,7 +179,6 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
               subdomains: const ['a', 'b', 'c', 'd'],
               userAgentPackageName: mapTileUserAgentPackageName,
             ),
-          // Depth shades (GEBCO via OpenSeaMap GeoServer WMS).
           if (showBathymetry)
             Opacity(
               opacity: 0.72,
@@ -190,10 +198,26 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
               urlTemplate: openSeaMapSeamarkUrl,
               userAgentPackageName: mapTileUserAgentPackageName,
             ),
-          fm.MarkerLayer(markers: _controller.markers),
-          if (widget.isMyLocationEnabled) _MyLocationLayer(
-            locationMonitor: _locationMonitor,
+          if (routePts.length >= 2)
+            fm.PolylineLayer(
+              polylines: [
+                fm.Polyline(
+                  points: routePts,
+                  strokeWidth: 4,
+                  color: _interaction.shallowHit
+                      ? const Color(0xFFFF514B)
+                      : MeraColors.blue,
+                ),
+              ],
+            ),
+          fm.MarkerLayer(
+            markers: [
+              ..._controller.markers,
+              ..._routeEndpointMarkers(routePts),
+            ],
           ),
+          if (widget.isMyLocationEnabled)
+            _MyLocationLayer(locationMonitor: _locationMonitor),
         ];
 
         return fm.FlutterMap(
@@ -203,6 +227,11 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
             initialZoom:
                 start.lat == 0 ? 0 : widget.startZoom ?? mapZoomDefault,
             onMapReady: _onMapReady,
+            onTap: (_, point) {
+              if (_interaction.routeMode) {
+                _interaction.handleMapTap(point);
+              }
+            },
             onMapEvent: (event) {
               _controller.handleMapEvent(event);
               if (event is fm.MapEventMove) {
@@ -219,12 +248,52 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
     );
   }
 
+  List<fm.Marker> _routeEndpointMarkers(List<ll.LatLng> pts) {
+    if (pts.isEmpty) return const [];
+    final markers = <fm.Marker>[
+      _endpointMarker(pts.first, 'A', MeraColors.green),
+    ];
+    if (pts.length >= 2) {
+      markers.add(_endpointMarker(pts.last, 'B', MeraColors.warning));
+    }
+    return markers;
+  }
+
+  fm.Marker _endpointMarker(ll.LatLng point, String label, Color color) {
+    return fm.Marker(
+      point: point,
+      width: 34,
+      height: 34,
+      alignment: Alignment.center,
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white, width: 2),
+          boxShadow: const [
+            BoxShadow(color: Color(0x66000000), blurRadius: 6),
+          ],
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+            fontSize: 13,
+          ),
+        ),
+      ),
+    );
+  }
+
   void _onMapReady() {
     if (_didNotifyCreated) {
       return;
     }
     _didNotifyCreated = true;
     _controller.setMapType(MapType.of(context));
+    _interaction.attachMap(_controller);
 
     final region = MapRegionManager.get.activeRegion;
     if (region != null) {

@@ -79,7 +79,7 @@ class MainPageState extends State<MainPage> {
           navigatorKey: GlobalKey<NavigatorState>(),
           builder: (context) => FishingSpotMap(
             showSearchBar: false,
-            showMyLocationButton: true,
+            showMyLocationButton: false,
             showZoomExtentsButton: false,
             showMapTypeButton: false,
             showAddButton: false,
