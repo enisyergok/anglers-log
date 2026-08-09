@@ -10,6 +10,7 @@ import 'package:mobile/mera/fish_activity/species_profiles.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/mera/siren_fish_art.dart';
+import 'package:mobile/mera/turkish_sea_fish_catalog.dart';
 
 /// Siren — Hava / Deniz / Balık Aktivitesi / Av Penceresi (Fish Activity Intelligence).
 class MeraWeatherPage extends StatefulWidget {
@@ -241,7 +242,8 @@ class _MeraWeatherPageState extends State<MeraWeatherPage> {
                     ),
                   ),
                   Text(
-                    _species.scientificName,
+                    TurkishSeaFishCatalog.match(_species.nameTr)?.scientificName ??
+                        _species.scientificName,
                     style: const TextStyle(
                       fontStyle: FontStyle.italic,
                       color: MeraColors.textSecondary,

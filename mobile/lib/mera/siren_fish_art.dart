@@ -4,24 +4,11 @@ import 'package:mobile/mera/turkish_sea_fish_catalog.dart';
 
 /// Species-specific fish artwork — never cross-map assets.
 ///
-/// Çipura / Levrek / Mercan use photographic WebP from the Siren reference.
-/// Other catalog species keep distinct SVG silhouettes.
+/// Catalog grid WebP illustrations are preferred when available; otherwise
+/// distinct SVG silhouettes are used.
 abstract final class SirenFishArt {
-  static const _photoAssets = <String, String>{
-    'cipura': 'assets/fish/cipura.webp',
-    'levrek': 'assets/fish/levrek.webp',
-    'mercan': 'assets/fish/mercan.webp',
-  };
-
-  static String assetFor(String? speciesName) {
-    final matched = TurkishSeaFishCatalog.match(speciesName);
-    if (matched != null) {
-      final photo = _photoAssets[matched.slug];
-      if (photo != null) return photo;
-      return matched.asset;
-    }
-    return TurkishSeaFishCatalog.digerAsset;
-  }
+  static String assetFor(String? speciesName) =>
+      TurkishSeaFishCatalog.assetFor(speciesName);
 
   static bool isRaster(String assetPath) =>
       assetPath.endsWith('.webp') ||
