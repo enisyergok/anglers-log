@@ -1,500 +1,422 @@
-/// Built-in Turkish sea species (Akdeniz, Ege, Marmara, Karadeniz).
-/// Each entry has its own artwork — never cross-mapped.
+/// Built-in Turkish sea species — visuals are EXISTING project assets only.
+///
+/// Rule: [imageAsset] must point at a file already in `assets/fish/`.
+/// Never invent paths, never cross-map species artwork.
 class TurkishSeaFish {
   const TurkishSeaFish({
+    required this.id,
     required this.slug,
     required this.name,
     required this.aliases,
     this.scientificName,
   });
 
+  /// Stable species id (prefer scientific kebab-case when known).
+  final String id;
   final String slug;
   final String name;
   final List<String> aliases;
   final String? scientificName;
 
-  String get asset => 'assets/fish/$slug.svg';
-  String get photoAsset => 'assets/fish/$slug.webp';
+  /// Existing silhouette path (always present for catalog entries).
+  String get svgAsset => 'assets/fish/$slug.svg';
+
+  /// Existing Siren reference WebP for the three photo species only.
+  String? get photoAsset {
+    switch (slug) {
+      case 'cipura':
+      case 'levrek':
+      case 'mercan':
+        return 'assets/fish/$slug.webp';
+      default:
+        return null;
+    }
+  }
+
+  /// Canonical display asset — existing WebP when present, else existing SVG.
+  String get imageAsset => photoAsset ?? svgAsset;
 }
 
 abstract final class TurkishSeaFishCatalog {
+  /// Species that have a dedicated existing SVG (or WebP) in the project.
+  /// Do not add entries here without a matching `assets/fish/<slug>.svg`.
   static const List<TurkishSeaFish> all = [
     TurkishSeaFish(
+      id: 'sparus-aurata',
       slug: 'cipura',
       name: 'Çipura',
       scientificName: 'Sparus aurata',
       aliases: ['cipura', 'çupra', 'cupra'],
     ),
     TurkishSeaFish(
+      id: 'dicentrarchus-labrax',
       slug: 'levrek',
       name: 'Levrek',
       scientificName: 'Dicentrarchus labrax',
       aliases: ['levrek', 'bass', 'seabass'],
     ),
     TurkishSeaFish(
+      id: 'pagellus-erythrinus',
       slug: 'mercan',
       name: 'Mercan',
       scientificName: 'Pagellus erythrinus',
       aliases: ['mercan'],
     ),
     TurkishSeaFish(
-      slug: 'sinagrit',
-      name: 'Sinagrit',
-      scientificName: 'Dentex dentex',
-      aliases: ['sinagrit', 'sinarit'],
-    ),
-    TurkishSeaFish(
-      slug: 'tranca',
-      name: 'Trança',
-      scientificName: 'Pagellus acarne',
-      aliases: ['trança', 'tranca'],
-    ),
-    TurkishSeaFish(
-      slug: 'karagoz',
-      name: 'Karagöz',
-      scientificName: 'Diplodus vulgaris',
-      aliases: ['karagöz', 'karagoz'],
-    ),
-    TurkishSeaFish(
-      slug: 'sargoz',
-      name: 'Sargoz',
-      scientificName: 'Diplodus sargus',
-      aliases: ['sargoz', 'sargos', 'sargöz'],
-    ),
-    TurkishSeaFish(
-      slug: 'mirmir',
-      name: 'Mırmır',
-      scientificName: 'Lithognathus mormyrus',
-      aliases: ['mırmır', 'mirmir'],
-    ),
-    TurkishSeaFish(
-      slug: 'minakop',
-      name: 'Minakop',
-      scientificName: 'Umbrina cirrosa',
-      aliases: ['minakop'],
-    ),
-    TurkishSeaFish(
-      slug: 'eskina',
-      name: 'Eşkina',
-      scientificName: 'Argyrosomus regius',
-      aliases: ['eşkina', 'eskina'],
-    ),
-    TurkishSeaFish(
-      slug: 'lahos',
-      name: 'Lahos',
-      scientificName: 'Epinephelus aeneus',
-      aliases: ['lahos', 'lagos'],
-    ),
-    TurkishSeaFish(
-      slug: 'orfoz',
-      name: 'Orfoz',
-      scientificName: 'Epinephelus marginatus',
-      aliases: ['orfoz', 'grouper'],
-    ),
-    TurkishSeaFish(
-      slug: 'granyoz',
-      name: 'Granyöz',
-      scientificName: 'Epinephelus costae',
-      aliases: ['granyöz', 'granyoz', 'grida'],
-    ),
-    TurkishSeaFish(
-      slug: 'barbun',
-      name: 'Barbun',
-      scientificName: 'Mullus barbatus',
-      aliases: ['barbun', 'barbunya'],
-    ),
-    TurkishSeaFish(
-      slug: 'tekir',
-      name: 'Tekir',
-      scientificName: 'Mullus surmuletus',
-      aliases: ['tekir'],
-    ),
-    TurkishSeaFish(
-      slug: 'kefal',
-      name: 'Kefal',
-      scientificName: 'Mugil cephalus',
-      aliases: ['kefal', 'mullet'],
-    ),
-    TurkishSeaFish(
-      slug: 'istavrit',
-      name: 'İstavrit',
-      scientificName: 'Trachurus mediterraneus',
-      aliases: ['istavrit', 'ıstavrit'],
-    ),
-    TurkishSeaFish(
-      slug: 'hamsi',
-      name: 'Hamsi',
-      scientificName: 'Engraulis encrasicolus',
-      aliases: ['hamsi', 'anchovy'],
-    ),
-    TurkishSeaFish(
-      slug: 'sardalya',
-      name: 'Sardalya',
-      scientificName: 'Sardina pilchardus',
-      aliases: ['sardalya', 'sardine'],
-    ),
-    TurkishSeaFish(
-      slug: 'uskumru',
-      name: 'Uskumru',
-      scientificName: 'Scomber scombrus',
-      aliases: ['uskumru', 'mackerel'],
-    ),
-    TurkishSeaFish(
-      slug: 'kolyoz',
-      name: 'Kolyoz',
-      scientificName: 'Scomber japonicus',
-      aliases: ['kolyoz'],
-    ),
-    TurkishSeaFish(
-      slug: 'palamut',
-      name: 'Palamut',
-      scientificName: 'Sarda sarda',
-      aliases: ['palamut', 'bonito'],
-    ),
-    TurkishSeaFish(
-      slug: 'torik',
-      name: 'Torik',
-      scientificName: 'Euthynnus alletteratus',
-      aliases: ['torik'],
-    ),
-    TurkishSeaFish(
+      id: 'pomatomus-saltatrix',
       slug: 'lufer',
       name: 'Lüfer',
       scientificName: 'Pomatomus saltatrix',
       aliases: ['lüfer', 'lufer', 'bluefish'],
     ),
     TurkishSeaFish(
+      id: 'pomatomus-saltatrix-juvenile',
       slug: 'cinekop',
       name: 'Çinekop',
       scientificName: 'Pomatomus saltatrix',
       aliases: ['çinekop', 'cinekop'],
     ),
     TurkishSeaFish(
-      slug: 'kofana',
-      name: 'Kofana',
-      scientificName: 'Pomatomus saltatrix',
-      aliases: ['kofana'],
-    ),
-    TurkishSeaFish(
+      id: 'sarikanat',
       slug: 'sarikanat',
       name: 'Sarıkanat',
       aliases: ['sarıkanat', 'sarikanat'],
     ),
     TurkishSeaFish(
-      slug: 'mezgit',
-      name: 'Mezgit',
-      scientificName: 'Merlangius merlangus',
-      aliases: ['mezgit', 'whiting'],
+      id: 'sarda-sarda',
+      slug: 'palamut',
+      name: 'Palamut',
+      scientificName: 'Sarda sarda',
+      aliases: ['palamut', 'bonito'],
     ),
     TurkishSeaFish(
-      slug: 'bakalyaro',
-      name: 'Bakalyaro',
-      scientificName: 'Gadus morhua',
-      aliases: ['bakalyaro'],
+      id: 'euthynnus-alletteratus',
+      slug: 'torik',
+      name: 'Torik',
+      scientificName: 'Euthynnus alletteratus',
+      aliases: ['torik'],
     ),
     TurkishSeaFish(
-      slug: 'berlam',
-      name: 'Berlam',
-      scientificName: 'Merluccius merluccius',
-      aliases: ['berlam'],
-    ),
-    TurkishSeaFish(
-      slug: 'kirlangic',
-      name: 'Kırlangıç',
-      scientificName: 'Chelidonichthys lucerna',
-      aliases: ['kırlangıç', 'kirlangic'],
-    ),
-    TurkishSeaFish(
-      slug: 'iskorpit',
-      name: 'İskorpit',
-      scientificName: 'Scorpaena scrofa',
-      aliases: ['iskorpit', 'scorpionfish'],
-    ),
-    TurkishSeaFish(
-      slug: 'kalkan',
-      name: 'Kalkan',
-      scientificName: 'Psetta maxima',
-      aliases: ['kalkan', 'turbot'],
-    ),
-    TurkishSeaFish(
-      slug: 'dil',
-      name: 'Dil',
-      scientificName: 'Solea solea',
-      aliases: ['dil balığı', 'dil', 'sole'],
-    ),
-    TurkishSeaFish(
-      slug: 'trakonya',
-      name: 'Trakonya',
-      scientificName: 'Trachinus draco',
-      aliases: ['trakonya', 'trahonya', 'pisi', 'pisi balığı'],
-    ),
-    TurkishSeaFish(
-      slug: 'dulger',
-      name: 'Dülger',
-      scientificName: 'Zeus faber',
-      aliases: ['dülger', 'dulger'],
-    ),
-    TurkishSeaFish(
-      slug: 'zargana',
-      name: 'Zargana',
-      scientificName: 'Belone belone',
-      aliases: ['zargana', 'needlefish'],
-    ),
-    TurkishSeaFish(
-      slug: 'gumus',
-      name: 'Gümüş',
-      scientificName: 'Atherina boyeri',
-      aliases: ['gümüş', 'gumus', 'gümüş balığı'],
-    ),
-    TurkishSeaFish(
-      slug: 'izmarit',
-      name: 'İzmarit',
-      scientificName: 'Spicara smaris',
-      aliases: ['izmarit', 'ızmarit'],
-    ),
-    TurkishSeaFish(
-      slug: 'kupes',
-      name: 'Kupes',
-      scientificName: 'Boops boops',
-      aliases: ['kupes', 'küpez'],
-    ),
-    TurkishSeaFish(
-      slug: 'melanur',
-      name: 'Melanur',
-      scientificName: 'Oblada melanura',
-      aliases: ['melanur', 'melanurya'],
-    ),
-    TurkishSeaFish(
-      slug: 'lahoz',
-      name: 'Lahoz',
-      scientificName: 'Lichia amia',
-      aliases: ['lahoz'],
-    ),
-    TurkishSeaFish(
-      slug: 'akya',
-      name: 'Akya',
-      scientificName: 'Seriola dumerili',
-      aliases: ['akya'],
-    ),
-    TurkishSeaFish(
-      slug: 'kilic',
-      name: 'Kılıç',
-      scientificName: 'Xiphias gladius',
-      aliases: ['kılıç', 'kilic', 'kılıç balığı'],
-    ),
-    TurkishSeaFish(
+      id: 'thunnus-thynnus',
       slug: 'orkinos',
       name: 'Orkinos',
       scientificName: 'Thunnus thynnus',
       aliases: ['orkinos', 'tuna'],
     ),
     TurkishSeaFish(
-      slug: 'tirsi',
-      name: 'Tirsi',
-      scientificName: 'Alosa fallax',
-      aliases: ['tirsi'],
+      id: 'scomber-scombrus',
+      slug: 'uskumru',
+      name: 'Uskumru',
+      scientificName: 'Scomber scombrus',
+      aliases: ['uskumru', 'mackerel'],
     ),
     TurkishSeaFish(
+      id: 'scomber-japonicus',
+      slug: 'kolyoz',
+      name: 'Kolyoz',
+      scientificName: 'Scomber japonicus',
+      aliases: ['kolyoz'],
+    ),
+    TurkishSeaFish(
+      id: 'engraulis-encrasicolus',
+      slug: 'hamsi',
+      name: 'Hamsi',
+      scientificName: 'Engraulis encrasicolus',
+      aliases: ['hamsi', 'anchovy'],
+    ),
+    TurkishSeaFish(
+      id: 'sardina-pilchardus',
+      slug: 'sardalya',
+      name: 'Sardalya',
+      scientificName: 'Sardina pilchardus',
+      aliases: ['sardalya', 'sardine'],
+    ),
+    TurkishSeaFish(
+      id: 'sprattus-sprattus',
       slug: 'caca',
       name: 'Çaça',
       scientificName: 'Sprattus sprattus',
       aliases: ['çaça', 'caca', 'sprat'],
     ),
     TurkishSeaFish(
-      slug: 'horozbina',
-      name: 'Horozbina',
-      scientificName: 'Chelidonichthys lastoviza',
-      aliases: ['horozbina'],
+      id: 'trachurus-mediterraneus',
+      slug: 'istavrit',
+      name: 'İstavrit',
+      scientificName: 'Trachurus mediterraneus',
+      aliases: ['istavrit', 'ıstavrit'],
     ),
     TurkishSeaFish(
-      slug: 'gelincik',
-      name: 'Gelincik',
-      scientificName: 'Trigla lyra',
-      aliases: ['gelincik'],
+      id: 'mullus-barbatus',
+      slug: 'barbun',
+      name: 'Barbun',
+      scientificName: 'Mullus barbatus',
+      aliases: ['barbun', 'barbunya'],
     ),
     TurkishSeaFish(
-      slug: 'kayabaligi',
-      name: 'Kayabalığı',
-      aliases: ['kayabalığı', 'kayabaligi'],
+      id: 'mullus-surmuletus',
+      slug: 'tekir',
+      name: 'Tekir',
+      scientificName: 'Mullus surmuletus',
+      aliases: ['tekir'],
     ),
     TurkishSeaFish(
+      id: 'merlangius-merlangus',
+      slug: 'mezgit',
+      name: 'Mezgit',
+      scientificName: 'Merlangius merlangus',
+      aliases: ['mezgit', 'whiting'],
+    ),
+    TurkishSeaFish(
+      id: 'psetta-maxima',
+      slug: 'kalkan',
+      name: 'Kalkan',
+      scientificName: 'Psetta maxima',
+      aliases: ['kalkan', 'turbot'],
+    ),
+    TurkishSeaFish(
+      id: 'solea-solea',
+      slug: 'dil',
+      name: 'Dil',
+      scientificName: 'Solea solea',
+      aliases: ['dil balığı', 'dil', 'sole'],
+    ),
+    TurkishSeaFish(
+      id: 'diplodus-vulgaris',
+      slug: 'karagoz',
+      name: 'Karagöz',
+      scientificName: 'Diplodus vulgaris',
+      aliases: ['karagöz', 'karagoz'],
+    ),
+    TurkishSeaFish(
+      id: 'diplodus-sargus',
+      slug: 'sargoz',
+      name: 'Sargoz',
+      scientificName: 'Diplodus sargus',
+      aliases: ['sargoz', 'sargos', 'sargöz'],
+    ),
+    TurkishSeaFish(
+      id: 'lithognathus-mormyrus',
+      slug: 'mirmir',
+      name: 'Mırmır',
+      scientificName: 'Lithognathus mormyrus',
+      aliases: ['mırmır', 'mirmir'],
+    ),
+    TurkishSeaFish(
+      id: 'boops-boops',
+      slug: 'kupes',
+      name: 'Kupes',
+      scientificName: 'Boops boops',
+      aliases: ['kupes', 'küpez'],
+    ),
+    TurkishSeaFish(
+      id: 'spicara-smaris',
+      slug: 'izmarit',
+      name: 'İzmarit',
+      scientificName: 'Spicara smaris',
+      aliases: ['izmarit', 'ızmarit'],
+    ),
+    TurkishSeaFish(
+      id: 'epinephelus-marginatus',
+      slug: 'orfoz',
+      name: 'Orfoz',
+      scientificName: 'Epinephelus marginatus',
+      aliases: ['orfoz', 'grouper'],
+    ),
+    TurkishSeaFish(
+      id: 'epinephelus-aeneus',
+      slug: 'lahos',
+      name: 'Lahos',
+      scientificName: 'Epinephelus aeneus',
+      aliases: ['lahos', 'lagos'],
+    ),
+    TurkishSeaFish(
+      id: 'dentex-dentex',
+      slug: 'sinagrit',
+      name: 'Sinagrit',
+      scientificName: 'Dentex dentex',
+      aliases: ['sinagrit', 'sinarit'],
+    ),
+    TurkishSeaFish(
+      id: 'fangri',
+      slug: 'fangri',
+      name: 'Fangri',
+      aliases: ['fangri'],
+    ),
+    TurkishSeaFish(
+      id: 'seriola-dumerili',
+      slug: 'akya',
+      name: 'Akya',
+      scientificName: 'Seriola dumerili',
+      aliases: ['akya'],
+    ),
+    TurkishSeaFish(
+      id: 'mugil-cephalus',
+      slug: 'kefal',
+      name: 'Kefal',
+      scientificName: 'Mugil cephalus',
+      aliases: ['kefal', 'mullet'],
+    ),
+    TurkishSeaFish(
+      id: 'belone-belone',
+      slug: 'zargana',
+      name: 'Zargana',
+      scientificName: 'Belone belone',
+      aliases: ['zargana', 'needlefish'],
+    ),
+    TurkishSeaFish(
+      id: 'scorpaena-scrofa',
+      slug: 'iskorpit',
+      name: 'İskorpit',
+      scientificName: 'Scorpaena scrofa',
+      aliases: ['iskorpit', 'scorpionfish'],
+    ),
+    TurkishSeaFish(
+      id: 'chelidonichthys-lucerna',
+      slug: 'kirlangic',
+      name: 'Kırlangıç',
+      scientificName: 'Chelidonichthys lucerna',
+      aliases: ['kırlangıç', 'kirlangic'],
+    ),
+    TurkishSeaFish(
+      id: 'umbrina-cirrosa',
+      slug: 'minakop',
+      name: 'Minakop',
+      scientificName: 'Umbrina cirrosa',
+      aliases: ['minakop'],
+    ),
+    TurkishSeaFish(
+      id: 'argyrosomus-regius',
+      slug: 'eskina',
+      name: 'Eşkina',
+      scientificName: 'Argyrosomus regius',
+      aliases: ['eşkina', 'eskina'],
+    ),
+    TurkishSeaFish(
+      id: 'epinephelus-costae',
+      slug: 'granyoz',
+      name: 'Granyöz',
+      scientificName: 'Epinephelus costae',
+      aliases: ['granyöz', 'granyoz', 'grida'],
+    ),
+    TurkishSeaFish(
+      id: 'dasyatis',
       slug: 'vatoz',
       name: 'Vatoz',
       scientificName: 'Dasyatis spp.',
       aliases: ['vatoz', 'ray'],
     ),
     TurkishSeaFish(
-      slug: 'ringa',
-      name: 'Ringa',
-      scientificName: 'Clupea harengus',
-      aliases: ['ringa'],
-    ),
-    TurkishSeaFish(
-      slug: 'mersin',
-      name: 'Mersin',
-      scientificName: 'Acipenser sturio',
-      aliases: ['mersin', 'mersin balığı'],
-    ),
-    TurkishSeaFish(
-      slug: 'laos',
-      name: 'Laos',
-      scientificName: 'Chelon labrosus',
-      aliases: ['laos'],
-    ),
-    TurkishSeaFish(
-      slug: 'sokar',
-      name: 'Sokar',
-      scientificName: 'Solea senegalensis',
-      aliases: ['sokar'],
-    ),
-    TurkishSeaFish(
-      slug: 'izmir_kaya',
-      name: 'İzmir Kayabalığı',
-      scientificName: 'Scorpaena porcus',
-      aliases: ['izmir kayabalığı', 'izmir kaya'],
-    ),
-    TurkishSeaFish(
-      slug: 'mene',
-      name: 'Mene',
-      scientificName: 'Spicara maena',
-      aliases: ['mene'],
-    ),
-    TurkishSeaFish(
-      slug: 'sivri',
-      name: 'Sivri',
-      scientificName: 'Sphyraena sphyraena',
-      aliases: ['sivri'],
-    ),
-    TurkishSeaFish(
-      slug: 'turna',
-      name: 'Turna',
-      scientificName: 'Sphyraena viridensis',
-      aliases: ['turna'],
-    ),
-    TurkishSeaFish(
-      slug: 'arapsaci',
-      name: 'Arapsaçı',
-      scientificName: 'Nemipterus randalli',
-      aliases: ['arapsaçı', 'arapsaci'],
-    ),
-    TurkishSeaFish(
-      slug: 'mercan_siyah',
-      name: 'Siyahbenek Mercan',
-      scientificName: 'Pagellus bogaraveo',
-      aliases: ['siyahbenek mercan', 'mercan küçük'],
-    ),
-    TurkishSeaFish(
-      slug: 'fangri',
-      name: 'Fangri',
-      aliases: ['fangri'],
-    ),
-    TurkishSeaFish(
+      id: 'kalamar',
       slug: 'kalamar',
       name: 'Kalamar',
       aliases: ['kalamar', 'squid'],
     ),
     TurkishSeaFish(
+      id: 'ahtapot',
       slug: 'ahtapot',
       name: 'Ahtapot',
       aliases: ['ahtapot', 'octopus'],
     ),
     TurkishSeaFish(
+      id: 'karides',
       slug: 'karides',
       name: 'Karides',
       aliases: ['karides', 'shrimp'],
     ),
     TurkishSeaFish(
+      id: 'istakoz',
       slug: 'istakoz',
       name: 'Istakoz',
       aliases: ['istakoz', 'lobster'],
     ),
     TurkishSeaFish(
+      id: 'lipsoz',
       slug: 'lipsoz',
       name: 'Lipsoz',
       aliases: ['lipsoz'],
     ),
     TurkishSeaFish(
+      id: 'gelincik',
+      slug: 'gelincik',
+      name: 'Gelincik',
+      aliases: ['gelincik'],
+    ),
+    TurkishSeaFish(
+      id: 'horozbina',
+      slug: 'horozbina',
+      name: 'Horozbina',
+      aliases: ['horozbina'],
+    ),
+    TurkishSeaFish(
+      id: 'kayabaligi',
+      slug: 'kayabaligi',
+      name: 'Kayabalığı',
+      aliases: ['kayabalığı', 'kayabaligi'],
+    ),
+    TurkishSeaFish(
+      id: 'ispendek',
       slug: 'ispendek',
       name: 'İspendek',
       aliases: ['ispendek', 'işpendek'],
     ),
     TurkishSeaFish(
+      id: 'oblada-melanura',
+      slug: 'melanur',
+      name: 'Melanur',
+      scientificName: 'Oblada melanura',
+      aliases: ['melanur', 'melanurya'],
+    ),
+    TurkishSeaFish(
+      id: 'lafina',
       slug: 'lafina',
       name: 'Lafina',
       aliases: ['lafina', 'lafena'],
     ),
     TurkishSeaFish(
+      id: 'pacoz',
       slug: 'pacoz',
       name: 'Paçoz',
       aliases: ['paçoz', 'pacoz'],
     ),
+    TurkishSeaFish(
+      id: 'atherina-boyeri',
+      slug: 'gumus',
+      name: 'Gümüş',
+      scientificName: 'Atherina boyeri',
+      aliases: ['gümüş', 'gumus'],
+    ),
+    TurkishSeaFish(
+      id: 'trachinus-draco',
+      slug: 'trakonya',
+      name: 'Trakonya',
+      scientificName: 'Trachinus draco',
+      aliases: ['trakonya', 'trahonya', 'pisi'],
+    ),
   ];
 
-  /// Slugs that have catalog WebP illustrations (not SVG fallback).
-  static const Set<String> photoSlugs = {
+  static const digerAsset = 'assets/fish/diger.svg';
+
+  /// Existing raster photos already in the app (Siren reference) — do not expand
+  /// this set without shipping a real existing asset file.
+  static const Set<String> existingPhotoSlugs = {
     'cipura',
     'levrek',
     'mercan',
-    'sinagrit',
-    'tranca',
-    'karagoz',
-    'sargoz',
-    'mirmir',
-    'minakop',
-    'eskina',
-    'lahos',
-    'orfoz',
-    'granyoz',
-    'barbun',
-    'tekir',
-    'kefal',
-    'istavrit',
-    'hamsi',
-    'sardalya',
-    'uskumru',
-    'kolyoz',
-    'palamut',
-    'torik',
-    'lufer',
-    'cinekop',
-    'kofana',
-    'mezgit',
-    'bakalyaro',
-    'berlam',
-    'kirlangic',
-    'iskorpit',
-    'kalkan',
-    'dil',
-    'trakonya',
-    'dulger',
-    'zargana',
-    'gumus',
-    'izmarit',
-    'kupes',
-    'melanur',
-    'lahoz',
-    'akya',
-    'kilic',
-    'orkinos',
-    'tirsi',
-    'caca',
-    'horozbina',
-    'gelincik',
-    'kayabaligi',
-    'vatoz',
-    'ringa',
-    'mersin',
-    'laos',
-    'sokar',
-    'izmir_kaya',
-    'mene',
-    'sivri',
-    'turna',
-    'arapsaci',
-    'mercan_siyah',
   };
 
-  static const digerAsset = 'assets/fish/diger.svg';
+  static TurkishSeaFish? byId(String id) {
+    for (final fish in all) {
+      if (fish.id == id) return fish;
+    }
+    return null;
+  }
+
+  static TurkishSeaFish? bySlug(String slug) {
+    for (final fish in all) {
+      if (fish.slug == slug) return fish;
+    }
+    return null;
+  }
 
   static TurkishSeaFish? match(String? speciesName) {
     final n = _normalize(speciesName);
@@ -508,6 +430,9 @@ abstract final class TurkishSeaFishCatalog {
       }
     }
     for (final fish in all) {
+      if (_normalize(fish.scientificName) == n) return fish;
+    }
+    for (final fish in all) {
       final slug = _normalize(fish.slug);
       final name = _normalize(fish.name);
       if (n.contains(name) || n.contains(slug)) return fish;
@@ -519,11 +444,30 @@ abstract final class TurkishSeaFishCatalog {
     return null;
   }
 
+  /// Resolves to an existing project asset for the species — never invents.
   static String assetFor(String? speciesName) {
     final fish = match(speciesName);
     if (fish == null) return digerAsset;
-    if (photoSlugs.contains(fish.slug)) return fish.photoAsset;
-    return fish.asset;
+    return fish.imageAsset;
+  }
+
+  /// Validation helpers for tests / QA.
+  static List<String> validateUniqueIds() {
+    final seen = <String>{};
+    final dupes = <String>[];
+    for (final f in all) {
+      if (!seen.add(f.id)) dupes.add(f.id);
+    }
+    return dupes;
+  }
+
+  static List<String> validateUniqueSlugs() {
+    final seen = <String>{};
+    final dupes = <String>[];
+    for (final f in all) {
+      if (!seen.add(f.slug)) dupes.add(f.slug);
+    }
+    return dupes;
   }
 
   static String _normalize(String? value) {

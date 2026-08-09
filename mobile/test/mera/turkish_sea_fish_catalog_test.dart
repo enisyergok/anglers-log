@@ -1,49 +1,72 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/mera/siren_fish_art.dart';
 import 'package:mobile/mera/turkish_sea_fish_catalog.dart';
 
 void main() {
-  test('each catalog fish has unique slug', () {
-    final slugs = TurkishSeaFishCatalog.all.map((f) => f.slug).toSet();
-    expect(slugs.length, TurkishSeaFishCatalog.all.length);
+  final fishDir = Directory('assets/fish');
+
+  test('ids and slugs are unique', () {
+    expect(TurkishSeaFishCatalog.validateUniqueIds(), isEmpty);
+    expect(TurkishSeaFishCatalog.validateUniqueSlugs(), isEmpty);
   });
 
-  test('aliases resolve to correct fish, never cross-map', () {
-    expect(TurkishSeaFishCatalog.assetFor('Lüfer'), 'assets/fish/lufer.webp');
+  test('every catalog species maps to an EXISTING asset file', () {
+    expect(fishDir.existsSync(), isTrue);
+    for (final fish in TurkishSeaFishCatalog.all) {
+      final relative = fish.imageAsset.replaceFirst('assets/fish/', '');
+      final file = File('${fishDir.path}/$relative');
+      expect(
+        file.existsSync(),
+        isTrue,
+        reason: '${fish.id} → ${fish.imageAsset} missing on disk',
+      );
+      // SVG silhouette must always exist for the slug.
+      expect(
+        File('${fishDir.path}/${fish.slug}.svg').existsSync(),
+        isTrue,
+        reason: '${fish.slug}.svg missing',
+      );
+    }
+  });
+
+  test('photo species keep original Siren webp paths only', () {
     expect(
-      TurkishSeaFishCatalog.assetFor('çinekop'),
-      'assets/fish/cinekop.webp',
+      TurkishSeaFishCatalog.byId('sparus-aurata')?.imageAsset,
+      'assets/fish/cipura.webp',
     );
-    expect(TurkishSeaFishCatalog.assetFor('bass'), 'assets/fish/levrek.webp');
-    expect(TurkishSeaFishCatalog.assetFor('Hamsi'), 'assets/fish/hamsi.webp');
     expect(
-      TurkishSeaFishCatalog.assetFor('Siyahbenek Mercan'),
-      'assets/fish/mercan_siyah.webp',
+      TurkishSeaFishCatalog.byId('dicentrarchus-labrax')?.imageAsset,
+      'assets/fish/levrek.webp',
     );
     expect(
-      TurkishSeaFishCatalog.assetFor('Mercan'),
+      TurkishSeaFishCatalog.byId('pagellus-erythrinus')?.imageAsset,
       'assets/fish/mercan.webp',
     );
-    expect(TurkishSeaFishCatalog.assetFor('Bilinmeyen'), 'assets/fish/diger.svg');
+    expect(TurkishSeaFishCatalog.existingPhotoSlugs, {
+      'cipura',
+      'levrek',
+      'mercan',
+    });
   });
 
-  test('photo species resolve via SirenFishArt to webp', () {
-    expect(SirenFishArt.assetFor('Çipura'), 'assets/fish/cipura.webp');
-    expect(SirenFishArt.assetFor('Levrek'), 'assets/fish/levrek.webp');
-    expect(SirenFishArt.assetFor('Mercan'), 'assets/fish/mercan.webp');
-    expect(SirenFishArt.assetFor('Palamut'), 'assets/fish/palamut.webp');
-    expect(SirenFishArt.assetFor('Lüfer'), 'assets/fish/lufer.webp');
-  });
-
-  test('species without catalog photo keep svg', () {
+  test('non-photo species use their own svg — never cipura/generic', () {
+    expect(SirenFishArt.assetFor('Lüfer'), 'assets/fish/lufer.svg');
+    expect(SirenFishArt.assetFor('Palamut'), 'assets/fish/palamut.svg');
+    expect(SirenFishArt.assetFor('Hamsi'), 'assets/fish/hamsi.svg');
     expect(SirenFishArt.assetFor('Kalamar'), 'assets/fish/kalamar.svg');
-    expect(SirenFishArt.assetFor('Ahtapot'), 'assets/fish/ahtapot.svg');
+    expect(SirenFishArt.assetFor('bass'), 'assets/fish/levrek.webp');
   });
 
-  test('scientific names present for primary activity species', () {
-    final cipura = TurkishSeaFishCatalog.match('Çipura');
-    expect(cipura?.scientificName, 'Sparus aurata');
-    final levrek = TurkishSeaFishCatalog.match('Levrek');
-    expect(levrek?.scientificName, 'Dicentrarchus labrax');
+  test('unknown species does not steal another species art', () {
+    expect(SirenFishArt.assetFor('Bilinmeyen'), 'assets/fish/diger.svg');
+    expect(SirenFishArt.assetFor(null), 'assets/fish/diger.svg');
+  });
+
+  test('no catalog entry points at another species slug', () {
+    for (final fish in TurkishSeaFishCatalog.all) {
+      expect(fish.imageAsset.contains('/${fish.slug}.'), isTrue);
+    }
   });
 }
