@@ -10,6 +10,7 @@ import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/location_monitor.dart';
 import 'package:mobile/map/map_region_manager.dart';
 import 'package:mobile/mera/mera_balik_aldim_sheet.dart';
+import 'package:mobile/mera/mera_boat_profile.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_no_catch_sheet.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
@@ -57,6 +58,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
     super.initState();
     _mapIx.addListener(_onMapIx);
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      MeraBoatProfileManager.get.ensureLoaded();
       _refreshTelemetry();
       _telemetryTimer = Timer.periodic(
         const Duration(minutes: 10),
@@ -486,8 +488,21 @@ class _MeraMapHudState extends State<MeraMapHud> {
                   const SizedBox(height: 10),
                   _sideBtn(
                     Icons.push_pin_outlined,
-                    'Pinler',
+                    _mapIx.pinMode
+                        ? 'Pin modu açık (uzun bas → liste)'
+                        : 'Pinler (uzun bas → pin modu)',
+                    active: _mapIx.pinMode,
                     onTap: _showPins,
+                    onLongPress: () {
+                      final next = !_mapIx.pinMode;
+                      _mapIx.setPinMode(next);
+                      showNoticeSnackBar(
+                        context,
+                        next
+                            ? 'Pin modu: haritaya dokunun veya uzun basın'
+                            : 'Pin modu kapalı',
+                      );
+                    },
                   ),
                 ],
               ),
@@ -564,10 +579,74 @@ class _MeraMapHudState extends State<MeraMapHud> {
                             TextButton(
                               onPressed: () {
                                 _mapIx.stopNavigation();
-                                showNoticeSnackBar(context, 'Navigasyon bitti');
+                                showNoticeSnackBar(
+                                  context,
+                                  'WP rehberi bitti',
+                                );
                               },
                               child: const Text(
                                 'Durdur',
+                                style: TextStyle(color: MeraColors.danger),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        else if (_mapIx.pinMode)
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 100),
+                child: Material(
+                  color: MeraColors.hudGlass,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 10, 12, 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Pin modu · haritaya dokun / uzun bas → işaret',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextButton(
+                              onPressed: _showPins,
+                              child: const Text(
+                                'Liste',
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.popUntil(
+                                  context,
+                                  (route) => route.isFirst,
+                                );
+                                MeraShell.goMarks();
+                              },
+                              child: const Text(
+                                'İşaretler',
+                                style: TextStyle(color: MeraColors.green),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => _mapIx.setPinMode(false),
+                              child: const Text(
+                                'Kapat',
                                 style: TextStyle(color: MeraColors.danger),
                               ),
                             ),
@@ -696,6 +775,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
     IconData icon,
     String tip, {
     required VoidCallback onTap,
+    VoidCallback? onLongPress,
     bool active = false,
   }) {
     return Tooltip(
@@ -706,6 +786,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
         child: InkWell(
           borderRadius: BorderRadius.circular(MeraRadii.sm),
           onTap: onTap,
+          onLongPress: onLongPress,
           child: SizedBox(
             width: 44,
             height: 52,
@@ -740,28 +821,38 @@ class _MeraMapHudState extends State<MeraMapHud> {
     final total = _mapIx.navPoints.length;
     final pos = _location.currentLatLng;
     if (target == null || pos == null) {
-      return '$name · WP $idx/$total · GPS bekleniyor';
+      return 'WP rehberi · $name · WP $idx/$total · GPS bekleniyor';
     }
     final here = ll.LatLng(pos.lat, pos.lng);
     final dist = NavGeo.haversineMeters(here, target);
     final brg = NavGeo.bearingDegrees(here, target);
-    final sog = NmeaUdpListener.get.latest?.sogKnots;
+    final nmeaSog = NmeaUdpListener.get.latest?.sogKnots;
+    final gpsSog = _location.currentLocation?.speedKnots;
+    final sog = (nmeaSog != null && nmeaSog > 0.3)
+        ? nmeaSog
+        : (gpsSog != null && gpsSog > 0.3 ? gpsSog : null);
+    final cruise = MeraBoatProfileManager.get.profile.cruiseKnots;
+    final sogLabel = sog != null
+        ? 'SOG ${sog.toStringAsFixed(1)} kn'
+        : 'SOG —';
     String eta = '—';
-    if (sog != null && sog > 0.3) {
+    if (sog != null) {
       final hours = (dist / 1852) / sog;
       final mins = (hours * 60).round();
       eta = mins < 60 ? '$mins dk' : '${mins ~/ 60} sa ${mins % 60} dk';
-    } else {
-      final hours = (dist / 1852) / MeraRoute.cruiseKnots;
+    } else if (cruise > 0) {
+      final hours = (dist / 1852) / cruise;
       final mins = (hours * 60).round();
-      eta = '~$mins dk @ ${MeraRoute.cruiseKnots} kn';
+      eta = '~$mins dk @ ${cruise.toStringAsFixed(1)} kn';
     }
+    final distLabel = dist < 1000
+        ? '${dist.toStringAsFixed(0)} m'
+        : '${(dist / 1852).toStringAsFixed(2)} Nm';
     if (_mapIx.navArrived && dist < 80) {
-      return '$name · Varış! · ${dist.toStringAsFixed(0)} m';
+      return 'WP rehberi · $name · Varış! · $distLabel';
     }
-    return '$name · WP $idx/$total\n'
-        '${dist < 1000 ? '${dist.toStringAsFixed(0)} m' : '${(dist / 1852).toStringAsFixed(2)} Nm'}'
-        ' · ${brg.toStringAsFixed(0)}° · ETA $eta';
+    return 'WP rehberi · $name · WP $idx/$total\n'
+        '$distLabel · ${brg.toStringAsFixed(0)}° · $sogLabel · ETA $eta';
   }
 
   Future<void> _showLayersSheet(BuildContext context) async {
@@ -977,11 +1068,13 @@ class _MeraMapHudState extends State<MeraMapHud> {
     if (!mounted) return;
     await showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: MeraColors.card,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
       ),
       builder: (ctx) {
+        final maxH = MediaQuery.sizeOf(ctx).height * 0.55;
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
@@ -998,27 +1091,51 @@ class _MeraMapHudState extends State<MeraMapHud> {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     child: Text(
-                      'Henüz pin yok — BALIK ALDIM ile eklenir',
+                      'Henüz pin yok — pin modu veya uzun bas ile ekleyin',
                       style: TextStyle(color: MeraColors.textSecondary),
                     ),
                   )
                 else
-                  ...spots.take(8).map(
-                    (s) => ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: const Icon(
-                        Icons.push_pin,
-                        color: MeraColors.green,
-                      ),
-                      title: Text(
-                        s.note?.isNotEmpty == true ? s.note! : 'Pin',
-                      ),
-                      subtitle: Text(
-                        '${s.lat.toStringAsFixed(4)}, ${s.lng.toStringAsFixed(4)}'
-                        '${s.depthM != null ? ' · ${s.depthM!.toStringAsFixed(1)} m' : ''}',
-                      ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: maxH),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: spots.length,
+                      itemBuilder: (_, i) {
+                        final s = spots[i];
+                        return ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: const Icon(
+                            Icons.push_pin,
+                            color: MeraColors.green,
+                          ),
+                          title: Text(
+                            s.note?.isNotEmpty == true ? s.note! : 'Pin',
+                          ),
+                          subtitle: Text(
+                            '${s.lat.toStringAsFixed(4)}, '
+                            '${s.lng.toStringAsFixed(4)}'
+                            '${s.depthM != null ? ' · ${s.depthM!.toStringAsFixed(1)} m' : ''}',
+                          ),
+                          onTap: () async {
+                            Navigator.pop(ctx);
+                            await _mapIx.centerOn(
+                              LatLng(lat: s.lat, lng: s.lng),
+                              zoom: 14,
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    MeraShell.goMarks();
+                  },
+                  icon: const Icon(Icons.place_outlined),
+                  label: const Text("İşaretler'e git"),
+                ),
                 TextButton.icon(
                   onPressed: () {
                     Navigator.pop(ctx);

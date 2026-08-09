@@ -25,6 +25,7 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
   MarineTelemetry? _telemetry;
   StreamSubscription? _nmeaSub;
   StreamSubscription? _profileSub;
+  StreamSubscription? _locSub;
   Timer? _timer;
 
   @override
@@ -41,6 +42,9 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
       _profileSub = MeraBoatProfileManager.get.stream.listen((_) {
         if (mounted) setState(() {});
       });
+      _locSub = LocationMonitor.of(context).stream.listen((_) {
+        if (mounted) setState(() {});
+      });
     });
   }
 
@@ -49,6 +53,7 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
     _timer?.cancel();
     _nmeaSub?.cancel();
     _profileSub?.cancel();
+    _locSub?.cancel();
     super.dispose();
   }
 
@@ -86,6 +91,9 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
     final fuel = TextEditingController(
       text: p.fuelPercent.toStringAsFixed(0),
     );
+    final cruise = TextEditingController(
+      text: p.cruiseKnots.toStringAsFixed(1),
+    );
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -105,7 +113,14 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
             TextField(
               controller: fuel,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Yakıt %'),
+              decoration: const InputDecoration(labelText: 'Yakıt % (manuel)'),
+            ),
+            TextField(
+              controller: cruise,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(
+                labelText: 'Seyir hızı (kn)',
+              ),
             ),
           ],
         ),
@@ -123,11 +138,13 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
     );
     if (ok != true) return;
     final fuelVal = double.tryParse(fuel.text.trim()) ?? p.fuelPercent;
+    final cruiseVal = double.tryParse(cruise.text.trim()) ?? p.cruiseKnots;
     await MeraBoatProfileManager.get.save(
       p.copyWith(
         captainName: captain.text.trim().isEmpty ? 'Kaptan' : captain.text.trim(),
         boatName: boat.text.trim().isEmpty ? 'Teknem' : boat.text.trim(),
         fuelPercent: fuelVal.clamp(0, 100),
+        cruiseKnots: cruiseVal.clamp(0.5, 60),
       ),
     );
   }
@@ -137,12 +154,16 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
     final routes = MeraRouteManager.get.routes;
     final last = routes.isEmpty ? null : routes.first;
     final nmea = NmeaUdpListener.get.latest;
-    final speedKn = nmea?.sogKnots;
     final nmeaOn = NmeaUdpListener.get.isRunning;
     final profile = MeraBoatProfileManager.get.profile;
-    final gpsAcc = LocationMonitor.of(context).currentLatLng != null
-        ? (nmeaOn ? 'NMEA' : 'GPS')
-        : '—';
+    final gpsLoc = LocationMonitor.of(context).currentLocation;
+    final nmeaSog = nmea?.sogKnots;
+    final gpsSog = gpsLoc?.speedKnots;
+    final speedKn = nmeaSog ?? gpsSog;
+    final speedSource = nmeaSog != null
+        ? 'NMEA'
+        : (gpsSog != null ? 'GPS' : null);
+    final gpsAcc = gpsLoc != null ? (nmeaOn ? 'NMEA' : 'GPS') : '—';
     final fuelFrac = (profile.fuelPercent / 100).clamp(0.0, 1.0);
 
     return MeraPageScaffold(
@@ -210,7 +231,7 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Yakıt ${profile.fuelPercent.toStringAsFixed(0)}%',
+                        'Yakıt ${profile.fuelPercent.toStringAsFixed(0)}% · Manuel',
                         style: const TextStyle(
                           color: MeraColors.textSecondary,
                           fontSize: 11,
@@ -243,6 +264,14 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                           fontSize: 18,
                         ),
                       ),
+                      if (speedSource != null)
+                        Text(
+                          speedSource,
+                          style: const TextStyle(
+                            color: MeraColors.textMuted,
+                            fontSize: 10,
+                          ),
+                        ),
                       const SizedBox(height: 10),
                       const Text(
                         'GPS',
@@ -288,8 +317,8 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                       ),
                       Text(
                         nmeaOn
-                            ? 'Port 10110 · dokunarak kapat'
-                            : 'Wi‑Fi multiplekser için dokunun (:10110)',
+                            ? 'Port 10110 · DBT/DPT/VTG/RMC'
+                            : 'Wi‑Fi multiplekser (:10110) · DBT/DPT/VTG/RMC',
                         style: const TextStyle(
                           color: MeraColors.textSecondary,
                           fontSize: 11,
@@ -374,8 +403,8 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                   const SizedBox(height: 6),
                   Text(
                     '${last.distanceNm.toStringAsFixed(1)} NM · '
-                    '${_fmtEta(last.estimatedAt7kn)} · '
-                    '${MeraRoute.cruiseKnots.toStringAsFixed(1)} kn',
+                    '${_fmtEta(last.estimatedAt(knots: profile.cruiseKnots))} · '
+                    '${profile.cruiseKnots.toStringAsFixed(1)} kn',
                     style: const TextStyle(
                       color: MeraColors.textSecondary,
                       fontSize: 11,

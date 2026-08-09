@@ -123,20 +123,40 @@ class LocationPoint {
       lat: pos.latitude,
       lng: pos.longitude,
       heading: pos.heading,
+      // Geolocator reports m/s; negative means unavailable.
+      speedMps: pos.speed >= 0 ? pos.speed : null,
     );
   }
 
   double lat;
   double lng;
   double? heading;
+  /// Ground speed in meters/second from the device GPS, if available.
+  double? speedMps;
 
-  LocationPoint({required this.lat, required this.lng, required this.heading});
+  LocationPoint({
+    required this.lat,
+    required this.lng,
+    required this.heading,
+    this.speedMps,
+  });
 
-  LocationPoint.invalid() : lat = 0, lng = 0, heading = null;
+  LocationPoint.invalid()
+      : lat = 0,
+        lng = 0,
+        heading = null,
+        speedMps = null;
 
   LatLng get latLng => LatLng(lat: lat, lng: lng);
 
   bool get isValid => lat != 0 && lng != 0;
+
+  /// SOG in knots from GPS speed (null if unavailable).
+  double? get speedKnots {
+    final mps = speedMps;
+    if (mps == null || mps < 0) return null;
+    return mps * 1.943844;
+  }
 
   GpsTrailPoint toGpsTrailPoint(int timestamp) {
     return GpsTrailPoint(
@@ -148,5 +168,6 @@ class LocationPoint {
   }
 
   @override
-  String toString() => "{lat=$lat, lng=$lng, heading=$heading}";
+  String toString() =>
+      "{lat=$lat, lng=$lng, heading=$heading, speedMps=$speedMps}";
 }

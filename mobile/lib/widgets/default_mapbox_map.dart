@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:adair_flutter_lib/widgets/async_builder.dart';
+import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:latlong2/latlong.dart' as ll;
@@ -227,9 +228,20 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
             initialZoom:
                 start.lat == 0 ? 0 : widget.startZoom ?? mapZoomDefault,
             onMapReady: _onMapReady,
-            onTap: (_, point) {
-              if (_interaction.routeMode) {
-                _interaction.handleMapTap(point);
+            onTap: (_, point) async {
+              if (_interaction.routeMode || _interaction.pinMode) {
+                final wasPin = _interaction.pinMode;
+                await _interaction.handleMapTap(point);
+                if (wasPin && mounted) {
+                  showSuccessSnackBar(context, 'İşaret eklendi');
+                }
+              }
+            },
+            onLongPress: (_, point) async {
+              if (_interaction.routeMode) return;
+              await _interaction.handleMapLongPress(point);
+              if (mounted) {
+                showSuccessSnackBar(context, 'İşaret eklendi');
               }
             },
             onMapEvent: (event) {

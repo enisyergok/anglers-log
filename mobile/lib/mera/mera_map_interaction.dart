@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/map/map_controller.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart' as pb;
+import 'package:mobile/navigation/mera_manager.dart';
+import 'package:mobile/navigation/nmea_udp_listener.dart';
 import 'package:mobile/utils/map_utils.dart';
 
 /// Shared map interaction state between [MeraMapHud] and [DefaultMapboxMap].
@@ -20,6 +22,9 @@ class MeraMapInteraction extends ChangeNotifier {
   /// Multi-waypoint draft (route draw / edit).
   List<ll.LatLng> draftPoints = [];
   bool shallowHit = false;
+
+  /// Tap-to-drop [MeraSpot] mode.
+  bool pinMode = false;
 
   /// Active waypoint navigation (GPS → next waypoint guidance).
   bool navActive = false;
@@ -42,11 +47,25 @@ class MeraMapInteraction extends ChangeNotifier {
       return;
     }
     if (navActive) stopNavigation();
+    if (pinMode) pinMode = false;
     routeMode = true;
     if (editingRouteId == null) {
       draftPoints = [];
     }
     shallowHit = false;
+    notifyListeners();
+  }
+
+  void setPinMode(bool enabled) {
+    if (pinMode == enabled) return;
+    if (enabled) {
+      if (navActive) stopNavigation();
+      routeMode = false;
+      editingRouteId = null;
+      draftPoints = [];
+      shallowHit = false;
+    }
+    pinMode = enabled;
     notifyListeners();
   }
 
@@ -70,6 +89,7 @@ class MeraMapInteraction extends ChangeNotifier {
     required List<ll.LatLng> points,
   }) async {
     if (navActive) stopNavigation();
+    if (pinMode) pinMode = false;
     routeMode = true;
     editingRouteId = routeId;
     draftPoints = List<ll.LatLng>.from(points);
@@ -88,10 +108,32 @@ class MeraMapInteraction extends ChangeNotifier {
     }
   }
 
-  /// Append a waypoint from a map tap.
-  void handleMapTap(ll.LatLng point) {
-    if (!routeMode) return;
-    draftPoints = [...draftPoints, point];
+  /// Append a waypoint (route mode) or drop a MeraSpot (pin mode).
+  Future<void> handleMapTap(ll.LatLng point) async {
+    if (routeMode) {
+      draftPoints = [...draftPoints, point];
+      notifyListeners();
+      return;
+    }
+    if (pinMode) {
+      await _addPinAt(point);
+    }
+  }
+
+  /// Long-press drops a pin unless route editing is active.
+  Future<void> handleMapLongPress(ll.LatLng point) async {
+    if (routeMode) return;
+    await _addPinAt(point);
+  }
+
+  Future<void> _addPinAt(ll.LatLng point) async {
+    final depth = NmeaUdpListener.get.latest?.depthM;
+    await MeraManager.get.add(
+      lat: point.latitude,
+      lng: point.longitude,
+      depthM: depth,
+      note: 'Harita pini',
+    );
     notifyListeners();
   }
 
@@ -139,6 +181,7 @@ class MeraMapInteraction extends ChangeNotifier {
     if (points.isEmpty) return;
     if (navActive) stopNavigation();
     routeMode = false;
+    pinMode = false;
     editingRouteId = null;
     draftPoints = List<ll.LatLng>.from(points);
     shallowHit = false;
@@ -162,6 +205,7 @@ class MeraMapInteraction extends ChangeNotifier {
   }) async {
     if (points.length < 2) return;
     routeMode = false;
+    pinMode = false;
     editingRouteId = null;
     draftPoints = [];
     shallowHit = false;

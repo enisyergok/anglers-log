@@ -124,14 +124,10 @@ class ShallowPolygonCatalog {
     ],
   ];
 
+  /// Demo shallows only for Marmara — other regions return empty (no false alarms).
   static List<List<LatLng>> forRegion(String? regionId) {
-    switch (regionId) {
-      case 'marmara':
-      case null:
-        return marmaraDemo;
-      default:
-        return marmaraDemo;
-    }
+    if (regionId == 'marmara') return marmaraDemo;
+    return const [];
   }
 
   static String toGeoJson(List<List<LatLng>> polygons) {

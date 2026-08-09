@@ -87,14 +87,29 @@ class _MeraSettingsPageState extends State<MeraSettingsPage> {
                   () => present(context, const MapRegionPage()),
                 ),
                 const Divider(height: 1, color: MeraColors.cardBorder),
-                _tile(
-                  context,
-                  Icons.notifications_outlined,
-                  'Bildirimler',
-                  UserPreferenceManager.get.autoBackup
-                      ? 'Yedekleme bildirimleri açık'
-                      : 'Yedekleme bildirimleri kapalı',
-                  () => present(context, BackupPage()),
+                SwitchListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  secondary: const Icon(
+                    Icons.notifications_outlined,
+                    color: MeraColors.green,
+                  ),
+                  title: const Text(
+                    'Otomatik yedekleme',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  subtitle: const Text(
+                    'Değişikliklerden sonra yerel yedek alır; yedek bildirimleri bu tercihe bağlıdır.',
+                    style: TextStyle(
+                      color: MeraColors.textSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                  value: UserPreferenceManager.get.autoBackup,
+                  activeThumbColor: MeraColors.green,
+                  onChanged: (v) async {
+                    await UserPreferenceManager.get.setAutoBackup(v);
+                    if (mounted) setState(() {});
+                  },
                 ),
                 const Divider(height: 1, color: MeraColors.cardBorder),
                 _tile(
@@ -158,6 +173,9 @@ class _MeraSettingsPageState extends State<MeraSettingsPage> {
     final captain = TextEditingController(text: p.captainName);
     final boat = TextEditingController(text: p.boatName);
     final fuel = TextEditingController(text: p.fuelPercent.toStringAsFixed(0));
+    final cruise = TextEditingController(
+      text: p.cruiseKnots.toStringAsFixed(1),
+    );
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -182,7 +200,12 @@ class _MeraSettingsPageState extends State<MeraSettingsPage> {
             TextField(
               controller: fuel,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Yakıt %'),
+              decoration: const InputDecoration(labelText: 'Yakıt % (manuel)'),
+            ),
+            TextField(
+              controller: cruise,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(labelText: 'Seyir hızı (kn)'),
             ),
           ],
         ),
@@ -200,12 +223,14 @@ class _MeraSettingsPageState extends State<MeraSettingsPage> {
     );
     if (ok != true) return;
     final fuelVal = double.tryParse(fuel.text.trim()) ?? p.fuelPercent;
+    final cruiseVal = double.tryParse(cruise.text.trim()) ?? p.cruiseKnots;
     await MeraBoatProfileManager.get.save(
       p.copyWith(
         captainName:
             captain.text.trim().isEmpty ? 'Kaptan' : captain.text.trim(),
         boatName: boat.text.trim().isEmpty ? 'Teknem' : boat.text.trim(),
         fuelPercent: fuelVal.clamp(0, 100),
+        cruiseKnots: cruiseVal.clamp(0.5, 60),
       ),
     );
     if (mounted) setState(() {});
@@ -223,7 +248,7 @@ class _MeraSettingsPageState extends State<MeraSettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Bu sürümde Pro kilitleri açıktır; ödeme veya mağaza aboneliği gerekmez.',
+              'Mağaza aboneliği yok; özellik kilitleri kapalı.',
             ),
             SizedBox(height: 12),
             Text('· Sınırsız av / işaret / rota'),

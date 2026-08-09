@@ -88,7 +88,7 @@ void main() {
     );
     final o2 = r.factors.firstWhere((f) => f.id == 'oxygen');
     expect(o2.available, isFalse);
-    expect(o2.valueLabel, 'Veri yok');
+    expect(o2.valueLabel, 'Desteklenmiyor');
   });
 
   test('best window is derived from hourly curve', () {

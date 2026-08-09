@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:latlong2/latlong.dart' as ll;
+import 'package:mobile/mera/mera_boat_profile.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
 import 'package:mobile/mera/mera_shell.dart';
@@ -25,7 +26,10 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
   @override
   void initState() {
     super.initState();
-    MeraRouteManager.get.ensureLoaded().then((_) {
+    Future.wait([
+      MeraRouteManager.get.ensureLoaded(),
+      MeraBoatProfileManager.get.ensureLoaded(),
+    ]).then((_) {
       if (mounted) {
         setState(() {
           _route = MeraRouteManager.get.byId(widget.routeId);
@@ -59,7 +63,8 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
     final center = r.points.isEmpty
         ? const ll.LatLng(40.9, 29.0)
         : ll.LatLng(r.points.first.lat, r.points.first.lng);
-    final eta = r.estimatedAt7kn;
+    final cruise = MeraBoatProfileManager.get.profile.cruiseKnots;
+    final eta = r.estimatedAt(knots: cruise);
     final h = eta.inHours;
     final m = eta.inMinutes % 60;
     final etaLabel = h > 0 ? '$h sa ${m.toString().padLeft(2, '0')} dk' : '$m dk';
@@ -145,12 +150,12 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
                   children: [
                     _kv('Mesafe', '${r.distanceNm.toStringAsFixed(1)} NM'),
                     _kv('Süre', etaLabel),
-                    _kv('Ort. Hız', '${MeraRoute.cruiseKnots} kn'),
+                    _kv('Ort. Hız', '${cruise.toStringAsFixed(1)} kn'),
                   ],
                 ),
                 const SizedBox(height: 16),
                 MeraPrimaryButton(
-                  label: 'Navigasyona Başla',
+                  label: 'WP Rehberi Başlat',
                   icon: Icons.navigation,
                   onPressed: () async {
                     final route = r;

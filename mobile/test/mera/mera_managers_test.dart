@@ -59,8 +59,8 @@ void main() {
     test('switchTab invokes callback', () {
       var hit = -1;
       MeraShell.switchTab = (i) => hit = i;
-      MeraShell.goRecords();
-      expect(hit, MeraShell.tabRecords);
+      MeraShell.goMarks();
+      expect(hit, MeraShell.tabMarks);
       MeraShell.goHome();
       expect(hit, MeraShell.tabHome);
     });

@@ -8,25 +8,32 @@ import 'package:path/path.dart' as p;
 
 /// Local captain / boat profile (Gemim + Ayarlar → Profil).
 class MeraBoatProfile {
+  static const defaultCruiseKnots = 7.4;
+
   final String captainName;
   final String boatName;
   final double fuelPercent;
+  /// Cruise speed used for route ETA when NMEA SOG is unavailable.
+  final double cruiseKnots;
 
   const MeraBoatProfile({
     this.captainName = 'Kaptan',
     this.boatName = 'Teknem',
     this.fuelPercent = 68,
+    this.cruiseKnots = defaultCruiseKnots,
   });
 
   MeraBoatProfile copyWith({
     String? captainName,
     String? boatName,
     double? fuelPercent,
+    double? cruiseKnots,
   }) {
     return MeraBoatProfile(
       captainName: captainName ?? this.captainName,
       boatName: boatName ?? this.boatName,
       fuelPercent: fuelPercent ?? this.fuelPercent,
+      cruiseKnots: cruiseKnots ?? this.cruiseKnots,
     );
   }
 
@@ -34,6 +41,7 @@ class MeraBoatProfile {
     'captainName': captainName,
     'boatName': boatName,
     'fuelPercent': fuelPercent,
+    'cruiseKnots': cruiseKnots,
   };
 
   factory MeraBoatProfile.fromJson(Map<String, dynamic> json) =>
@@ -46,6 +54,9 @@ class MeraBoatProfile {
             : 'Teknem',
         fuelPercent: ((json['fuelPercent'] as num?)?.toDouble() ?? 68)
             .clamp(0, 100),
+        cruiseKnots: ((json['cruiseKnots'] as num?)?.toDouble() ??
+                defaultCruiseKnots)
+            .clamp(0.5, 60),
       );
 }
 

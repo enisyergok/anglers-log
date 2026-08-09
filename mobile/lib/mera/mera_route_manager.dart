@@ -34,6 +34,7 @@ class MeraRoute {
   final List<MeraRoutePoint> points;
   final int createdMs;
 
+  /// Fallback cruise speed when no boat profile is available.
   static const cruiseKnots = 7.4;
 
   const MeraRoute({
@@ -53,14 +54,17 @@ class MeraRoute {
 
   double get distanceNm => distanceMeters / 1852.0;
 
-  /// Estimated time at [cruiseKnots].
-  Duration get estimatedAt7kn {
-    if (distanceNm <= 0) {
+  /// Estimated time at [knots] (defaults to [cruiseKnots]).
+  Duration estimatedAt({double knots = cruiseKnots}) {
+    if (distanceNm <= 0 || knots <= 0) {
       return Duration.zero;
     }
-    final hours = distanceNm / cruiseKnots;
+    final hours = distanceNm / knots;
     return Duration(minutes: (hours * 60).round());
   }
+
+  /// Estimated time at the built-in default cruise speed.
+  Duration get estimatedAt7kn => estimatedAt();
 
   Map<String, dynamic> toJson() => {
     'id': id,

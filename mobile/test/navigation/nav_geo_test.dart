@@ -98,5 +98,12 @@ void main() {
       expect(json.contains('FeatureCollection'), isTrue);
       expect(json.contains('Polygon'), isTrue);
     });
+
+    test('forRegion only returns polygons for marmara', () {
+      expect(ShallowPolygonCatalog.forRegion('marmara'), isNotEmpty);
+      expect(ShallowPolygonCatalog.forRegion('ege'), isEmpty);
+      expect(ShallowPolygonCatalog.forRegion(null), isEmpty);
+      expect(ShallowPolygonCatalog.forRegion(''), isEmpty);
+    });
   });
 }
