@@ -611,8 +611,6 @@ void main() {
     when(
       managers.locationMonitor.currentLatLng,
     ).thenReturn(LatLng(lat: 1, lng: 2));
-    when(managers.propertiesManager.visualCrossingApiKey).thenReturn("");
-
     var response = MockResponse();
     when(response.statusCode).thenReturn(HttpStatus.ok);
     when(response.body).thenReturn("");

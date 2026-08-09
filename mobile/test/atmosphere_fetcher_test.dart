@@ -23,8 +23,6 @@ void main() {
   setUp(() async {
     managers = await StubbedManagers.create();
 
-    when(managers.propertiesManager.visualCrossingApiKey).thenReturn("");
-
     when(managers.userPreferenceManager.atmosphereFieldIds).thenReturn([]);
 
     // Set to the VisualCrossing defaults for each measurement type.

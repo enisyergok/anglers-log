@@ -51,8 +51,6 @@ void main() {
   setUp(() async {
     managers = await StubbedManagers.create();
 
-    when(managers.propertiesManager.firebaseSecret).thenReturn("Secret");
-
     PollManager.reset();
   });
 

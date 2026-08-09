@@ -30,7 +30,6 @@ void main() {
       managers.locationMonitor.currentLatLng,
     ).thenReturn(LatLng(lat: 1.23456, lng: 6.54321));
 
-    when(managers.propertiesManager.worldTidesApiKey).thenReturn("key");
   });
 
   Future<BuildContext> buildStubbedContext(WidgetTester tester) {

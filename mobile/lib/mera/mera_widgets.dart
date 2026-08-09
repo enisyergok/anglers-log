@@ -20,31 +20,34 @@ class MeraCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final body = Container(
-      width: double.infinity,
-      padding: padding,
-      decoration: BoxDecoration(
-        color: MeraColors.card,
-        borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: MeraColors.cardBorder.withValues(alpha: 0.9)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.28),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-          ),
-        ],
+    final body = Material(
+      color: MeraColors.card,
+      elevation: 0,
+      shadowColor: Colors.black.withValues(alpha: 0.28),
+      borderRadius: BorderRadius.circular(radius),
+      child: Ink(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
+          border: Border.all(color: MeraColors.cardBorder.withValues(alpha: 0.9)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.28),
+              blurRadius: 18,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: padding,
+          child: child,
+        ),
       ),
-      child: child,
     );
     if (onTap == null) return body;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(radius),
-        child: body,
-      ),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(radius),
+      child: body,
     );
   }
 }

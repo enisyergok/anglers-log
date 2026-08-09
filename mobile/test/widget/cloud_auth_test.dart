@@ -9,6 +9,7 @@ import '../../../../adair-flutter-lib/test/test_utils/testable.dart';
 import '../mocks/mocks.mocks.dart';
 import '../mocks/stubbed_managers.dart';
 
+@Skip('Google Sign-In cloud auth retired in offline fork')
 void main() {
   late StubbedManagers managers;
 

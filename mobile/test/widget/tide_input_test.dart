@@ -202,7 +202,6 @@ void main() {
     ).thenAnswer((_) => const Stream.empty());
     when(managers.lib.subscriptionManager.isFree).thenReturn(false);
     when(managers.locationMonitor.currentLatLng).thenReturn(LatLngs.zero);
-    when(managers.propertiesManager.worldTidesApiKey).thenReturn("key");
     when(
       managers.lib.permissionHandlerWrapper.isLocationGranted,
     ).thenAnswer((_) => Future.value(true));

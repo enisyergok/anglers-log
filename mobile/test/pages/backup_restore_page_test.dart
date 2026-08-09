@@ -14,6 +14,7 @@ import '../mocks/mocks.mocks.dart';
 import '../mocks/stubbed_managers.dart';
 import '../test_utils.dart';
 
+@Skip('Google Drive cloud backup UI retired in offline fork')
 void main() {
   late StubbedManagers managers;
   late MockGoogleSignInAccount account;

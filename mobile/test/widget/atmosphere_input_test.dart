@@ -38,8 +38,6 @@ void main() {
       managers.localDatabaseManager.insertOrReplace(any, any),
     ).thenAnswer((_) => Future.value(true));
 
-    when(managers.propertiesManager.visualCrossingApiKey).thenReturn("");
-
     when(
       managers.lib.subscriptionManager.stream,
     ).thenAnswer((_) => const Stream.empty());
