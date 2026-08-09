@@ -1,6 +1,7 @@
 import 'package:adair_flutter_lib/adair_flutter_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/gps_trail_manager.dart';
+import 'package:mobile/map/map_region_manager.dart';
 import 'package:mobile/poll_manager.dart';
 import 'package:mobile/region_manager.dart';
 import 'package:mobile/wrappers/csv_wrapper.dart';
@@ -254,6 +255,7 @@ class AppManager {
     // Managers that don't need to refresh after startup.
     if (isStartup) {
       await RegionManager.get.init();
+      await MapRegionManager.get.init();
       await locationMonitor.initialize();
       await PollManager.get.initialize();
     }

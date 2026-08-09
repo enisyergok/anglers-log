@@ -24,6 +24,7 @@ import 'anglers_log_pro_page.dart';
 import 'backup_restore_page.dart';
 import 'calendar_page.dart';
 import 'csv_page.dart';
+import 'map_region_page.dart';
 import 'polls_page.dart';
 
 class MorePage extends StatelessWidget {
@@ -114,6 +115,12 @@ class MorePage extends StatelessWidget {
               title: Strings.of(context).csvPageTitle,
               page: CsvPage(),
               presentPage: true,
+            ),
+            _buildPageItem(
+              context,
+              icon: MapRegionPage.icon,
+              title: 'Çevrimdışı Harita Bölgeleri',
+              page: const MapRegionPage(),
             ),
             const MinDivider(),
             _buildPageItem(

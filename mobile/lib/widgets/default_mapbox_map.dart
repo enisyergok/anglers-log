@@ -1,16 +1,21 @@
 import 'package:adair_flutter_lib/widgets/async_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
+import 'package:flutter_map_pmtiles/flutter_map_pmtiles.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/location_monitor.dart';
 import 'package:mobile/map/flutter_map_controller.dart';
 import 'package:mobile/map/map_controller.dart';
+import 'package:mobile/map/map_region_manager.dart';
 
 import '../model/gen/anglers_log.pb.dart';
 import '../utils/map_utils.dart';
 import '../utils/protobuf_utils.dart';
 
 /// A [fm.FlutterMap] wrapper with default values/functionality set for this app.
+///
+/// Uses online OSM tiles by default. When [MapRegionManager] has an active
+/// regional PMTiles package, that file becomes the base layer (offline-first).
 ///
 /// See:
 ///  - [StaticFishingSpotMap]
@@ -21,7 +26,7 @@ class DefaultMapboxMap extends StatefulWidget {
   final double? startZoom;
 
   /// Optional base tile URL template override. Defaults to [MapType.of] /
-  /// [FlutterMapController.mapType].
+  /// [FlutterMapController.mapType]. Ignored when a PMTiles region is active.
   final String? style;
   final bool isMyLocationEnabled;
 
@@ -83,41 +88,81 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
       future: _mapFuture,
       errorReason: 'Loading map',
       builder: (context, _) {
-        return ListenableBuilder(
-          listenable: _controller,
+        return StreamBuilder<void>(
+          stream: MapRegionManager.get.stream,
           builder: (context, _) {
-            final baseUrl = widget.style ?? _controller.mapType.url;
-            return fm.FlutterMap(
-              mapController: _fmController,
-              options: fm.MapOptions(
-                initialCenter: ll.LatLng(start.lat, start.lng),
-                initialZoom:
-                    start.lat == 0 ? 0 : widget.startZoom ?? mapZoomDefault,
-                onMapReady: _onMapReady,
-                onMapEvent: (event) {
-                  _controller.handleMapEvent(event);
-                  if (event is fm.MapEventMove) {
-                    widget.onCameraChangeListener?.call(event.camera);
-                  }
-                  if (event is fm.MapEventMoveEnd) {
-                    widget.onMapIdle?.call();
-                  }
-                },
-              ),
-              children: [
-                fm.TileLayer(
-                  urlTemplate: baseUrl,
-                  subdomains: const ['a', 'b', 'c', 'd'],
-                  userAgentPackageName: mapTileUserAgentPackageName,
-                ),
-                fm.TileLayer(
-                  urlTemplate: openSeaMapSeamarkUrl,
-                  userAgentPackageName: mapTileUserAgentPackageName,
-                ),
-                fm.MarkerLayer(markers: _controller.markers),
-              ],
+            return FutureBuilder<String?>(
+              future: MapRegionManager.get.activePmtilesPath(),
+              builder: (context, pmSnap) {
+                final pmPath = pmSnap.data;
+                if (pmPath != null) {
+                  return FutureBuilder<PmTilesTileProvider>(
+                    future: PmTilesTileProvider.fromSource(pmPath),
+                    builder: (context, providerSnap) {
+                      if (!providerSnap.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return _buildMap(
+                        context,
+                        start,
+                        baseProvider: providerSnap.data,
+                      );
+                    },
+                  );
+                }
+                return _buildMap(context, start);
+              },
             );
           },
+        );
+      },
+    );
+  }
+
+  Widget _buildMap(
+    BuildContext context,
+    LatLng start, {
+    fm.TileProvider? baseProvider,
+  }) {
+    return ListenableBuilder(
+      listenable: _controller,
+      builder: (context, _) {
+        final baseUrl = widget.style ?? _controller.mapType.url;
+        final children = <Widget>[
+          if (baseProvider != null)
+            fm.TileLayer(tileProvider: baseProvider)
+          else
+            fm.TileLayer(
+              urlTemplate: baseUrl,
+              subdomains: const ['a', 'b', 'c', 'd'],
+              userAgentPackageName: mapTileUserAgentPackageName,
+            ),
+          // Seamark remains online overlay when network is available.
+          fm.TileLayer(
+            urlTemplate: openSeaMapSeamarkUrl,
+            userAgentPackageName: mapTileUserAgentPackageName,
+          ),
+          fm.MarkerLayer(markers: _controller.markers),
+        ];
+
+        return fm.FlutterMap(
+          mapController: _fmController,
+          options: fm.MapOptions(
+            initialCenter: ll.LatLng(start.lat, start.lng),
+            initialZoom:
+                start.lat == 0 ? 0 : widget.startZoom ?? mapZoomDefault,
+            onMapReady: _onMapReady,
+            onMapEvent: (event) {
+              _controller.handleMapEvent(event);
+              if (event is fm.MapEventMove) {
+                widget.onCameraChangeListener?.call(event.camera);
+              }
+              if (event is fm.MapEventMoveEnd) {
+                widget.onMapIdle?.call();
+              }
+            },
+          ),
+          children: children,
         );
       },
     );
@@ -128,9 +173,17 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
       return;
     }
     _didNotifyCreated = true;
-    // Sync without relying on notify for the initial type; parent style may
-    // already be set.
     _controller.setMapType(MapType.of(context));
+
+    // Jump to active region center once when a package is active.
+    final region = MapRegionManager.get.activeRegion;
+    if (region != null) {
+      _fmController.move(
+        ll.LatLng(region.center.latitude, region.center.longitude),
+        region.initialZoom,
+      );
+    }
+
     widget.onMapCreated?.call(_controller);
   }
 }
