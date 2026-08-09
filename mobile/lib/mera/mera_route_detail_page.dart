@@ -43,8 +43,9 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
         ? const ll.LatLng(40.9, 29.0)
         : ll.LatLng(r.points.first.lat, r.points.first.lng);
     final eta = r.estimatedAt7kn;
-    final etaLabel =
-        '${eta.inHours}s ${(eta.inMinutes % 60).toString().padLeft(2, '0')}dk';
+    final h = eta.inHours;
+    final m = eta.inMinutes % 60;
+    final etaLabel = h > 0 ? '$h sa ${m.toString().padLeft(2, '0')} dk' : '$m dk';
 
     return Scaffold(
       backgroundColor: MeraColors.bg,
@@ -113,7 +114,7 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
                   children: [
                     _kv('Mesafe', '${r.distanceNm.toStringAsFixed(1)} NM'),
                     _kv('Süre', etaLabel),
-                    _kv('Ort. Hız', '7.0 kn'),
+                    _kv('Ort. Hız', '7.4 kn'),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -130,6 +131,24 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
                     );
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   },
+                ),
+                TextButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Rota düzenleme: Ana Sayfa’da rota modu ile yeniden çizin',
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Rota Düzenle',
+                    style: TextStyle(
+                      color: MeraColors.textSecondary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ],
             ),

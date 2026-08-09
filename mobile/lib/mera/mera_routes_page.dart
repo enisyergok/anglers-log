@@ -27,6 +27,21 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
     final fmt = DateFormat('d MMM yyyy', 'tr');
     return MeraPageScaffold(
       title: 'Rotalarım',
+      actions: [
+        IconButton(
+          tooltip: 'Yeni rota',
+          icon: const Icon(Icons.add_circle_outline, color: MeraColors.green),
+          onPressed: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'Yeni rota: Ana Sayfa → sol menüden Rotalar ile A–B çizin',
+                ),
+              ),
+            );
+          },
+        ),
+      ],
       body: StreamBuilder(
         stream: MeraRouteManager.get.stream,
         builder: (context, _) {

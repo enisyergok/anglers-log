@@ -65,7 +65,7 @@ class _MeraWeatherPageState extends State<MeraWeatherPage> {
     }
 
     return _WeatherBundle(
-      place: loc == null ? 'İstanbul' : 'Mevcut konum',
+      place: loc == null ? 'İstanbul, Türkiye' : 'Mevcut konum',
       tempC: (current?['temperature_2m'] as num?)?.toDouble(),
       humidity: (current?['relative_humidity_2m'] as num?)?.toDouble(),
       windKmh:

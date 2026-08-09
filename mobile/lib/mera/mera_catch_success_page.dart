@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/wrappers/share_plus_wrapper.dart';
 
-/// Mockup screen 04 — Kayıt başarılı.
+/// Mockup 04 — Başarı ekranı.
 class MeraCatchSuccessPage extends StatelessWidget {
   final String speciesName;
   final double lengthCm;
@@ -27,6 +28,9 @@ class MeraCatchSuccessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final when = DateTime.fromMillisecondsSinceEpoch(timestampMs);
     final whenLabel = DateFormat('d MMM yyyy · HH:mm', 'tr').format(when);
+    final gps = (lat != null && lng != null)
+        ? '${lat!.toStringAsFixed(5)}, ${lng!.toStringAsFixed(5)}'
+        : '—';
 
     return Scaffold(
       backgroundColor: MeraColors.bg,
@@ -36,32 +40,26 @@ class MeraCatchSuccessPage extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(),
-              Container(
-                width: 96,
-                height: 96,
-                decoration: const BoxDecoration(
-                  color: MeraColors.green,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.check, size: 56, color: Colors.white),
-              ),
-              const SizedBox(height: 20),
-              const Text(
+              const MeraGlowCheck(),
+              const SizedBox(height: 18),
+              Text(
                 'Başarıyla kaydedildi!',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 22),
               MeraCard(
                 child: Row(
                   children: [
-                    Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        color: MeraColors.surface,
-                        borderRadius: BorderRadius.circular(12),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: SizedBox(
+                        width: 72,
+                        height: 72,
+                        child: MeraFishHero(label: '', height: 72),
                       ),
-                      child: const Icon(Icons.set_meal, color: MeraColors.blue),
                     ),
                     const SizedBox(width: 14),
                     Expanded(
@@ -70,23 +68,31 @@ class MeraCatchSuccessPage extends StatelessWidget {
                         children: [
                           Text(
                             speciesName,
-                            style: const TextStyle(
-                              fontSize: 18,
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: 17,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${lengthCm.toStringAsFixed(0)} cm · ${weightKg.toStringAsFixed(1)} kg',
-                            style: const TextStyle(
+                            '${weightKg.toStringAsFixed(1)} kg · ${lengthCm.toStringAsFixed(0)} cm',
+                            style: GoogleFonts.plusJakartaSans(
                               color: MeraColors.textSecondary,
+                              fontSize: 13,
                             ),
                           ),
                           Text(
                             whenLabel,
-                            style: const TextStyle(
+                            style: GoogleFonts.plusJakartaSans(
                               color: MeraColors.textMuted,
                               fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            gps,
+                            style: GoogleFonts.plusJakartaSans(
+                              color: MeraColors.textMuted,
+                              fontSize: 11,
                             ),
                           ),
                         ],
@@ -98,14 +104,12 @@ class MeraCatchSuccessPage extends StatelessWidget {
               const Spacer(),
               MeraOutlineButton(
                 label: 'Paylaş',
+                icon: Icons.ios_share,
                 onPressed: () {
-                  final gps = (lat != null && lng != null)
-                      ? '\nGPS: ${lat!.toStringAsFixed(5)}, ${lng!.toStringAsFixed(5)}'
-                      : '';
                   SharePlusWrapper.of(context).share(
                     'Mera Asistanı — $speciesName\n'
                     '${lengthCm.toStringAsFixed(0)} cm · ${weightKg.toStringAsFixed(1)} kg\n'
-                    '$whenLabel$gps',
+                    '$whenLabel\n$gps',
                     null,
                   );
                 },
@@ -114,17 +118,19 @@ class MeraCatchSuccessPage extends StatelessWidget {
               MeraPrimaryButton(
                 label: 'Haritaya Dön',
                 color: MeraColors.blue,
-                onPressed: () {
-                  Navigator.of(context).popUntil((r) => r.isFirst);
-                },
+                onPressed: () =>
+                    Navigator.of(context).popUntil((r) => r.isFirst),
               ),
-              const SizedBox(height: 10),
-              MeraOutlineButton(
-                label: 'Yakalamalarım',
-                onPressed: () {
-                  Navigator.of(context).popUntil((r) => r.isFirst);
-                  // Parent IndexedStack switch is handled by user via tab.
-                },
+              TextButton(
+                onPressed: () =>
+                    Navigator.of(context).popUntil((r) => r.isFirst),
+                child: Text(
+                  'Yakalamalarım',
+                  style: GoogleFonts.plusJakartaSans(
+                    color: MeraColors.textSecondary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ],
           ),

@@ -15,6 +15,7 @@ import 'package:mobile/mera/mera_routes_page.dart';
 import 'package:mobile/mera/mera_settings_page.dart';
 import 'package:mobile/mera/mera_stats_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
+import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/notification_manager.dart';
 import 'package:mobile/trip_manager.dart';
 import 'package:mobile/widgets/fishing_spot_map.dart';
@@ -182,35 +183,19 @@ class MainPageState extends State<MainPage> {
           index: _currentBarItem,
           children: _navItems.map((data) => data.page!).toList(),
         ),
-        bottomNavigationBar: Container(
-          decoration: const BoxDecoration(
-            color: MeraColors.bgElevated,
-            border: Border(top: BorderSide(color: MeraColors.cardBorder)),
-          ),
-          child: SafeArea(
-            child: BottomNavigationBar(
-              backgroundColor: MeraColors.bgElevated,
-              selectedItemColor: MeraColors.green,
-              unselectedItemColor: MeraColors.textMuted,
-              currentIndex: _currentBarItem,
-              type: BottomNavigationBarType.fixed,
-              items: [
-                for (final data in _navItems)
-                  BottomNavigationBarItem(
-                    icon: Icon(data.icon),
-                    activeIcon: Icon(data.activeIcon),
-                    label: data.title,
-                  ),
-              ],
-              onTap: (index) {
-                if (_currentBarItem == index) {
-                  _currentNavState.popUntil((r) => r.isFirst);
-                } else {
-                  setState(() => _currentBarItem = index);
-                }
-              },
-            ),
-          ),
+        bottomNavigationBar: MeraBottomBar(
+          index: _currentBarItem,
+          onTap: (index) {
+            if (_currentBarItem == index) {
+              _currentNavState.popUntil((r) => r.isFirst);
+            } else {
+              setState(() => _currentBarItem = index);
+            }
+          },
+          items: [
+            for (final data in _navItems)
+              (icon: data.icon, active: data.activeIcon, label: data.title),
+          ],
         ),
       ),
     );

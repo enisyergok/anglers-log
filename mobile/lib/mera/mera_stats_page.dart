@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/catch_manager.dart';
@@ -35,19 +33,23 @@ class _MeraStatsPageState extends State<MeraStatsPage> {
           var totalLength = 0.0;
           var lengthCount = 0;
           double? biggest;
+          String? biggestSpecies;
           final bySpecies = <String, int>{};
 
           for (final c in catches) {
             if (c.hasWeight()) {
               totalWeight += c.weight.mainValue.value;
             }
+            final name = speciesMgr.entity(c.speciesId)?.name ?? 'Diğer';
             if (c.hasLength()) {
               final L = c.length.mainValue.value;
               totalLength += L;
               lengthCount++;
-              biggest = biggest == null ? L : math.max(biggest, L);
+              if (biggest == null || L > biggest) {
+                biggest = L;
+                biggestSpecies = name;
+              }
             }
-            final name = speciesMgr.entity(c.speciesId)?.name ?? 'Diğer';
             bySpecies[name] = (bySpecies[name] ?? 0) + 1;
           }
 
@@ -74,21 +76,28 @@ class _MeraStatsPageState extends State<MeraStatsPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio: 1.35,
+                childAspectRatio: 1.28,
                 children: [
-                  _statCard('Toplam Av', '${catches.length}', Icons.set_meal),
+                  _statCard(
+                    'Toplam Yakalama',
+                    '${catches.length}',
+                    Icons.set_meal,
+                  ),
                   _statCard(
                     'Toplam Ağırlık',
                     '${totalWeight.toStringAsFixed(1)} kg',
                     Icons.scale,
                   ),
                   _statCard(
-                    'En Büyük',
-                    biggest == null ? '—' : '${biggest.toStringAsFixed(0)} cm',
+                    'En Büyük Balık',
+                    biggest == null
+                        ? '—'
+                        : '${biggestSpecies ?? ''} ${biggest.toStringAsFixed(0)}cm'
+                            .trim(),
                     Icons.emoji_events_outlined,
                   ),
                   _statCard(
-                    'Ort. Boy',
+                    'Ortalama Boy',
                     '${avgLen.toStringAsFixed(0)} cm',
                     Icons.straighten,
                   ),

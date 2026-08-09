@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/mera/mera_no_catch_manager.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 
-/// Mockup screen 06 — Bildirim başarılı.
+/// Mockup 06 — Bildirim başarılı.
 class MeraReportSuccessPage extends StatelessWidget {
   final MeraNoCatchReport report;
 
@@ -26,31 +27,33 @@ class MeraReportSuccessPage extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(),
-              Container(
-                width: 96,
-                height: 96,
-                decoration: const BoxDecoration(
-                  color: MeraColors.blue,
-                  shape: BoxShape.circle,
+              const MeraGlowCheck(),
+              const SizedBox(height: 18),
+              Text(
+                'Teşekkürler!',
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
                 ),
-                child: const Icon(Icons.check, size: 56, color: Colors.white),
               ),
-              const SizedBox(height: 20),
-              const Text(
-                'Bildirim kaydedildi',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+              const SizedBox(height: 6),
+              Text(
+                'Bildiriminiz kaydedildi.',
+                style: GoogleFonts.plusJakartaSans(
+                  color: MeraColors.textSecondary,
+                ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 22),
               MeraCard(
                 child: Column(
                   children: [
-                    _row('Durum', 'Balık alınmadı'),
-                    const SizedBox(height: 10),
+                    _row('Durum', 'Balık Alınmadı'),
+                    const SizedBox(height: 12),
                     _row('Zaman', whenLabel),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 12),
                     _row('Konum', gps),
                     if (report.note != null && report.note!.isNotEmpty) ...[
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 12),
                       _row('Not', report.note!),
                     ],
                   ],
@@ -62,6 +65,17 @@ class MeraReportSuccessPage extends StatelessWidget {
                 color: MeraColors.blue,
                 onPressed: () =>
                     Navigator.of(context).popUntil((r) => r.isFirst),
+              ),
+              TextButton(
+                onPressed: () =>
+                    Navigator.of(context).popUntil((r) => r.isFirst),
+                child: Text(
+                  'Kayıtlarım',
+                  style: GoogleFonts.plusJakartaSans(
+                    color: MeraColors.textSecondary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ],
           ),
@@ -78,11 +92,17 @@ class MeraReportSuccessPage extends StatelessWidget {
           width: 72,
           child: Text(
             k,
-            style: const TextStyle(color: MeraColors.textSecondary),
+            style: GoogleFonts.plusJakartaSans(
+              color: MeraColors.textSecondary,
+              fontSize: 13,
+            ),
           ),
         ),
         Expanded(
-          child: Text(v, style: const TextStyle(fontWeight: FontWeight.w600)),
+          child: Text(
+            v,
+            style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700),
+          ),
         ),
       ],
     );

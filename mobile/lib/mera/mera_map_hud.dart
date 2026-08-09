@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:adair_flutter_lib/utils/page.dart';
 import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/location_monitor.dart';
 import 'package:mobile/map/map_region_manager.dart';
 import 'package:mobile/mera/mera_balik_aldim_sheet.dart';
+import 'package:mobile/mera/mera_no_catch_sheet.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_weather_page.dart';
@@ -77,7 +80,26 @@ class _MeraMapHudState extends State<MeraMapHud> {
     if (pos == null) return;
     try {
       final t = await MarineTelemetry.fetch(pos.lat, pos.lng);
-      if (mounted) setState(() => _telemetry = t);
+      // Air temp for top weather chip (mockup shows air °C).
+      double? air;
+      try {
+        final uri = Uri.https('api.open-meteo.com', '/v1/forecast', {
+          'latitude': pos.lat.toString(),
+          'longitude': pos.lng.toString(),
+          'current': 'temperature_2m',
+        });
+        final res = await http.get(uri);
+        if (res.statusCode == 200) {
+          final json = jsonDecode(res.body) as Map<String, dynamic>;
+          air = (json['current']?['temperature_2m'] as num?)?.toDouble();
+        }
+      } catch (_) {}
+      if (mounted) {
+        setState(() {
+          _telemetry = t;
+          _airTempC = air;
+        });
+      }
     } catch (_) {}
   }
 
@@ -176,10 +198,10 @@ class _MeraMapHudState extends State<MeraMapHud> {
                             Text(
                               [
                                 if (wind != null)
-                                  '${wind.toStringAsFixed(0)}km/s',
+                                  '${wind.toStringAsFixed(0)}km',
                                 if (wave != null)
                                   '${wave.toStringAsFixed(1)}m',
-                              ].join(' · '),
+                              ].join(' '),
                               style: const TextStyle(
                                 color: MeraColors.textSecondary,
                                 fontSize: 11,
@@ -281,11 +303,28 @@ class _MeraMapHudState extends State<MeraMapHud> {
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: MeraPrimaryButton(
-                label: 'BALIK ALDIM',
-                icon: Icons.set_meal,
-                onPressed: () => showMeraBalikAldimSheet(context),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  MeraPrimaryButton(
+                    label: 'BALIK ALDIM',
+                    icon: Icons.set_meal,
+                    height: 56,
+                    onPressed: () => showMeraBalikAldimSheet(context),
+                  ),
+                  TextButton(
+                    onPressed: () => showMeraNoCatchSheet(context),
+                    child: const Text(
+                      'Balık almadım',
+                      style: TextStyle(
+                        color: MeraColors.textSecondary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
