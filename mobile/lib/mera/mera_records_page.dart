@@ -5,6 +5,7 @@ import 'package:mobile/fishing_spot_manager.dart';
 import 'package:mobile/mera/mera_no_catch_manager.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
+import 'package:mobile/mera/siren_fish_art.dart';
 import 'package:mobile/species_manager.dart';
 
 /// Mockup screen 07 — Kayıtlarım.
@@ -29,7 +30,7 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
   @override
   Widget build(BuildContext context) {
     return MeraPageScaffold(
-      title: 'Kayıtlarım',
+      title: 'Yakalamalarım',
       body: Column(
         children: [
           Padding(
@@ -89,10 +90,10 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: selected ? MeraColors.green : MeraColors.card,
-            borderRadius: BorderRadius.circular(12),
+            color: selected ? const Color(0xFF183E51) : const Color(0xFF102C3A),
+            borderRadius: BorderRadius.circular(MeraRadii.md),
             border: Border.all(
-              color: selected ? MeraColors.green : MeraColors.cardBorder,
+              color: selected ? MeraColors.blue : MeraColors.cardBorder,
             ),
           ),
           child: Text(
@@ -100,8 +101,8 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: selected ? Colors.white : MeraColors.textSecondary,
+              fontWeight: FontWeight.w600,
+              color: selected ? MeraColors.textPrimary : MeraColors.textSecondary,
             ),
           ),
         ),
@@ -135,13 +136,17 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
               child: Row(
                 children: [
                   Container(
-                    width: 52,
-                    height: 52,
+                    width: 56,
+                    height: 40,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: MeraColors.surface,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(MeraRadii.sm),
                     ),
-                    child: const Icon(Icons.set_meal, color: MeraColors.green),
+                    child: SirenFishArt.image(
+                      speciesName: species?.name,
+                      height: 28,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(

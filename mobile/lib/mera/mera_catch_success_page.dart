@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile/mera/mera_shell.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
+import 'package:mobile/mera/siren_fish_art.dart';
 import 'package:mobile/wrappers/share_plus_wrapper.dart';
 
 /// Mockup 04 — Başarı ekranı.
@@ -54,12 +55,12 @@ class MeraCatchSuccessPage extends StatelessWidget {
               MeraCard(
                 child: Row(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: SizedBox(
-                        width: 72,
-                        height: 72,
-                        child: MeraFishHero(label: '', height: 72),
+                    SizedBox(
+                      width: 72,
+                      height: 48,
+                      child: SirenFishArt.image(
+                        speciesName: speciesName,
+                        height: 48,
                       ),
                     ),
                     const SizedBox(width: 14),
@@ -71,7 +72,7 @@ class MeraCatchSuccessPage extends StatelessWidget {
                             speciesName,
                             style: GoogleFonts.inter(
                               fontSize: 17,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           const SizedBox(height: 4),
