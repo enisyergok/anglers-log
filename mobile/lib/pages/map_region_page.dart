@@ -34,9 +34,10 @@ class MapRegionPage extends StatelessWidget {
             const Padding(
               padding: insetsDefault,
               child: Text(
-                'Resmi seyir haritası değildir. Paketler EMODnet/GEBCO ve '
-                'OpenSeaMap verilerinden üretilir. İnternet yokken harita '
-                'için bir bölgeyi etkinleştirin.',
+                'Resmi seyir haritası değildir. Uzak MBTiles indirme şu an '
+                'yok — paketleri scripts/map-data ile üretip «Dosyadan aktar» '
+                'ile yükleyin (EMODnet/GEBCO + OpenSeaMap). İnternet yokken '
+                'harita için bir bölgeyi etkinleştirin.',
               ),
             ),
             const MinDivider(),

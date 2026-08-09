@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:adair_flutter_lib/widgets/async_builder.dart';
@@ -12,6 +13,9 @@ import 'package:mobile/map/map_region_manager.dart';
 import 'package:mobile/map/mbtiles_tile_provider.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_theme.dart';
+import 'package:mobile/mera/mera_track_manager.dart';
+import 'package:mobile/navigation/depth_sampler.dart';
+import 'package:mobile/navigation/mera_manager.dart';
 import 'package:mobile/user_preference_manager.dart';
 
 import '../model/gen/anglers_log.pb.dart';
@@ -68,6 +72,7 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
   MbtilesTileProvider? _mbtilesProvider;
   String? _mbtilesPath;
   Future<MbtilesTileProvider>? _mbtilesFuture;
+  StreamSubscription? _trackSub;
 
   LocationMonitor get _locationMonitor => LocationMonitor.of(context);
   MeraMapInteraction get _interaction => MeraMapInteraction.instance;
@@ -79,6 +84,10 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
     _fmController = fm.MapController();
     _controller = FlutterMapController(_fmController);
     _interaction.addListener(_onInteractionChanged);
+    MeraTrackManager.get.ensureLoaded();
+    _trackSub = MeraTrackManager.get.stream.listen((_) {
+      if (mounted) setState(() {});
+    });
   }
 
   void _onInteractionChanged() {
@@ -87,11 +96,112 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
 
   @override
   void dispose() {
+    _trackSub?.cancel();
     _interaction.removeListener(_onInteractionChanged);
     _mbtilesProvider?.close();
     _controller.dispose();
     _fmController.dispose();
     super.dispose();
+  }
+
+  Future<void> _showDepthProbe(BuildContext context, ll.LatLng point) async {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: MeraColors.card,
+      builder: (ctx) {
+        return FutureBuilder<double?>(
+          future: DepthSampler.sampleMeters(
+            lat: point.latitude,
+            lng: point.longitude,
+          ),
+          builder: (context, snap) {
+            final waiting = snap.connectionState != ConnectionState.done;
+            final depth = snap.data;
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Nokta derinliği',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      '${point.latitude.toStringAsFixed(5)}, '
+                      '${point.longitude.toStringAsFixed(5)}',
+                      style: const TextStyle(
+                        color: MeraColors.textSecondary,
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    if (waiting)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                    else if (depth != null)
+                      Text(
+                        '≈ ${depth.toStringAsFixed(1)} m (EMODnet, yaklaşık)',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: MeraColors.blue,
+                        ),
+                      )
+                    else
+                      const Text(
+                        'Derinlik alınamadı — çevrimdışı veya nokta karada olabilir.',
+                        style: TextStyle(color: MeraColors.textSecondary),
+                      ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Resmi seyir derinliği değildir.',
+                      style: TextStyle(
+                        color: MeraColors.textMuted,
+                        fontSize: 11,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    Row(
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx),
+                          child: const Text('Kapat'),
+                        ),
+                        const Spacer(),
+                        FilledButton.icon(
+                          onPressed: () async {
+                            await MeraManager.get.add(
+                              lat: point.latitude,
+                              lng: point.longitude,
+                              depthM: depth,
+                              note: 'Harita pini',
+                            );
+                            if (ctx.mounted) Navigator.pop(ctx);
+                            if (context.mounted) {
+                              showSuccessSnackBar(context, 'İşaret eklendi');
+                            }
+                          },
+                          icon: const Icon(Icons.push_pin),
+                          label: const Text('İşaret ekle'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -174,6 +284,9 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
         final marine = baseUrl == MapType.ocean.url;
         final retina = MediaQuery.devicePixelRatioOf(context) > 1.5;
         final routePts = _interaction.routePoints;
+        final trackPts = MeraTrackManager.get.livePoints
+            .map((p) => ll.LatLng(p.lat, p.lng))
+            .toList();
 
         Widget xyz(String url, {int maxNativeZoom = 18}) {
           return fm.TileLayer(
@@ -273,6 +386,16 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
                 ),
               ],
             ),
+          if (trackPts.length >= 2)
+            fm.PolylineLayer(
+              polylines: [
+                fm.Polyline(
+                  points: trackPts,
+                  strokeWidth: 3.5,
+                  color: const Color(0xFFE8A838),
+                ),
+              ],
+            ),
           fm.MarkerLayer(
             markers: [
               ..._controller.markers,
@@ -283,40 +406,68 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
             _MyLocationLayer(locationMonitor: _locationMonitor),
         ];
 
-        return fm.FlutterMap(
-          mapController: _fmController,
-          options: fm.MapOptions(
-            initialCenter: ll.LatLng(start.lat, start.lng),
-            initialZoom:
-                start.lat == 0 ? 0 : widget.startZoom ?? mapZoomDefault,
-            onMapReady: _onMapReady,
-            onTap: (_, point) async {
-              if (_interaction.routeMode || _interaction.pinMode) {
-                final wasPin = _interaction.pinMode;
-                await _interaction.handleMapTap(point);
-                if (wasPin && mounted) {
-                  showSuccessSnackBar(context, 'İşaret eklendi');
-                }
-              }
-            },
-            onLongPress: (_, point) async {
-              if (_interaction.routeMode) return;
-              await _interaction.handleMapLongPress(point);
-              if (mounted) {
-                showSuccessSnackBar(context, 'İşaret eklendi');
-              }
-            },
-            onMapEvent: (event) {
-              _controller.handleMapEvent(event);
-              if (event is fm.MapEventMove) {
-                widget.onCameraChangeListener?.call(event.camera);
-              }
-              if (event is fm.MapEventMoveEnd) {
-                widget.onMapIdle?.call();
-              }
-            },
-          ),
-          children: children,
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            fm.FlutterMap(
+              mapController: _fmController,
+              options: fm.MapOptions(
+                initialCenter: ll.LatLng(start.lat, start.lng),
+                initialZoom:
+                    start.lat == 0 ? 0 : widget.startZoom ?? mapZoomDefault,
+                onMapReady: _onMapReady,
+                onTap: (_, point) async {
+                  if (_interaction.routeMode || _interaction.pinMode) {
+                    final wasPin = _interaction.pinMode;
+                    await _interaction.handleMapTap(point);
+                    if (wasPin && mounted) {
+                      showSuccessSnackBar(context, 'İşaret eklendi');
+                    }
+                  }
+                },
+                onLongPress: (_, point) async {
+                  if (_interaction.routeMode) return;
+                  if (_interaction.pinMode) {
+                    await _interaction.handleMapLongPress(point);
+                    if (mounted) {
+                      showSuccessSnackBar(context, 'İşaret eklendi');
+                    }
+                    return;
+                  }
+                  await _showDepthProbe(context, point);
+                },
+                onMapEvent: (event) {
+                  _controller.handleMapEvent(event);
+                  if (event is fm.MapEventMove) {
+                    widget.onCameraChangeListener?.call(event.camera);
+                  }
+                  if (event is fm.MapEventMoveEnd) {
+                    widget.onMapIdle?.call();
+                  }
+                },
+              ),
+              children: children,
+            ),
+            const Positioned(
+              left: 8,
+              right: 8,
+              bottom: 6,
+              child: IgnorePointer(
+                child: Text(
+                  'Resmi seyir haritası değildir',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xB3FFFFFF),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    shadows: [
+                      Shadow(color: Color(0x99000000), blurRadius: 4),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );

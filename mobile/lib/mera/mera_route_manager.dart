@@ -112,6 +112,10 @@ class MeraRouteManager {
   @visibleForTesting
   static void reset() => _instance = MeraRouteManager._();
 
+  /// When true, empty first load shows in-memory demo routes (not persisted).
+  @visibleForTesting
+  static var debugSeedDemoRoutes = false;
+
   MeraRouteManager._();
 
   final _controller = StreamController<void>.broadcast();
@@ -141,16 +145,13 @@ class MeraRouteManager {
           } catch (_) {}
         }
         _routes = parsed;
-        // File exists (even if empty) → do NOT re-seed demos.
       } else {
-        _routes = _seedDemoRoutes();
-        await _persist();
+        // Honest empty start — never seed Bodrum/Moda demos as user data.
+        // Opt-in only via debug flag (in-memory; not persisted).
+        _routes = debugSeedDemoRoutes ? _seedDemoRoutes() : [];
       }
     } catch (_) {
-      _routes = _seedDemoRoutes();
-      try {
-        await _persist();
-      } catch (_) {}
+      _routes = debugSeedDemoRoutes ? _seedDemoRoutes() : [];
     }
     _loaded = true;
   }

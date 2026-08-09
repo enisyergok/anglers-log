@@ -99,11 +99,11 @@ void main() {
       expect(json.contains('Polygon'), isTrue);
     });
 
-    test('forRegion only returns polygons for marmara', () {
-      expect(ShallowPolygonCatalog.forRegion('marmara'), isNotEmpty);
+    test('forRegion returns empty until real shallow packages ship', () {
+      expect(ShallowPolygonCatalog.forRegion('marmara'), isEmpty);
       expect(ShallowPolygonCatalog.forRegion('ege'), isEmpty);
       expect(ShallowPolygonCatalog.forRegion(null), isEmpty);
-      expect(ShallowPolygonCatalog.forRegion(''), isEmpty);
+      expect(ShallowPolygonCatalog.marmaraDemoLegacy, isNotEmpty);
     });
   });
 }

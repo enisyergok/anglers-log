@@ -2,7 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
 
 void main() {
-  test('MeraRoute distance and ETA for Bodrum-Yalıkavak seed', () {
+  tearDown(() {
+    MeraRouteManager.debugSeedDemoRoutes = false;
+    MeraRouteManager.reset();
+  });
+
+  test('MeraRoute distance and ETA for sample geometry', () {
     const route = MeraRoute(
       id: 't',
       name: 'test',
@@ -27,5 +32,9 @@ void main() {
     );
     expect(route.distanceMeters, 0);
     expect(route.estimatedAt7kn, Duration.zero);
+  });
+
+  test('debugSeedDemoRoutes defaults off (no auto-seed as user data)', () {
+    expect(MeraRouteManager.debugSeedDemoRoutes, isFalse);
   });
 }

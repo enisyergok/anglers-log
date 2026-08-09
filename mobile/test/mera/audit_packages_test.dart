@@ -69,11 +69,12 @@ void main() {
       expect(tide.rawScore, greaterThan(50));
     });
 
-    test('shallow polygons only for marmara', () {
-      expect(ShallowPolygonCatalog.forRegion('marmara'), isNotEmpty);
+    test('shallow polygons empty until real packages ship', () {
+      expect(ShallowPolygonCatalog.forRegion('marmara'), isEmpty);
       expect(ShallowPolygonCatalog.forRegion('ege'), isEmpty);
       expect(ShallowPolygonCatalog.forRegion('akdeniz'), isEmpty);
       expect(ShallowPolygonCatalog.forRegion(null), isEmpty);
+      expect(ShallowPolygonCatalog.marmaraDemoLegacy, isNotEmpty);
     });
 
     test('LocationPoint exposes GPS speed in knots', () {

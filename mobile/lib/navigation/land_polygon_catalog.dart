@@ -15,11 +15,16 @@ class LandPolygonCatalog {
         gelibolu,
         marmaraAdasi,
         imrali,
+        buyukada,
+        heyeliada,
+        istanbulAsyaUc,
         bodrum,
         datca,
         cesmeKaraburun,
+        foca,
         bozcaada,
         sinop,
+        trabzonBurnu,
       ];
 
   /// Kapıdağ (Erdek) — classic Bandırma/Erdek land cut.
@@ -118,5 +123,53 @@ class LandPolygonCatalog {
     const LatLng(42.08, 35.22),
     const LatLng(42.00, 35.25),
     const LatLng(41.95, 35.15),
+  ];
+
+  /// Büyükada (Princes' Islands) — coarse.
+  static final List<LatLng> buyukada = [
+    const LatLng(40.845, 29.105),
+    const LatLng(40.870, 29.115),
+    const LatLng(40.880, 29.140),
+    const LatLng(40.860, 29.155),
+    const LatLng(40.840, 29.140),
+    const LatLng(40.838, 29.115),
+  ];
+
+  /// Heybeliada — coarse.
+  static final List<LatLng> heyeliada = [
+    const LatLng(40.870, 29.075),
+    const LatLng(40.885, 29.085),
+    const LatLng(40.885, 29.100),
+    const LatLng(40.870, 29.105),
+    const LatLng(40.862, 29.090),
+  ];
+
+  /// İstanbul Asian tip / Kadıköy–Maltepe coastal block (coarse, keeps
+  /// Marmara–Boğaz routes from cutting inland).
+  static final List<LatLng> istanbulAsyaUc = [
+    const LatLng(40.95, 29.02),
+    const LatLng(41.02, 29.05),
+    const LatLng(41.05, 29.15),
+    const LatLng(40.98, 29.20),
+    const LatLng(40.90, 29.15),
+    const LatLng(40.90, 29.05),
+  ];
+
+  /// Foça peninsula tip.
+  static final List<LatLng> foca = [
+    const LatLng(38.64, 26.72),
+    const LatLng(38.70, 26.74),
+    const LatLng(38.72, 26.82),
+    const LatLng(38.68, 26.88),
+    const LatLng(38.62, 26.82),
+  ];
+
+  /// Trabzon cape / coastal bulge.
+  static final List<LatLng> trabzonBurnu = [
+    const LatLng(41.00, 39.65),
+    const LatLng(41.05, 39.70),
+    const LatLng(41.05, 39.80),
+    const LatLng(41.00, 39.82),
+    const LatLng(40.97, 39.72),
   ];
 }

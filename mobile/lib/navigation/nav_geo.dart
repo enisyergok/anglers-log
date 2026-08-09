@@ -73,6 +73,14 @@ class NavGeo {
     return false;
   }
 
+  /// Cross-track error (meters). Positive = right of course A→B.
+  static double crossTrackErrorMeters(LatLng a, LatLng b, LatLng p) {
+    final d13 = haversineMeters(a, p) / _earthRadiusM;
+    final brng13 = _rad(bearingDegrees(a, p));
+    final brng12 = _rad(bearingDegrees(a, b));
+    return asin(sin(d13) * sin(brng13 - brng12)) * _earthRadiusM;
+  }
+
   static double _rad(double d) => d * pi / 180;
   static double _deg(double r) => r * 180 / pi;
 
@@ -139,11 +147,14 @@ class ShallowPolygonCatalog {
     ],
   ];
 
-  /// Demo shallows only for Marmara — other regions return empty (no false alarms).
+  /// Shallow warnings disabled until real EMODnet-derived polygons ship.
+  /// Demo Marmara boxes caused false alarms — honesty over fake safety.
   static List<List<LatLng>> forRegion(String? regionId) {
-    if (regionId == 'marmara') return marmaraDemo;
     return const [];
   }
+
+  /// Legacy demo polygons (tests / future GeoJSON packaging only).
+  static List<List<LatLng>> get marmaraDemoLegacy => marmaraDemo;
 
   static String toGeoJson(List<List<LatLng>> polygons) {
     final features = polygons

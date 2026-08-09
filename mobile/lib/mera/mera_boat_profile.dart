@@ -15,12 +15,17 @@ class MeraBoatProfile {
   final double fuelPercent;
   /// Cruise speed used for route ETA when NMEA SOG is unavailable.
   final double cruiseKnots;
+  /// When true, NMEA depth below [depthAlarmMeters] triggers a HUD alert.
+  final bool depthAlarmEnabled;
+  final double depthAlarmMeters;
 
   const MeraBoatProfile({
     this.captainName = 'Kaptan',
     this.boatName = 'Teknem',
     this.fuelPercent = 68,
     this.cruiseKnots = defaultCruiseKnots,
+    this.depthAlarmEnabled = false,
+    this.depthAlarmMeters = 3,
   });
 
   MeraBoatProfile copyWith({
@@ -28,12 +33,16 @@ class MeraBoatProfile {
     String? boatName,
     double? fuelPercent,
     double? cruiseKnots,
+    bool? depthAlarmEnabled,
+    double? depthAlarmMeters,
   }) {
     return MeraBoatProfile(
       captainName: captainName ?? this.captainName,
       boatName: boatName ?? this.boatName,
       fuelPercent: fuelPercent ?? this.fuelPercent,
       cruiseKnots: cruiseKnots ?? this.cruiseKnots,
+      depthAlarmEnabled: depthAlarmEnabled ?? this.depthAlarmEnabled,
+      depthAlarmMeters: depthAlarmMeters ?? this.depthAlarmMeters,
     );
   }
 
@@ -42,6 +51,8 @@ class MeraBoatProfile {
     'boatName': boatName,
     'fuelPercent': fuelPercent,
     'cruiseKnots': cruiseKnots,
+    'depthAlarmEnabled': depthAlarmEnabled,
+    'depthAlarmMeters': depthAlarmMeters,
   };
 
   factory MeraBoatProfile.fromJson(Map<String, dynamic> json) =>
@@ -57,6 +68,9 @@ class MeraBoatProfile {
         cruiseKnots: ((json['cruiseKnots'] as num?)?.toDouble() ??
                 defaultCruiseKnots)
             .clamp(0.5, 60),
+        depthAlarmEnabled: json['depthAlarmEnabled'] as bool? ?? false,
+        depthAlarmMeters: ((json['depthAlarmMeters'] as num?)?.toDouble() ?? 3)
+            .clamp(0.5, 100),
       );
 }
 

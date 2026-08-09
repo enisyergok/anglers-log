@@ -1,7 +1,13 @@
+import 'dart:io';
+
+import 'package:adair_flutter_lib/utils/snack_bar.dart';
+import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_route_detail_page.dart';
+import 'package:mobile/mera/mera_route_gpx.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
 import 'package:mobile/mera/mera_shell.dart';
 import 'package:mobile/mera/mera_theme.dart';
@@ -30,6 +36,11 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
     return MeraPageScaffold(
       title: 'Rotalarım',
       actions: [
+        IconButton(
+          tooltip: 'GPX içe aktar',
+          icon: const Icon(Icons.file_upload_outlined, color: MeraColors.blue),
+          onPressed: _importGpx,
+        ),
         IconButton(
           tooltip: 'Yeni rota',
           icon: const Icon(Icons.add_circle_outline, color: MeraColors.green),
@@ -212,6 +223,57 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
     );
     if (ok != true) return;
     await MeraRouteManager.get.rename(r.id, ctrl.text);
+  }
+
+  Future<void> _importGpx() async {
+    try {
+      final result = await FilePickerWrapper.get.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: const ['gpx', 'xml'],
+        allowMultiple: false,
+        withData: true,
+      );
+      if (result == null || result.files.isEmpty) return;
+      final bytes = result.files.single.bytes;
+      final path = result.files.single.path;
+      String gpx;
+      if (bytes != null) {
+        gpx = String.fromCharCodes(bytes);
+      } else if (path != null) {
+        gpx = await File(path).readAsString();
+      } else {
+        if (mounted) showErrorSnackBar(context, 'GPX okunamadı');
+        return;
+      }
+      final pts = MeraRouteGpx.parsePoints(gpx);
+      if (pts.length < 2) {
+        if (mounted) {
+          showErrorSnackBar(context, 'GPX içinde en az 2 nokta gerekli');
+        }
+        return;
+      }
+      final name = result.files.single.name.replaceAll(
+        RegExp(r'\.gpx$', caseSensitive: false),
+        '',
+      );
+      await MeraRouteManager.get.add(
+        name: name.isEmpty ? 'GPX rota' : name,
+        points: [
+          for (var i = 0; i < pts.length; i++)
+            MeraRoutePoint(
+              lat: pts[i].latitude,
+              lng: pts[i].longitude,
+              label: '${i + 1}',
+            ),
+        ],
+      );
+      if (mounted) {
+        showSuccessSnackBar(context, 'GPX içe aktarıldı (${pts.length} nokta)');
+        setState(() {});
+      }
+    } catch (e) {
+      if (mounted) showErrorSnackBar(context, e.toString());
+    }
   }
 }
 

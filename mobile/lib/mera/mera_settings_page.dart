@@ -59,7 +59,7 @@ class _MeraSettingsPageState extends State<MeraSettingsPage> {
                   context,
                   Icons.workspace_premium_outlined,
                   'Abonelik',
-                  'Pro açık — tüm özellikler',
+                  'Mağaza aboneliği yok; özellik kilitleri kapalı',
                   () => _showSubscription(context),
                 ),
               ],

@@ -19,6 +19,7 @@ import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_weather_page.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/mera/place_search.dart';
+import 'package:mobile/mera/mera_track_manager.dart';
 import 'package:mobile/navigation/mera_manager.dart';
 import 'package:mobile/navigation/marine_telemetry.dart';
 import 'package:mobile/navigation/nav_geo.dart';
@@ -45,10 +46,12 @@ class _MeraMapHudState extends State<MeraMapHud> {
   double? _airTempC;
   StreamSubscription? _locSub;
   StreamSubscription? _nmeaSub;
+  StreamSubscription? _trackSub;
   Timer? _telemetryTimer;
   final _search = TextEditingController();
   final _searchFocus = FocusNode();
   var _searching = false;
+  DateTime? _lastDepthAlarmAt;
 
   LocationMonitor get _location => LocationMonitor.of(context);
   MeraMapInteraction get _mapIx => MeraMapInteraction.instance;
@@ -59,6 +62,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
     _mapIx.addListener(_onMapIx);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       MeraBoatProfileManager.get.ensureLoaded();
+      MeraTrackManager.get.ensureLoaded();
       _refreshTelemetry();
       _telemetryTimer = Timer.periodic(
         const Duration(minutes: 10),
@@ -68,9 +72,14 @@ class _MeraMapHudState extends State<MeraMapHud> {
         _mapIx.updateNavigationPosition(
           ll.LatLng(point.latLng.lat, point.latLng.lng),
         );
+        _appendTrackIfRecording(point);
         if (mounted) setState(() {});
       });
       _nmeaSub = NmeaUdpListener.get.stream.listen((_) {
+        _checkDepthAlarm();
+        if (mounted) setState(() {});
+      });
+      _trackSub = MeraTrackManager.get.stream.listen((_) {
         if (mounted) setState(() {});
       });
     });
@@ -101,10 +110,63 @@ class _MeraMapHudState extends State<MeraMapHud> {
     _mapIx.removeListener(_onMapIx);
     _locSub?.cancel();
     _nmeaSub?.cancel();
+    _trackSub?.cancel();
     _telemetryTimer?.cancel();
     _search.dispose();
     _searchFocus.dispose();
     super.dispose();
+  }
+
+  Future<void> _appendTrackIfRecording(LocationPoint point) async {
+    if (!MeraTrackManager.get.isRecording) return;
+    final nmea = NmeaUdpListener.get.latest;
+    final sog = nmea?.sogKnots ?? point.speedKnots;
+    await MeraTrackManager.get.append(
+      lat: point.latLng.lat,
+      lng: point.latLng.lng,
+      depthM: nmea?.depthM,
+      sogKnots: sog,
+    );
+  }
+
+  void _checkDepthAlarm() {
+    final profile = MeraBoatProfileManager.get.profile;
+    if (!profile.depthAlarmEnabled) return;
+    final depth = NmeaUdpListener.get.latest?.depthM;
+    if (depth == null) return;
+    if (depth >= profile.depthAlarmMeters) return;
+    final now = DateTime.now();
+    if (_lastDepthAlarmAt != null &&
+        now.difference(_lastDepthAlarmAt!) < const Duration(seconds: 45)) {
+      return;
+    }
+    _lastDepthAlarmAt = now;
+    if (!mounted) return;
+    showErrorSnackBar(
+      context,
+      'Derinlik alarmı: ${depth.toStringAsFixed(1)} m '
+      '(eş ${(profile.depthAlarmMeters).toStringAsFixed(1)} m)',
+    );
+  }
+
+  Future<void> _toggleTrack() async {
+    final tm = MeraTrackManager.get;
+    await tm.ensureLoaded();
+    if (tm.isRecording) {
+      final done = await tm.stop();
+      if (!mounted) return;
+      showNoticeSnackBar(
+        context,
+        done == null
+            ? 'İz kaydı iptal (çok kısa)'
+            : 'İz kaydedildi · ${done.points.length} nokta',
+      );
+    } else {
+      await tm.start();
+      if (!mounted) return;
+      showSuccessSnackBar(context, 'İz kaydı başladı (NMEA derinlik dahil)');
+    }
+    if (mounted) setState(() {});
   }
 
   Future<void> _refreshTelemetry() async {
@@ -504,6 +566,17 @@ class _MeraMapHudState extends State<MeraMapHud> {
                       );
                     },
                   ),
+                  const SizedBox(height: 10),
+                  _sideBtn(
+                    MeraTrackManager.get.isRecording
+                        ? Icons.stop_circle_outlined
+                        : Icons.fiber_manual_record,
+                    MeraTrackManager.get.isRecording
+                        ? 'İz kaydını durdur'
+                        : 'İz kaydı başlat',
+                    active: MeraTrackManager.get.isRecording,
+                    onTap: _toggleTrack,
+                  ),
                 ],
               ),
             ),
@@ -727,6 +800,22 @@ class _MeraMapHudState extends State<MeraMapHud> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  const IgnorePointer(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 6),
+                      child: Text(
+                        'Resmi seyir haritası değildir',
+                        style: TextStyle(
+                          color: MeraColors.textMuted,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          shadows: [
+                            Shadow(color: Color(0x99000000), blurRadius: 3),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   MeraPrimaryButton(
                     label: 'BALIK ALDIM',
                     icon: Icons.set_meal,
@@ -844,11 +933,23 @@ class _MeraMapHudState extends State<MeraMapHud> {
     if (sog != null) {
       final hours = (dist / 1852) / sog;
       final mins = (hours * 60).round();
-      eta = mins < 60 ? '$mins dk' : '${mins ~/ 60} sa ${mins % 60} dk';
+      eta = mins >= 60
+          ? '${mins ~/ 60}sa ${mins % 60}dk'
+          : '$mins dk';
     } else if (cruise > 0) {
       final hours = (dist / 1852) / cruise;
       final mins = (hours * 60).round();
-      eta = '~$mins dk @ ${cruise.toStringAsFixed(1)} kn';
+      eta = '~$mins dk';
+    }
+    String xte = '';
+    final pts = _mapIx.navPoints;
+    final wi = _mapIx.navWaypointIndex;
+    if (pts.length >= 2 && wi > 0) {
+      final a = pts[wi - 1];
+      final b = pts[wi];
+      final err = NavGeo.crossTrackErrorMeters(a, b, here);
+      final side = err >= 0 ? 'sağ' : 'sol';
+      xte = ' · XTE ${err.abs().toStringAsFixed(0)} m $side';
     }
     final distLabel = dist < 1000
         ? '${dist.toStringAsFixed(0)} m'
@@ -856,8 +957,8 @@ class _MeraMapHudState extends State<MeraMapHud> {
     if (_mapIx.navArrived && dist < 80) {
       return 'WP rehberi · $name · Varış! · $distLabel';
     }
-    return 'WP rehberi · $name · WP $idx/$total\n'
-        '$distLabel · ${brg.toStringAsFixed(0)}° · $sogLabel · ETA $eta';
+    return 'WP $idx/$total · $distLabel · '
+        '${brg.toStringAsFixed(0)}° · $sogLabel · ETA $eta$xte';
   }
 
   Future<void> _showLayersSheet(BuildContext context) async {

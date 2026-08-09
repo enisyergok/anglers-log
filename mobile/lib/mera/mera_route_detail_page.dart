@@ -1,13 +1,21 @@
+import 'dart:io';
+
+import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/mera/mera_boat_profile.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
+import 'package:mobile/mera/mera_route_gpx.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
 import 'package:mobile/mera/mera_shell.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/utils/map_utils.dart';
+import 'package:mobile/wrappers/share_plus_wrapper.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 /// Mockup screen 11 — Rota detayı.
 class MeraRouteDetailPage extends StatefulWidget {
@@ -74,6 +82,11 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
       appBar: AppBar(
         title: Text(r.name),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.share_outlined),
+            tooltip: 'GPX paylaş',
+            onPressed: () => _exportGpx(context, r),
+          ),
           IconButton(
             icon: const Icon(Icons.edit_outlined),
             tooltip: 'Yeniden adlandır',
@@ -218,6 +231,22 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _exportGpx(BuildContext context, MeraRoute r) async {
+    try {
+      final gpx = MeraRouteGpx.export(r);
+      final dir = await getTemporaryDirectory();
+      final safe = r.name.replaceAll(RegExp(r'[^\w\-]+'), '_');
+      final path = p.join(dir.path, '$safe.gpx');
+      await File(path).writeAsString(gpx);
+      if (!context.mounted) return;
+      await SharePlusWrapper.of(context).shareFiles([XFile(path)], null);
+    } catch (e) {
+      if (context.mounted) {
+        showErrorSnackBar(context, 'GPX: $e');
+      }
+    }
   }
 
   Future<void> _rename(BuildContext context, MeraRoute r) async {

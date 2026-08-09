@@ -94,57 +94,86 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
     final cruise = TextEditingController(
       text: p.cruiseKnots.toStringAsFixed(1),
     );
+    final alarmDepth = TextEditingController(
+      text: p.depthAlarmMeters.toStringAsFixed(1),
+    );
+    var alarmOn = p.depthAlarmEnabled;
     final ok = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: MeraColors.card,
-        title: const Text('Tekne profili'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: captain,
-              decoration: const InputDecoration(labelText: 'Kaptan adı'),
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setLocal) => AlertDialog(
+          backgroundColor: MeraColors.card,
+          title: const Text('Tekne profili'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: captain,
+                  decoration: const InputDecoration(labelText: 'Kaptan adı'),
+                ),
+                TextField(
+                  controller: boat,
+                  decoration: const InputDecoration(labelText: 'Tekne adı'),
+                ),
+                TextField(
+                  controller: fuel,
+                  keyboardType: TextInputType.number,
+                  decoration:
+                      const InputDecoration(labelText: 'Yakıt % (manuel)'),
+                ),
+                TextField(
+                  controller: cruise,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  decoration: const InputDecoration(
+                    labelText: 'Seyir hızı (kn)',
+                  ),
+                ),
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Derinlik alarmı (NMEA)'),
+                  value: alarmOn,
+                  onChanged: (v) => setLocal(() => alarmOn = v),
+                ),
+                TextField(
+                  controller: alarmDepth,
+                  enabled: alarmOn,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  decoration: const InputDecoration(
+                    labelText: 'Alarm eşiği (m)',
+                  ),
+                ),
+              ],
             ),
-            TextField(
-              controller: boat,
-              decoration: const InputDecoration(labelText: 'Tekne adı'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('İptal'),
             ),
-            TextField(
-              controller: fuel,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Yakıt % (manuel)'),
-            ),
-            TextField(
-              controller: cruise,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(
-                labelText: 'Seyir hızı (kn)',
-              ),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('Kaydet'),
             ),
           ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('İptal'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Kaydet'),
-          ),
-        ],
       ),
     );
     if (ok != true) return;
     final fuelVal = double.tryParse(fuel.text.trim()) ?? p.fuelPercent;
     final cruiseVal = double.tryParse(cruise.text.trim()) ?? p.cruiseKnots;
+    final alarmVal =
+        double.tryParse(alarmDepth.text.trim()) ?? p.depthAlarmMeters;
     await MeraBoatProfileManager.get.save(
       p.copyWith(
         captainName: captain.text.trim().isEmpty ? 'Kaptan' : captain.text.trim(),
         boatName: boat.text.trim().isEmpty ? 'Teknem' : boat.text.trim(),
         fuelPercent: fuelVal.clamp(0, 100),
         cruiseKnots: cruiseVal.clamp(0.5, 60),
+        depthAlarmEnabled: alarmOn,
+        depthAlarmMeters: alarmVal.clamp(0.5, 100),
       ),
     );
   }
@@ -163,7 +192,9 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
     final speedSource = nmeaSog != null
         ? 'NMEA'
         : (gpsSog != null ? 'GPS' : null);
-    final gpsAcc = gpsLoc != null ? (nmeaOn ? 'NMEA' : 'GPS') : '—';
+    // Position always comes from phone GPS (NMEA has depth/SOG only).
+    final gpsAcc = gpsLoc != null ? 'GPS' : '—';
+    final nmeaDepth = nmea?.depthM;
     final fuelFrac = (profile.fuelPercent / 100).clamp(0.0, 1.0);
 
     return MeraPageScaffold(
@@ -231,7 +262,7 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Yakıt ${profile.fuelPercent.toStringAsFixed(0)}% · Manuel',
+                        'Yakıt ${profile.fuelPercent.toStringAsFixed(0)}% · Manuel giriş (canlı tank değil)',
                         style: const TextStyle(
                           color: MeraColors.textSecondary,
                           fontSize: 11,
@@ -274,7 +305,7 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                         ),
                       const SizedBox(height: 10),
                       const Text(
-                        'GPS',
+                        'Konum',
                         style: TextStyle(
                           color: MeraColors.textMuted,
                           fontSize: 11,
@@ -287,6 +318,39 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                           fontSize: 13,
                         ),
                       ),
+                      if (nmeaDepth != null) ...[
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Derinlik',
+                          style: TextStyle(
+                            color: MeraColors.textMuted,
+                            fontSize: 11,
+                          ),
+                        ),
+                        Text(
+                          '${nmeaDepth.toStringAsFixed(1)} m · NMEA',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ] else if (nmeaOn) ...[
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Derinlik / SOG',
+                          style: TextStyle(
+                            color: MeraColors.textMuted,
+                            fontSize: 11,
+                          ),
+                        ),
+                        const Text(
+                          'NMEA bekleniyor',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),

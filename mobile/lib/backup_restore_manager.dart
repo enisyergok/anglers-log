@@ -23,7 +23,12 @@ import 'package:share_plus/share_plus.dart';
 import 'app_manager.dart';
 import 'bait_manager.dart';
 import 'local_database_manager.dart';
+import 'mera/mera_boat_profile.dart';
+import 'mera/mera_catch_activity_store.dart';
+import 'mera/mera_no_catch_manager.dart';
+import 'mera/mera_route_manager.dart';
 import 'model/gen/anglers_log.pb.dart';
+import 'navigation/mera_manager.dart';
 
 enum BackupRestoreAuthState { signedOut, signedIn, error, networkError }
 
@@ -78,6 +83,17 @@ class BackupRestoreManager {
   static const _databaseName = "anglerslog.db";
   static const _imagesFolderName = "images";
   static const _backupFilePrefix = "anglerslog-backup";
+
+  /// Mera JSON files stored under app documents (see mera_* managers).
+  static const meraJsonFileNames = [
+    'mera_spots.json',
+    'mera_routes.json',
+    'mera_catch_activity.json',
+    'mera_no_catch.json',
+    'mera_boat_profile.json',
+    'mera_fish_env_cache.json',
+    'mera_tracks.json',
+  ];
 
   /// Rate limit how often automatic backups are made.
   static const _autoBackupInterval = Duration.millisecondsPerMinute * 5;
@@ -235,6 +251,17 @@ class BackupRestoreManager {
         );
       }
 
+      // Mera local JSON (spots, routes, catch activity, boat profile, etc.).
+      var docs = await PathProviderWrapper.get.appDocumentsPath;
+      for (var meraName in meraJsonFileNames) {
+        var meraFile = IoWrapper.get.file(join(docs, meraName));
+        if (!meraFile.existsSync()) {
+          continue;
+        }
+        var bytes = await meraFile.readAsBytes();
+        archive.addFile(ArchiveFile(meraName, bytes.length, bytes));
+      }
+
       var encoded = ZipEncoder().encode(archive);
       var tmpDir = await PathProviderWrapper.get.temporaryPath;
       var stamp = TimeManager.get.currentTimestamp;
@@ -310,13 +337,17 @@ class BackupRestoreManager {
 
       ArchiveFile? dbArchive;
       var imageArchives = <ArchiveFile>[];
+      var meraArchives = <ArchiveFile>[];
       for (var file in archive.files) {
         if (!file.isFile) {
           continue;
         }
         var name = file.name.replaceAll("\\", "/");
+        var base = basename(name);
         if (name == _databaseName || name.endsWith("/$_databaseName")) {
           dbArchive = file;
+        } else if (meraJsonFileNames.contains(base)) {
+          meraArchives.add(file);
         } else if (name.contains(ImageManager.imgExtension)) {
           imageArchives.add(file);
         }
@@ -369,6 +400,28 @@ class BackupRestoreManager {
             percentage: _percent(imagesDone, imageArchives.length),
           ),
         );
+      }
+
+      if (meraArchives.isNotEmpty) {
+        var docs = await PathProviderWrapper.get.appDocumentsPath;
+        for (var meraArchive in meraArchives) {
+          var fileName = basename(meraArchive.name);
+          if (!meraJsonFileNames.contains(fileName)) {
+            continue;
+          }
+          var out = IoWrapper.get.file(join(docs, fileName));
+          await out.parent.create(recursive: true);
+          await out.writeAsBytes(
+            Uint8List.fromList(meraArchive.content),
+            flush: true,
+          );
+        }
+        // Force in-memory managers to reload from restored files.
+        MeraManager.reset();
+        MeraRouteManager.reset();
+        MeraNoCatchManager.reset();
+        MeraBoatProfileManager.reset();
+        MeraCatchActivityStore.reset();
       }
 
       _notifyProgress(
