@@ -114,10 +114,7 @@ flutter:
     - assets/google-logo.svg
     - assets/mapbox-logo.svg
     - assets/sensitive.properties
-    - assets/fish/cipura.svg
-    - assets/fish/levrek.svg
-    - assets/fish/mercan.svg
-    - assets/fish/cipura.webp
+    - assets/fish/
 
     - packages/timezone/data/latest.tzf
 

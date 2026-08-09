@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/mera/turkish_sea_fish_catalog.dart';
 import 'package:mobile/named_entity_manager.dart';
 
 import 'app_manager.dart';
 import 'catch_manager.dart';
 import 'model/gen/anglers_log.pb.dart';
+import 'utils/protobuf_utils.dart';
 
 class SpeciesManager extends NamedEntityManager<Species> {
   static SpeciesManager of(BuildContext context) =>
@@ -22,6 +24,25 @@ class SpeciesManager extends NamedEntityManager<Species> {
 
   @override
   String get tableName => "species";
+
+  @override
+  Future<void> init() async {
+    await super.init();
+    await ensureTurkishSeaSpecies();
+  }
+
+  /// Seeds Akdeniz / Ege / Marmara / Karadeniz species once if missing.
+  Future<void> ensureTurkishSeaSpecies() async {
+    for (final fish in TurkishSeaFishCatalog.all) {
+      if (nameExists(fish.name)) continue;
+      await addOrUpdate(
+        Species()
+          ..id = randomId()
+          ..name = fish.name,
+        notify: false,
+      );
+    }
+  }
 
   @override
   Future<bool> delete(Id entityId, {bool notify = true}) async {

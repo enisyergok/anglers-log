@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/mera/mera_catch_detail_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
+import 'package:mobile/mera/siren_fish_art.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart';
 import 'package:mobile/species_manager.dart';
 
@@ -29,12 +30,18 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
   final _notes = TextEditingController();
   var _didInitSpecies = false;
 
+  List<Species> _sortedSpecies(BuildContext context) {
+    final list = List<Species>.from(SpeciesManager.of(context).list());
+    list.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    return list;
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_didInitSpecies) {
       _didInitSpecies = true;
-      final list = SpeciesManager.of(context).list();
+      final list = _sortedSpecies(context);
       if (list.isNotEmpty) _species = list.first;
     }
   }
@@ -47,7 +54,7 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final species = SpeciesManager.of(context).list();
+    final species = _sortedSpecies(context);
 
     return MeraModalShell(
       child: Column(
@@ -123,16 +130,35 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
                 ),
               ),
             )
-          else
+          else ...[
+            if (_species != null) ...[
+              SirenFishArt.image(speciesName: _species!.name, height: 56),
+              const SizedBox(height: 12),
+            ],
             DropdownButtonFormField<Species>(
               initialValue: _species,
+              isExpanded: true,
               decoration: const InputDecoration(labelText: 'Tür Seçin'),
               dropdownColor: MeraColors.surface,
               items: species
-                  .map((s) => DropdownMenuItem(value: s, child: Text(s.name)))
+                  .map(
+                    (s) => DropdownMenuItem(
+                      value: s,
+                      child: Row(
+                        children: [
+                          SirenFishArt.image(speciesName: s.name, height: 22),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(s.name, overflow: TextOverflow.ellipsis),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: (s) => setState(() => _species = s),
             ),
+          ],
           const SizedBox(height: 12),
           TextField(
             controller: _notes,
