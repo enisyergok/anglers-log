@@ -67,6 +67,10 @@ jobs:
         working-directory: ./mobile
         run: flutter pub get
 
+      - name: Unit tests (Mera)
+        working-directory: ./mobile
+        run: flutter test test/mera test/navigation
+
       - name: Build Release APK
         working-directory: ./mobile
         run: flutter build apk --release

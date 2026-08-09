@@ -17,6 +17,7 @@ import 'package:mobile/l10n/gen/localizations.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart';
 import 'package:mobile/pages/onboarding/change_log_page.dart';
 import 'package:mobile/res/gen/custom_icons.dart';
+import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/res/theme.dart';
 import 'package:mobile/trip_manager.dart';
 import 'package:mobile/utils/trip_utils.dart';
@@ -93,13 +94,12 @@ class AnglersLogState extends State<AnglersLog> {
     super.initState();
 
     AppConfig.get.init(
-      appName: () => "Balıkçı Günlüğü",
+      appName: () => "Mera Asistanı",
       companyName: () => "Cohen Adair",
       appIcon: CustomIcons.catches,
-      colorAppTheme: Colors.lightBlue,
-      colorAppBarContent: (isDark) => isDark ? Colors.white : Colors.black,
-      // TODO: #1018 - Will return null while on initial startup.
-      themeMode: () => UserPreferenceManager.get.themeMode,
+      colorAppTheme: Colors.green,
+      colorAppBarContent: (isDark) => Colors.white,
+      themeMode: () => ThemeMode.dark,
     );
 
     _userPreferenceSub = UserPreferenceManager.get.stream.listen((event) {
@@ -139,9 +139,9 @@ class AnglersLogState extends State<AnglersLog> {
             Root.get.buildContext = context;
             return AppConfig.get.appName();
           },
-          theme: themeLight(),
-          darkTheme: themeDark(context),
-          themeMode: AppConfig.get.themeMode(),
+          theme: meraTheme(),
+          darkTheme: meraTheme(),
+          themeMode: ThemeMode.dark,
           localizationsDelegates: const [
             SfLocalizationsOverrideDelegate(),
             AdairFlutterLibLocalizations.delegate,
