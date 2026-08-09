@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/catch_manager.dart';
+import 'package:mobile/mera/mera_catch_activity_store.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart';
@@ -20,12 +21,32 @@ class _MeraStatsPageState extends State<MeraStatsPage> {
   _Period _period = _Period.month;
 
   @override
+  void initState() {
+    super.initState();
+    MeraCatchActivityStore.get.ensureLoaded().then((_) {
+      if (mounted) setState(() {});
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MeraPageScaffold(
       title: 'İstatistikler',
       body: StreamBuilder(
         stream: CatchManager.get.stream,
         builder: (context, _) {
+          return StreamBuilder(
+            stream: MeraCatchActivityStore.get.stream,
+            builder: (context, __) {
+              return _body(context);
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _body(BuildContext context) {
           final catches = _filtered();
           final speciesMgr = SpeciesManager.of(context);
 
@@ -64,6 +85,8 @@ class _MeraStatsPageState extends State<MeraStatsPage> {
             MeraColors.green,
             MeraColors.danger,
           ];
+          final snapCount = MeraCatchActivityStore.get.count;
+          final avgScore = MeraCatchActivityStore.get.averageScore;
 
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
@@ -100,6 +123,16 @@ class _MeraStatsPageState extends State<MeraStatsPage> {
                     'Ortalama Boy',
                     '${avgLen.toStringAsFixed(0)} cm',
                     Icons.straighten,
+                  ),
+                  _statCard(
+                    'Aktivite Snapshot',
+                    '$snapCount',
+                    Icons.insights_outlined,
+                  ),
+                  _statCard(
+                    'Ort. Aktivite',
+                    avgScore == null ? '—' : avgScore.toStringAsFixed(0),
+                    Icons.speed,
                   ),
                 ],
               ),
@@ -172,9 +205,6 @@ class _MeraStatsPageState extends State<MeraStatsPage> {
               ),
             ],
           );
-        },
-      ),
-    );
   }
 
   Widget _periodSelector() {

@@ -133,7 +133,7 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
                 Text(
                   species.isEmpty
                       ? 'Önce bir balık türü ekleyin.'
-                      : 'Balık yakalamanız kaydedildi.',
+                      : 'Türü seçin, not ekleyin ve devam ederek kaydı tamamlayın.',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
                     fontSize: 6.6 * scale,

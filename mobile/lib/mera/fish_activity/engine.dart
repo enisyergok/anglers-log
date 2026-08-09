@@ -284,31 +284,62 @@ class FishActivityEngine {
       raw0to100: cloudScore,
     );
 
-    // --- Clarity / O2 / Tide — only if present ---
-    addFactor(
-      id: 'clarity',
-      name: 'Su Berraklığı',
-      valueLabel: env.clarityM != null
-          ? '${env.clarityM!.toStringAsFixed(1)} m'
-          : 'Veri yok',
-      weight: species.clarityWeight,
-      raw0to100: null,
+    // Clarity / O₂: not supported — shown for honesty, never weighted.
+    factors.add(
+      const ActivityFactor(
+        id: 'clarity',
+        name: 'Su Berraklığı',
+        valueLabel: 'Desteklenmiyor',
+        contribution: 0,
+        rawScore: 0,
+        available: false,
+        detail: 'Kaynak yok — skora dahil edilmez',
+      ),
     );
-    addFactor(
-      id: 'oxygen',
-      name: 'Çözünmüş Oksijen',
-      valueLabel: env.dissolvedOxygenMgL != null
-          ? '${env.dissolvedOxygenMgL!.toStringAsFixed(1)} mg/L'
-          : 'Veri yok',
-      weight: species.oxygenWeight,
-      raw0to100: null,
+    factors.add(
+      const ActivityFactor(
+        id: 'oxygen',
+        name: 'Çözünmüş Oksijen',
+        valueLabel: 'Desteklenmiyor',
+        contribution: 0,
+        rawScore: 0,
+        available: false,
+        detail: 'Kaynak yok — skora dahil edilmez',
+      ),
     );
+
+    // Tide — scored only when real tide data is present (Paket B wires fetcher).
+    double? tideScore;
+    String tideLabel = env.tidePhaseLabel ?? 'Veri yok';
+    if (env.tideHeightM != null || env.tidePhaseLabel != null) {
+      final h = env.tideHeightM;
+      if (h != null) {
+        tideLabel =
+            '${env.tidePhaseLabel ?? 'Gelgit'} · ${h.toStringAsFixed(2)} m';
+      }
+      final phase = (env.tidePhaseLabel ?? '').toLowerCase();
+      if (phase.contains('yüksel') ||
+          phase.contains('rising') ||
+          phase.contains('flood')) {
+        tideScore = 72;
+      } else if (phase.contains('alçal') ||
+          phase.contains('falling') ||
+          phase.contains('ebb')) {
+        tideScore = 62;
+      } else if (phase.contains('yüksek') || phase.contains('high')) {
+        tideScore = 58;
+      } else if (phase.contains('alçak') || phase.contains('low')) {
+        tideScore = 52;
+      } else if (h != null) {
+        tideScore = 55;
+      }
+    }
     addFactor(
       id: 'tide',
       name: 'Gelgit',
-      valueLabel: env.tidePhaseLabel ?? 'Veri yok',
+      valueLabel: tideLabel,
       weight: species.tideWeight,
-      raw0to100: null,
+      raw0to100: tideScore,
     );
 
     final score = weightTotal <= 0

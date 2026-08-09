@@ -151,6 +151,10 @@ class FishEnvSnapshot {
 
   final List<HourlyEnvSample> hourly;
 
+  /// True when served from disk after a failed online fetch.
+  final bool stale;
+  final Duration? cacheAge;
+
   const FishEnvSnapshot({
     required this.lat,
     required this.lng,
@@ -179,7 +183,105 @@ class FishEnvSnapshot {
     this.moonIllumination,
     this.moonPhaseLabel,
     this.hourly = const [],
+    this.stale = false,
+    this.cacheAge,
   });
+
+  FishEnvSnapshot copyWith({
+    bool? stale,
+    Duration? cacheAge,
+    double? tideHeightM,
+    String? tidePhaseLabel,
+  }) {
+    return FishEnvSnapshot(
+      lat: lat,
+      lng: lng,
+      placeName: placeName,
+      fetchedAt: fetchedAt,
+      airTempC: airTempC,
+      humidity: humidity,
+      windKmh: windKmh,
+      windDirDeg: windDirDeg,
+      pressureHpa: pressureHpa,
+      pressureChange6h: pressureChange6h,
+      weatherCode: weatherCode,
+      cloudCover: cloudCover,
+      sunrise: sunrise,
+      sunset: sunset,
+      waterTempC: waterTempC,
+      waveHeightM: waveHeightM,
+      wavePeriodS: wavePeriodS,
+      currentSpeedKn: currentSpeedKn,
+      currentDirDeg: currentDirDeg,
+      tideHeightM: tideHeightM ?? this.tideHeightM,
+      tidePhaseLabel: tidePhaseLabel ?? this.tidePhaseLabel,
+      salinityPsu: salinityPsu,
+      clarityM: clarityM,
+      dissolvedOxygenMgL: dissolvedOxygenMgL,
+      moonIllumination: moonIllumination,
+      moonPhaseLabel: moonPhaseLabel,
+      hourly: hourly,
+      stale: stale ?? this.stale,
+      cacheAge: cacheAge ?? this.cacheAge,
+    );
+  }
+
+  Map<String, dynamic> toDiskJson() => {
+        'lat': lat,
+        'lng': lng,
+        'placeName': placeName,
+        'fetchedAtMs': fetchedAt.millisecondsSinceEpoch,
+        'airTempC': airTempC,
+        'humidity': humidity,
+        'windKmh': windKmh,
+        'windDirDeg': windDirDeg,
+        'pressureHpa': pressureHpa,
+        'pressureChange6h': pressureChange6h,
+        'weatherCode': weatherCode,
+        'cloudCover': cloudCover,
+        'sunriseMs': sunrise?.millisecondsSinceEpoch,
+        'sunsetMs': sunset?.millisecondsSinceEpoch,
+        'waterTempC': waterTempC,
+        'waveHeightM': waveHeightM,
+        'wavePeriodS': wavePeriodS,
+        'currentSpeedKn': currentSpeedKn,
+        'currentDirDeg': currentDirDeg,
+        'tideHeightM': tideHeightM,
+        'tidePhaseLabel': tidePhaseLabel,
+        'moonIllumination': moonIllumination,
+        'moonPhaseLabel': moonPhaseLabel,
+      };
+
+  factory FishEnvSnapshot.fromDiskJson(Map<String, dynamic> json) {
+    DateTime? ms(dynamic v) =>
+        v == null ? null : DateTime.fromMillisecondsSinceEpoch((v as num).toInt());
+    return FishEnvSnapshot(
+      lat: (json['lat'] as num).toDouble(),
+      lng: (json['lng'] as num).toDouble(),
+      placeName: json['placeName'] as String?,
+      fetchedAt: ms(json['fetchedAtMs']) ?? DateTime.now(),
+      airTempC: (json['airTempC'] as num?)?.toDouble(),
+      humidity: (json['humidity'] as num?)?.toDouble(),
+      windKmh: (json['windKmh'] as num?)?.toDouble(),
+      windDirDeg: (json['windDirDeg'] as num?)?.toDouble(),
+      pressureHpa: (json['pressureHpa'] as num?)?.toDouble(),
+      pressureChange6h: (json['pressureChange6h'] as num?)?.toDouble(),
+      weatherCode: (json['weatherCode'] as num?)?.toInt(),
+      cloudCover: (json['cloudCover'] as num?)?.toDouble(),
+      sunrise: ms(json['sunriseMs']),
+      sunset: ms(json['sunsetMs']),
+      waterTempC: (json['waterTempC'] as num?)?.toDouble(),
+      waveHeightM: (json['waveHeightM'] as num?)?.toDouble(),
+      wavePeriodS: (json['wavePeriodS'] as num?)?.toDouble(),
+      currentSpeedKn: (json['currentSpeedKn'] as num?)?.toDouble(),
+      currentDirDeg: (json['currentDirDeg'] as num?)?.toDouble(),
+      tideHeightM: (json['tideHeightM'] as num?)?.toDouble(),
+      tidePhaseLabel: json['tidePhaseLabel'] as String?,
+      moonIllumination: (json['moonIllumination'] as num?)?.toDouble(),
+      moonPhaseLabel: json['moonPhaseLabel'] as String?,
+      hourly: const [],
+    );
+  }
 }
 
 @immutable

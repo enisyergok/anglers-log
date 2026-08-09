@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/mera/mera_no_catch_manager.dart';
-import 'package:mobile/mera/mera_shell.dart';
+import 'package:mobile/mera/mera_records_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 
@@ -69,8 +69,12 @@ class MeraReportSuccessPage extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  MeraShell.goRecords();
-                  Navigator.of(context).popUntil((r) => r.isFirst);
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (_) => const MeraRecordsPage(),
+                    ),
+                    (route) => route.isFirst,
+                  );
                 },
                 child: Text(
                   'Kayıtlarım',

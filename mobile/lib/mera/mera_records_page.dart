@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/catch_manager.dart';
 import 'package:mobile/fishing_spot_manager.dart';
+import 'package:mobile/mera/mera_catch_view_page.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_no_catch_manager.dart';
 import 'package:mobile/mera/mera_shell.dart';
@@ -10,7 +11,6 @@ import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/mera/siren_fish_art.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart';
-import 'package:mobile/pages/catch_page.dart';
 import 'package:mobile/species_manager.dart';
 import 'package:mobile/utils/protobuf_utils.dart';
 
@@ -176,7 +176,7 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
                   _confirmDelete(context, 'Bu yakalamayı sil?'),
               onDismissed: (_) => CatchManager.get.delete(c.id),
               child: MeraCard(
-                onTap: () => present(context, CatchPage(c)),
+                onTap: () => present(context, MeraCatchViewPage(c)),
                 child: Row(
                   children: [
                     Container(
@@ -361,7 +361,7 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
               title: const Text('Görüntüle / düzenle'),
               onTap: () {
                 Navigator.pop(ctx);
-                present(context, CatchPage(c));
+                present(context, MeraCatchViewPage(c));
               },
             ),
             if (spot != null)

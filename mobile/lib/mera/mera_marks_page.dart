@@ -50,7 +50,9 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
             stream: FishingSpotManager.get.stream,
             builder: (context, __) {
               final meras = MeraManager.get.spots;
-              final spots = FishingSpotManager.get.list();
+              final spots = FishingSpotManager.get.list()
+                  .where((s) => !_nearAnyMera(s.lat, s.lng, meras))
+                  .toList();
               if (meras.isEmpty && spots.isEmpty) {
                 return const MeraEmptyState(
                   icon: Icons.place_outlined,
@@ -76,7 +78,7 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
                           child: const Icon(Icons.delete, color: MeraColors.danger),
                         ),
                         confirmDismiss: (_) => _confirmDelete(context, 'Bu işareti sil?'),
-                        onDismissed: (_) => MeraManager.get.remove(m.id),
+                        onDismissed: (_) => _deleteMeraSynced(m),
                         child: InkWell(
                           borderRadius: BorderRadius.circular(MeraRadii.lg),
                           onTap: () => _openMeraOnMap(m),
@@ -145,8 +147,7 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
                           ),
                           confirmDismiss: (_) =>
                               _confirmDelete(context, 'Bu av noktasını sil?'),
-                          onDismissed: (_) =>
-                              FishingSpotManager.get.delete(s.id),
+                          onDismissed: (_) => _deleteSpotSynced(s),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(MeraRadii.lg),
                             onTap: () => _openSpotOnMap(s),
@@ -281,7 +282,7 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
               onTap: () async {
                 Navigator.pop(ctx);
                 if (await _confirmDelete(context, 'Bu işareti sil?')) {
-                  await MeraManager.get.remove(m.id);
+                  await _deleteMeraSynced(m);
                 }
               },
             ),
@@ -324,7 +325,7 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
               onTap: () async {
                 Navigator.pop(ctx);
                 if (await _confirmDelete(context, 'Bu av noktasını sil?')) {
-                  await FishingSpotManager.get.delete(s.id);
+                  await _deleteSpotSynced(s);
                 }
               },
             ),
@@ -407,6 +408,38 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
       await FishingSpotManager.get.addOrUpdate(s);
       if (mounted) setState(() {});
     }
+  }
+
+  Future<void> _deleteMeraSynced(MeraSpot m) async {
+    await MeraManager.get.remove(m.id);
+    for (final s in FishingSpotManager.get.list()) {
+      if (_near(m.lat, m.lng, s.lat, s.lng)) {
+        await FishingSpotManager.get.delete(s.id);
+      }
+    }
+  }
+
+  Future<void> _deleteSpotSynced(FishingSpot s) async {
+    await FishingSpotManager.get.delete(s.id);
+    for (final m in MeraManager.get.spots) {
+      if (_near(m.lat, m.lng, s.lat, s.lng)) {
+        await MeraManager.get.remove(m.id);
+      }
+    }
+  }
+
+  static bool _nearAnyMera(double lat, double lng, List<MeraSpot> meras) {
+    for (final m in meras) {
+      if (_near(lat, lng, m.lat, m.lng)) return true;
+    }
+    return false;
+  }
+
+  static bool _near(double aLat, double aLng, double bLat, double bLng) {
+    final dLat = (aLat - bLat).abs();
+    final dLng = (aLng - bLng).abs();
+    // ~30 m at mid-latitudes
+    return dLat < 0.00028 && dLng < 0.00035;
   }
 
   Future<void> _addPinAtGps(BuildContext context) async {

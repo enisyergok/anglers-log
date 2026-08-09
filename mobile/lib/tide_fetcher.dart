@@ -371,4 +371,60 @@ class TideFetcher extends LocationDataFetcher<Tide?> {
       returnNullOnHttpError: false,
     );
   }
+
+  /// UI-free tide snapshot for FishEnvProvider (no BuildContext / Strings).
+  Future<Tide?> fetchTideOnly() async {
+    if (latLng == null) return null;
+    try {
+      final json = await _get();
+      if (json == null) return null;
+      final error = json["error"];
+      if (error is String && isNotEmpty(error)) return null;
+      final tides = json["tides"];
+      if (!isValidJsonMap(tides)) return null;
+      final data = tides["data"];
+      if (!isValidJsonMap(data)) return null;
+
+      final tide = Tide(timeZone: dateTime.locationName);
+      final extrema = data["extrema"];
+      final heights = data["heights"];
+      if (heights is List) {
+        _parseHeightsSeries(tide, heights);
+      }
+      if (extrema is List) {
+        _parseExtrema(tide, extrema);
+      }
+      if (tide.daysHeights.isEmpty && tide.hasFirstHighHeight()) {
+        _synthesizeDaysHeightsFromExtrema(tide);
+      }
+      return tide.isValid ? tide : null;
+    } catch (e) {
+      log.d("fetchTideOnly failed: $e");
+      return null;
+    }
+  }
+
+  static String phaseLabel(Tide tide) {
+    if (!tide.hasType()) {
+      return tide.hasHeight()
+          ? '${tide.height.value.toStringAsFixed(2)} m'
+          : 'Gelgit';
+    }
+    switch (tide.type) {
+      case TideType.incoming:
+        return 'Yükselen';
+      case TideType.outgoing:
+        return 'Alçalan';
+      case TideType.high:
+        return 'Yüksek';
+      case TideType.low:
+        return 'Alçak';
+      case TideType.slack:
+        return 'Dürgün';
+      case TideType.tide_type_all:
+      case TideType.tide_type_none:
+        return 'Gelgit';
+    }
+    return 'Gelgit';
+  }
 }

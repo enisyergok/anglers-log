@@ -1,8 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:adair_flutter_lib/managers/time_manager.dart';
+import 'package:adair_flutter_lib/wrappers/path_provider_wrapper.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/mera/fish_activity/astronomy.dart';
 import 'package:mobile/mera/fish_activity/models.dart';
+import 'package:mobile/model/gen/anglers_log.pb.dart';
+import 'package:mobile/tide_fetcher.dart';
+import 'package:path/path.dart' as p;
 
 /// Fetches weather + marine (+ optional reverse place) with short TTL cache.
 /// Does not invent missing fields.
@@ -33,6 +39,25 @@ class FishEnvProvider {
       return _cache!;
     }
 
+    try {
+      final snap = await _fetchOnline(lat: lat, lng: lng);
+      _cache = snap;
+      _cacheAt = DateTime.now();
+      _cacheLat = lat;
+      _cacheLng = lng;
+      await _writeDisk(snap);
+      return snap;
+    } catch (e) {
+      final stale = await _readDisk(lat, lng);
+      if (stale != null) return stale;
+      rethrow;
+    }
+  }
+
+  Future<FishEnvSnapshot> _fetchOnline({
+    required double lat,
+    required double lng,
+  }) async {
     final now = DateTime.now();
     final forecastF = http.get(
       Uri.https('api.open-meteo.com', '/v1/forecast', {
@@ -50,11 +75,17 @@ class FishEnvProvider {
     );
     final marineF = _fetchMarine(lat, lng);
     final placeF = _reversePlace(lat, lng);
+    final tideF = _fetchTide(lat, lng, now);
 
-    final results = await Future.wait([forecastF, marineF, placeF]);
+    final results = await Future.wait([forecastF, marineF, placeF, tideF]);
     final forecastRes = results[0] as http.Response;
     final marine = results[1] as Map<String, dynamic>?;
     final placeName = results[2] as String?;
+    final tideSnap = results[3] as ({double? heightM, String? phaseLabel})?;
+
+    if (forecastRes.statusCode != 200 && marine == null) {
+      throw StateError('Env fetch failed (${forecastRes.statusCode})');
+    }
 
     Map<String, dynamic>? forecast;
     if (forecastRes.statusCode == 200) {
@@ -87,11 +118,10 @@ class FishEnvProvider {
       marine?['hourly'] as Map<String, dynamic>?,
     );
 
-    // Ocean current: Open-Meteo may omit; keep null if absent.
     final currentMs = (mCurrent?['ocean_current_velocity'] as num?)?.toDouble();
     final currentKn = currentMs != null ? currentMs * 1.94384 : null;
 
-    final snap = FishEnvSnapshot(
+    return FishEnvSnapshot(
       lat: lat,
       lng: lng,
       placeName: placeName,
@@ -111,22 +141,64 @@ class FishEnvProvider {
       wavePeriodS: (mCurrent?['wave_period'] as num?)?.toDouble(),
       currentSpeedKn: currentKn,
       currentDirDeg: (mCurrent?['ocean_current_direction'] as num?)?.toDouble(),
-      // Not provided by free Open-Meteo marine → leave null
       salinityPsu: null,
       clarityM: null,
       dissolvedOxygenMgL: null,
-      tideHeightM: null,
-      tidePhaseLabel: null,
+      tideHeightM: tideSnap?.heightM,
+      tidePhaseLabel: tideSnap?.phaseLabel,
       moonIllumination: moonIllum,
       moonPhaseLabel: moonLabel,
       hourly: hourly,
     );
+  }
 
-    _cache = snap;
-    _cacheAt = now;
-    _cacheLat = lat;
-    _cacheLng = lng;
-    return snap;
+  Future<void> _writeDisk(FishEnvSnapshot snap) async {
+    try {
+      final file = await _diskFile();
+      await file.writeAsString(jsonEncode(snap.toDiskJson()));
+    } catch (_) {}
+  }
+
+  Future<FishEnvSnapshot?> _readDisk(double lat, double lng) async {
+    try {
+      final file = await _diskFile();
+      if (!await file.exists()) return null;
+      final json = jsonDecode(await file.readAsString()) as Map<String, dynamic>;
+      final snap = FishEnvSnapshot.fromDiskJson(json);
+      if ((snap.lat - lat).abs() > 0.15 || (snap.lng - lng).abs() > 0.15) {
+        return null;
+      }
+      final age = DateTime.now().difference(snap.fetchedAt);
+      return snap.copyWith(stale: true, cacheAge: age);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<File> _diskFile() async {
+    final docs = await PathProviderWrapper.get.appDocumentsPath;
+    return File(p.join(docs, 'mera_fish_env_cache.json'));
+  }
+
+  Future<({double? heightM, String? phaseLabel})?> _fetchTide(
+    double lat,
+    double lng,
+    DateTime now,
+  ) async {
+    try {
+      final fetcher = TideFetcher(
+        TimeManager.get.dateTime(now.millisecondsSinceEpoch),
+        LatLng(lat: lat, lng: lng),
+      );
+      final tide = await fetcher.fetchTideOnly();
+      if (tide == null) return null;
+      return (
+        heightM: tide.hasHeight() ? tide.height.value : null,
+        phaseLabel: TideFetcher.phaseLabel(tide),
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<Map<String, dynamic>?> _fetchMarine(double lat, double lng) async {

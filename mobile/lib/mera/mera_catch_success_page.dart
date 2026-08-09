@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile/mera/mera_shell.dart';
+import 'package:mobile/mera/mera_records_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/mera/siren_fish_art.dart';
@@ -12,6 +12,7 @@ class MeraCatchSuccessPage extends StatelessWidget {
   final String speciesName;
   final double lengthCm;
   final double weightKg;
+  final bool measured;
   final int timestampMs;
   final double? lat;
   final double? lng;
@@ -21,6 +22,7 @@ class MeraCatchSuccessPage extends StatelessWidget {
     required this.speciesName,
     required this.lengthCm,
     required this.weightKg,
+    this.measured = true,
     required this.timestampMs,
     this.lat,
     this.lng,
@@ -33,6 +35,9 @@ class MeraCatchSuccessPage extends StatelessWidget {
     final gps = (lat != null && lng != null)
         ? '${lat!.toStringAsFixed(5)}, ${lng!.toStringAsFixed(5)}'
         : '—';
+    final measureLabel = measured
+        ? '${weightKg.toStringAsFixed(1)} kg · ${lengthCm.toStringAsFixed(0)} cm'
+        : 'Ölçülmedi';
 
     return Scaffold(
       backgroundColor: MeraColors.bg,
@@ -77,7 +82,7 @@ class MeraCatchSuccessPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${weightKg.toStringAsFixed(1)} kg · ${lengthCm.toStringAsFixed(0)} cm',
+                            measureLabel,
                             style: GoogleFonts.inter(
                               color: MeraColors.textSecondary,
                               fontSize: 13,
@@ -110,7 +115,7 @@ class MeraCatchSuccessPage extends StatelessWidget {
                 onPressed: () {
                   SharePlusWrapper.of(context).share(
                     'Mera Asistanı — $speciesName\n'
-                    '${lengthCm.toStringAsFixed(0)} cm · ${weightKg.toStringAsFixed(1)} kg\n'
+                    '$measureLabel\n'
                     '$whenLabel\n$gps',
                     null,
                   );
@@ -125,8 +130,12 @@ class MeraCatchSuccessPage extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  MeraShell.goRecords();
-                  Navigator.of(context).popUntil((r) => r.isFirst);
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (_) => const MeraRecordsPage(),
+                    ),
+                    (route) => route.isFirst,
+                  );
                 },
                 child: Text(
                   'Yakalamalarım',

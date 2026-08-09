@@ -1,19 +1,25 @@
+import 'dart:io';
+
 import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/utils/date_time.dart';
 import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile/atmosphere_fetcher.dart';
 import 'package:mobile/catch_manager.dart';
 import 'package:mobile/fishing_spot_manager.dart';
 import 'package:mobile/location_monitor.dart';
+import 'package:mobile/mera/fish_activity/models.dart';
+import 'package:mobile/mera/fish_activity/service.dart';
+import 'package:mobile/mera/fish_activity/species_profiles.dart';
+import 'package:mobile/mera/mera_catch_activity_store.dart';
 import 'package:mobile/mera/mera_catch_success_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart';
-import 'package:mobile/navigation/mera_manager.dart';
-import 'package:mobile/navigation/nmea_udp_listener.dart';
 import 'package:mobile/utils/protobuf_utils.dart';
 
 /// Mockup 03 — Yakalama detayı.
@@ -32,16 +38,16 @@ class MeraCatchDetailPage extends StatefulWidget {
 }
 
 class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
-  late double _lengthCm;
-  late double _weightKg;
+  double? _lengthCm;
+  double? _weightKg;
+  var _measured = false;
+  File? _photo;
   late final TextEditingController _notes;
   var _saving = false;
 
   @override
   void initState() {
     super.initState();
-    _lengthCm = 42;
-    _weightKg = 1.8;
     _notes = TextEditingController(text: widget.initialNotes ?? '');
   }
 
@@ -82,27 +88,62 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
           MeraCard(
             child: Column(
               children: [
-                _stepper(
-                  'Boy',
-                  '${_lengthCm.toStringAsFixed(0)} cm',
-                  () => setState(() => _lengthCm = (_lengthCm - 1).clamp(1, 300)),
-                  () => setState(() => _lengthCm = (_lengthCm + 1).clamp(1, 300)),
-                ),
-                const Divider(height: 22, color: MeraColors.cardBorder),
-                _stepper(
-                  'Ağırlık',
-                  '${_weightKg.toStringAsFixed(1)} kg',
-                  () => setState(
-                    () => _weightKg = double.parse(
-                      (_weightKg - 0.1).clamp(0.1, 200).toStringAsFixed(1),
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    'Ölçü kaydet',
+                    style: GoogleFonts.inter(fontWeight: FontWeight.w700),
+                  ),
+                  subtitle: Text(
+                    _measured
+                        ? 'Boy ve ağırlık zorunlu'
+                        : 'Ölçülmedi — boy/ağırlık kaydedilmez',
+                    style: GoogleFonts.inter(
+                      color: MeraColors.textSecondary,
+                      fontSize: 12,
                     ),
                   ),
-                  () => setState(
-                    () => _weightKg = double.parse(
-                      (_weightKg + 0.1).clamp(0.1, 200).toStringAsFixed(1),
+                  value: _measured,
+                  activeThumbColor: MeraColors.green,
+                  onChanged: (v) => setState(() {
+                    _measured = v;
+                    if (v) {
+                      _lengthCm ??= 30;
+                      _weightKg ??= 0.5;
+                    } else {
+                      _lengthCm = null;
+                      _weightKg = null;
+                    }
+                  }),
+                ),
+                if (_measured) ...[
+                  const Divider(height: 22, color: MeraColors.cardBorder),
+                  _stepper(
+                    'Boy',
+                    '${_lengthCm!.toStringAsFixed(0)} cm',
+                    () => setState(
+                      () => _lengthCm = (_lengthCm! - 1).clamp(1, 300),
+                    ),
+                    () => setState(
+                      () => _lengthCm = (_lengthCm! + 1).clamp(1, 300),
                     ),
                   ),
-                ),
+                  const Divider(height: 22, color: MeraColors.cardBorder),
+                  _stepper(
+                    'Ağırlık',
+                    '${_weightKg!.toStringAsFixed(1)} kg',
+                    () => setState(
+                      () => _weightKg = double.parse(
+                        (_weightKg! - 0.1).clamp(0.1, 200).toStringAsFixed(1),
+                      ),
+                    ),
+                    () => setState(
+                      () => _weightKg = double.parse(
+                        (_weightKg! + 0.1).clamp(0.1, 200).toStringAsFixed(1),
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
@@ -123,6 +164,52 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
             ),
           ),
           const SizedBox(height: 12),
+          MeraCard(
+            onTap: _pickPhoto,
+            child: Row(
+              children: [
+                if (_photo != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(
+                      _photo!,
+                      width: 56,
+                      height: 56,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                else
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: MeraColors.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: MeraColors.cardBorder),
+                    ),
+                    child: const Icon(
+                      Icons.add_a_photo_outlined,
+                      color: MeraColors.textMuted,
+                    ),
+                  ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    _photo == null
+                        ? 'Fotoğraf ekle (opsiyonel)'
+                        : 'Fotoğraf seçildi — değiştirmek için dokunun',
+                    style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                  ),
+                ),
+                if (_photo != null)
+                  IconButton(
+                    icon: const Icon(Icons.close, size: 18),
+                    onPressed: () => setState(() => _photo = null),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
           TextField(
             controller: _notes,
             maxLines: 3,
@@ -133,6 +220,15 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _pickPhoto() async {
+    final x = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 85,
+    );
+    if (x == null) return;
+    setState(() => _photo = File(x.path));
   }
 
   Widget _stepper(
@@ -215,11 +311,14 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
   }
 
   Future<void> _save() async {
+    if (_measured && (_lengthCm == null || _weightKg == null)) {
+      showErrorSnackBar(context, 'Boy ve ağırlık girin veya ölçülmedi seçin');
+      return;
+    }
     setState(() => _saving = true);
     try {
       final now = TimeManager.get.currentDateTime;
       final loc = LocationMonitor.of(context).currentLatLng;
-      final depth = NmeaUdpListener.get.latest?.depthM;
 
       if (loc == null) {
         final proceed = await showDialog<bool>(
@@ -252,17 +351,40 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
         ..id = randomId()
         ..timestamp = Int64(now.millisecondsSinceEpoch)
         ..timeZone = now.locationName
-        ..speciesId = widget.species.id
-        ..length = MultiMeasurement(
-          mainValue: Measurement(unit: Unit.centimeters, value: _lengthCm),
-        )
-        ..weight = MultiMeasurement(
-          mainValue: Measurement(unit: Unit.kilograms, value: _weightKg),
+        ..speciesId = widget.species.id;
+      if (_measured && _lengthCm != null) {
+        cat.length = MultiMeasurement(
+          mainValue: Measurement(unit: Unit.centimeters, value: _lengthCm!),
         );
+      }
+      if (_measured && _weightKg != null) {
+        cat.weight = MultiMeasurement(
+          mainValue: Measurement(unit: Unit.kilograms, value: _weightKg!),
+        );
+      }
       final note = _notes.text.trim();
       if (note.isNotEmpty) cat.notes = note;
 
-      final ok = await CatchManager.get.addOrUpdate(cat);
+      if (loc != null) {
+        try {
+          final atmo = await AtmosphereFetcher(
+            now,
+            LatLng(lat: loc.lat, lng: loc.lng),
+          ).fetch(context);
+          if (atmo.data != null) {
+            cat.atmosphere = atmo.data!;
+          }
+        } catch (_) {
+          // Atmosphere optional
+        }
+      }
+
+      final images = _photo != null ? <File>[_photo!] : const <File>[];
+      final ok = await CatchManager.get.addOrUpdate(
+        cat,
+        imageFiles: images,
+        setImages: true,
+      );
       if (!ok) {
         if (mounted) showErrorSnackBar(context, 'Av kaydedilemedi');
         return;
@@ -277,14 +399,39 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
           ..notes = note;
         await FishingSpotManager.get.addOrUpdate(spot);
         cat.fishingSpotId = spot.id;
-        await CatchManager.get.addOrUpdate(cat);
-        await MeraManager.get.add(
-          lat: loc.lat,
-          lng: loc.lng,
-          depthM: depth,
-          bottomType: 'av',
-          note: widget.species.name,
-        );
+        await CatchManager.get.addOrUpdate(cat, setImages: false);
+
+        try {
+          final profile =
+              SpeciesActivityProfiles.matchName(widget.species.name) ??
+                  SpeciesActivityProfiles.cipura;
+          final loaded = await FishActivityService().load(
+            lat: loc.lat,
+            lng: loc.lng,
+            species: profile,
+          );
+          await MeraCatchActivityStore.get.put(
+            MeraCatchActivitySnapshot(
+              catchId: cat.id.uuid,
+              score: loaded.activity.score,
+              level: FishActivityResult.levelLabel(loaded.activity.level),
+              speciesKey: profile.key,
+              speciesName: profile.nameTr,
+              lat: loc.lat,
+              lng: loc.lng,
+              computedAtMs: now.millisecondsSinceEpoch,
+              envSummary: {
+                if (loaded.env.waterTempC != null)
+                  'waterTempC': loaded.env.waterTempC,
+                if (loaded.env.windKmh != null) 'windKmh': loaded.env.windKmh,
+                if (loaded.env.tidePhaseLabel != null)
+                  'tide': loaded.env.tidePhaseLabel,
+              },
+            ),
+          );
+        } catch (_) {
+          // Activity snapshot optional
+        }
       }
 
       if (!mounted) return;
@@ -292,8 +439,9 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
         MaterialPageRoute(
           builder: (_) => MeraCatchSuccessPage(
             speciesName: widget.species.name,
-            lengthCm: _lengthCm,
-            weightKg: _weightKg,
+            lengthCm: _lengthCm ?? 0,
+            weightKg: _weightKg ?? 0,
+            measured: _measured,
             timestampMs: now.millisecondsSinceEpoch,
             lat: loc?.lat,
             lng: loc?.lng,

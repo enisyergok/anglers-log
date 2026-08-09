@@ -38,11 +38,12 @@ class _MeraWeatherPageState extends State<MeraWeatherPage> {
     bool force = false,
   }) async {
     final loc = LocationMonitor.of(context).currentLatLng;
-    final lat = loc?.lat ?? 41.01;
-    final lng = loc?.lng ?? 28.98;
+    if (loc == null) {
+      throw const _NoGpsError();
+    }
     return _service.load(
-      lat: lat,
-      lng: lng,
+      lat: loc.lat,
+      lng: loc.lng,
       species: _species,
       forceRefresh: force,
     );
@@ -71,14 +72,21 @@ class _MeraWeatherPageState extends State<MeraWeatherPage> {
               return const Center(child: CircularProgressIndicator());
             }
             if (snap.hasError || !snap.hasData) {
+              final noGps = snap.error is _NoGpsError;
               return Column(
                 children: [
                   _header(null, null),
                   Expanded(
                     child: MeraEmptyState(
-                      icon: Icons.cloud_off,
-                      title: 'Veri alınamadı',
-                      subtitle: snap.error?.toString() ?? 'Bağlantıyı kontrol edin',
+                      icon: noGps
+                          ? Icons.location_off_outlined
+                          : Icons.cloud_off,
+                      title: noGps
+                          ? 'Konum gerekli'
+                          : 'Veri alınamadı',
+                      subtitle: noGps
+                          ? 'Hava ve balık aktivitesi skoru için GPS konumunu açın.'
+                          : (snap.error?.toString() ?? 'Bağlantıyı kontrol edin'),
                     ),
                   ),
                 ],
@@ -90,6 +98,31 @@ class _MeraWeatherPageState extends State<MeraWeatherPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _header(env, activity),
+                if (env.stale)
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: MeraColors.warning.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: MeraColors.warning.withValues(alpha: 0.4),
+                      ),
+                    ),
+                    child: Text(
+                      env.cacheAge == null
+                          ? 'Çevrimdışı önbellek gösteriliyor'
+                          : 'Çevrimdışı · ${env.cacheAge!.inMinutes} dk önce',
+                      style: const TextStyle(
+                        color: MeraColors.warning,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
                 _tabs(),
                 if (_tab == _Tab.activity || _tab == _Tab.window)
                   _speciesPicker(),
@@ -263,41 +296,56 @@ class _MeraWeatherPageState extends State<MeraWeatherPage> {
   Future<void> _openSpeciesSheet() async {
     final picked = await showModalBottomSheet<SpeciesActivityProfile>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: MeraColors.card,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      builder: (ctx) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'Tür seçin',
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
-              ),
+      builder: (ctx) {
+        final list = SpeciesActivityProfiles.primary;
+        return SafeArea(
+          child: SizedBox(
+            height: MediaQuery.sizeOf(ctx).height * 0.7,
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                    'Tür seçin',
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: list.length,
+                    itemBuilder: (context, i) {
+                      final p = list[i];
+                      return ListTile(
+                        leading: SizedBox(
+                          width: 48,
+                          child: SirenFishArt.image(
+                            speciesName: p.nameTr,
+                            height: 32,
+                          ),
+                        ),
+                        title: Text(p.nameTr),
+                        subtitle: Text(
+                          p.scientificName,
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                        trailing: p.key == _species.key
+                            ? const Icon(Icons.check, color: MeraColors.green)
+                            : null,
+                        onTap: () => Navigator.pop(ctx, p),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-            for (final p in SpeciesActivityProfiles.primary)
-              ListTile(
-                leading: SizedBox(
-                  width: 48,
-                  child: SirenFishArt.image(speciesName: p.nameTr, height: 32),
-                ),
-                title: Text(p.nameTr),
-                subtitle: Text(
-                  p.scientificName,
-                  style: const TextStyle(fontStyle: FontStyle.italic),
-                ),
-                trailing: p.key == _species.key
-                    ? const Icon(Icons.check, color: MeraColors.green)
-                    : null,
-                onTap: () => Navigator.pop(ctx, p),
-              ),
-            const SizedBox(height: 8),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
     if (picked != null) _selectSpecies(picked);
   }
@@ -1141,4 +1189,11 @@ class _MeraWeatherPageState extends State<MeraWeatherPage> {
     if (c <= 77) return 'Karlı';
     return 'Fırtınalı';
   }
+}
+
+class _NoGpsError implements Exception {
+  const _NoGpsError();
+
+  @override
+  String toString() => 'GPS konum yok';
 }
