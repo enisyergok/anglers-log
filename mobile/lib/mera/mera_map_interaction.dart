@@ -72,4 +72,35 @@ class MeraMapInteraction extends ChangeNotifier {
       pb.CameraPosition(latLng: loc, zoom: zoom),
     );
   }
+
+  Future<void> centerOnLatLng(
+    ll.LatLng loc, {
+    double zoom = mapZoomDefault,
+  }) async {
+    await centerOn(pb.LatLng(lat: loc.latitude, lng: loc.longitude), zoom: zoom);
+  }
+
+  /// Show an existing saved route as A→B preview and optionally center.
+  Future<void> previewRoute(
+    List<ll.LatLng> points, {
+    bool center = true,
+  }) async {
+    if (points.isEmpty) return;
+    routeMode = true;
+    routeA = points.first;
+    routeB = points.length >= 2 ? points.last : null;
+    shallowHit = false;
+    notifyListeners();
+    if (center && mapController != null) {
+      if (points.length >= 2) {
+        final mid = ll.LatLng(
+          (points.first.latitude + points.last.latitude) / 2,
+          (points.first.longitude + points.last.longitude) / 2,
+        );
+        await centerOnLatLng(mid, zoom: 12);
+      } else {
+        await centerOnLatLng(points.first, zoom: 13);
+      }
+    }
+  }
 }

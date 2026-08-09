@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_route_detail_page.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
+import 'package:mobile/mera/mera_shell.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 
@@ -32,10 +34,12 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
           tooltip: 'Yeni rota',
           icon: const Icon(Icons.add_circle_outline, color: MeraColors.green),
           onPressed: () {
+            MeraShell.goHome();
+            MeraMapInteraction.instance.setRouteMode(true);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text(
-                  'Yeni rota: Ana Sayfa → sol menüden Rotalar ile A–B çizin',
+                  'Rota modu açık — haritada A ve B noktalarına dokunun',
                 ),
               ),
             );

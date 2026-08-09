@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:latlong2/latlong.dart' as ll;
+import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
+import 'package:mobile/mera/mera_shell.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/utils/map_utils.dart';
@@ -136,26 +138,26 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
                 MeraPrimaryButton(
                   label: 'Navigasyona Başla',
                   icon: Icons.navigation,
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Navigasyon harita sekmesinde devam eder — Ana Sayfa’ya dönün.',
-                        ),
-                      ),
-                    );
+                  onPressed: () async {
+                    final route = r;
+                    final pts = route.points
+                        .map((p) => ll.LatLng(p.lat, p.lng))
+                        .toList();
                     Navigator.of(context).popUntil((route) => route.isFirst);
+                    MeraShell.goHome();
+                    await MeraMapInteraction.instance.previewRoute(pts);
                   },
                 ),
                 TextButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Rota düzenleme: Ana Sayfa’da rota modu ile yeniden çizin',
-                        ),
-                      ),
-                    );
+                  onPressed: () async {
+                    final route = r;
+                    final pts = route.points
+                        .map((p) => ll.LatLng(p.lat, p.lng))
+                        .toList();
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    MeraShell.goHome();
+                    await MeraMapInteraction.instance.previewRoute(pts);
+                    MeraMapInteraction.instance.setRouteMode(true);
                   },
                   child: const Text(
                     'Rota Düzenle',

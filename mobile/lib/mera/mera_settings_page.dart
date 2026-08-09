@@ -30,7 +30,25 @@ class MeraSettingsPage extends StatelessWidget {
                   Icons.person_outline,
                   'Profil Bilgileri',
                   'Yerel kullanım — hesap gerekmez',
-                  null,
+                  () {
+                    showDialog<void>(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        backgroundColor: MeraColors.card,
+                        title: const Text('Profil'),
+                        content: const Text(
+                          'Mera Asistanı çevrimdışı çalışır. Hesap veya giriş yoktur; '
+                          'tüm av, rota ve işaret verileri bu telefonda saklanır.',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx),
+                            child: const Text('Tamam'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 const Divider(height: 1, color: MeraColors.cardBorder),
                 _tile(
@@ -38,7 +56,24 @@ class MeraSettingsPage extends StatelessWidget {
                   Icons.workspace_premium_outlined,
                   'Abonelik',
                   'Tüm özellikler açık (Pro)',
-                  null,
+                  () {
+                    showDialog<void>(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        backgroundColor: MeraColors.card,
+                        title: const Text('Abonelik'),
+                        content: const Text(
+                          'Bu yapıda Pro kilitleri açıktır. Ek abonelik gerekmez.',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx),
+                            child: const Text('Tamam'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -114,7 +149,33 @@ class MeraSettingsPage extends StatelessWidget {
                   Icons.lock_outline,
                   'Gizlilik ve güvenlik',
                   'Veriler yalnızca bu cihazda',
-                  null,
+                  () {
+                    showDialog<void>(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        backgroundColor: MeraColors.card,
+                        title: const Text('Gizlilik'),
+                        content: const Text(
+                          'Av kayıtları, rotalar ve işaretler telefonda tutulur. '
+                          'Buluta zorunlu senkron yoktur. Yedek ZIP’i istediğiniz '
+                          'zaman dışa aktarabilirsiniz.',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx),
+                            child: const Text('Tamam'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(ctx);
+                              present(context, BackupPage());
+                            },
+                            child: const Text('Yedekle'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

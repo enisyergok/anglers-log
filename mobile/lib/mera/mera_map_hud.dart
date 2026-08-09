@@ -12,14 +12,17 @@ import 'package:mobile/mera/mera_balik_aldim_sheet.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_no_catch_sheet.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
+import 'package:mobile/mera/mera_shell.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_weather_page.dart';
 import 'package:mobile/mera/mera_widgets.dart';
+import 'package:mobile/mera/place_search.dart';
 import 'package:mobile/navigation/mera_manager.dart';
 import 'package:mobile/navigation/marine_telemetry.dart';
 import 'package:mobile/navigation/nav_geo.dart';
 import 'package:mobile/navigation/nmea_udp_listener.dart';
 import 'package:mobile/pages/map_region_page.dart';
+import 'package:mobile/model/gen/anglers_log.pb.dart' show LatLng;
 import 'package:mobile/user_preference_manager.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/wrappers/share_plus_wrapper.dart';
@@ -42,6 +45,8 @@ class _MeraMapHudState extends State<MeraMapHud> {
   StreamSubscription? _nmeaSub;
   Timer? _telemetryTimer;
   final _search = TextEditingController();
+  final _searchFocus = FocusNode();
+  var _searching = false;
 
   LocationMonitor get _location => LocationMonitor.of(context);
   MeraMapInteraction get _mapIx => MeraMapInteraction.instance;
@@ -84,6 +89,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
     _nmeaSub?.cancel();
     _telemetryTimer?.cancel();
     _search.dispose();
+    _searchFocus.dispose();
     super.dispose();
   }
 
@@ -115,6 +121,156 @@ class _MeraMapHudState extends State<MeraMapHud> {
     } catch (_) {}
   }
 
+  Future<void> _runPlaceSearch() async {
+    final q = _search.text.trim();
+    if (q.isEmpty) {
+      showNoticeSnackBar(context, 'Aramak için yer adı veya koordinat yazın');
+      return;
+    }
+    FocusScope.of(context).unfocus();
+    setState(() => _searching = true);
+    try {
+      final hits = await PlaceSearch.search(q);
+      if (!mounted) return;
+      if (hits.isEmpty) {
+        showErrorSnackBar(context, 'Sonuç bulunamadı');
+        return;
+      }
+      if (hits.length == 1) {
+        await _goToPlace(hits.first);
+        return;
+      }
+      await showModalBottomSheet<void>(
+        context: context,
+        backgroundColor: MeraColors.card,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(MeraRadii.lg)),
+        ),
+        builder: (ctx) {
+          return SafeArea(
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(16, 14, 16, 8),
+                  child: Text(
+                    'Konum seç',
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                  ),
+                ),
+                ...hits.map(
+                  (h) => ListTile(
+                    leading: const Icon(Icons.place_outlined, color: MeraColors.blue),
+                    title: Text(
+                      h.name,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                    onTap: () {
+                      Navigator.pop(ctx);
+                      _goToPlace(h);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      if (mounted) showErrorSnackBar(context, 'Arama başarısız: $e');
+    } finally {
+      if (mounted) setState(() => _searching = false);
+    }
+  }
+
+  Future<void> _goToPlace(PlaceSearchHit hit) async {
+    _search.text = hit.name.split(',').first.trim();
+    setState(() {});
+    await _mapIx.centerOn(
+      LatLng(lat: hit.lat, lng: hit.lng),
+      zoom: 13,
+    );
+    if (!mounted) return;
+    showSuccessSnackBar(context, hit.name.split(',').take(2).join(', '));
+  }
+
+  void _showMenu() {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: MeraColors.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(MeraRadii.lg)),
+      ),
+      builder: (ctx) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8, 12, 8, 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Menü',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                ListTile(
+                  leading: const Icon(Icons.route, color: MeraColors.green),
+                  title: const Text('Rotalarım'),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    MeraShell.goRoutes();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.place_outlined, color: MeraColors.green),
+                  title: const Text('İşaretlerim'),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    MeraShell.goMarks();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.directions_boat_outlined, color: MeraColors.green),
+                  title: const Text('Gemim'),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    MeraShell.goBoat();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.settings_outlined, color: MeraColors.green),
+                  title: const Text('Ayarlar'),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    MeraShell.switchTab?.call(MeraShell.tabSettings);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.layers_outlined, color: MeraColors.blue),
+                  title: const Text('Harita katmanları'),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    _showLayersSheet(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.cloud_outlined, color: MeraColors.blue),
+                  title: const Text('Hava durumu'),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    present(context, const MeraWeatherPage());
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final wind = _telemetry?.windSpeedKmh;
@@ -133,7 +289,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
             ),
             child: Row(
               children: [
-                _chromeCircle(Icons.menu, onTap: () {}),
+                _chromeCircle(Icons.menu, onTap: _showMenu),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Container(
@@ -155,6 +311,8 @@ class _MeraMapHudState extends State<MeraMapHud> {
                         Expanded(
                           child: TextField(
                             controller: _search,
+                            focusNode: _searchFocus,
+                            textInputAction: TextInputAction.search,
                             style: const TextStyle(
                               color: MeraColors.textPrimary,
                               fontSize: 13,
@@ -172,14 +330,37 @@ class _MeraMapHudState extends State<MeraMapHud> {
                               ),
                               contentPadding: EdgeInsets.zero,
                             ),
-                            onSubmitted: (_) {
-                              showNoticeSnackBar(
-                                context,
-                                'Konum araması yakında — haritayı kaydırın',
-                              );
-                            },
+                            onChanged: (_) => setState(() {}),
+                            onSubmitted: (_) => _runPlaceSearch(),
                           ),
                         ),
+                        if (_searching)
+                          const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        else if (_search.text.isNotEmpty)
+                          GestureDetector(
+                            onTap: () {
+                              _search.clear();
+                              setState(() {});
+                            },
+                            child: const Icon(
+                              Icons.close,
+                              size: 16,
+                              color: MeraColors.textMuted,
+                            ),
+                          )
+                        else
+                          GestureDetector(
+                            onTap: _runPlaceSearch,
+                            child: const Icon(
+                              Icons.arrow_forward,
+                              size: 16,
+                              color: MeraColors.blue,
+                            ),
+                          ),
                       ],
                     ),
                   ),
