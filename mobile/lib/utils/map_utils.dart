@@ -22,8 +22,18 @@ const mapZoomDefault = 13.0;
 const openSeaMapSeamarkUrl =
     'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png';
 
-/// OpenSeaMap / GEBCO bathymetry (depth shades + contours at higher zoom).
-/// Served as WMS via GeoServer GWC — free/legal for OpenSeaMap clients.
+/// Esri Ocean Reference — depth contours, place names, chart-like labels.
+const esriOceanReferenceUrl =
+    'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}';
+
+/// EMODnet Bathymetry WMS — best free European coastal depth (incl. Türkiye).
+const emodnetBathymetryWmsBaseUrl = 'https://ows.emodnet-bathymetry.eu/wms?';
+
+const emodnetBathymetryWmsLayer = 'emodnet:mean';
+const emodnetBathymetryWmsStyle = 'multicolour';
+const emodnetContoursWmsLayer = 'emodnet:contours';
+
+/// OpenSeaMap / GEBCO bathymetry — global fallback outside EMODnet coverage.
 const openSeaMapBathymetryWmsBaseUrl =
     'https://geoserver.openseamap.org/geoserver/gwc/service/wms?';
 
@@ -38,7 +48,7 @@ const metersPerDegree = 111139;
 // TODO: Move to its own class in the map/ directory.
 class MapType {
   static MapType of(BuildContext context) =>
-      MapType.fromId(UserPreferenceManager.get.mapType) ?? MapType.satellite;
+      MapType.fromId(UserPreferenceManager.get.mapType) ?? MapType.ocean;
 
   static MapType? fromId(String? id) =>
       _allTypes.firstWhereOrNull((e) => e.id == id);
@@ -58,7 +68,7 @@ class MapType {
     'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
   );
 
-  /// Esri ocean basemap — bathymetric shading built into the base layer.
+  /// Free best marine basemap — Esri Ocean Base (+ EMODnet + Reference overlays).
   static const ocean = MapType._(
     'ocean',
     'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}',
@@ -72,6 +82,9 @@ class MapType {
   final String url;
 
   const MapType._(this.id, this.url);
+
+  /// Whether this style loads the HD marine overlay stack.
+  bool get isMarine => id == ocean.id;
 
   @override
   bool operator ==(Object other) =>

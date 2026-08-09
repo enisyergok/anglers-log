@@ -914,18 +914,18 @@ class _MeraMapHudState extends State<MeraMapHud> {
                       runSpacing: 8,
                       children: [
                         _mapStyleChip(
-                          label: 'Uydu',
-                          selected: currentType == MapType.satellite,
+                          label: 'Deniz HD',
+                          selected: currentType == MapType.ocean,
                           onTap: () async {
-                            await prefs.setMapType(MapType.satellite.id);
+                            await prefs.setMapType(MapType.ocean.id);
                             setModal(() {});
                           },
                         ),
                         _mapStyleChip(
-                          label: 'Okyanus',
-                          selected: currentType == MapType.ocean,
+                          label: 'Uydu',
+                          selected: currentType == MapType.satellite,
                           onTap: () async {
-                            await prefs.setMapType(MapType.ocean.id);
+                            await prefs.setMapType(MapType.satellite.id);
                             setModal(() {});
                           },
                         ),
@@ -950,9 +950,9 @@ class _MeraMapHudState extends State<MeraMapHud> {
                     const SizedBox(height: 8),
                     SwitchListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: const Text('Derinlik (GEBCO)'),
+                      title: const Text('Derinlik (EMODnet HD)'),
                       subtitle: const Text(
-                        'Derinlik tonları — denize yakın zoom (≈11+)',
+                        'Avrupa/Türkiye kıyı derinliği + kontur — ücretsiz en iyi kaynak',
                         style: TextStyle(
                           color: MeraColors.textSecondary,
                           fontSize: 12,

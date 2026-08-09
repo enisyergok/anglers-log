@@ -1,6 +1,13 @@
 # Bölgesel harita veri hattı (MBTiles)
 
-Bu klasör, **Faz 1.2–1.3** için çevrimdışı harita paketlerinin üretim yeridir.
+Bu klasör, **çevrimdışı** harita paketlerinin üretim yeridir.
+Online varsayılan (ücretsiz en iyi görüntü):
+
+1. **Esri World Ocean Base** — deniz basemap
+2. **EMODnet Bathymetry** (`emodnet:mean` / `multicolour` + `contours`) — Avrupa/Türkiye kıyı derinliği
+3. **Esri Ocean Reference** — kontur / etiket
+4. **OpenSeaMap seamarks** — şamandıra / fener
+
 Uygulama paketleri `MapRegionManager` ile indirir veya dosyadan içe aktarır.
 
 > **Not:** PMTiles yerine **MBTiles** kullanıyoruz — uygulama `protobuf ^4`
@@ -17,7 +24,9 @@ Uygulama paketleri `MapRegionManager` ile indirir veya dosyadan içe aktarır.
 
 ## Kaynaklar (ücretsiz)
 
-- EMODnet Bathymetry, GEBCO, OpenSeaMap
+- **EMODnet Bathymetry** (birincil kıyı derinliği)
+- GEBCO (küresel yedek)
+- OpenSeaMap
 - **S-57 ENC kullanma**
 
 ## Üretim (özet)
@@ -31,3 +40,4 @@ Uygulama paketleri `MapRegionManager` ile indirir veya dosyadan içe aktarır.
 ```
 
 `build_region_packages.py` demo sığlık GeoJSON üretir.
+Online HD katmanlar için uygulama kodu `map_utils.dart` + `default_mapbox_map.dart`.

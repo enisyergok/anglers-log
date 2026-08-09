@@ -30,7 +30,7 @@ class MapboxAttribution extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            '© OSM · OpenSeaMap · CARTO · Esri',
+            '© EMODnet · Esri Ocean · OpenSeaMap · OSM',
             style: styleSubtitle(context).copyWith(color: color, fontSize: 10),
             overflow: TextOverflow.ellipsis,
           ),

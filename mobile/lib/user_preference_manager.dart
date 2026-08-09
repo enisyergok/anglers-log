@@ -317,7 +317,7 @@ class UserPreferenceManager extends PreferenceManager {
 
   String? get mapType => preferences[keyMapType];
 
-  /// Depth contours / bathymetry overlay (OpenSeaMap GEBCO). Default on.
+  /// Depth overlay: EMODnet (Deniz HD) or GEBCO (other styles). Default on.
   Future<void> setShowMapBathymetry(bool show) =>
       put(keyShowMapBathymetry, show);
 

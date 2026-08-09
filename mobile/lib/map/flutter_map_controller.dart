@@ -25,7 +25,7 @@ class FlutterMapController extends MapController with ChangeNotifier {
 
   VoidCallback? _onMapMoveCallback;
   var _isCameraMoving = false;
-  MapType _mapType = MapType.light;
+  MapType _mapType = MapType.ocean;
   double _attributionMarginBottom = 0;
 
   FlutterMapController(this.mapController);

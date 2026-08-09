@@ -167,38 +167,100 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
     return ListenableBuilder(
       listenable: _controller,
       builder: (context, _) {
-        final baseUrl = widget.style ?? _controller.mapType.url;
+        final mapType = _controller.mapType;
+        final baseUrl = widget.style ?? mapType.url;
         final showBathymetry = UserPreferenceManager.get.showMapBathymetry;
         final showSeamarks = UserPreferenceManager.get.showMapSeamarks;
+        final marine = baseUrl == MapType.ocean.url;
+        final retina = MediaQuery.devicePixelRatioOf(context) > 1.5;
         final routePts = _interaction.routePoints;
+
+        Widget xyz(String url, {int maxNativeZoom = 18}) {
+          return fm.TileLayer(
+            urlTemplate: url,
+            subdomains: const ['a', 'b', 'c', 'd'],
+            userAgentPackageName: mapTileUserAgentPackageName,
+            maxZoom: 20,
+            maxNativeZoom: maxNativeZoom,
+            keepBuffer: 4,
+            panBuffer: 2,
+            retinaMode: retina,
+            tileDisplay: const fm.TileDisplay.fadeIn(
+              duration: Duration(milliseconds: 120),
+            ),
+          );
+        }
+
+        Widget wms({
+          required String base,
+          required List<String> layers,
+          List<String> styles = const [],
+          int maxNativeZoom = 14,
+        }) {
+          return fm.TileLayer(
+            wmsOptions: fm.WMSTileLayerOptions(
+              baseUrl: base,
+              layers: layers,
+              styles: styles,
+              format: 'image/png',
+              transparent: true,
+              version: '1.1.1',
+            ),
+            userAgentPackageName: mapTileUserAgentPackageName,
+            maxZoom: 18,
+            maxNativeZoom: maxNativeZoom,
+            keepBuffer: 3,
+            panBuffer: 1,
+            retinaMode: retina,
+            tileDisplay: const fm.TileDisplay.fadeIn(
+              duration: Duration(milliseconds: 140),
+            ),
+          );
+        }
+
         final children = <Widget>[
           if (baseProvider != null)
             fm.TileLayer(tileProvider: baseProvider)
           else
-            fm.TileLayer(
-              urlTemplate: baseUrl,
-              subdomains: const ['a', 'b', 'c', 'd'],
-              userAgentPackageName: mapTileUserAgentPackageName,
-            ),
-          if (showBathymetry)
+            xyz(baseUrl, maxNativeZoom: marine ? 16 : 19),
+
+          // Best free European coastal depth (EMODnet multicolour + contours).
+          if (showBathymetry && marine) ...[
             Opacity(
-              opacity: 0.72,
-              child: fm.TileLayer(
-                wmsOptions: fm.WMSTileLayerOptions(
-                  baseUrl: openSeaMapBathymetryWmsBaseUrl,
-                  layers: const [openSeaMapBathymetryWmsLayer],
-                  format: 'image/png',
-                  transparent: true,
-                  version: '1.1.1',
-                ),
-                userAgentPackageName: mapTileUserAgentPackageName,
+              opacity: 0.58,
+              child: wms(
+                base: emodnetBathymetryWmsBaseUrl,
+                layers: const [emodnetBathymetryWmsLayer],
+                styles: const [emodnetBathymetryWmsStyle],
+                maxNativeZoom: 13,
               ),
             ),
-          if (showSeamarks)
-            fm.TileLayer(
-              urlTemplate: openSeaMapSeamarkUrl,
-              userAgentPackageName: mapTileUserAgentPackageName,
+            Opacity(
+              opacity: 0.78,
+              child: wms(
+                base: emodnetBathymetryWmsBaseUrl,
+                layers: const [emodnetContoursWmsLayer],
+                maxNativeZoom: 14,
+              ),
             ),
+          ],
+
+          // Other basemaps: global GEBCO depth when toggle is on.
+          if (showBathymetry && !marine)
+            Opacity(
+              opacity: 0.7,
+              child: wms(
+                base: openSeaMapBathymetryWmsBaseUrl,
+                layers: const [openSeaMapBathymetryWmsLayer],
+                maxNativeZoom: 12,
+              ),
+            ),
+
+          // Chart-like labels / contours (Esri free Ocean Reference).
+          if (marine) xyz(esriOceanReferenceUrl, maxNativeZoom: 16),
+
+          if (showSeamarks) xyz(openSeaMapSeamarkUrl, maxNativeZoom: 18),
+
           if (routePts.length >= 2)
             fm.PolylineLayer(
               polylines: [
