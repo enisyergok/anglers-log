@@ -2220,8 +2220,8 @@ extension RodPowers on RodPower {
 }
 
 extension Symbols on Symbol {
-  static const _mapPinSize = 1.25;
-  static const _sizeDirectionArrow = 0.75;
+  static const _mapPinSize = 1.35;
+  static const _sizeDirectionArrow = 1.4;
 
   static Symbol fromFishingSpot(
     FishingSpot fishingSpot, {

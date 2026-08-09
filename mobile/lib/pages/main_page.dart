@@ -82,6 +82,7 @@ class MainPageState extends State<MainPage> {
             showMyLocationButton: true,
             showZoomExtentsButton: false,
             showMapTypeButton: false,
+            showAddButton: false,
             showGpsTrailButton: false,
             showFishingSpotActionButtons: false,
             children: const [MeraMapHud()],

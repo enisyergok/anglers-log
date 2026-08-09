@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:adair_flutter_lib/widgets/async_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
@@ -7,6 +9,7 @@ import 'package:mobile/map/flutter_map_controller.dart';
 import 'package:mobile/map/map_controller.dart';
 import 'package:mobile/map/map_region_manager.dart';
 import 'package:mobile/map/mbtiles_tile_provider.dart';
+import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/user_preference_manager.dart';
 
 import '../model/gen/anglers_log.pb.dart';
@@ -167,17 +170,20 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
               subdomains: const ['a', 'b', 'c', 'd'],
               userAgentPackageName: mapTileUserAgentPackageName,
             ),
-          // Depth shades + labelled contours (GEBCO via OpenSeaMap GeoServer).
+          // Depth shades (GEBCO via OpenSeaMap GeoServer WMS).
           if (showBathymetry)
-            fm.TileLayer(
-              wmsOptions: fm.WMSTileLayerOptions(
-                baseUrl: openSeaMapBathymetryWmsBaseUrl,
-                layers: const [openSeaMapBathymetryWmsLayer],
-                format: 'image/png',
-                transparent: true,
-                version: '1.1.1',
+            Opacity(
+              opacity: 0.72,
+              child: fm.TileLayer(
+                wmsOptions: fm.WMSTileLayerOptions(
+                  baseUrl: openSeaMapBathymetryWmsBaseUrl,
+                  layers: const [openSeaMapBathymetryWmsLayer],
+                  format: 'image/png',
+                  transparent: true,
+                  version: '1.1.1',
+                ),
+                userAgentPackageName: mapTileUserAgentPackageName,
               ),
-              userAgentPackageName: mapTileUserAgentPackageName,
             ),
           if (showSeamarks)
             fm.TileLayer(
@@ -185,6 +191,9 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
               userAgentPackageName: mapTileUserAgentPackageName,
             ),
           fm.MarkerLayer(markers: _controller.markers),
+          if (widget.isMyLocationEnabled) _MyLocationLayer(
+            locationMonitor: _locationMonitor,
+          ),
         ];
 
         return fm.FlutterMap(
@@ -226,5 +235,88 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
     }
 
     widget.onMapCreated?.call(_controller);
+  }
+}
+
+/// Large, high-contrast GPS marker (Siren-style boat + halo).
+class _MyLocationLayer extends StatelessWidget {
+  const _MyLocationLayer({required this.locationMonitor});
+
+  final LocationMonitor locationMonitor;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<LocationPoint>(
+      stream: locationMonitor.stream,
+      builder: (context, snap) {
+        final loc = snap.data ?? locationMonitor.currentLocation;
+        if (loc == null || !loc.isValid) {
+          return const SizedBox.shrink();
+        }
+        final heading = loc.heading;
+        final hasHeading =
+            heading != null && !heading.isNaN && heading >= 0 && heading <= 360;
+        return fm.MarkerLayer(
+          markers: [
+            fm.Marker(
+              point: ll.LatLng(loc.lat, loc.lng),
+              width: 72,
+              height: 72,
+              alignment: Alignment.center,
+              child: IgnorePointer(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: MeraColors.blue.withValues(alpha: 0.22),
+                        border: Border.all(
+                          color: MeraColors.blue.withValues(alpha: 0.55),
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: MeraColors.blue,
+                        border: Border.all(color: Colors.white, width: 3),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x99000000),
+                            blurRadius: 8,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (hasHeading)
+                      Transform.rotate(
+                        angle: heading * math.pi / 180,
+                        child: const Icon(
+                          Icons.navigation,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                      )
+                    else
+                      const Icon(
+                        Icons.directions_boat_filled,
+                        color: Colors.white,
+                        size: 14,
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

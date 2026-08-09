@@ -15,7 +15,7 @@ import '../utils/map_utils.dart';
 
 /// [MapController] backed by [fm.MapController] and Flutter [Marker] widgets.
 class FlutterMapController extends MapController with ChangeNotifier {
-  static const _basePinSize = 24.0;
+  static const _basePinSize = 40.0;
 
   final fm.MapController mapController;
 

@@ -56,6 +56,7 @@ class FishingSpotMap extends StatefulWidget {
   final bool showMyLocationButton;
   final bool showZoomExtentsButton;
   final bool showMapTypeButton;
+  final bool showAddButton;
 
   /// Regardless of this value, the GPS trail button is hidden if a new fishing
   /// spot is being picked (i.e. [pickerSettings] is not null).
@@ -78,6 +79,7 @@ class FishingSpotMap extends StatefulWidget {
     this.showMyLocationButton = true,
     this.showZoomExtentsButton = true,
     this.showMapTypeButton = true,
+    this.showAddButton = true,
     this.showGpsTrailButton = false,
     this.showFishingSpotActionButtons = true,
     this.children = const [],
@@ -91,6 +93,7 @@ class FishingSpotMap extends StatefulWidget {
       showMyLocationButton = true,
       showZoomExtentsButton = false,
       showMapTypeButton = true,
+      showAddButton = true,
       showGpsTrailButton = false,
       showFishingSpotActionButtons = true,
       children = [
@@ -370,6 +373,7 @@ class FishingSpotMapState extends State<FishingSpotMap> {
               Strings.of(context).mapPageMapTypeLight: MapType.light,
               Strings.of(context).mapPageMapTypeDark: MapType.dark,
               Strings.of(context).mapPageMapTypeSatellite: MapType.satellite,
+              'Okyanus': MapType.ocean,
             },
             onPicked: (newType) {
               if (newType == _mapType) {
@@ -515,6 +519,9 @@ class FishingSpotMapState extends State<FishingSpotMap> {
   }
 
   Widget _buildAddButton() {
+    if (!widget.showAddButton) {
+      return const SizedBox();
+    }
     if (_isPicking && _pickerSettings!.isStatic) {
       return const SizedBox();
     }

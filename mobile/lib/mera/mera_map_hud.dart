@@ -21,6 +21,7 @@ import 'package:mobile/navigation/nav_geo.dart';
 import 'package:mobile/navigation/nmea_udp_listener.dart';
 import 'package:mobile/pages/map_region_page.dart';
 import 'package:mobile/user_preference_manager.dart';
+import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/wrappers/share_plus_wrapper.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -433,6 +434,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
     final prefs = UserPreferenceManager.get;
     await showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: MeraColors.card,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(MeraRadii.lg)),
@@ -440,6 +442,8 @@ class _MeraMapHudState extends State<MeraMapHud> {
       builder: (ctx) {
         return StatefulBuilder(
           builder: (ctx, setModal) {
+            final currentType =
+                MapType.fromId(prefs.mapType) ?? MapType.satellite;
             return SafeArea(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
@@ -447,6 +451,17 @@ class _MeraMapHudState extends State<MeraMapHud> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    Center(
+                      child: Container(
+                        width: 36,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: MeraColors.cardBorder,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
                     const Text(
                       'Harita katmanları',
                       style: TextStyle(
@@ -454,12 +469,60 @@ class _MeraMapHudState extends State<MeraMapHud> {
                         fontSize: 16,
                       ),
                     ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Harita stili',
+                      style: TextStyle(
+                        color: MeraColors.textSecondary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        _mapStyleChip(
+                          label: 'Uydu',
+                          selected: currentType == MapType.satellite,
+                          onTap: () async {
+                            await prefs.setMapType(MapType.satellite.id);
+                            setModal(() {});
+                          },
+                        ),
+                        _mapStyleChip(
+                          label: 'Okyanus',
+                          selected: currentType == MapType.ocean,
+                          onTap: () async {
+                            await prefs.setMapType(MapType.ocean.id);
+                            setModal(() {});
+                          },
+                        ),
+                        _mapStyleChip(
+                          label: 'Koyu',
+                          selected: currentType == MapType.dark,
+                          onTap: () async {
+                            await prefs.setMapType(MapType.dark.id);
+                            setModal(() {});
+                          },
+                        ),
+                        _mapStyleChip(
+                          label: 'Açık',
+                          selected: currentType == MapType.light,
+                          onTap: () async {
+                            await prefs.setMapType(MapType.light.id);
+                            setModal(() {});
+                          },
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 8),
                     SwitchListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: const Text('Derinlik (GEBCO / OpenSeaMap)'),
+                      title: const Text('Derinlik (GEBCO)'),
                       subtitle: const Text(
-                        'Kontur ve derinlik tonları — zoom ≈11+',
+                        'Derinlik tonları — denize yakın zoom (≈11+)',
                         style: TextStyle(
                           color: MeraColors.textSecondary,
                           fontSize: 12,
@@ -493,9 +556,9 @@ class _MeraMapHudState extends State<MeraMapHud> {
                     ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: const Icon(Icons.download_outlined),
-                      title: const Text('Çevrimdışı bölgeler (MBTiles)'),
+                      title: const Text('Çevrimdışı bölgeler'),
                       subtitle: const Text(
-                        'Yüksek çözünürlüklü derinlik paketi aktar',
+                        'MBTiles paketlerini yönet',
                         style: TextStyle(
                           color: MeraColors.textSecondary,
                           fontSize: 12,
@@ -514,6 +577,28 @@ class _MeraMapHudState extends State<MeraMapHud> {
           },
         );
       },
+    );
+  }
+
+  Widget _mapStyleChip({
+    required String label,
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    return ChoiceChip(
+      label: Text(label),
+      selected: selected,
+      onSelected: (_) => onTap(),
+      selectedColor: MeraColors.blue,
+      backgroundColor: MeraColors.surface,
+      labelStyle: TextStyle(
+        color: selected ? Colors.white : MeraColors.textPrimary,
+        fontWeight: FontWeight.w600,
+        fontSize: 12,
+      ),
+      side: BorderSide(
+        color: selected ? MeraColors.blue : MeraColors.cardBorder,
+      ),
     );
   }
 

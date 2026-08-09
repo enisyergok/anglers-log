@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:adair_flutter_lib/res/dimen.dart';
-import 'package:adair_flutter_lib/res/theme.dart';
 import 'package:adair_flutter_lib/utils/widget.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:collection/collection.dart' show IterableExtension;
@@ -39,8 +38,7 @@ const metersPerDegree = 111139;
 // TODO: Move to its own class in the map/ directory.
 class MapType {
   static MapType of(BuildContext context) =>
-      MapType.fromId(UserPreferenceManager.get.mapType) ??
-      (context.isDarkTheme ? MapType.dark : MapType.light);
+      MapType.fromId(UserPreferenceManager.get.mapType) ?? MapType.satellite;
 
   static MapType? fromId(String? id) =>
       _allTypes.firstWhereOrNull((e) => e.id == id);
@@ -60,7 +58,13 @@ class MapType {
     'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
   );
 
-  static const _allTypes = [light, satellite, dark];
+  /// Esri ocean basemap — bathymetric shading built into the base layer.
+  static const ocean = MapType._(
+    'ocean',
+    'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}',
+  );
+
+  static const _allTypes = [light, satellite, dark, ocean];
 
   final String id;
 
