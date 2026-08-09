@@ -19,11 +19,17 @@ import 'protobuf_utils.dart';
 
 const mapZoomDefault = 13.0;
 
+/// OpenSeaMap seamark overlay tile URL template.
+const openSeaMapSeamarkUrl =
+    'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png';
+
+/// Package name used for tile request User-Agent headers (OSM ToS).
+const mapTileUserAgentPackageName = 'com.cohenadair.anglerslog';
+
 // From https://sciencing.com/convert-distances-degrees-meters-7858322.html.
 const metersPerDegree = 111139;
 
 // TODO: Move to its own class in the map/ directory.
-// TODO: Abstract out Mapbox-specific functionality.
 class MapType {
   static MapType of(BuildContext context) =>
       MapType.fromId(UserPreferenceManager.get.mapType) ??
@@ -33,51 +39,35 @@ class MapType {
       _allTypes.firstWhereOrNull((e) => e.id == id);
 
   static const light = MapType._(
-    "normal",
-    "ckt1zqb8d1h1p17pglx4pmz4y",
-    "ckz1rne34000o14p36fu4of1y",
-    "mapbox://styles/cohenadair/",
+    'normal',
+    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
   );
 
   static const satellite = MapType._(
-    "satellite",
-    "ckt1m613b127t17qqf3mmw47h",
-    "ckz1rts30002y15pq6t19lygy",
-    "mapbox://styles/cohenadair/",
+    'satellite',
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
   );
 
   static const dark = MapType._(
-    "dark",
-    "clgo7x3ne008a01pa2pi4e0h2",
-    "clgo8mr7o008k01nu7oj86r25",
-    "mapbox://styles/cohenadair/",
+    'dark',
+    'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
   );
 
   static const _allTypes = [light, satellite, dark];
 
   final String id;
 
-  /// Mapbox ID for general map use.
-  final String mapboxId;
+  /// Free raster tile URL template (`{z}`, `{x}`, `{y}`, optional `{s}`).
+  final String url;
 
-  /// Mapbox ID for static map use.
-  final String mapboxStaticId;
-
-  final String _url;
-
-  const MapType._(this.id, this.mapboxId, this.mapboxStaticId, this._url);
-
-  String get url => "$_url$mapboxId";
+  const MapType._(this.id, this.url);
 
   @override
   bool operator ==(Object other) =>
-      other is MapType &&
-      other.id == id &&
-      other.mapboxId == other.mapboxId &&
-      other._url == _url;
+      other is MapType && other.id == id && other.url == url;
 
   @override
-  int get hashCode => hash3(id, mapboxId, _url);
+  int get hashCode => hash2(id, url);
 }
 
 // TODO: Move to map/ directory.
@@ -196,17 +186,15 @@ LatLngBounds? latLngsToBounds(Iterable<LatLng> latLngs) {
 Color mapIconColor(MapType mapType) =>
     mapType == MapType.light ? Colors.black : Colors.white;
 
-/// Updates the Mapbox native logo and attribution margin so they appear above
-/// the widget identified by [detailsKey]. Uses the same formula as
-/// [FishingSpotMap].
+/// Updates attribution margin so it appears above the widget identified by
+/// [detailsKey]. Uses the same formula as [FishingSpotMap].
 void updateMapAttributionMargin(
   GlobalKey detailsKey,
   MapController? controller,
   BuildContext context,
 ) {
   final height = detailsKey.globalPosition()?.height ?? 0;
-  // The iOS Mapbox SDK automatically offsets ornaments by the safe area, but
-  // the Android SDK uses raw screen-bottom offsets, so we add it manually.
+  // On Android, include the system bottom inset so ornaments clear the nav bar.
   final androidBottomInset = IoWrapper.get.isAndroid
       ? MediaQuery.of(context).viewPadding.bottom
       : 0.0;

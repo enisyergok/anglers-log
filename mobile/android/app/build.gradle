@@ -3,7 +3,6 @@ plugins {
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
     id "org.jetbrains.kotlin.android"
-    id "com.google.gms.google-services"
 }
 
 def localProperties = new Properties()
@@ -82,7 +81,12 @@ android {
             }
         }
         release {
-            signingConfig signingConfigs.release
+            if (configured) {
+                signingConfig signingConfigs.release
+            } else {
+                // Allow CI / local release builds without a custom keystore.
+                signingConfig signingConfigs.debug
+            }
             ndk {
                 abiFilters 'armeabi-v7a','arm64-v8a','x86_64', 'x86'
             }

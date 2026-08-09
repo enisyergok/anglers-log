@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
 class MapboxWrapper {
   static var _instance = MapboxWrapper._();
@@ -14,5 +13,6 @@ class MapboxWrapper {
 
   MapboxWrapper._();
 
-  void setAccessToken(String token) => MapboxOptions.setAccessToken(token);
+  /// No-op: Mapbox access tokens are no longer required.
+  void setAccessToken(String token) {}
 }

@@ -1,7 +1,7 @@
-import 'package:adair_flutter_lib/managers/properties_manager.dart' as lib;
 import 'package:flutter/foundation.dart';
 
-/// A class for accessing data in configuration files.
+/// Configuration accessors. Paid API keys are no longer required for offline
+/// builds (Open-Meteo, TideTurtle, OSM/OpenSeaMap).
 class PropertiesManager {
   static var _instance = PropertiesManager._();
 
@@ -15,19 +15,6 @@ class PropertiesManager {
 
   PropertiesManager._();
 
-  final String _keyVisualCrossing = "visualCrossing.apiKey";
-  final String _keyMapbox = "mapbox.apiKey";
-  final String _keyWorldTides = "worldTides.apiKey";
-  final String _keyFirebaseSecret = "firebase.secret";
-
-  String get visualCrossingApiKey =>
-      lib.PropertiesManager.get.stringForKey(_keyVisualCrossing);
-
-  String get mapboxApiKey => lib.PropertiesManager.get.stringForKey(_keyMapbox);
-
-  String get worldTidesApiKey =>
-      lib.PropertiesManager.get.stringForKey(_keyWorldTides);
-
-  String get firebaseSecret =>
-      lib.PropertiesManager.get.stringForKey(_keyFirebaseSecret);
+  /// Kept for test mocks / legacy call sites; unused by maps after Mapbox removal.
+  String get mapboxApiKey => "";
 }

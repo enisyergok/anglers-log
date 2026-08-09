@@ -12,20 +12,47 @@ jobs:
         run: |
           git clone https://github.com/cohenadair/adair-flutter-lib.git ../adair-flutter-lib
 
+      - name: Patch adair-flutter-lib for offline/local builds
+        run: |
+          chmod +x scripts/patch-adair-lib.sh
+          ./scripts/patch-adair-lib.sh
+
       - name: Create dummy sensitive.properties
         run: |
-          echo "# Dummy config for CI build" > mobile/assets/sensitive.properties
-          echo "mapbox.token=dummy" >> mobile/assets/sensitive.properties
+          cat > mobile/assets/sensitive.properties <<EOF
+          visualCrossing.apiKey=unused
+          mapbox.apiKey=unused
+          worldTides.apiKey=unused
+          firebase.secret=unused
+          clientSender.email=unused@example.com
+          revenueCat.googleApiKey=unused
+          revenueCat.appleApiKey=unused
+          support.email=unused@example.com
+          sendGrid.apikey=unused
+          EOF
+          sed -i 's/^[[:space:]]*//' mobile/assets/sensitive.properties
 
       - name: Setup signing keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > mobile/android/app/anglers-log-release.keystore
-          cat > mobile/android/keystore.properties << PROPS
+          if [ -n "${ANDROID_KEYSTORE_BASE64}" ] && [ -n "${ANDROID_STORE_PASSWORD}" ] && [ -n "${ANDROID_KEY_ALIAS}" ] && [ -n "${ANDROID_KEY_PASSWORD}" ]; then
+            echo "${ANDROID_KEYSTORE_BASE64}" | base64 -d > mobile/android/app/anglers-log-release.keystore
+            cat > mobile/android/keystore.properties <<PROPS
           storeFile=anglers-log-release.keystore
-          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
-          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
-          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          storePassword=${ANDROID_STORE_PASSWORD}
+          keyAlias=${ANDROID_KEY_ALIAS}
+          keyPassword=${ANDROID_KEY_PASSWORD}
           PROPS
+            sed -i 's/^[[:space:]]*//' mobile/android/keystore.properties
+            echo "Using release keystore from secrets."
+          else
+            echo "Signing secrets missing; release APK will use debug signing."
+            rm -f mobile/android/keystore.properties
+          fi
 
       - uses: actions/setup-java@v4
         with:

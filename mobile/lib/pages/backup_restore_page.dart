@@ -6,11 +6,9 @@ import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/anim.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/date_time.dart';
-import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/checkbox_input.dart';
 import 'package:adair_flutter_lib/widgets/transparent_app_bar.dart';
 import 'package:adair_flutter_lib/widgets/watermark_logo.dart';
-import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/backup_restore_manager.dart';
 import 'package:mobile/notification_manager.dart';
@@ -18,15 +16,9 @@ import 'package:mobile/pages/anglers_log_pro_page.dart';
 import 'package:mobile/pages/feedback_page.dart';
 import 'package:mobile/res/style.dart';
 import 'package:mobile/user_preference_manager.dart';
-import 'package:mobile/utils/device_utils.dart';
 import 'package:mobile/widgets/async_feedback.dart';
-import 'package:mobile/widgets/cloud_auth.dart';
 import 'package:mobile/widgets/label_value.dart';
-import 'package:mobile/widgets/warning_container.dart';
-import 'package:mobile/widgets/widget.dart';
-import 'package:mobile/wrappers/url_launcher_wrapper.dart';
 import 'package:quiver/strings.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/string_utils.dart';
 
@@ -139,13 +131,6 @@ class _BackupRestorePage extends StatefulWidget {
 }
 
 class _BackupRestorePageState extends State<_BackupRestorePage> {
-  static const _driveBackupUrl =
-      "https://support.google.com/googleone/answer/9149304?hl=en&co=GENIE.Platform%3DAndroid";
-  static const _iCloudBackupUrlPhone =
-      "https://support.apple.com/en-ca/guide/iphone/iph3ecf67d29/ios";
-  static const _iCloudBackupUrlPad =
-      "https://support.apple.com/en-ca/guide/ipad/ipad9a74df05xx/ipados";
-
   late final StreamSubscription _authSubscription;
   late final StreamSubscription _progressSubscription;
   final _scrollController = ScrollController();
@@ -216,49 +201,13 @@ class _BackupRestorePageState extends State<_BackupRestorePage> {
   }
 
   Widget _buildDeprecationWarning() {
-    if (IoWrapper.get.isAndroid) {
-      return _buildWarningContainer(
-        Strings.of(context).backupRestorePageWarningGoogle,
-        Future.value(_driveBackupUrl),
-      );
-    } else {
-      return _buildWarningContainer(
-        Strings.of(context).backupRestorePageWarningApple,
-        _iCloudBackupUrl(),
-      );
-    }
-  }
-
-  Widget _buildWarningContainer(String text, Future<String> docUrl) {
-    return Padding(
-      padding: insetsHorizontalDefaultTopDefault,
-      child: WarningContainer(
-        children: [
-          Text(text),
-          Text(Strings.of(context).backupRestorePageWarningOwnRisk),
-          Align(
-            alignment: Alignment.center,
-            child: Button(
-              text: Strings.of(context).backupRestorePageOpenDoc,
-              onPressed: () async => UrlLauncherWrapper.of(
-                context,
-              ).launch(await docUrl, mode: LaunchMode.externalApplication),
-              icon: const Icon(Icons.open_in_new),
-              color: WarningContainer.buttonColor,
-            ),
-          ),
-        ],
-      ),
-    );
+    // Local zip backups replace Google Drive / iCloud guidance.
+    return const SizedBox();
   }
 
   Widget _buildAuthWidget() {
-    return const Column(
-      children: [
-        CloudAuth(padding: insetsDefault),
-        MinDivider(),
-      ],
-    );
+    // Local zip backups do not require Google Sign-In.
+    return const SizedBox();
   }
 
   Widget _buildActionWidget() {
@@ -291,9 +240,7 @@ class _BackupRestorePageState extends State<_BackupRestorePage> {
               description: _progressDescription,
               descriptionDetail: _progressError,
               actionText: widget.actionLabel,
-              action: _backupRestoreManager.isSignedIn
-                  ? widget.onTapAction
-                  : null,
+              action: widget.onTapAction,
               feedbackPage: feedbackPage,
             ),
           ),
@@ -431,9 +378,5 @@ class _BackupRestorePageState extends State<_BackupRestorePage> {
     _backupRestoreManager.clearLastProgressError();
     _backupRestoreManager.isBackupRestorePageShowing = false;
     Navigator.of(context).pop();
-  }
-
-  Future<String> _iCloudBackupUrl() async {
-    return (await isPad()) ? _iCloudBackupUrlPad : _iCloudBackupUrlPhone;
   }
 }

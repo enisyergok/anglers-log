@@ -1,8 +1,4 @@
-import 'package:adair_flutter_lib/widgets/checkbox_input.dart';
-import 'package:adair_flutter_lib/widgets/loading.dart';
-import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mobile/res/style.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/wrappers/url_launcher_wrapper.dart';
@@ -14,12 +10,12 @@ import 'button.dart';
 import 'our_bottom_sheet.dart';
 
 class MapboxAttribution extends StatelessWidget {
-  static const _urlMapbox = "https://www.mapbox.com/about/maps/";
-  static const _urlOpenStreetMap = "http://www.openstreetmap.org/copyright";
-  static const _urlImproveThisMap = "https://www.mapbox.com/map-feedback/";
-  static const _urlMaxar = "https://www.maxar.com/";
-
-  static const _size = Size(85, 20);
+  static const _urlOpenStreetMap = 'https://www.openstreetmap.org/copyright';
+  static const _urlOpenSeaMap = 'https://www.openseamap.org/';
+  static const _urlCarto = 'https://carto.com/attribution/';
+  static const _urlEsri =
+      'https://www.esri.com/en-us/legal/terms/full-master-agreement';
+  static const _urlOsmEdit = 'https://www.openstreetmap.org/fixthemap';
 
   final MapType? mapType;
   final MapController? mapController;
@@ -28,65 +24,37 @@ class MapboxAttribution extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: false,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            width: _size.width,
-            height: _size.height,
-            child: SvgPicture.asset(
-              "assets/mapbox-logo.svg",
-              color: mapIconColor(mapType ?? MapType.of(context)),
-            ),
+    final color = mapIconColor(mapType ?? MapType.of(context));
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          child: Text(
+            '© OSM · OpenSeaMap · CARTO · Esri',
+            style: styleSubtitle(context).copyWith(color: color, fontSize: 10),
+            overflow: TextOverflow.ellipsis,
           ),
-          MinimumIconButton(
-            icon: Icons.info_outline,
-            onTap: () => showOurBottomSheet(context, _buildPicker),
-          ),
-        ],
-      ),
+        ),
+        MinimumIconButton(
+          icon: Icons.info_outline,
+          onTap: () => showOurBottomSheet(context, _buildPicker),
+        ),
+      ],
     );
   }
 
   BottomSheetPicker _buildPicker(BuildContext context) {
     return BottomSheetPicker<String>(
-      title: IoWrapper.get.isAndroid
-          ? Strings.of(context).mapAttributionTitleAndroid
-          : Strings.of(context).mapAttributionTitleApple,
+      title: 'Map data',
       itemStyle: styleHyperlink(context),
       items: {
-        Strings.of(context).mapAttributionMapbox: _urlMapbox,
         Strings.of(context).mapAttributionOpenStreetMap: _urlOpenStreetMap,
-        Strings.of(context).mapAttributionImproveThisMap: _urlImproveThisMap,
-        Strings.of(context).mapAttributionMaxar: _urlMaxar,
+        '© OpenSeaMap': _urlOpenSeaMap,
+        '© CARTO': _urlCarto,
+        '© Esri': _urlEsri,
+        Strings.of(context).mapAttributionImproveThisMap: _urlOsmEdit,
       },
       onPicked: (url) => UrlLauncherWrapper.of(context).launch(url!),
-      footer: _buildFooter(),
-    );
-  }
-
-  Widget _buildFooter() {
-    if (mapController == null) {
-      return const SizedBox();
-    }
-
-    return FutureBuilder<bool>(
-      future: mapController!.isTelemetryEnabled(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Loading();
-        }
-
-        return CheckboxInput(
-          label: Strings.of(context).mapAttributionTelemetryTitle,
-          description: Strings.of(context).mapAttributionTelemetryDescription,
-          value: snapshot.data!,
-          onChanged: (isEnabled) async =>
-              await mapController?.setTelemetryEnabled(isEnabled),
-        );
-      },
     );
   }
 }

@@ -1,8 +1,6 @@
-import 'package:adair_flutter_lib/utils/date_time.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mobile/location_data_fetcher.dart';
 import 'package:mobile/utils/protobuf_utils.dart';
 import 'package:quiver/strings.dart';
@@ -11,16 +9,15 @@ import 'package:timezone/timezone.dart';
 import '../../utils/string_utils.dart';
 import 'app_manager.dart';
 import 'model/gen/anglers_log.pb.dart';
-import 'properties_manager.dart';
 import 'utils/network_utils.dart';
 import 'utils/number_utils.dart';
 import 'widgets/fetch_input_header.dart';
 import 'wrappers/http_wrapper.dart';
 
+/// Fetches tide data from the free TideTurtle API (no API key).
 class TideFetcher extends LocationDataFetcher<Tide?> {
-  static const datum = "CD";
-  static const _authority = "worldtides.info";
-  static const _path = "/api/v3";
+  static const _authority = "tideturtle.com";
+  static const _path = "/api/v1/tides";
 
   final Log log;
   final TZDateTime dateTime;
@@ -46,178 +43,327 @@ class TideFetcher extends LocationDataFetcher<Tide?> {
       return FetchInputResult();
     }
 
-    log.d("Fetching data...");
+    log.d("Fetching TideTurtle data...");
 
     var json = await _get();
     if (json == null) {
       return FetchInputResult();
     }
 
-    // Known errors: {status: 400, error: No location found}
+    // TideTurtle may return an error field, or empty tides for inland spots.
     var error = json["error"];
-    if ("No location found" == error) {
-      return FetchInputResult(
-        data: null,
-        errorMessage: strings.tideFetcherErrorNoLocationFound,
-      );
-    } else if (isNotEmpty(error)) {
+    if (error is String && isNotEmpty(error)) {
+      if (error.toLowerCase().contains("location") ||
+          error.toLowerCase().contains("inland")) {
+        return FetchInputResult(
+          data: null,
+          errorMessage: strings.tideFetcherErrorNoLocationFound,
+        );
+      }
       log.e("Tide fetch error: $error");
       return FetchInputResult();
     }
 
-    var heights = json["heights"];
-    if (heights is! List) {
-      log.e("Tide fetch is missing heights");
-      return FetchInputResult();
+    var tides = json["tides"];
+    if (!isValidJsonMap(tides)) {
+      log.e("TideTurtle response missing tides object");
+      return FetchInputResult(
+        data: null,
+        errorMessage: strings.tideFetcherErrorNoLocationFound,
+      );
     }
 
-    var extremes = json["extremes"];
-    if (extremes is! List) {
-      log.e("Tide fetch is missing extremes");
-      return FetchInputResult();
+    var data = tides["data"];
+    if (!isValidJsonMap(data)) {
+      log.e("TideTurtle response missing tides.data");
+      return FetchInputResult(
+        data: null,
+        errorMessage: strings.tideFetcherErrorNoLocationFound,
+      );
     }
+
+    var extrema = data["extrema"];
+    var heights = data["heights"];
 
     var tide = Tide(timeZone: dateTime.locationName);
-    _parseJsonHeights(tide, heights);
-    _parseJsonExtremes(tide, extremes);
+
+    if (heights is List) {
+      _parseHeightsSeries(tide, heights);
+    }
+
+    if (extrema is List) {
+      _parseExtrema(tide, extrema);
+    }
+
+    // If no heights series, synthesize from extrema so charts still have points.
+    if (tide.daysHeights.isEmpty && tide.hasFirstHighHeight()) {
+      _synthesizeDaysHeightsFromExtrema(tide);
+    } else if (tide.daysHeights.isEmpty) {
+      // Collect extrema-as-heights even if high/low assignment was empty.
+      if (extrema is List) {
+        for (var item in extrema) {
+          if (item is! Map) {
+            continue;
+          }
+          var height = _heightFromExtremaMap(Map<String, dynamic>.from(item));
+          if (height != null && _isSameCalendarDay(height.timestamp.toInt())) {
+            tide.daysHeights.add(height);
+          }
+        }
+        if (!tide.hasHeight() && tide.daysHeights.isNotEmpty) {
+          _setCurrentFromNearest(tide);
+        }
+      }
+    }
 
     if (!tide.isValid) {
-      log.e("Fetched invalid tide value");
-      return FetchInputResult();
+      // Microtides / inland: no usable extrema in the returned window.
+      log.d("No usable tide extrema for location/date");
+      return FetchInputResult(
+        data: null,
+        errorMessage: strings.tideFetcherErrorNoLocationFound,
+      );
     }
 
     return FetchInputResult(data: tide);
   }
 
-  void _parseJsonHeights(Tide tide, List<dynamic> jsonHeights) {
+  void _parseHeightsSeries(Tide tide, List<dynamic> jsonHeights) {
     int? currentMsDifference;
     Tide_Height? currentTideHeight;
 
-    _iterateTideList(jsonHeights, (timestamp, json) {
-      var height = _heightFromJson(timestamp, json);
+    for (var item in jsonHeights) {
+      if (item is! Map) {
+        continue;
+      }
+      var map = Map<String, dynamic>.from(item);
+      var height = _heightFromSeriesMap(map);
       if (height == null) {
-        return;
+        continue;
+      }
+      if (!_isSameCalendarDay(height.timestamp.toInt())) {
+        continue;
       }
 
-      // Add height to the collection of the days heights.
       tide.daysHeights.add(height);
 
-      // Set/calculate all current data.
-      var diff = (timestamp - dateTime.millisecondsSinceEpoch).abs();
-      if (currentMsDifference == null || diff < currentMsDifference!) {
+      var diff = (height.timestamp.toInt() - dateTime.millisecondsSinceEpoch)
+          .abs();
+      if (currentMsDifference == null || diff < currentMsDifference) {
         currentMsDifference = diff;
         currentTideHeight = height;
       }
-    });
+    }
 
-    // Add the tide information for the input date.
     if (currentTideHeight == null) {
       return;
     }
 
-    tide.height = currentTideHeight!;
+    tide.height = currentTideHeight;
 
-    var indexOfCurrent = tide.daysHeights.indexOf(currentTideHeight!);
+    var indexOfCurrent = tide.daysHeights.indexOf(currentTideHeight);
     if (indexOfCurrent > 0) {
       var prev = tide.daysHeights[indexOfCurrent - 1].value;
-
-      // Not sure how to handle Low, High, and Slack tide since technically
-      // they only happen for a second. Perhaps revisit at users' request.
-      if (prev < currentTideHeight!.value) {
+      if (prev < currentTideHeight.value) {
         tide.type = TideType.incoming;
-      } else if (prev > currentTideHeight!.value) {
+      } else if (prev > currentTideHeight.value) {
         tide.type = TideType.outgoing;
       }
     }
   }
 
-  void _parseJsonExtremes(Tide tide, List<dynamic> jsonExtremes) {
-    _iterateTideList(jsonExtremes, (timestamp, json) {
-      var type = json["type"];
-      if (type is! String) {
-        return;
+  void _parseExtrema(Tide tide, List<dynamic> jsonExtremes) {
+    for (var item in jsonExtremes) {
+      if (item is! Map) {
+        continue;
       }
-
-      var height = _heightFromJson(timestamp, json);
+      var map = Map<String, dynamic>.from(item);
+      var height = _heightFromExtremaMap(map);
       if (height == null) {
-        return;
+        continue;
+      }
+      if (!_isSameCalendarDay(height.timestamp.toInt())) {
+        continue;
       }
 
-      if (type == "Low") {
+      var isHigh = map["isHigh"];
+      if (isHigh is! bool) {
+        continue;
+      }
+
+      if (isHigh) {
+        if (tide.hasFirstHighHeight()) {
+          tide.secondHighHeight = height;
+        } else {
+          tide.firstHighHeight = height;
+        }
+      } else {
         if (tide.hasFirstLowHeight()) {
           tide.secondLowHeight = height;
         } else {
           tide.firstLowHeight = height;
         }
       }
+    }
 
-      if (type == "High") {
-        if (tide.hasFirstHighHeight()) {
-          tide.secondHighHeight = height;
-        } else {
-          tide.firstHighHeight = height;
-        }
-      }
-    });
-  }
-
-  /// Iterates the given JSON list. Assumes items in the list are sorted
-  /// chronologically. Only the items on the current day are passed to [work].
-  void _iterateTideList(
-    List<dynamic> json,
-    void Function(int timestamp, Map<String, dynamic> json) work,
-  ) {
-    for (var map in json) {
-      var dt = intFromDynamic(map["dt"]);
-      if (dt == null) {
-        continue;
-      }
-
-      var timestamp = dt * Duration.millisecondsPerSecond;
-
-      // WorldTides includes future data as well as the requested data. Filter
-      // it out here.
-      var heightDateTime = TZDateTime.fromMillisecondsSinceEpoch(
-        dateTime.location,
-        timestamp,
-      );
-      if (!isSameDay(dateTime, heightDateTime)) {
-        continue;
-      }
-
-      work(timestamp, map);
+    if (!tide.hasHeight()) {
+      _setCurrentFromNearest(tide);
     }
   }
 
-  Tide_Height? _heightFromJson(int timestamp, Map<String, dynamic> json) {
+  void _synthesizeDaysHeightsFromExtrema(Tide tide) {
+    var points = <Tide_Height>[];
+    if (tide.hasFirstLowHeight()) {
+      points.add(tide.firstLowHeight);
+    }
+    if (tide.hasFirstHighHeight()) {
+      points.add(tide.firstHighHeight);
+    }
+    if (tide.hasSecondLowHeight()) {
+      points.add(tide.secondLowHeight);
+    }
+    if (tide.hasSecondHighHeight()) {
+      points.add(tide.secondHighHeight);
+    }
+    points.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+    tide.daysHeights.addAll(points);
+
+    if (!tide.hasHeight() && points.isNotEmpty) {
+      _setCurrentFromNearest(tide);
+    }
+
+    if (!tide.hasType() && points.length >= 2) {
+      var indexOfCurrent = tide.hasHeight()
+          ? tide.daysHeights.indexWhere(
+              (h) => h.timestamp == tide.height.timestamp,
+            )
+          : -1;
+      if (indexOfCurrent > 0) {
+        var prev = tide.daysHeights[indexOfCurrent - 1].value;
+        if (prev < tide.height.value) {
+          tide.type = TideType.incoming;
+        } else if (prev > tide.height.value) {
+          tide.type = TideType.outgoing;
+        }
+      }
+    }
+  }
+
+  void _setCurrentFromNearest(Tide tide) {
+    Tide_Height? nearest;
+    int? bestDiff;
+    void consider(Tide_Height h) {
+      var diff = (h.timestamp.toInt() - dateTime.millisecondsSinceEpoch).abs();
+      if (bestDiff == null || diff < bestDiff!) {
+        bestDiff = diff;
+        nearest = h;
+      }
+    }
+
+    for (var h in tide.daysHeights) {
+      consider(h);
+    }
+    if (tide.hasFirstLowHeight()) {
+      consider(tide.firstLowHeight);
+    }
+    if (tide.hasFirstHighHeight()) {
+      consider(tide.firstHighHeight);
+    }
+    if (tide.hasSecondLowHeight()) {
+      consider(tide.secondLowHeight);
+    }
+    if (tide.hasSecondHighHeight()) {
+      consider(tide.secondHighHeight);
+    }
+
+    if (nearest != null) {
+      tide.height = nearest!;
+      // Approximate type from which extreme is nearest.
+      if (tide.hasFirstHighHeight() &&
+          nearest!.timestamp == tide.firstHighHeight.timestamp) {
+        tide.type = TideType.high;
+      } else if (tide.hasSecondHighHeight() &&
+          nearest!.timestamp == tide.secondHighHeight.timestamp) {
+        tide.type = TideType.high;
+      } else if (tide.hasFirstLowHeight() &&
+          nearest!.timestamp == tide.firstLowHeight.timestamp) {
+        tide.type = TideType.low;
+      } else if (tide.hasSecondLowHeight() &&
+          nearest!.timestamp == tide.secondLowHeight.timestamp) {
+        tide.type = TideType.low;
+      }
+    }
+  }
+
+  Tide_Height? _heightFromExtremaMap(Map<String, dynamic> json) {
     var height = doubleFromDynamic(json["height"]);
     if (height == null) {
       return null;
     }
 
-    return Tide_Height(timestamp: Int64(timestamp), value: height);
+    var timeStr = json["time"];
+    if (timeStr is! String || isEmpty(timeStr)) {
+      return null;
+    }
+    var parsed = DateTime.tryParse(timeStr);
+    if (parsed == null) {
+      return null;
+    }
+
+    return Tide_Height(
+      timestamp: Int64(parsed.toUtc().millisecondsSinceEpoch),
+      value: height,
+    );
+  }
+
+  Tide_Height? _heightFromSeriesMap(Map<String, dynamic> json) {
+    var height = doubleFromDynamic(json["height"]);
+    if (height == null) {
+      return null;
+    }
+
+    // Support either ISO "time" or epoch seconds "dt".
+    var timeStr = json["time"];
+    if (timeStr is String && isNotEmpty(timeStr)) {
+      var parsed = DateTime.tryParse(timeStr);
+      if (parsed == null) {
+        return null;
+      }
+      return Tide_Height(
+        timestamp: Int64(parsed.toUtc().millisecondsSinceEpoch),
+        value: height,
+      );
+    }
+
+    var dt = intFromDynamic(json["dt"]);
+    if (dt == null) {
+      return null;
+    }
+    return Tide_Height(
+      timestamp: Int64(dt * Duration.millisecondsPerSecond),
+      value: height,
+    );
+  }
+
+  bool _isSameCalendarDay(int timestampMs) {
+    var heightDateTime = TZDateTime.fromMillisecondsSinceEpoch(
+      dateTime.location,
+      timestampMs,
+    );
+    return heightDateTime.year == dateTime.year &&
+        heightDateTime.month == dateTime.month &&
+        heightDateTime.day == dateTime.day;
   }
 
   Future<Map<String, dynamic>?> _get() async {
-    // Note that results are returned in seconds since epoch. If "localtime"
-    // is included in the request, results will be fetched and returned in
-    // local time. For now, use epoch; however, it's possible using local time
-    // will result in a different number of high/low tides.
     var params = {
-      "heights": null,
-      "extremes": null,
-      "datum": datum,
-      "date": DateFormat("yyyy-MM-dd").format(dateTime),
       "lat": latLng!.latitudeString,
       "lon": latLng!.longitudeString,
-      "key": PropertiesManager.get.worldTidesApiKey,
     };
 
     return await getRestJson(
       _httpWrapper,
       Uri.https(_authority, _path, params),
-      // Error responses result in HTTP error codes, but we still need to read
-      // result.
       returnNullOnHttpError: false,
     );
   }
