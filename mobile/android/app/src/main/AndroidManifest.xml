@@ -22,7 +22,7 @@
     </queries>
 
     <application
-        android:label="Balıkçı Günlüğü"
+        android:label="@string/app_name"
         android:icon="@mipmap/launcher_icon"
         android:enableOnBackInvokedCallback="true">
         <activity
