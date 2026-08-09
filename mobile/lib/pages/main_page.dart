@@ -28,6 +28,7 @@ import '../utils/string_utils.dart';
 import '../widgets/add_anything_bottom_sheet.dart';
 import '../widgets/fishing_spot_map.dart';
 import '../widgets/widget.dart';
+import '../navigation/navigation_overlay.dart';
 import '../wrappers/in_app_review_wrapper.dart';
 import 'anglers_log_pro_page.dart';
 import 'backup_restore_page.dart';
@@ -79,7 +80,10 @@ class MainPageState extends State<MainPage> {
       _BarItemModel(
         page: _NavigatorPage(
           navigatorKey: GlobalKey<NavigatorState>(),
-          builder: (context) => FishingSpotMap(showGpsTrailButton: true),
+          builder: (context) => FishingSpotMap(
+            showGpsTrailButton: true,
+            children: const [NavigationOverlay()],
+          ),
         ),
         iconBuilder: _buildMapIcon,
         titleBuilder: (context) => Strings.of(context).mapPageMenuLabel,

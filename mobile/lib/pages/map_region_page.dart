@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/snack_bar.dart';
@@ -6,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/map/map_region_manager.dart';
 import 'package:mobile/map/offline_map_region.dart';
+import 'package:mobile/navigation/mera_manager.dart';
 import 'package:mobile/widgets/list_item.dart';
 import 'package:mobile/widgets/widget.dart';
 
@@ -156,6 +159,11 @@ class _RegionTile extends StatelessWidget {
                       icon: const Icon(Icons.delete_outline),
                       label: const Text('Sil'),
                     ),
+                  OutlinedButton.icon(
+                    onPressed: () => _importMeraJson(context),
+                    icon: const Icon(Icons.upload_file),
+                    label: const Text('Mera JSON'),
+                  ),
                 ],
               ),
             ),
@@ -164,6 +172,39 @@ class _RegionTile extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<void> _importMeraJson(BuildContext context) async {
+    try {
+      final result = await FilePickerWrapper.get.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: const ['json'],
+        allowMultiple: false,
+        withData: true,
+      );
+      if (result == null || result.files.isEmpty) {
+        return;
+      }
+      final bytes = result.files.single.bytes;
+      final path = result.files.single.path;
+      String json;
+      if (bytes != null) {
+        json = String.fromCharCodes(bytes);
+      } else if (path != null) {
+        json = await File(path).readAsString();
+      } else {
+        showErrorSnackBar(context, 'JSON okunamadı');
+        return;
+      }
+      final n = await MeraManager.get.importJson(json);
+      if (context.mounted) {
+        showSuccessSnackBar(context, '$n mera noktası içe aktarıldı');
+      }
+    } catch (e) {
+      if (context.mounted) {
+        showErrorSnackBar(context, e.toString());
+      }
+    }
   }
 
   Future<void> _download(BuildContext context, OfflineMapRegion region) async {

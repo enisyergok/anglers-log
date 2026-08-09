@@ -2,6 +2,7 @@ import 'package:adair_flutter_lib/adair_flutter_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/gps_trail_manager.dart';
 import 'package:mobile/map/map_region_manager.dart';
+import 'package:mobile/navigation/mera_manager.dart';
 import 'package:mobile/poll_manager.dart';
 import 'package:mobile/region_manager.dart';
 import 'package:mobile/wrappers/csv_wrapper.dart';
@@ -256,6 +257,7 @@ class AppManager {
     if (isStartup) {
       await RegionManager.get.init();
       await MapRegionManager.get.init();
+      await MeraManager.get.init();
       await locationMonitor.initialize();
       await PollManager.get.initialize();
     }

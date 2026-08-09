@@ -1,0 +1,73 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "demo-shallow-1",
+        "max_depth_m": 5
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              28.85,
+              40.95
+            ],
+            [
+              29.05,
+              40.95
+            ],
+            [
+              29.05,
+              40.85
+            ],
+            [
+              28.85,
+              40.85
+            ],
+            [
+              28.85,
+              40.95
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "demo-shallow-2",
+        "max_depth_m": 5
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27.2,
+              40.4
+            ],
+            [
+              27.45,
+              40.4
+            ],
+            [
+              27.45,
+              40.28
+            ],
+            [
+              27.2,
+              40.28
+            ],
+            [
+              27.2,
+              40.4
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
