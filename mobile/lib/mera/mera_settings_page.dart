@@ -28,7 +28,7 @@ class MeraSettingsPage extends StatelessWidget {
                 _tile(
                   context,
                   Icons.person_outline,
-                  'Profil',
+                  'Profil Bilgileri',
                   'Yerel kullanım — hesap gerekmez',
                   null,
                 ),

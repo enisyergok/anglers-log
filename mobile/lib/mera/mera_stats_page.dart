@@ -57,11 +57,11 @@ class _MeraStatsPageState extends State<MeraStatsPage> {
           final sorted = bySpecies.entries.toList()
             ..sort((a, b) => b.value.compareTo(a.value));
           final colors = [
-            MeraColors.green,
-            MeraColors.blue,
             MeraColors.warning,
-            const Color(0xFFA78BFA),
-            const Color(0xFF22D3EE),
+            MeraColors.blue,
+            const Color(0xFF4C8C72),
+            const Color(0xFF324B58),
+            MeraColors.green,
             MeraColors.danger,
           ];
 
