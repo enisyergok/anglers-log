@@ -54,7 +54,6 @@ dependencies:
   intl: ^0.20.2                                         # https://pub.dev/packages/intl (Dart)
   flutter_linkify: ^6.0.0                               # https://pub.dev/packages/flutter_linkify (verified)
   flutter_map: ^8.1.1                                   # https://pub.dev/packages/flutter_map (verified)
-  flutter_map_pmtiles: ^1.0.5                           # https://pub.dev/packages/flutter_map_pmtiles
   latlong2: ^0.9.1                                      # https://pub.dev/packages/latlong2 (verified)
   native_exif: ^0.6.0                                   # https://pub.dev/packages/native_exif (verified)
   package_info_plus: ^9.0.1                             # https://pub.dev/packages/package_info_plus (Flutter)

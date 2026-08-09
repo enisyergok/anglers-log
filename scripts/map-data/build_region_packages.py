@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Produce a demo regional PMTiles stub + shallow GeoJSON for Balıkçı Günlüğü.
+"""Produce demo shallow GeoJSON + MBTiles production notes for Balıkçı Günlüğü.
 
-Full EMODnet/GEBCO heatmaps need GDAL + pmtiles CLI. This script:
+Full EMODnet/GEBCO heatmaps need GDAL. This script:
   1. Writes Marmara shallow demo GeoJSON (matches NavGeo catalog).
-  2. Documents how to extract a real basemap cutout with `pmtiles extract`.
+  2. Documents bbox cuts for regional offline packages (MBTiles).
 
 Usage:
   python scripts/map-data/build_region_packages.py
@@ -72,19 +72,24 @@ def main() -> None:
     guide = OUT / "EXTRACT_COMMANDS.sh"
     lines = [
         "#!/usr/bin/env bash",
-        "# Requires: https://github.com/protomaps/go-pmtiles/releases",
-        "# Pick a daily basemap from https://maps.protomaps.com/builds",
+        "# Produce regional *.mbtiles (not PMTiles — app uses protobuf ^4).",
+        "# Example pipeline: GDAL GeoTIFF → gdal2tiles → mb-util → name.mbtiles",
         "set -euo pipefail",
-        'SRC="${1:-https://build.protomaps.com/20260730.pmtiles}"',
         "",
+        "# Region bboxes (west,south,east,north) — use with gdal_translate -projwin",
     ]
     for name, meta in REGIONS.items():
+        west, south, east, north = meta["bbox"].split(",")
         lines.append(
-            f'pmtiles extract "$SRC" "{name}.pmtiles" '
-            f'--bbox={meta["bbox"]} --maxzoom={meta["maxzoom"]}'
+            f"# {name}: bbox={meta['bbox']} maxzoom={meta['maxzoom']} "
+            f"→ {name}.mbtiles"
+        )
+        lines.append(
+            f"# gdal_translate -projwin {west} {north} {east} {south} "
+            f"source.tif {name}.tif"
         )
     lines.append("")
-    lines.append("# Then: app → Çevrimdışı Harita Bölgeleri → Dosyadan aktar")
+    lines.append("# Then: app → Çevrimdışı Harita Bölgeleri → Dosyadan aktar (.mbtiles)")
     guide.write_text("\n".join(lines), encoding="utf-8")
     print(f"Wrote {guide}")
     print("Done. For bathymetry heatmap rasters use GDAL + EMODnet/GEBCO (see README.md).")

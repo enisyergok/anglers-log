@@ -1,12 +1,12 @@
 import 'package:adair_flutter_lib/widgets/async_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
-import 'package:flutter_map_pmtiles/flutter_map_pmtiles.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/location_monitor.dart';
 import 'package:mobile/map/flutter_map_controller.dart';
 import 'package:mobile/map/map_controller.dart';
 import 'package:mobile/map/map_region_manager.dart';
+import 'package:mobile/map/mbtiles_tile_provider.dart';
 
 import '../model/gen/anglers_log.pb.dart';
 import '../utils/map_utils.dart';
@@ -15,7 +15,7 @@ import '../utils/protobuf_utils.dart';
 /// A [fm.FlutterMap] wrapper with default values/functionality set for this app.
 ///
 /// Uses online OSM tiles by default. When [MapRegionManager] has an active
-/// regional PMTiles package, that file becomes the base layer (offline-first).
+/// regional MBTiles package, that file becomes the base layer (offline-first).
 ///
 /// See:
 ///  - [StaticFishingSpotMap]
@@ -26,7 +26,7 @@ class DefaultMapboxMap extends StatefulWidget {
   final double? startZoom;
 
   /// Optional base tile URL template override. Defaults to [MapType.of] /
-  /// [FlutterMapController.mapType]. Ignored when a PMTiles region is active.
+  /// [FlutterMapController.mapType]. Ignored when an MBTiles region is active.
   final String? style;
   final bool isMyLocationEnabled;
 
@@ -54,13 +54,12 @@ class DefaultMapboxMap extends StatefulWidget {
 }
 
 class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
-  // Wait for navigation animations to finish before loading the map. This
-  // allows for a smooth animation.
   late final Future<bool> _mapFuture;
   late final fm.MapController _fmController;
   late final FlutterMapController _controller;
 
   var _didNotifyCreated = false;
+  MbtilesTileProvider? _mbtilesProvider;
 
   LocationMonitor get _locationMonitor => LocationMonitor.of(context);
 
@@ -74,6 +73,7 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
 
   @override
   void dispose() {
+    _mbtilesProvider?.close();
     _controller.dispose();
     _fmController.dispose();
     super.dispose();
@@ -92,14 +92,17 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
           stream: MapRegionManager.get.stream,
           builder: (context, _) {
             return FutureBuilder<String?>(
-              future: MapRegionManager.get.activePmtilesPath(),
-              builder: (context, pmSnap) {
-                final pmPath = pmSnap.data;
-                if (pmPath != null) {
-                  return FutureBuilder<PmTilesTileProvider>(
-                    future: PmTilesTileProvider.fromSource(pmPath),
+              future: MapRegionManager.get.activeMbtilesPath(),
+              builder: (context, pathSnap) {
+                final path = pathSnap.data;
+                if (path != null) {
+                  return FutureBuilder<MbtilesTileProvider>(
+                    future: _openMbtiles(path),
                     builder: (context, providerSnap) {
                       if (!providerSnap.hasData) {
+                        if (providerSnap.hasError) {
+                          return _buildMap(context, start);
+                        }
                         return const Center(child: CircularProgressIndicator());
                       }
                       return _buildMap(
@@ -117,6 +120,12 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
         );
       },
     );
+  }
+
+  Future<MbtilesTileProvider> _openMbtiles(String path) async {
+    await _mbtilesProvider?.close();
+    _mbtilesProvider = await MbtilesTileProvider.open(path);
+    return _mbtilesProvider!;
   }
 
   Widget _buildMap(
@@ -137,7 +146,6 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
               subdomains: const ['a', 'b', 'c', 'd'],
               userAgentPackageName: mapTileUserAgentPackageName,
             ),
-          // Seamark remains online overlay when network is available.
           fm.TileLayer(
             urlTemplate: openSeaMapSeamarkUrl,
             userAgentPackageName: mapTileUserAgentPackageName,
@@ -175,7 +183,6 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
     _didNotifyCreated = true;
     _controller.setMapType(MapType.of(context));
 
-    // Jump to active region center once when a package is active.
     final region = MapRegionManager.get.activeRegion;
     if (region != null) {
       _fmController.move(

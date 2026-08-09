@@ -9,7 +9,7 @@ import 'package:mobile/map/offline_map_region.dart';
 import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Download / activate / delete regional PMTiles packages.
+/// Download / activate / delete regional MBTiles packages.
 ///
 /// Online OSM tiles remain the fallback when no region file is active.
 class MapRegionManager {
@@ -97,8 +97,8 @@ class MapRegionManager {
     return file.lengthSync();
   }
 
-  /// Absolute path of the active PMTiles file, or null.
-  Future<String?> activePmtilesPath() async {
+  /// Absolute path of the active MBTiles file, or null.
+  Future<String?> activeMbtilesPath() async {
     final region = activeRegion;
     if (region == null) {
       return null;
@@ -108,6 +108,9 @@ class MapRegionManager {
     }
     return localPathFor(region);
   }
+
+  /// Back-compat alias.
+  Future<String?> activePmtilesPath() => activeMbtilesPath();
 
   Future<void> setActive(String? regionId) async {
     if (regionId != null && !await isDownloaded(regionId)) {
@@ -192,7 +195,7 @@ class MapRegionManager {
     }
   }
 
-  /// Copy an existing `.pmtiles` file into the region slot and activate it.
+  /// Copy an existing `.mbtiles` file into the region slot and activate it.
   Future<void> importFile(OfflineMapRegion region, String sourcePath) async {
     final source = File(sourcePath);
     if (!await source.exists()) {

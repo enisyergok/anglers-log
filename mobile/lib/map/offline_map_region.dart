@@ -1,9 +1,12 @@
 import 'package:latlong2/latlong.dart';
 
-/// A downloadable offline map region (PMTiles package for Turkish waters).
+/// A downloadable offline map region (MBTiles package for Turkish waters).
 ///
 /// Packages are produced offline by `scripts/map-data/` (GEBCO/EMODnet +
-/// OpenSeaMap) and hosted or sideloaded as `.pmtiles` files.
+/// OpenSeaMap) and hosted or sideloaded as `.mbtiles` files.
+///
+/// MBTiles is used instead of PMTiles to avoid a protobuf ^3 vs ^4 conflict
+/// with the app's generated models.
 class OfflineMapRegion {
   /// Stable id used for filenames and preferences.
   final String id;
@@ -24,7 +27,7 @@ class OfflineMapRegion {
   final LatLng sw;
   final LatLng ne;
 
-  /// Optional remote URL for the regional base/bathymetry PMTiles file.
+  /// Optional remote URL for the regional MBTiles file.
   /// When null, the user can only import a local file.
   final String? downloadUrl;
 
@@ -54,8 +57,7 @@ class OfflineMapRegion {
       initialZoom: 8.5,
       sw: LatLng(40.2, 26.5),
       ne: LatLng(41.4, 30.0),
-      fileName: 'marmara.pmtiles',
-      // Filled when a hosted package exists; until then use "Dosyadan içe aktar".
+      fileName: 'marmara.mbtiles',
       downloadUrl: null,
     ),
     OfflineMapRegion(
@@ -66,7 +68,7 @@ class OfflineMapRegion {
       initialZoom: 7.5,
       sw: LatLng(36.0, 25.0),
       ne: LatLng(40.8, 28.5),
-      fileName: 'ege.pmtiles',
+      fileName: 'ege.mbtiles',
       downloadUrl: null,
     ),
     OfflineMapRegion(
@@ -77,7 +79,7 @@ class OfflineMapRegion {
       initialZoom: 7.0,
       sw: LatLng(40.8, 27.5),
       ne: LatLng(42.5, 42.0),
-      fileName: 'karadeniz.pmtiles',
+      fileName: 'karadeniz.mbtiles',
       downloadUrl: null,
     ),
     OfflineMapRegion(
@@ -88,7 +90,7 @@ class OfflineMapRegion {
       initialZoom: 7.0,
       sw: LatLng(35.5, 27.0),
       ne: LatLng(37.5, 36.5),
-      fileName: 'akdeniz.pmtiles',
+      fileName: 'akdeniz.mbtiles',
       downloadUrl: null,
     ),
   ];

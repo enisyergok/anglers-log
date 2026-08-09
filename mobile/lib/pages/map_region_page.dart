@@ -12,7 +12,7 @@ import 'package:mobile/navigation/mera_manager.dart';
 import 'package:mobile/widgets/list_item.dart';
 import 'package:mobile/widgets/widget.dart';
 
-/// Manage regional offline PMTiles packages (Marmara, Ege, …).
+/// Manage regional offline MBTiles packages (Marmara, Ege, …).
 class MapRegionPage extends StatelessWidget {
   static const icon = Icons.map_outlined;
 
@@ -227,7 +227,7 @@ class _RegionTile extends StatelessWidget {
     try {
       final result = await FilePickerWrapper.get.pickFiles(
         type: FileType.custom,
-        allowedExtensions: const ['pmtiles'],
+        allowedExtensions: const ['mbtiles'],
         allowMultiple: false,
         withData: false,
       );
