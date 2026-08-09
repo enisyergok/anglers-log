@@ -811,7 +811,12 @@ class _MeraMapHudState extends State<MeraMapHud> {
       meters += NavGeo.haversineMeters(pts[i], pts[i + 1]);
     }
     final warn = _mapIx.shallowHit ? '\n⚠ Sığlık kesişimi!' : '';
-    return '${pts.length} nokta · ${(meters / 1852).toStringAsFixed(2)} Nm$warn';
+    final land = _mapIx.landRerouteFailed
+        ? '\n⚠ Kara engeli — deniz rotası bulunamadı, waypoint ekleyin'
+        : (_mapIx.landRerouted
+            ? '\n✓ Kara engellendi — rota denizden düzeltildi'
+            : '');
+    return '${pts.length} nokta · ${(meters / 1852).toStringAsFixed(2)} Nm$warn$land';
   }
 
   String _navLabel() {
@@ -1028,6 +1033,8 @@ class _MeraMapHudState extends State<MeraMapHud> {
   }
 
   Future<void> _saveRoute() async {
+    // Final pass: ensure no land-crossing legs are persisted.
+    _mapIx.replanDraftAroundLand();
     final pts = _mapIx.draftPoints;
     if (pts.length < 2) return;
     var meters = 0.0;

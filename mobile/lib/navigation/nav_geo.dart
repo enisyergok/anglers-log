@@ -50,8 +50,23 @@ class NavGeo {
   }
 
   static bool routeHitsShallows(LatLng a, LatLng b, List<List<LatLng>> polygons) {
+    return routeHitsLand(a, b, polygons);
+  }
+
+  /// True if segment [a]→[b] intersects any land / obstacle polygon.
+  static bool routeHitsLand(LatLng a, LatLng b, List<List<LatLng>> polygons) {
     for (final poly in polygons) {
       if (segmentIntersectsPolygon(a, b, poly)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /// True if any consecutive pair in [points] hits land.
+  static bool pathHitsLand(List<LatLng> points, List<List<LatLng>> polygons) {
+    for (var i = 0; i < points.length - 1; i++) {
+      if (routeHitsLand(points[i], points[i + 1], polygons)) {
         return true;
       }
     }

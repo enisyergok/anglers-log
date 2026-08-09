@@ -4,8 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/map/map_controller.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart' as pb;
+import 'package:mobile/navigation/land_polygon_catalog.dart';
 import 'package:mobile/navigation/mera_manager.dart';
 import 'package:mobile/navigation/nmea_udp_listener.dart';
+import 'package:mobile/navigation/water_route_planner.dart';
 import 'package:mobile/utils/map_utils.dart';
 
 /// Shared map interaction state between [MeraMapHud] and [DefaultMapboxMap].
@@ -22,6 +24,12 @@ class MeraMapInteraction extends ChangeNotifier {
   /// Multi-waypoint draft (route draw / edit).
   List<ll.LatLng> draftPoints = [];
   bool shallowHit = false;
+
+  /// True when the last auto-plan routed around land.
+  bool landRerouted = false;
+
+  /// True when land was detected but no water path was found.
+  bool landRerouteFailed = false;
 
   /// Tap-to-drop [MeraSpot] mode.
   bool pinMode = false;
@@ -43,6 +51,8 @@ class MeraMapInteraction extends ChangeNotifier {
       editingRouteId = null;
       draftPoints = [];
       shallowHit = false;
+      landRerouted = false;
+      landRerouteFailed = false;
       notifyListeners();
       return;
     }
@@ -53,6 +63,8 @@ class MeraMapInteraction extends ChangeNotifier {
       draftPoints = [];
     }
     shallowHit = false;
+    landRerouted = false;
+    landRerouteFailed = false;
     notifyListeners();
   }
 
@@ -64,6 +76,8 @@ class MeraMapInteraction extends ChangeNotifier {
       editingRouteId = null;
       draftPoints = [];
       shallowHit = false;
+      landRerouted = false;
+      landRerouteFailed = false;
     }
     pinMode = enabled;
     notifyListeners();
@@ -73,6 +87,8 @@ class MeraMapInteraction extends ChangeNotifier {
     editingRouteId = null;
     draftPoints = [];
     shallowHit = false;
+    landRerouted = false;
+    landRerouteFailed = false;
     notifyListeners();
   }
 
@@ -80,6 +96,8 @@ class MeraMapInteraction extends ChangeNotifier {
   void clearDraftPoints() {
     draftPoints = [];
     shallowHit = false;
+    landRerouted = false;
+    landRerouteFailed = false;
     notifyListeners();
   }
 
@@ -94,30 +112,60 @@ class MeraMapInteraction extends ChangeNotifier {
     editingRouteId = routeId;
     draftPoints = List<ll.LatLng>.from(points);
     shallowHit = false;
-    notifyListeners();
+    replanDraftAroundLand();
     if (points.isNotEmpty && mapController != null) {
-      if (points.length >= 2) {
+      if (draftPoints.length >= 2) {
         final mid = ll.LatLng(
-          (points.first.latitude + points.last.latitude) / 2,
-          (points.first.longitude + points.last.longitude) / 2,
+          (draftPoints.first.latitude + draftPoints.last.latitude) / 2,
+          (draftPoints.first.longitude + draftPoints.last.longitude) / 2,
         );
         await centerOnLatLng(mid, zoom: 12);
       } else {
-        await centerOnLatLng(points.first, zoom: 13);
+        await centerOnLatLng(draftPoints.first, zoom: 13);
       }
     }
   }
 
   /// Append a waypoint (route mode) or drop a MeraSpot (pin mode).
+  ///
+  /// In route mode, if the new leg crosses land, intermediate water
+  /// waypoints are inserted automatically.
   Future<void> handleMapTap(ll.LatLng point) async {
     if (routeMode) {
-      draftPoints = [...draftPoints, point];
+      if (draftPoints.isEmpty) {
+        draftPoints = [point];
+        landRerouted = false;
+        landRerouteFailed = false;
+      } else {
+        final from = draftPoints.last;
+        final plan = WaterRoutePlanner.planSegment(
+          from,
+          point,
+          land: LandPolygonCatalog.all,
+        );
+        draftPoints = [...draftPoints, ...plan.points.skip(1)];
+        landRerouted = plan.avoidedLand;
+        landRerouteFailed = plan.failed;
+      }
       notifyListeners();
       return;
     }
     if (pinMode) {
       await _addPinAt(point);
     }
+  }
+
+  /// Re-run land avoidance on the whole draft (e.g. after edit load).
+  void replanDraftAroundLand() {
+    if (draftPoints.length < 2) return;
+    final plan = WaterRoutePlanner.planRoute(
+      draftPoints,
+      land: LandPolygonCatalog.all,
+    );
+    draftPoints = plan.points;
+    landRerouted = plan.avoidedLand;
+    landRerouteFailed = plan.failed;
+    notifyListeners();
   }
 
   /// Long-press drops a pin unless route editing is active.
@@ -141,6 +189,8 @@ class MeraMapInteraction extends ChangeNotifier {
     if (draftPoints.isEmpty) return;
     draftPoints = List<ll.LatLng>.from(draftPoints)..removeLast();
     shallowHit = false;
+    landRerouted = false;
+    landRerouteFailed = false;
     notifyListeners();
   }
 
