@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobile/mera/siren_fish_art.dart';
 import 'package:mobile/mera/turkish_sea_fish_catalog.dart';
 
 void main() {
@@ -17,5 +18,12 @@ void main() {
     expect(TurkishSeaFishCatalog.assetFor('bass'), 'assets/fish/levrek.svg');
     expect(TurkishSeaFishCatalog.assetFor('Hamsi'), 'assets/fish/hamsi.svg');
     expect(TurkishSeaFishCatalog.assetFor('Bilinmeyen'), 'assets/fish/diger.svg');
+  });
+
+  test('photo species resolve via SirenFishArt to webp', () {
+    expect(SirenFishArt.assetFor('Çipura'), 'assets/fish/cipura.webp');
+    expect(SirenFishArt.assetFor('Levrek'), 'assets/fish/levrek.webp');
+    expect(SirenFishArt.assetFor('Mercan'), 'assets/fish/mercan.webp');
+    expect(SirenFishArt.assetFor('Lüfer'), 'assets/fish/lufer.svg');
   });
 }
