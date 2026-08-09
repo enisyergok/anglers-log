@@ -26,4 +26,14 @@ cp "${STUBS}/lib/wrappers/firebase_wrapper.dart" \
   "${LIB_ROOT}/lib/wrappers/firebase_wrapper.dart"
 cp "${STUBS}/lib/wrappers/analytics_wrapper.dart" \
   "${LIB_ROOT}/lib/wrappers/analytics_wrapper.dart"
+mkdir -p "${LIB_ROOT}/lib/l10n/gen"
+cp "${STUBS}/lib/l10n/adair_flutter_lib_tr.arb" "${LIB_ROOT}/lib/l10n/" || true
+if [[ -f "${STUBS}/lib/l10n/gen/adair_flutter_lib_localizations_tr.dart" ]]; then
+  cp "${STUBS}/lib/l10n/gen/adair_flutter_lib_localizations_tr.dart" \
+    "${LIB_ROOT}/lib/l10n/gen/"
+fi
+if [[ -f "${STUBS}/lib/l10n/gen/adair_flutter_lib_localizations.dart" ]]; then
+  cp "${STUBS}/lib/l10n/gen/adair_flutter_lib_localizations.dart" \
+    "${LIB_ROOT}/lib/l10n/gen/"
+fi
 echo "Done."

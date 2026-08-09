@@ -22,7 +22,7 @@
     </queries>
 
     <application
-        android:label="Anglers' Log"
+        android:label="Balıkçı Günlüğü"
         android:icon="@mipmap/launcher_icon"
         android:enableOnBackInvokedCallback="true">
         <activity

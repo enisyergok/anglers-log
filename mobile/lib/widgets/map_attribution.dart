@@ -45,7 +45,7 @@ class MapboxAttribution extends StatelessWidget {
 
   BottomSheetPicker _buildPicker(BuildContext context) {
     return BottomSheetPicker<String>(
-      title: 'Map data',
+      title: 'Harita verileri',
       itemStyle: styleHyperlink(context),
       items: {
         Strings.of(context).mapAttributionOpenStreetMap: _urlOpenStreetMap,

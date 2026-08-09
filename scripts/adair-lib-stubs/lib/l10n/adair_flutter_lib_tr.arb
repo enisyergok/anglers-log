@@ -1,0 +1,182 @@
+{
+  "add": "Ekle",
+  "cancel": "İptal",
+  "save": "Kaydet",
+  "delete": "Sil",
+  "ok": "Tamam",
+  "error": "Hata",
+  "warning": "Uyarı",
+  "continueString": "Devam",
+  "today": "Bugün",
+  "yesterday": "Dün",
+  "yearsFormat": "{numOfYears}y",
+  "@yearsFormat": {
+    "placeholders": {
+      "numOfYears": {
+        "type": "int"
+      }
+    }
+  },
+  "daysFormat": "{numOfDays}g",
+  "@daysFormat": {
+    "placeholders": {
+      "numOfDays": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursFormat": "{numOfHours}s",
+  "@hoursFormat": {
+    "placeholders": {
+      "numOfHours": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesFormat": "{numOfMinutes}dk",
+  "@minutesFormat": {
+    "placeholders": {
+      "numOfMinutes": {
+        "type": "int"
+      }
+    }
+  },
+  "secondsFormat": "{numOfSeconds}sn",
+  "@secondsFormat": {
+    "placeholders": {
+      "numOfSeconds": {
+        "type": "int"
+      }
+    }
+  },
+  "dateTimeFormat": "{date} saat {time}",
+  "@dateTimeFormat": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dateRangeFormat": "{from} – {to}",
+  "@dateRangeFormat": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "now": "Şimdi",
+  "durationAllDates": "Tüm tarihler",
+  "durationToday": "Bugün",
+  "durationYesterday": "Dün",
+  "durationThisWeek": "Bu hafta",
+  "durationThisMonth": "Bu ay",
+  "durationThisYear": "Bu yıl",
+  "durationLastWeek": "Geçen hafta",
+  "durationLastMonth": "Geçen ay",
+  "durationLastYear": "Geçen yıl",
+  "durationLast7Days": "Son 7 gün",
+  "durationLast14Days": "Son 14 gün",
+  "durationLast30Days": "Son 30 gün",
+  "durationLast60Days": "Son 60 gün",
+  "durationLast12Months": "Son 12 ay",
+  "durationCustom": "Özel",
+  "proPageUpgradeTitle": "{appName} sürümüne yükselt",
+  "@proPageUpgradeTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "proPageProTitle": "Pro",
+  "proPageYearlyTitle": "{price}/yıl",
+  "@proPageYearlyTitle": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proPageYearlyTrial": "+{numOfDays} gün ücretsiz",
+  "@proPageYearlyTrial": {
+    "placeholders": {
+      "numOfDays": {
+        "type": "int"
+      }
+    }
+  },
+  "proPageYearlySubtext": "Yıllık faturalandırılır",
+  "proPageMonthlyTitle": "{price}/ay",
+  "@proPageMonthlyTitle": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proPageMonthlyTrial": "+{numOfDays} gün ücretsiz",
+  "@proPageMonthlyTrial": {
+    "placeholders": {
+      "numOfDays": {
+        "type": "int"
+      }
+    }
+  },
+  "proPageMonthlySubtext": "Aylık faturalandırılır",
+  "proPageFetchError": "Abonelik seçenekleri getirilemiyor. Cihazınızın internete bağlı olduğundan emin olun ve yeniden deneyin.",
+  "proPageUpgradeSuccess": "Tebrikler, artık Pro kullanıcısısınız!",
+  "proPageRestoreQuestion": "Pro''ya başka bir cihazda mı abone oldunuz?",
+  "proPageRestoreAction": "Geri yükle.",
+  "proPageRestoreNoneFoundAppStore": "Önceki satın alma bulunamadı. Lütfen orijinal satın almayı yaptığınız aynı Apple Kimliği ile oturum açtığınızdan emin olun.",
+  "proPageRestoreNoneFoundGooglePlay": "Önceki satın alma bulunamadı. Lütfen orijinal satın almayı yaptığınız aynı Google hesabıyla oturum açtığınızdan emin olun.",
+  "proPageRestoreError": "Beklenmeyen bir hata oluştu. Cihazınızın internete bağlı olduğundan emin olun ve yeniden deneyin.",
+  "proPageDisclosureApple": "İstediğiniz zaman iptal edin. Faturalandırma ücretsiz deneme süresi bittikten sonra başlar. Ücretsiz deneme yalnızca yeni aboneler için geçerlidir. Abonelikler, mevcut abonelik döneminin bitiminden en az 24 saat önce iptal edilmedikçe otomatik olarak yenilenir. Tüm abonelikler App Store üzerinden yönetilebilir. Bir abonelik satın alındığında ücretsiz denemenin kullanılmayan kısmı kaybedilir.",
+  "proPageDisclosureAndroid": "İstediğiniz zaman iptal edin. Faturalandırma ücretsiz deneme süresi bittikten sonra başlar. Ücretsiz deneme yalnızca yeni aboneler için geçerlidir. Abonelikler, mevcut abonelik döneminin bitiminden en az 24 saat önce iptal edilmedikçe otomatik olarak yenilenir. Tüm abonelikler Google Play Store üzerinden yönetilebilir. Bir abonelik satın alındığında ücretsiz denemenin kullanılmayan kısmı kaybedilir.",
+  "dateFormatMonth": "MMM",
+  "dateFormatMonthDay": "d MMM",
+  "dateFormatMonthDayYear": "d MMM yyyy",
+  "dateFormatMonthDayYearFull": "d MMMM yyyy",
+  "dateFormatMonthFull": "MMMM",
+  "dateFormatMonthYearFull": "MMMM yyyy",
+  "dateFormatWeekDay": "E",
+  "dateFormatWeekDayFull": "EEEE",
+  "no": "Hayır",
+  "yes": "Evet",
+  "proChipButtonLabel": "Pro",
+  "notificationPermissionPageTitle": "Bildirim",
+  "setPermissionButton": "İzni Ayarla",
+  "signInPageEmailLabel": "E-posta",
+  "signInPagePasswordLabel": "Şifre",
+  "signInPageSignInButton": "Oturum Aç",
+  "landingPageInitError": "Eyvah! Başlatma sırasında bir şeyler ters gitti. {appName} ekibi bilgilendirildi; rahatsızlık için özür dileriz.",
+  "by": "tarafından",
+  "signInPageErrorInvalidEmail": "Geçersiz e-posta adresi biçimi.",
+  "signInPageErrorNetworkFailed": "Lütfen ağ bağlantınızı kontrol edip yeniden deneyin.",
+  "signInPageErrorOperationNotAllowed": "Bu uygulama için e-posta ve şifre ile oturum açma devre dışı.",
+  "signInPageErrorTokenExpired": "Kimlik doğrulama süresi doldu. Lütfen yeniden deneyin.",
+  "signInPageErrorTooManyRequests": "Oturum açma geçici olarak sınırlandı. Lütfen daha sonra yeniden deneyin.",
+  "signInPageErrorUserDisabled": "Kullanıcı devre dışı bırakıldı.",
+  "signInPageErrorUserNotFound": "Bu e-posta adresiyle kullanıcı bulunamadı.",
+  "signInPageErrorInvalidCredentials": "E-posta ve şifre kombinasyonu yanlış.",
+  "signInPageErrorGeneric": "Oturum açılırken bir hata oluştu. Lütfen yeniden deneyin.",
+  "inputNameLabel": "Ad",
+  "inputDescriptionLabel": "Açıklama",
+  "inputEmailLabel": "E-posta",
+  "inputGenericRequired": "Zorunlu",
+  "inputInvalidNumber": "Geçersiz sayı girişi",
+  "inputInvalidEmail": "Geçersiz e-posta biçimi",
+  "inputUnknownError": "Bilinmeyen hata ({code}).",
+  "signInPageResetPasswordButton": "Şifreyi Sıfırla",
+  "signInPageResetPasswordDialogTitle": "Şifreyi Sıfırla",
+  "signInPageResetPasswordDialogMessage": "E-posta adresinizi girin, size şifre sıfırlama talimatlarını gönderelim.",
+  "signInPageResetPasswordDialogAction": "Sıfırla",
+  "signInPageResetPasswordConfirmation": "Bu e-posta adresi için bir hesap varsa kısa süre içinde bir şifre sıfırlama bağlantısı alırsınız. Gelmezse spam veya istenmeyen klasörünüzü kontrol edin.",
+  "version": "Sürüm"
+}

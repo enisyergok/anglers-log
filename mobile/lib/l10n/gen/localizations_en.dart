@@ -2470,13 +2470,13 @@ class AnglersLogLocalizationsEn extends AnglersLogLocalizations {
   String get saveBodyOfWaterPageExistsMessage => 'Body of water already exists';
 
   @override
-  String get mapAttributionTitleApple => 'Mapbox Maps SDK for iOS';
+  String get mapAttributionTitleApple => 'OSM / OpenSeaMap based map';
 
   @override
-  String get mapAttributionTitleAndroid => 'Mapbox Maps SDK for Android';
+  String get mapAttributionTitleAndroid => 'OSM / OpenSeaMap based map';
 
   @override
-  String get mapAttributionMapbox => '© Mapbox';
+  String get mapAttributionMapbox => '© OpenSeaMap';
 
   @override
   String get mapAttributionOpenStreetMap => '© OpenStreetMap';
@@ -2488,11 +2488,11 @@ class AnglersLogLocalizationsEn extends AnglersLogLocalizations {
   String get mapAttributionMaxar => '© Maxar';
 
   @override
-  String get mapAttributionTelemetryTitle => 'Mapbox Telemetry';
+  String get mapAttributionTelemetryTitle => 'Telemetry removed';
 
   @override
   String get mapAttributionTelemetryDescription =>
-      'Help make OpenStreetMap and Mapbox maps better by contributing anonymous usage data.';
+      'Map telemetry has been disabled / removed.';
 
   @override
   String get entityNameAnglers => 'Anglers';

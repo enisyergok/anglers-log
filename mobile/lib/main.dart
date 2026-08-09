@@ -64,7 +64,7 @@ void main() async {
     }
   }
 
-  runApp(const AnglersLog());
+  runApp(const AnglersLog(locale: Locale('tr')));
 }
 
 class AnglersLog extends StatefulWidget {
@@ -93,7 +93,7 @@ class AnglersLogState extends State<AnglersLog> {
     super.initState();
 
     AppConfig.get.init(
-      appName: () => "Anglers' Log",
+      appName: () => "Balıkçı Günlüğü",
       companyName: () => "Cohen Adair",
       appIcon: CustomIcons.catches,
       colorAppTheme: Colors.lightBlue,
@@ -149,6 +149,7 @@ class AnglersLogState extends State<AnglersLog> {
           ],
           supportedLocales: AnglersLogLocalizations.supportedLocales,
           locale: widget.locale,
+          localeResolutionCallback: (_, __) => const Locale('tr'),
           home: Builder(
             builder: (context) => MediaQuery(
               // Don't allow font sizes too large. After the max, the app starts
@@ -228,7 +229,9 @@ class AnglersLogState extends State<AnglersLog> {
     var locale = Localizations.localeOf(context);
     _log.d("Using locale: $locale");
 
+    // Turkish is a first-class locale; do not treat it as incomplete AI translation.
     return locale.languageCode != "en" &&
+        locale.languageCode != "tr" &&
         !UserPreferenceManager.get.didShowTranslationWarning;
   }
 

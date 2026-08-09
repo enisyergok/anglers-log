@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'localizations_en.dart';
 import 'localizations_es.dart';
+import 'localizations_tr.dart';
 
 // ignore_for_file: type=lint
 
@@ -101,6 +102,7 @@ abstract class AnglersLogLocalizations {
     Locale('en', 'GB'),
     Locale('en', 'US'),
     Locale('es'),
+    Locale('tr'),
   ];
 
   /// No description provided for @catchFieldFavorite.
@@ -4439,19 +4441,19 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @mapAttributionTitleApple.
   ///
   /// In en, this message translates to:
-  /// **'Mapbox Maps SDK for iOS'**
+  /// **'OSM / OpenSeaMap based map'**
   String get mapAttributionTitleApple;
 
   /// No description provided for @mapAttributionTitleAndroid.
   ///
   /// In en, this message translates to:
-  /// **'Mapbox Maps SDK for Android'**
+  /// **'OSM / OpenSeaMap based map'**
   String get mapAttributionTitleAndroid;
 
   /// No description provided for @mapAttributionMapbox.
   ///
   /// In en, this message translates to:
-  /// **'© Mapbox'**
+  /// **'© OpenSeaMap'**
   String get mapAttributionMapbox;
 
   /// No description provided for @mapAttributionOpenStreetMap.
@@ -4475,13 +4477,13 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @mapAttributionTelemetryTitle.
   ///
   /// In en, this message translates to:
-  /// **'Mapbox Telemetry'**
+  /// **'Telemetry removed'**
   String get mapAttributionTelemetryTitle;
 
   /// No description provided for @mapAttributionTelemetryDescription.
   ///
   /// In en, this message translates to:
-  /// **'Help make OpenStreetMap and Mapbox maps better by contributing anonymous usage data.'**
+  /// **'Map telemetry has been disabled / removed.'**
   String get mapAttributionTelemetryDescription;
 
   /// No description provided for @entityNameAnglers.
@@ -6400,7 +6402,7 @@ class _AnglersLogLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'es'].contains(locale.languageCode);
+      <String>['en', 'es', 'tr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AnglersLogLocalizationsDelegate old) => false;
@@ -6427,6 +6429,8 @@ AnglersLogLocalizations lookupAnglersLogLocalizations(Locale locale) {
       return AnglersLogLocalizationsEn();
     case 'es':
       return AnglersLogLocalizationsEs();
+    case 'tr':
+      return AnglersLogLocalizationsTr();
   }
 
   throw FlutterError(

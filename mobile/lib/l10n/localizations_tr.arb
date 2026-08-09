@@ -1,0 +1,1873 @@
+{
+  "catchFieldFavorite": "Favori",
+  "catchFieldFavoriteDescription": "Bir avın favorilerinizden biri olup olmadığı.",
+  "saveReportPageFavorites": "Yalnızca Favoriler",
+  "saveReportPageFavoritesFilter": "Yalnızca favoriler",
+  "unitsPageCentimeters": "Santimetre ({value})",
+  "@unitsPageCentimeters": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageMeters": "Metre ({value})",
+  "@unitsPageMeters": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageAirVisibilityKilometers": "Kilometre ({value})",
+  "@unitsPageAirVisibilityKilometers": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageWindSpeedKilometers": "Kilometre/saat ({value})",
+  "@unitsPageWindSpeedKilometers": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageWindSpeedMeters": "Metre/saniye ({value})",
+  "@unitsPageWindSpeedMeters": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "keywordsSpeedMetric": "kilometre saat hız rüzgar",
+  "inputColorLabel": "Renk",
+  "hashtag": "#BalikciGunluguApp",
+  "shareTextAndroid": "#BalikciGunluguApp ile Android için paylaşıldı.",
+  "shareTextApple": "#BalikciGunluguApp ile iOS için paylaşıldı.",
+  "shareLength": "Boy: {value}",
+  "@shareLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "shareWeight": "Ağırlık: {value}",
+  "@shareWeight": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "shareBait": "Yem: {value}",
+  "@shareBait": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "shareBaits": "Yemler: {value}",
+  "@shareBaits": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "shareCatches": "Avlar: {value}",
+  "@shareCatches": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "rateDialogTitle": "Balıkçı Günlüğü''nü Değerlendir",
+  "rateDialogDescription": "Lütfen bir dakikanızı ayırıp Balıkçı Günlüğü hakkında bir inceleme yazın. Tüm geri bildirimleriniz çok değerli!",
+  "rateDialogRate": "Değerlendir",
+  "rateDialogLater": "Daha sonra",
+  "done": "Tamam",
+  "save": "Kaydet",
+  "edit": "Düzenle",
+  "copy": "Kopyala",
+  "none": "Yok",
+  "all": "Tümü",
+  "next": "İleri",
+  "skip": "Atla",
+  "clear": "Temizle",
+  "directions": "Yol tarifi",
+  "close": "Kapat",
+  "back": "Geri",
+  "latitude": "Enlem",
+  "longitude": "Boylam",
+  "latLng": "Enlem: {lat}, Boylam: {lng}",
+  "@latLng": {
+    "placeholders": {
+      "lat": {
+        "type": "String"
+      },
+      "lng": {
+        "type": "String"
+      }
+    }
+  },
+  "latLngNoLabels": "{lat}, {lng}",
+  "@latLngNoLabels": {
+    "placeholders": {
+      "lat": {
+        "type": "String"
+      },
+      "lng": {
+        "type": "String"
+      }
+    }
+  },
+  "add": "Ekle",
+  "more": "Diğer",
+  "na": "Yok",
+  "finish": "Bitir",
+  "unknown": "Bilinmiyor",
+  "numberOfCatches": "{numOfCatches} Av",
+  "@numberOfCatches": {
+    "placeholders": {
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "numberOfCatchesSingular": "1 Av",
+  "unknownSpecies": "Bilinmeyen Tür",
+  "unknownBait": "Bilinmeyen Yem",
+  "viewDetails": "Ayrıntıları gör",
+  "viewAll": "Tümünü gör",
+  "share": "Paylaş",
+  "fieldTypeNumber": "Sayı",
+  "fieldTypeBoolean": "Onay kutusu",
+  "fieldTypeText": "Metin",
+  "inputRequiredMessage": "{inputLabel} zorunludur",
+  "@inputRequiredMessage": {
+    "placeholders": {
+      "inputLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "inputNotesLabel": "Notlar",
+  "inputPhotoLabel": "Fotoğraf",
+  "inputPhotosLabel": "Fotoğraf Ekle",
+  "inputNotSelected": "Seçilmedi",
+  "inputAtmosphere": "Atmosfer ve Hava Durumu",
+  "inputFetch": "Getir",
+  "inputAutoFetch": "Otomatik getir",
+  "inputCurrentLocation": "Mevcut Konum",
+  "inputGenericFetchError": "Şu anda veri getirilemiyor. Cihazınızın internete bağlı olduğundan emin olun ve yeniden deneyin.",
+  "fieldWaterClarityLabel": "Su Berraklığı",
+  "fieldWaterDepthLabel": "Su Derinliği",
+  "fieldWaterTemperatureLabel": "Su Sıcaklığı",
+  "catchListPageTitle": "Avlar ({numOfCatches})",
+  "@catchListPageTitle": {
+    "placeholders": {
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "catchListPageSearchHint": "Avlarda ara",
+  "catchListPageEmptyListTitle": "Av Yok",
+  "catchListPageEmptyListDescription": "Henüz hiç av eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "catchListItemLength": "Boy: {value}",
+  "@catchListItemLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "catchListItemWeight": "Ağırlık: {value}",
+  "@catchListItemWeight": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "catchListItemNotSet": "-",
+  "catchPageDeleteMessage": "{value} avını silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@catchPageDeleteMessage": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "catchPageDeleteWithTripMessage": "{value} bir geziyle ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@catchPageDeleteWithTripMessage": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "catchPageReleased": "Bırakıldı",
+  "catchPageKept": "Tutuldu",
+  "catchPageQuantityLabel": "Adet: {value}",
+  "@catchPageQuantityLabel": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "saveCatchPageNewTitle": "Yeni Av",
+  "saveCatchPageEditTitle": "Avı Düzenle",
+  "catchFieldTide": "Gelgit",
+  "catchFieldDateTime": "Tarih ve Saat",
+  "catchFieldDate": "Tarih",
+  "catchFieldTime": "Saat",
+  "catchFieldPeriod": "Günün Zamanı",
+  "catchFieldPeriodDescription": "Şafak, sabah, alacakaranlık vb.",
+  "catchFieldSeason": "Mevsim",
+  "catchFieldSeasonDescription": "Kış, ilkbahar, yaz veya sonbahar.",
+  "catchFieldImages": "Fotoğraflar",
+  "catchFieldFishingSpot": "Av Noktası",
+  "catchFieldFishingSpotDescription": "Avın yapıldığı konumun koordinatları.",
+  "catchFieldBait": "Yem",
+  "catchFieldAngler": "Balıkçı",
+  "catchFieldGear": "Ekipman",
+  "catchFieldMethodsDescription": "Avın nasıl yapıldığı.",
+  "catchFieldNoMethods": "Balık tutma yöntemi yok",
+  "catchFieldNoBaits": "Yem yok",
+  "catchFieldNoGear": "Ekipman yok",
+  "catchFieldCatchAndRelease": "Yakala ve Bırak",
+  "catchFieldCatchAndReleaseDescription": "Bu avın bırakılıp bırakılmadığı.",
+  "catchFieldTideHeightLabel": "Gelgit Yüksekliği",
+  "catchFieldLengthLabel": "Boy",
+  "catchFieldWeightLabel": "Ağırlık",
+  "catchFieldQuantityLabel": "Adet",
+  "catchFieldQuantityDescription": "Seçilen türden yakalanan adet.",
+  "catchFieldNotesLabel": "Notlar",
+  "saveReportPageNewTitle": "Yeni Rapor",
+  "saveReportPageEditTitle": "Raporu Düzenle",
+  "saveReportPageNameExists": "Rapor adı zaten var",
+  "saveReportPageTypeTitle": "Tür",
+  "saveReportPageComparison": "Karşılaştırma",
+  "saveReportPageSummary": "Özet",
+  "saveReportPageStartDateRangeLabel": "Karşılaştır",
+  "saveReportPageEndDateRangeLabel": "ile",
+  "saveReportPageAllAnglers": "Tüm balıkçılar",
+  "saveReportPageAllWaterClarities": "Tüm su berraklıkları",
+  "saveReportPageAllSpecies": "Tüm türler",
+  "saveReportPageAllBaits": "Tüm yemler",
+  "saveReportPageAllGear": "Tüm ekipman",
+  "saveReportPageAllBodiesOfWater": "Tüm su kütleleri",
+  "saveReportPageAllFishingSpots": "Tüm av noktaları",
+  "saveReportPageAllMethods": "Tüm balık tutma yöntemleri",
+  "saveReportPageCatchAndRelease": "Yalnızca Yakala ve Bırak",
+  "saveReportPageCatchAndReleaseFilter": "Yalnızca yakala ve bırak",
+  "saveReportPageAllWindDirections": "Tüm rüzgar yönleri",
+  "saveReportPageAllSkyConditions": "Tüm gökyüzü koşulları",
+  "saveReportPageAllMoonPhases": "Tüm ay evreleri",
+  "saveReportPageAllTideTypes": "Tüm gelgitler",
+  "photosPageMenuLabel": "Fotoğraflar",
+  "photosPageTitle": "Fotoğraflar ({numOfPhotos})",
+  "@photosPageTitle": {
+    "placeholders": {
+      "numOfPhotos": {
+        "type": "int"
+      }
+    }
+  },
+  "photosPageEmptyTitle": "Fotoğraf Yok",
+  "photosPageEmptyDescription": "Avlara eklenen tüm fotoğraflar burada gösterilir. Av eklemek için %s simgesine dokunun.",
+  "baitListPageTitle": "Yemler ({numOfBaits})",
+  "@baitListPageTitle": {
+    "placeholders": {
+      "numOfBaits": {
+        "type": "int"
+      }
+    }
+  },
+  "baitListPageOtherCategory": "Kategori Yok",
+  "baitListPageSearchHint": "Yemlerde ara",
+  "baitListPageDeleteMessage": "{bait}, {numOfCatches} av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@baitListPageDeleteMessage": {
+    "placeholders": {
+      "bait": {
+        "type": "String"
+      },
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "baitListPageDeleteMessageSingular": "{bait}, 1 av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@baitListPageDeleteMessageSingular": {
+    "placeholders": {
+      "bait": {
+        "type": "String"
+      }
+    }
+  },
+  "baitListPageEmptyListTitle": "Yem Yok",
+  "baitListPageEmptyListDescription": "Henüz hiç yem eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "baitsSummaryEmpty": "Günlüğünüze yem eklendiğinde, avlarının özeti burada gösterilir.",
+  "baitListPageVariantsLabel": "{numOfVariants} Varyant",
+  "@baitListPageVariantsLabel": {
+    "placeholders": {
+      "numOfVariants": {
+        "type": "int"
+      }
+    }
+  },
+  "baitListPageVariantLabel": "1 Varyant",
+  "saveBaitPageNewTitle": "Yeni Yem",
+  "saveBaitPageEditTitle": "Yemi Düzenle",
+  "saveBaitPageCategoryLabel": "Yem Kategorisi",
+  "saveBaitPageBaitExists": "Bu özelliklere sahip bir yem zaten var. Lütfen en az bir alanı değiştirip yeniden deneyin.",
+  "saveBaitPageVariants": "Varyantlar",
+  "saveBaitPageDeleteVariantSingular": "Bu varyant 1 av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "saveBaitPageDeleteVariantPlural": "Bu varyant {numOfCatches} av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@saveBaitPageDeleteVariantPlural": {
+    "placeholders": {
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "saveBaitCategoryPageNewTitle": "Yeni Yem Kategorisi",
+  "saveBaitCategoryPageEditTitle": "Yem Kategorisini Düzenle",
+  "saveBaitCategoryPageExistsMessage": "Yem kategorisi zaten var",
+  "baitCategoryListPageTitle": "Yem Kategorileri ({numOfCategories})",
+  "@baitCategoryListPageTitle": {
+    "placeholders": {
+      "numOfCategories": {
+        "type": "int"
+      }
+    }
+  },
+  "baitCategoryListPageDeleteMessage": "{bait}, {numOfBaits} yem ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@baitCategoryListPageDeleteMessage": {
+    "placeholders": {
+      "bait": {
+        "type": "String"
+      },
+      "numOfBaits": {
+        "type": "int"
+      }
+    }
+  },
+  "baitCategoryListPageDeleteMessageSingular": "{category}, 1 yem ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@baitCategoryListPageDeleteMessageSingular": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "baitCategoryListPageSearchHint": "Yem kategorilerinde ara",
+  "baitCategoryListPageEmptyListTitle": "Yem Kategorisi Yok",
+  "baitCategoryListPageEmptyListDescription": "Henüz hiç yem kategorisi eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "saveAnglerPageNewTitle": "Yeni Balıkçı",
+  "saveAnglerPageEditTitle": "Balıkçıyı Düzenle",
+  "saveAnglerPageExistsMessage": "Balıkçı zaten var",
+  "anglerListPageTitle": "Balıkçılar ({numOfAnglers})",
+  "@anglerListPageTitle": {
+    "placeholders": {
+      "numOfAnglers": {
+        "type": "int"
+      }
+    }
+  },
+  "anglerListPageDeleteMessage": "{angler}, {numOfCatches} av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@anglerListPageDeleteMessage": {
+    "placeholders": {
+      "angler": {
+        "type": "String"
+      },
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "anglerListPageDeleteMessageSingular": "{angler}, 1 av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@anglerListPageDeleteMessageSingular": {
+    "placeholders": {
+      "angler": {
+        "type": "String"
+      }
+    }
+  },
+  "anglerListPageSearchHint": "Balıkçılarda ara",
+  "anglerListPageEmptyListTitle": "Balıkçı Yok",
+  "anglerListPageEmptyListDescription": "Henüz hiç balıkçı eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "anglersSummaryEmpty": "Günlüğünüze balıkçı eklendiğinde, avlarının özeti burada gösterilir.",
+  "saveMethodPageNewTitle": "Yeni Balık Tutma Yöntemi",
+  "saveMethodPageEditTitle": "Balık Tutma Yöntemini Düzenle",
+  "saveMethodPageExistsMessage": "Balık tutma yöntemi zaten var",
+  "methodListPageTitle": "Balık Tutma Yöntemleri ({numOfMethods})",
+  "@methodListPageTitle": {
+    "placeholders": {
+      "numOfMethods": {
+        "type": "int"
+      }
+    }
+  },
+  "methodListPageDeleteMessage": "{method}, {numOfCatches} av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@methodListPageDeleteMessage": {
+    "placeholders": {
+      "method": {
+        "type": "String"
+      },
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "methodListPageDeleteMessageSingular": "{method}, 1 av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@methodListPageDeleteMessageSingular": {
+    "placeholders": {
+      "method": {
+        "type": "String"
+      }
+    }
+  },
+  "methodListPageSearchHint": "Balık tutma yöntemlerinde ara",
+  "methodListPageEmptyListTitle": "Balık Tutma Yöntemi Yok",
+  "methodListPageEmptyListDescription": "Henüz hiç balık tutma yöntemi eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "methodSummaryEmpty": "Günlüğünüze balık tutma yöntemi eklendiğinde, avlarının özeti burada gösterilir.",
+  "saveWaterClarityPageNewTitle": "Yeni Su Berraklığı",
+  "saveWaterClarityPageEditTitle": "Su Berraklığını Düzenle",
+  "saveWaterClarityPageExistsMessage": "Su berraklığı zaten var",
+  "waterClarityListPageTitle": "Su Berraklıkları ({numOfClarities})",
+  "@waterClarityListPageTitle": {
+    "placeholders": {
+      "numOfClarities": {
+        "type": "int"
+      }
+    }
+  },
+  "waterClarityListPageDeleteMessage": "{clarity}, {numOfCatches} av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@waterClarityListPageDeleteMessage": {
+    "placeholders": {
+      "clarity": {
+        "type": "String"
+      },
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "waterClarityListPageDeleteMessageSingular": "{clarity}, 1 av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@waterClarityListPageDeleteMessageSingular": {
+    "placeholders": {
+      "clarity": {
+        "type": "String"
+      }
+    }
+  },
+  "waterClarityListPageSearchHint": "Su berraklıklarında ara",
+  "waterClarityListPageEmptyListTitle": "Su Berraklığı Yok",
+  "waterClarityListPageEmptyListDescription": "Henüz hiç su berraklığı eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "waterClaritiesSummaryEmpty": "Günlüğünüze su berraklığı eklendiğinde, avlarının özeti burada gösterilir.",
+  "statsPageMenuTitle": "İstatistikler",
+  "statsPageTitle": "İstatistikler",
+  "statsPageNewReport": "Yeni Rapor",
+  "statsPageSpeciesSummary": "Tür Özeti",
+  "statsPageCatchSummary": "Av Özeti",
+  "statsPageAnglerSummary": "Balıkçı Özeti",
+  "statsPageBaitSummary": "Yem Özeti",
+  "statsPageBaitVariantAllLabel": "{bait} (Tüm Varyantlar)",
+  "@statsPageBaitVariantAllLabel": {
+    "placeholders": {
+      "bait": {
+        "type": "String"
+      }
+    }
+  },
+  "statsPageBodyOfWaterSummary": "Su Kütlesi Özeti",
+  "statsPageFishingSpotSummary": "Av Noktası Özeti",
+  "statsPageMethodSummary": "Balık Tutma Yöntemi Özeti",
+  "statsPageMoonPhaseSummary": "Ay Evresi Özeti",
+  "statsPagePeriodSummary": "Günün Zamanı Özeti",
+  "statsPageSeasonSummary": "Mevsim Özeti",
+  "statsPageTideSummary": "Gelgit Özeti",
+  "statsPageWaterClaritySummary": "Su Berraklığı Özeti",
+  "statsPageGearSummary": "Ekipman Özeti",
+  "statsPagePersonalBests": "Kişisel Rekorlar",
+  "personalBestsTrip": "En İyi Gezi",
+  "personalBestsLongest": "En Uzun",
+  "personalBestsHeaviest": "En Ağır",
+  "personalBestsSpeciesByLength": "Boyuna Göre Türler",
+  "personalBestsSpeciesByLengthLabel": "En Uzun",
+  "personalBestsSpeciesByWeight": "Ağırlığa Göre Türler",
+  "personalBestsSpeciesByWeightLabel": "En Ağır",
+  "personalBestsShowAllSpecies": "Tüm türleri gör",
+  "personalBestsAverage": "Ortalama",
+  "personalBestsNoDataTitle": "Veri Yok",
+  "personalBestsNoDataDescription": "Seçilen tarih aralığı için kişisel rekorlarınız belirlenemiyor. Bir gezi eklediğinizden veya boy/ağırlık değeri olan bir av eklediğinizden emin olun.",
+  "reportViewEmptyLog": "Boş Günlük",
+  "reportViewEmptyLogDescription": "Henüz hiç av eklemediniz. Av eklemek için %s simgesine dokunun.",
+  "reportViewNoCatches": "Av bulunamadı",
+  "reportViewNoCatchesDescription": "Seçilen tarih aralığında av bulunamadı.",
+  "reportViewNoCatchesReportDescription": "Seçilen raporun tarih aralığında av bulunamadı.",
+  "reportSummaryCatchTitle": "Av Özeti",
+  "reportSummaryPerSpecies": "Tür Başına",
+  "reportSummaryPerFishingSpot": "Av Noktası Başına",
+  "reportSummaryPerBait": "Yem Başına",
+  "reportSummaryPerAngler": "Balıkçı Başına",
+  "reportSummaryPerBodyOfWater": "Su Kütlesi Başına",
+  "reportSummaryPerMethod": "Balık Tutma Yöntemi Başına",
+  "reportSummaryPerMoonPhase": "Ay Evresi Başına",
+  "reportSummaryPerPeriod": "Günün Zamanı Başına",
+  "reportSummaryPerSeason": "Mevsim Başına",
+  "reportSummaryPerTideType": "Gelgit Başına",
+  "reportSummaryPerWaterClarity": "Su Berraklığı Başına",
+  "reportSummarySinceLastCatch": "Son Avdan Bu Yana",
+  "reportSummaryNumberOfCatches": "Av sayısı",
+  "reportSummaryFilters": "Filtreler",
+  "reportSummaryViewSpecies": "Tüm türleri gör",
+  "reportSummaryPerSpeciesDescription": "Tür başına av sayısı gösteriliyor.",
+  "reportSummaryViewFishingSpots": "Tüm av noktalarını gör",
+  "reportSummaryPerFishingSpotDescription": "Av noktası başına av sayısı gösteriliyor.",
+  "reportSummaryViewBaits": "Tüm yemleri gör",
+  "reportSummaryPerBaitDescription": "Yem başına av sayısı gösteriliyor.",
+  "reportSummaryViewMoonPhases": "Tüm ay evrelerini gör",
+  "reportSummaryPerMoonPhaseDescription": "Ay evresi başına av sayısı gösteriliyor.",
+  "reportSummaryViewTides": "Tüm gelgit türlerini gör",
+  "reportSummaryPerTideDescription": "Gelgit türü başına av sayısı gösteriliyor.",
+  "reportSummaryViewAnglers": "Tüm balıkçıları gör",
+  "reportSummaryPerAnglerDescription": "Balıkçı başına av sayısı gösteriliyor.",
+  "reportSummaryViewBodiesOfWater": "Tüm su kütlelerini gör",
+  "reportSummaryPerBodyOfWaterDescription": "Su kütlesi başına av sayısı gösteriliyor.",
+  "reportSummaryViewMethods": "Tüm balık tutma yöntemlerini gör",
+  "reportSummaryPerMethodDescription": "Balık tutma yöntemi başına av sayısı gösteriliyor.",
+  "reportSummaryViewPeriods": "Tüm günün zamanlarını gör",
+  "reportSummaryPerPeriodDescription": "Günün zamanı başına av sayısı gösteriliyor.",
+  "reportSummaryViewSeasons": "Tüm mevsimleri gör",
+  "reportSummaryPerSeasonDescription": "Mevsim başına av sayısı gösteriliyor.",
+  "reportSummaryViewWaterClarities": "Tüm su berraklıklarını gör",
+  "reportSummaryPerWaterClarityDescription": "Su berraklığı başına av sayısı gösteriliyor.",
+  "reportSummaryPerHour": "Saat Başına",
+  "reportSummaryViewAllHours": "Tüm saatleri gör",
+  "reportSummaryViewAllHoursDescription": "Günün her saati için av sayısı gösteriliyor.",
+  "reportSummaryPerMonth": "Ay Başına",
+  "reportSummaryViewAllMonths": "Tüm ayları gör",
+  "reportSummaryViewAllMonthsDescription": "Yılın her ayı için av sayısı gösteriliyor.",
+  "reportSummaryPerGear": "Ekipman Başına",
+  "reportSummaryViewGear": "Tüm ekipmanı gör",
+  "reportSummaryPerGearDescription": "Ekipman başına av sayısı gösteriliyor.",
+  "morePageTitle": "Diğer",
+  "morePageRateApp": "Balıkçı Günlüğü''nü Değerlendir",
+  "morePagePro": "Balıkçı Günlüğü Pro",
+  "morePageRateErrorApple": "Cihazda App Store yüklü değil.",
+  "morePageRateErrorAndroid": "Cihazda web tarayıcı uygulaması yüklü değil.",
+  "tripListPageTitle": "Geziler ({numOfTrips})",
+  "@tripListPageTitle": {
+    "placeholders": {
+      "numOfTrips": {
+        "type": "int"
+      }
+    }
+  },
+  "tripListPageSearchHint": "Gezilerde ara",
+  "tripListPageEmptyListTitle": "Gezi Yok",
+  "tripListPageEmptyListDescription": "Henüz hiç gezi eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "tripListPageDeleteMessage": "{trip} gezisini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@tripListPageDeleteMessage": {
+    "placeholders": {
+      "trip": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTripPageEditTitle": "Geziyi Düzenle",
+  "saveTripPageNewTitle": "Yeni Gezi",
+  "saveTripPageAutoSetTitle": "Alanları Otomatik Ayarla",
+  "saveTripPageAutoSetDescription": "Avlar seçildiğinde uygun alanları otomatik ayarla.",
+  "saveTripPageAutoAddCatchesTitle": "Avları Otomatik Ekle",
+  "saveTripPageAutoAddCatchesDescription": "Gezinin zaman aralığına düşen avları otomatik ekle.",
+  "saveTripPageAutoAddCatchesPrompt": "Bu gezi sırasında henüz eklenmemiş {numOfCatches} av yapıldı. Şimdi eklensin mi?",
+  "@saveTripPageAutoAddCatchesPrompt": {
+    "placeholders": {
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "saveTripPageAutoAddCatchesPromptSingular": "Bu gezi sırasında henüz eklenmemiş 1 av yapıldı. Şimdi eklensin mi?",
+  "saveTripPageStartDate": "Başlangıç Tarihi",
+  "saveTripPageStartTime": "Başlangıç Saati",
+  "saveTripPageStartDateTime": "Başlangıç Tarihi ve Saati",
+  "saveTripPageEndDate": "Bitiş Tarihi",
+  "saveTripPageEndTime": "Bitiş Saati",
+  "saveTripPageEndDateTime": "Bitiş Tarihi ve Saati",
+  "saveTripPageAllDay": "Tüm Gün",
+  "saveTripPageCatchesDesc": "Bu gezide kaydedilen kupalar.",
+  "saveTripPageNoCatches": "Av yok",
+  "saveTripPageNoBodiesOfWater": "Su kütlesi yok",
+  "saveTripPageNoGpsTrails": "GPS izi yok",
+  "tripCatchesPerSpecies": "Tür Başına Avlar",
+  "tripCatchesPerFishingSpot": "Av Noktası Başına Avlar",
+  "tripCatchesPerAngler": "Balıkçı Başına Avlar",
+  "tripCatchesPerBait": "Yem Başına Avlar",
+  "tripSkunked": "Boş Dönüldü",
+  "settingsPageTitle": "Ayarlar",
+  "settingsPageFetchAtmosphereTitle": "Hava Durumunu Otomatik Getir",
+  "settingsPageFetchAtmosphereDescription": "Yeni av ve gezi eklerken atmosfer ve hava durumu verilerini otomatik getir.",
+  "settingsPageFetchTideTitle": "Gelgiti Otomatik Getir",
+  "settingsPageFetchTideDescription": "Yeni av eklerken gelgit verilerini otomatik getir.",
+  "settingsPageLogout": "Çıkış Yap",
+  "settingsPageLogoutConfirmMessage": "Çıkış yapmak istediğinizden emin misiniz?",
+  "settingsPageAbout": "Hakkında, Koşullar ve Gizlilik",
+  "settingsPageFishingSpotDistanceTitle": "Otomatik Av Noktası Mesafesi",
+  "settingsPageFishingSpotDistanceDescription": "Av eklerken av noktalarının otomatik seçileceği mesafe.",
+  "settingsPageMinGpsTrailDistanceTitle": "GPS İzi Mesafesi",
+  "settingsPageMinGpsTrailDistanceDescription": "Bir GPS izindeki noktalar arasındaki minimum mesafe.",
+  "settingsPageThemeTitle": "Tema",
+  "settingsPageThemeSystem": "Sistem",
+  "settingsPageThemeLight": "Açık",
+  "settingsPageThemeDark": "Koyu",
+  "settingsPageThemeSelect": "Tema Seç",
+  "unitsPageTitle": "Ölçü Birimleri",
+  "unitsPageCatchLength": "Av Boyu",
+  "unitsPageFractionalInches": "Kesirli inç ({value})",
+  "@unitsPageFractionalInches": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageInches": "İnç ({value})",
+  "@unitsPageInches": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageCatchWeight": "Av Ağırlığı",
+  "unitsPageCatchWeightPoundsOunces": "Pound ve ons ({value})",
+  "@unitsPageCatchWeightPoundsOunces": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageCatchWeightPounds": "Pound ({value})",
+  "@unitsPageCatchWeightPounds": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageCatchWeightKilograms": "Kilogram ({value})",
+  "@unitsPageCatchWeightKilograms": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageWaterTemperatureFahrenheit": "Fahrenhayt ({value})",
+  "@unitsPageWaterTemperatureFahrenheit": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageWaterTemperatureCelsius": "Santigrat ({value})",
+  "@unitsPageWaterTemperatureCelsius": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageFeetInches": "Fit ve inç ({value})",
+  "@unitsPageFeetInches": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageFeet": "Ayaklar ({value})",
+  "@unitsPageFeet": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageAirTemperatureFahrenheit": "Fahrenhayt ({value})",
+  "@unitsPageAirTemperatureFahrenheit": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageAirTemperatureCelsius": "Santigrat ({value})",
+  "@unitsPageAirTemperatureCelsius": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageAirPressureInHg": "İnç cıva ({value})",
+  "@unitsPageAirPressureInHg": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageAirPressurePsi": "İnç kare başına pound ({value})",
+  "@unitsPageAirPressurePsi": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageAirPressureMillibars": "Milibar ({value})",
+  "@unitsPageAirPressureMillibars": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageAirVisibilityMiles": "Mil ({value})",
+  "@unitsPageAirVisibilityMiles": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageWindSpeedMiles": "Saat başına mil ({value})",
+  "@unitsPageWindSpeedMiles": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitsPageDistanceTitle": "Mesafe",
+  "unitsPageRodLengthTitle": "Çubuk Uzunluğu",
+  "unitsPageLeaderLengthTitle": "Lider Uzunluğu",
+  "unitsPageTippetLengthTitle": "Atkı Uzunluğu",
+  "mapPageMenuLabel": "Harita",
+  "mapPageDeleteFishingSpot": "{spot}, {numOfCatches} av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@mapPageDeleteFishingSpot": {
+    "placeholders": {
+      "spot": {
+        "type": "String"
+      },
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "mapPageDeleteFishingSpotSingular": "{spot}, 1 av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@mapPageDeleteFishingSpotSingular": {
+    "placeholders": {
+      "spot": {
+        "type": "String"
+      }
+    }
+  },
+  "mapPageDeleteFishingSpotNoName": "Bu av noktası {numOfCatches} av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@mapPageDeleteFishingSpotNoName": {
+    "placeholders": {
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "mapPageDeleteFishingSpotNoNameSingular": "Bu av noktası 1 av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "mapPageAddCatch": "Av Ekle",
+  "mapPageSearchHint": "Av noktalarında ara",
+  "mapPageDroppedPin": "Yeni Av Noktası",
+  "mapPageMapTypeLight": "Açık",
+  "mapPageMapTypeSatellite": "Uydu",
+  "mapPageMapTypeDark": "Koyu",
+  "mapPageErrorGettingLocation": "Mevcut konum alınamadı. Cihazınızın konum hizmetlerinin açık olduğundan emin olun ve daha sonra yeniden deneyin.",
+  "mapPageErrorOpeningDirections": "Bu cihazda kullanılabilir bir navigasyon uygulaması yok.",
+  "mapPageAppleMaps": "Apple Haritalar™",
+  "mapPageGoogleMaps": "Google Haritalar™",
+  "mapPageWaze": "Waze™",
+  "mapPageMapTypeTooltip": "Harita Türünü Seç",
+  "mapPageMyLocationTooltip": "Konumumu Göster",
+  "mapPageShowAllTooltip": "Tüm Av Noktalarını Göster",
+  "mapPageStartTrackingTooltip": "GPS İzini Başlat",
+  "mapPageStopTrackingTooltip": "GPS İzini Durdur",
+  "mapPageAddTooltip": "Av Noktası Ekle",
+  "saveFishingSpotPageNewTitle": "Yeni Av Noktası",
+  "saveFishingSpotPageEditTitle": "Av Noktasını Düzenle",
+  "saveFishingSpotPageBodyOfWaterLabel": "Su Kütlesi",
+  "saveFishingSpotPageCoordinatesLabel": "Koordinatlar",
+  "formPageManageFieldText": "Alanları Yönet",
+  "formPageAddCustomFieldNote": "Özel alan eklemek için %s simgesine dokunun.",
+  "formPageManageFieldsNote": "Alanları yönetmek için %s simgesine dokunun.",
+  "formPageManageFieldsProDescription": "Özel alanları kullanabilmek için Balıkçı Günlüğü Pro abonesi olmanız gerekir.",
+  "formPageManageUnits": "Birimleri Yönet",
+  "formPageConfirmBackDesc": "Kaydedilmemiş değişiklikler kaybolacak. Değişiklikleri silip geri dönmek istediğinizden emin misiniz?",
+  "formPageConfirmBackAction": "Vazgeç",
+  "saveCustomEntityPageNewTitle": "Yeni Alan",
+  "saveCustomEntityPageEditTitle": "Alanı Düzenle",
+  "saveCustomEntityPageNameExists": "Alan adı zaten var",
+  "customEntityListPageTitle": "Özel Alanlar ({numOfFields})",
+  "@customEntityListPageTitle": {
+    "placeholders": {
+      "numOfFields": {
+        "type": "int"
+      }
+    }
+  },
+  "customEntityListPageDelete": "{field} özel alanı artık avlar ({numOfCatches}) veya yemler ({numOfBaits}) ile ilişkilendirilmeyecek; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@customEntityListPageDelete": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "numOfCatches": {
+        "type": "int"
+      },
+      "numOfBaits": {
+        "type": "int"
+      }
+    }
+  },
+  "customEntityListPageSearchHint": "Alanlarda ara",
+  "customEntityListPageEmptyListTitle": "Özel Alan Yok",
+  "customEntityListPageEmptyListDescription": "Henüz hiç özel alan eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "imagePickerConfirmDelete": "Bu fotoğrafı silmek istediğinizden emin misiniz?",
+  "imagePickerPageNoPhotosFoundTitle": "Fotoğraf bulunamadı",
+  "imagePickerPageNoPhotosFound": "Yukarıdaki açılır menüden fotoğraf kaynağını değiştirmeyi deneyin.",
+  "imagePickerPageOpenCameraLabel": "Kamerayı Aç",
+  "imagePickerPageCameraLabel": "Kamera",
+  "imagePickerPageGalleryLabel": "Galeri",
+  "imagePickerPageBrowseLabel": "Gözat",
+  "imagePickerPageChooseSourceTitle": "Fotoğraf Kaynağını Seç",
+  "imagePickerPageNoPhotoLabel": "Fotoğraf Yok",
+  "imagePickerPageSelectedLabel": "{numSelected} / {numTotal} Seçildi",
+  "@imagePickerPageSelectedLabel": {
+    "placeholders": {
+      "numSelected": {
+        "type": "int"
+      },
+      "numTotal": {
+        "type": "int"
+      }
+    }
+  },
+  "imagePickerPageInvalidSelectionSingle": "Bir görüntü dosyası seçmelisiniz.",
+  "imagePickerPageInvalidSelectionPlural": "Görüntü dosyaları seçmelisiniz.",
+  "imagePickerPageNoPermissionTitle": "İzin gerekli",
+  "imagePickerPageNoPermissionMessage": "Fotoğraf eklemek için Balıkçı Günlüğüne fotoğraf kitaplığınıza erişim izni vermelisiniz. Bunun için cihaz ayarlarını açın.\n\nAlternatif olarak yukarıdaki açılır menüden fotoğraf kaynağını değiştirebilirsiniz.",
+  "imagePickerPageOpenSettings": "Ayarları Aç",
+  "imagePickerPageImageDownloadError": "Fotoğraf eklenemedi. İnternete bağlı olduğunuzdan emin olun ve yeniden deneyin.",
+  "imagePickerPageImagesDownloadError": "Bir veya daha fazla fotoğraf eklenemedi. İnternete bağlı olduğunuzdan emin olun ve yeniden deneyin.",
+  "reportListPageConfirmDelete": "{report} raporunu silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@reportListPageConfirmDelete": {
+    "placeholders": {
+      "report": {
+        "type": "String"
+      }
+    }
+  },
+  "reportListPageReportTitle": "Özel Raporlar",
+  "reportListPageReportAddNote": "Özel rapor eklemek için %s simgesine dokunun.",
+  "reportListPageReportsProDescription": "Özel raporları görüntülemek için Balıkçı Günlüğü Pro abonesi olmanız gerekir.",
+  "saveSpeciesPageNewTitle": "Yeni Tür",
+  "saveSpeciesPageEditTitle": "Türü Düzenle",
+  "saveSpeciesPageExistsError": "Tür zaten var",
+  "speciesListPageTitle": "Türler ({numOfSpecies})",
+  "@speciesListPageTitle": {
+    "placeholders": {
+      "numOfSpecies": {
+        "type": "int"
+      }
+    }
+  },
+  "speciesListPageConfirmDelete": "{species}, 0 av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@speciesListPageConfirmDelete": {
+    "placeholders": {
+      "species": {
+        "type": "String"
+      }
+    }
+  },
+  "speciesListPageCatchDeleteErrorSingular": "{species}, 1 av ile ilişkilidir ve silinemez.",
+  "@speciesListPageCatchDeleteErrorSingular": {
+    "placeholders": {
+      "species": {
+        "type": "String"
+      }
+    }
+  },
+  "speciesListPageCatchDeleteErrorPlural": "{species}, {numOfCatches} av ile ilişkilidir ve silinemez.",
+  "@speciesListPageCatchDeleteErrorPlural": {
+    "placeholders": {
+      "species": {
+        "type": "String"
+      },
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "speciesListPageSearchHint": "Türlerde ara",
+  "speciesListPageEmptyListTitle": "Tür Yok",
+  "speciesListPageEmptyListDescription": "Henüz hiç tür eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "fishingSpotPickerPageHint": "Tam koordinat seçmek için haritaya uzun basın veya mevcut bir av noktası seçin.",
+  "fishingSpotListPageTitle": "Av Noktaları ({numOfSpots})",
+  "@fishingSpotListPageTitle": {
+    "placeholders": {
+      "numOfSpots": {
+        "type": "int"
+      }
+    }
+  },
+  "fishingSpotListPageSearchHint": "Av noktalarında ara",
+  "fishingSpotListPageEmptyListTitle": "Av Noktası Yok",
+  "fishingSpotListPageEmptyListDescription": "Av noktası eklemek için haritadaki %s düğmesine dokunun ve bırakılan pimi kaydedin.",
+  "fishingSpotsSummaryEmpty": "Günlüğünüze av noktası eklendiğinde, avlarının özeti burada gösterilir.",
+  "fishingSpotListPageNoBodyOfWater": "Su Kütlesi Yok",
+  "fishingSpotMapAddSpotHelp": "Av noktası eklemek için haritada herhangi bir yere uzun basıp bir pin bırakın.",
+  "editCoordinatesHint": "Av noktasının koordinatlarını güncellemek için haritayı sürükleyin.",
+  "feedbackPageTitle": "Geri Bildirim Gönder",
+  "feedbackPageSend": "Gönder",
+  "feedbackPageMessage": "Mesaj",
+  "feedbackPageBugType": "Hata",
+  "feedbackPageSuggestionType": "Öneri",
+  "feedbackPageFeedbackType": "Geri bildirim",
+  "feedbackPageErrorSending": "Geri bildirim gönderilirken hata oluştu. Lütfen daha sonra yeniden deneyin veya doğrudan support@anglerslog.ca adresine e-posta gönderin.",
+  "feedbackPageConnectionError": "İnternet bağlantısı yok. Bağlantınızı kontrol edip yeniden deneyin.",
+  "feedbackPageSending": "Geri bildirim gönderiliyor...",
+  "backupPageMoreTitle": "Yedekleme ve Geri Yükleme",
+  "importPageMoreTitle": "Eski İçe Aktarma",
+  "importPageTitle": "Eski İçe Aktarma",
+  "importPageDescription": "Eski içe aktarma, Balıkçı Günlüğü''nin eski sürümüyle oluşturduğunuz bir yedek dosyasını (.zip) seçmenizi gerektirir. İçe aktarılan eski veriler mevcut günlüğünüze eklenir.\n\nİçe aktarma işlemi birkaç dakika sürebilir.",
+  "importPageImportingImages": "Resimler kopyalanıyor...",
+  "importPageImportingData": "Balık tutma verileri kopyalanıyor...",
+  "importPageSuccess": "Veriler başarıyla içe aktarıldı!",
+  "importPageError": "Verileriniz içe aktarılırken bir hata oluştu. Seçtiğiniz yedek dosyası Balıkçı Günlüğü kullanılarak oluşturulduysa lütfen incelenmesi için bize gönderin.",
+  "importPageErrorWarningMessage": "Gönder tuşuna bastığınızda tüm balıkçılık verileriniz (fotoğraflar hariç) Balıkçı Günlüğü gönderilir. Verileriniz Balıkçı Günlüğü kuruluşu dışında paylaşılmayacaktır.",
+  "importPageErrorTitle": "İçe Aktarma Hatası",
+  "dataImporterChooseFile": "Dosya Seç",
+  "dataImporterStart": "Başlat",
+  "migrationPageMoreTitle": "Eski Veri Taşıma",
+  "migrationPageTitle": "Veri Taşıma",
+  "onboardingMigrationPageDescription": "Bu, 2.0''a güncellemenizden bu yana Balıkçı Günlüğü''yi ilk açışınız. Veri taşıma işlemini başlatmak için aşağıdaki düğmeyi tıklayın.",
+  "migrationPageDescription": "Balıkçı Günlüğü 2.0''a taşınması gereken eski verileriniz var. Başlamak için aşağıdaki düğmeye tıklayın.",
+  "onboardingMigrationPageError": "Verileriniz Balıkçı Günlüğü 2.0''a taşınırken beklenmeyen bir hata oluştu. Lütfen bize hata raporunu gönderin; mümkün olan en kısa sürede araştıracağız. Hiçbir verinizin kaybolmadığını unutmayın. Sorun çözüldükten sonra veri taşımayı yeniden denemek için lütfen Ayarlar sayfasını ziyaret edin.",
+  "migrationPageError": "Verileriniz Balıkçı Günlüğü 2.0''a taşınırken beklenmeyen bir hata oluştu. Lütfen bize hata raporunu gönderin; mümkün olan en kısa sürede araştıracağız. Eski verilerinizin hiçbirinin kaybolmadığını unutmayın. Sorun çözüldükten sonra veri taşımayı yeniden denemek için lütfen bu sayfayı tekrar ziyaret edin.",
+  "migrationPageLoading": "Veriler Balıkçı Günlüğü 2,0''a taşınıyor...",
+  "migrationPageSuccess": "Veriler başarıyla taşındı!",
+  "migrationPageNothingToDoDescription": "Veri taşıma, eski Balıkçı Günlüğü sürümlerindeki eski verileri yeni sürümlerin kullandığı veri biçimine dönüştürme işlemidir.",
+  "migrationPageNothingToDoSuccess": "Taşınacak eski veriniz yok!",
+  "migrationPageFeedbackTitle": "Taşıma Hatası",
+  "anglerNameLabel": "Balıkçı",
+  "onboardingJourneyWelcomeTitle": "Hoş Geldiniz",
+  "onboardingJourneyStartDescription": "Balıkçı Günlüğüne hoş geldiniz! Önce hangi verileri takip etmek istediğinizi belirleyelim.",
+  "onboardingJourneyStartButton": "Başla",
+  "onboardingJourneySkip": "Hayır teşekkürler, ilerlerken öğrenirim.",
+  "onboardingJourneyCatchFieldDescription": "Bir av kaydederken ne bilmek istiyorsunuz?",
+  "onboardingJourneyManageFieldsTitle": "Alanları Yönet",
+  "onboardingJourneyManageFieldsDescription": "Varsayılan alanları yönetin veya ekipman, av, yem, gezi ya da hava durumu eklerken/düzenlerken istediğiniz zaman özel alan ekleyin.",
+  "onboardingJourneyManageFieldsSpecies": "Gökkuşağı Alabalığı",
+  "onboardingJourneyLocationAccessTitle": "Konum Erişimi",
+  "onboardingJourneyLocationAccessDescription": "Balıkçı Günlüğü, uygulama içi haritada konumunuzu göstermek, av eklerken av noktalarını otomatik oluşturmak ve balık tutarken GPS izleri oluşturmak için konum hizmetlerini kullanır.",
+  "onboardingJourneyHowToFeedbackTitle": "Geri Bildirim Gönder",
+  "onboardingJourneyHowToFeedbackDescription": "Sorun bildirin, özellik önerin veya istediğiniz zaman geri bildirim gönderin. Sizden haber almak isteriz!",
+  "onboardingJourneyNotNow": "Şimdi Değil",
+  "emptyListPlaceholderNoResultsTitle": "Sonuç bulunamadı",
+  "emptyListPlaceholderNoResultsDescription": "Aradığınızı bulmak için lütfen arama filtrenizi ayarlayın.",
+  "proPageBackup": "Google Drive™ ile otomatik yedekleme",
+  "proPageCsv": "Günlüğü elektronik tabloya dışa aktar (CSV)",
+  "proPageAtmosphere": "Atmosfer, hava durumu ve gelgit verilerini getir",
+  "proPageReports": "Özel raporlar ve filtreler oluştur",
+  "proPageCustomFields": "Özel giriş alanları oluştur",
+  "proPageGpsTrails": "Gerçek zamanlı GPS izleri oluştur ve takip et",
+  "proPageCopyCatch": "Avları kopyala",
+  "proPageSpeciesCounter": "Gerçek zamanlı yakalanan tür sayacı",
+  "periodDawn": "Şafak",
+  "periodMorning": "Sabah",
+  "periodMidday": "Öğle",
+  "periodAfternoon": "Öğleden sonra",
+  "periodEvening": "Akşam",
+  "periodDusk": "Alacakaranlık",
+  "periodNight": "Gece",
+  "periodPickerAll": "Tüm günün zamanları",
+  "seasonWinter": "Kış",
+  "seasonSpring": "İlkbahar",
+  "seasonSummer": "Yaz",
+  "seasonAutumn": "Sonbahar",
+  "seasonPickerAll": "Tüm mevsimler",
+  "measurementSystemImperial": "İngiliz",
+  "measurementSystemImperialDecimal": "İngiliz Ondalık",
+  "measurementSystemMetric": "Metrik",
+  "numberBoundaryAny": "Herhangi",
+  "numberBoundaryLessThan": "Küçüktür (<)",
+  "numberBoundaryLessThanOrEqualTo": "Küçük veya eşittir (≤)",
+  "numberBoundaryEqualTo": "Eşittir (=)",
+  "numberBoundaryGreaterThan": "Büyüktür (>)",
+  "numberBoundaryGreaterThanOrEqualTo": "Büyük veya eşittir (≥)",
+  "numberBoundaryRange": "Aralık",
+  "numberBoundaryLessThanValue": "< {value}",
+  "@numberBoundaryLessThanValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "numberBoundaryLessThanOrEqualToValue": "≤ {value}",
+  "@numberBoundaryLessThanOrEqualToValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "numberBoundaryEqualToValue": "= {value}",
+  "@numberBoundaryEqualToValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "numberBoundaryGreaterThanValue": "> {value}",
+  "@numberBoundaryGreaterThanValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "numberBoundaryGreaterThanOrEqualToValue": "≥ {value}",
+  "@numberBoundaryGreaterThanOrEqualToValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "numberBoundaryRangeValue": "{from} - {to}",
+  "@numberBoundaryRangeValue": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "unitFeet": "ft",
+  "unitInches": "in",
+  "unitPounds": "lbs",
+  "unitOunces": "oz",
+  "unitFahrenheit": "°F",
+  "unitMeters": "m",
+  "unitCentimeters": "cm",
+  "unitKilograms": "kg",
+  "unitCelsius": "°C",
+  "unitMilesPerHour": "mph",
+  "unitKilometersPerHour": "km/s",
+  "unitMillibars": "MB",
+  "unitPoundsPerSquareInch": "psi",
+  "unitPercent": "%",
+  "unitInchOfMercury": "inHg",
+  "unitMiles": "mi",
+  "unitKilometers": "km",
+  "unitX": "X",
+  "unitAught": "O",
+  "unitPoundTest": "lb test",
+  "unitHashtag": "#",
+  "unitMetersPerSecond": "m/s",
+  "unitConvertToValue": "{unit} birimine dönüştür",
+  "@unitConvertToValue": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberFilterInputFrom": "Başlangıç",
+  "numberFilterInputTo": "Bitiş",
+  "numberFilterInputValue": "Değer",
+  "filterTitleWaterTemperature": "Su Sıcaklığı Filtresi",
+  "filterTitleWaterDepth": "Su Derinliği Filtresi",
+  "filterTitleLength": "Boy Filtresi",
+  "filterTitleWeight": "Ağırlık Filtresi",
+  "filterTitleQuantity": "Adet Filtresi",
+  "filterTitleAirTemperature": "Hava Sıcaklığı Filtresi",
+  "filterTitleAirPressure": "Atmosfer Basıncı Filtresi",
+  "filterTitleAirHumidity": "Hava Nemi Filtresi",
+  "filterTitleAirVisibility": "Hava Görüş Filtresi",
+  "filterTitleWindSpeed": "Rüzgar Hızı Filtresi",
+  "filterValueWaterTemperature": "Su Sıcaklığı: {value}",
+  "@filterValueWaterTemperature": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterValueWaterDepth": "Su Derinliği: {value}",
+  "@filterValueWaterDepth": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterValueLength": "Uzunluk: {value}",
+  "@filterValueLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterValueWeight": "Ağırlık: {value}",
+  "@filterValueWeight": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterValueQuantity": "Adet: {value}",
+  "@filterValueQuantity": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterValueAirTemperature": "Hava Sıcaklığı: {value}",
+  "@filterValueAirTemperature": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterValueAirPressure": "Atmosfer Basıncı: {value}",
+  "@filterValueAirPressure": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterValueAirHumidity": "Hava Nemi: {value}%",
+  "@filterValueAirHumidity": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterValueAirVisibility": "Hava Görünürlüğü: {value}",
+  "@filterValueAirVisibility": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterValueWindSpeed": "Rüzgar Hızı: {value}",
+  "@filterValueWindSpeed": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterPageInvalidEndValue": "{value}''dan büyük olmalı",
+  "@filterPageInvalidEndValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "moonPhaseNew": "Yeni",
+  "moonPhaseWaxingCrescent": "Hilal (büyüyen)",
+  "moonPhaseFirstQuarter": "İlk Dördün",
+  "moonPhaseWaxingGibbous": "Şişkin (büyüyen)",
+  "moonPhaseFull": "Dolunay",
+  "moonPhaseWaningGibbous": "Şişkin (küçülen)",
+  "moonPhaseLastQuarter": "Son Dördün",
+  "moonPhaseWaningCrescent": "Hilal (küçülen)",
+  "moonPhaseChip": "{value} Ay",
+  "@moonPhaseChip": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "atmosphereInputTemperature": "Sıcaklık",
+  "atmosphereInputAirTemperature": "Hava Sıcaklığı",
+  "atmosphereInputSkyConditions": "Gökyüzü Koşulları",
+  "atmosphereInputNoSkyConditions": "Gökyüzü koşulu yok",
+  "atmosphereInputWindSpeed": "Rüzgar Hızı",
+  "atmosphereInputWind": "Rüzgar",
+  "atmosphereInputWindDirection": "Rüzgar Yönü",
+  "atmosphereInputPressure": "Basınç",
+  "atmosphereInputAtmosphericPressure": "Atmosfer Basıncı",
+  "atmosphereInputHumidity": "Nem",
+  "atmosphereInputAirHumidity": "Hava Nemi",
+  "atmosphereInputVisibility": "Görüş",
+  "atmosphereInputAirVisibility": "Hava Görüşü",
+  "atmosphereInputMoon": "Ay",
+  "atmosphereInputMoonPhase": "Ay Evresi",
+  "atmosphereInputSunrise": "Gündoğumu",
+  "atmosphereInputTimeOfSunrise": "Gündoğumu Saati",
+  "atmosphereInputSunset": "Günbatımı",
+  "atmosphereInputTimeOfSunset": "Günbatımı Saati",
+  "directionNorth": "K",
+  "directionNorthEast": "KD",
+  "directionEast": "D",
+  "directionSouthEast": "GD",
+  "directionSouth": "G",
+  "directionSouthWest": "GB",
+  "directionWest": "B",
+  "directionNorthWest": "KB",
+  "directionWindChip": "Rüzgar: {value}",
+  "@directionWindChip": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "skyConditionSnow": "Kar",
+  "skyConditionDrizzle": "Çiseleme",
+  "skyConditionDust": "Toz",
+  "skyConditionFog": "Sis",
+  "skyConditionRain": "Yağmur",
+  "skyConditionTornado": "Hortum",
+  "skyConditionHail": "Dolu",
+  "skyConditionIce": "Buz",
+  "skyConditionStorm": "Fırtına",
+  "skyConditionMist": "Pus",
+  "skyConditionSmoke": "Duman",
+  "skyConditionOvercast": "Kapalı",
+  "skyConditionCloudy": "Bulutlu",
+  "skyConditionClear": "Açık",
+  "skyConditionSunny": "Güneşli",
+  "pickerTitleBait": "Yem Seç",
+  "pickerTitleBaits": "Yem Seç",
+  "pickerTitleBaitCategory": "Yem Kategorisi Seç",
+  "pickerTitleAngler": "Balıkçı Seç",
+  "pickerTitleAnglers": "Balıkçı Seç",
+  "pickerTitleFishingMethods": "Balık Tutma Yöntemi Seç",
+  "pickerTitleWaterClarity": "Su Berraklığı Seç",
+  "pickerTitleWaterClarities": "Su Berraklığı Seç",
+  "pickerTitleDateRange": "Tarih Aralığı Seç",
+  "pickerTitleFields": "Alan Seç",
+  "pickerTitleReport": "Rapor Seç",
+  "pickerTitleSpecies": "Tür Seç",
+  "pickerTitleFishingSpot": "Av Noktası Seç",
+  "pickerTitleFishingSpots": "Av Noktası Seç",
+  "pickerTitleTimeOfDay": "Günün Zamanını Seç",
+  "pickerTitleTimesOfDay": "Günün Zamanlarını Seç",
+  "pickerTitleSeason": "Mevsim Seç",
+  "pickerTitleSeasons": "Mevsim Seç",
+  "pickerTitleMoonPhase": "Ay Evresi Seç",
+  "pickerTitleMoonPhases": "Ay Evresi Seç",
+  "pickerTitleSkyCondition": "Gökyüzü Koşulu Seç",
+  "pickerTitleSkyConditions": "Gökyüzü Koşulu Seç",
+  "pickerTitleWindDirection": "Rüzgar Yönü Seç",
+  "pickerTitleWindDirections": "Rüzgar Yönü Seç",
+  "pickerTitleTide": "Gelgit Seç",
+  "pickerTitleTides": "Gelgit Seç",
+  "pickerTitleBodyOfWater": "Su Kütlesi Seç",
+  "pickerTitleBodiesOfWater": "Su Kütlesi Seç",
+  "pickerTitleCatches": "Av Seç",
+  "pickerTitleTimeZone": "Saat Dilimi Seç",
+  "pickerTitleGpsTrails": "GPS İzi Seç",
+  "pickerTitleGear": "Ekipman Seç",
+  "pickerTitleRodAction": "Aksiyon Seç",
+  "pickerTitleRodPower": "Güç Seç",
+  "pickerTitleTrip": "Gezi Seç",
+  "keywordsTemperatureMetric": "santigrat sıcaklık derece c",
+  "keywordsTemperatureImperial": "fahrenheit sıcaklık derece f",
+  "keywordsSpeedImperial": "saatte mil hızında rüzgar",
+  "keywordsAirPressureMetric": "atmosferik hava basıncı milibar",
+  "keywordsAirPressureImperial": "atmosferik hava basıncı inç kare başına pound",
+  "keywordsAirHumidity": "nem yüzde nem",
+  "keywordsAirVisibilityMetric": "kilometre kilometre görünürlük",
+  "keywordsAirVisibilityImperial": "kilometre görünürlüğü",
+  "keywordsPercent": "yüzde",
+  "keywordsInchOfMercury": "inç cıva barometrik atmosfer basıncı",
+  "keywordsSunrise": "gündoğumu",
+  "keywordsSunset": "gün batımı",
+  "keywordsCatchAndRelease": "serbest bırakıldı",
+  "keywordsFavorite": "favori yıldız yıldızlı",
+  "keywordsDepthMetric": "derinlik ölçerler metre",
+  "keywordsDepthImperial": "derinlik ayak inç",
+  "keywordsLengthMetric": "uzunluk santimetre cm",
+  "keywordsLengthImperial": "uzunluk inç \"",
+  "keywordsWeightMetric": "ağırlık kilo kilogram kg",
+  "keywordsWeightImperial": "ağırlık pound ons lbs ons",
+  "keywordsX": "x",
+  "keywordsAught": "bir şey olmalı",
+  "keywordsPoundTest": "pound testi",
+  "keywordsHashtag": "#",
+  "keywordsMetersPerSecond": "metre metre saniyede m/s",
+  "keywordsNorth": "kuzeyde",
+  "keywordsNorthEast": "ne kuzeydoğu",
+  "keywordsEast": "doğu doğu",
+  "keywordsSouthEast": "güneydoğuya doğru",
+  "keywordsSouth": "güney",
+  "keywordsSouthWest": "GB güneybatı",
+  "keywordsWest": "Batı batı",
+  "keywordsNorthWest": "kuzeybatı",
+  "keywordsWindDirection": "rüzgar yönü",
+  "keywordsMoon": "ay evresi",
+  "tideInputTitle": "Gelgit",
+  "tideInputLowTimeValue": "Alçak: {value}",
+  "@tideInputLowTimeValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "tideInputHighTimeValue": "Yüksek: {value}",
+  "@tideInputHighTimeValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "tideInputDatumValue": "Referans: {value}",
+  "@tideInputDatumValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "tideInputFirstLowTimeLabel": "İlk Alçak Gelgit Saati",
+  "tideInputFirstHighTimeLabel": "İlk Yüksek Gelgit Saati",
+  "tideInputSecondLowTimeLabel": "İkinci Alçak Gelgit Saati",
+  "tideInputSecondHighTimeLabel": "İkinci Yüksek Gelgit Saati",
+  "tideTypeLow": "Alçak",
+  "tideTypeOutgoing": "Çeken",
+  "tideTypeHigh": "Yüksek",
+  "tideTypeSlack": "Durgun",
+  "tideTypeIncoming": "Gelen",
+  "tideLow": "Alçak Gelgit",
+  "tideOutgoing": "Çeken Gelgit",
+  "tideHigh": "Yüksek Gelgit",
+  "tideSlack": "Durgun Gelgit",
+  "tideIncoming": "Gelen Gelgit",
+  "tideTimeAndHeight": "{height}, {time}",
+  "@tideTimeAndHeight": {
+    "placeholders": {
+      "height": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "saveBaitVariantPageTitle": "Yem Varyantını Düzenle",
+  "saveBaitVariantPageEditTitle": "Yeni Yem Varyantı",
+  "saveBaitVariantPageModelNumber": "Model Numarası",
+  "saveBaitVariantPageSize": "Boyut",
+  "saveBaitVariantPageMinDiveDepth": "Minimum Dalış Derinliği",
+  "saveBaitVariantPageMaxDiveDepth": "Maksimum Dalış Derinliği",
+  "saveBaitVariantPageDescription": "Açıklama",
+  "baitVariantPageVariantLabel": "Şunun varyantı",
+  "baitVariantPageModel": "Model Numarası",
+  "baitVariantPageSize": "Boyut",
+  "baitVariantPageDiveDepth": "Dalış Derinliği",
+  "baitTypeArtificial": "Yapay",
+  "baitTypeReal": "Gerçek",
+  "baitTypeLive": "Canlı",
+  "bodyOfWaterListPageDeleteMessage": "{bodyOfWater}, {numOfSpots} av noktası ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@bodyOfWaterListPageDeleteMessage": {
+    "placeholders": {
+      "bodyOfWater": {
+        "type": "String"
+      },
+      "numOfSpots": {
+        "type": "int"
+      }
+    }
+  },
+  "bodyOfWaterListPageDeleteMessageSingular": "{bodyOfWater}, 1 av noktası ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@bodyOfWaterListPageDeleteMessageSingular": {
+    "placeholders": {
+      "bodyOfWater": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyOfWaterListPageTitle": "Su Kütleleri ({numOfBodiesOfWater})",
+  "@bodyOfWaterListPageTitle": {
+    "placeholders": {
+      "numOfBodiesOfWater": {
+        "type": "int"
+      }
+    }
+  },
+  "bodyOfWaterListPageSearchHint": "Su kütlelerinde ara",
+  "bodyOfWaterListPageEmptyListTitle": "Su Kütlesi Yok",
+  "bodyOfWaterListPageEmptyListDescription": "Henüz hiç su kütlesi eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "bodiesOfWaterSummaryEmpty": "Günlüğünüze su kütlesi eklendiğinde, avlarının özeti burada gösterilir.",
+  "saveBodyOfWaterPageNewTitle": "Yeni Su Kütlesi",
+  "saveBodyOfWaterPageEditTitle": "Su Kütlesini Düzenle",
+  "saveBodyOfWaterPageExistsMessage": "Su kütlesi zaten var",
+  "mapAttributionTitleApple": "OSM / OpenSeaMap tabanlı harita",
+  "mapAttributionTitleAndroid": "OSM / OpenSeaMap tabanlı harita",
+  "mapAttributionMapbox": "© OpenSeaMap",
+  "mapAttributionOpenStreetMap": "© OpenStreetMap",
+  "mapAttributionImproveThisMap": "Bu Haritayı İyileştir",
+  "mapAttributionMaxar": "© Maxar",
+  "mapAttributionTelemetryTitle": "Telemetri kaldırıldı",
+  "mapAttributionTelemetryDescription": "Harita telemetrisi devre dışı bırakıldı / kaldırıldı.",
+  "entityNameAnglers": "Balıkçılar",
+  "entityNameAngler": "Balıkçı",
+  "entityNameBaitCategories": "Yem Kategorileri",
+  "entityNameBaitCategory": "Yem Kategorisi",
+  "entityNameBaits": "Yemler",
+  "entityNameBait": "Yem",
+  "entityNameBodiesOfWater": "Su Kütleleri",
+  "entityNameBodyOfWater": "Su Kütlesi",
+  "entityNameCatch": "Av",
+  "entityNameCatches": "Avlar",
+  "entityNameCustomFields": "Özel Alanlar",
+  "entityNameCustomField": "Özel Alan",
+  "entityNameFishingMethods": "Balık Tutma Yöntemleri",
+  "entityNameFishingMethod": "Balık Tutma Yöntemi",
+  "entityNameGear": "Ekipman",
+  "entityNameGpsTrails": "GPS İzleri",
+  "entityNameGpsTrail": "GPS İzi",
+  "entityNameSpecies": "Türler",
+  "entityNameTrip": "Gezi",
+  "entityNameTrips": "Geziler",
+  "entityNameWaterClarities": "Su Berraklıkları",
+  "entityNameWaterClarity": "Su Berraklığı",
+  "tripSummaryTitle": "Gezi Özeti",
+  "tripSummaryTotalTripTime": "Toplam Gezi Süresi",
+  "tripSummaryLongestTrip": "En Uzun Gezi",
+  "tripSummarySinceLastTrip": "Son Geziden Bu Yana",
+  "tripSummaryAverageTripTime": "Ortalama Gezi Süresi",
+  "tripSummaryAverageTimeBetweenTrips": "Geziler Arası",
+  "tripSummaryAverageTimeBetweenCatches": "Avlar Arası",
+  "tripSummaryCatchesPerTrip": "Gezi Başına Avlar",
+  "tripSummaryCatchesPerHour": "Saat Başına Avlar",
+  "tripSummaryWeightPerTrip": "Gezi Başına Ağırlık",
+  "tripSummaryBestWeight": "En İyi Ağırlık",
+  "tripSummaryLengthPerTrip": "Gezi Başına Boy",
+  "tripSummaryBestLength": "En İyi Boy",
+  "backupPageTitle": "Yedek",
+  "backupPageDescription": "Verileriniz Google Drive™ içinde özel bir klasöre kopyalanır ve herkese açık paylaşılmaz.\n\nYedekleme işlemi birkaç dakika sürebilir.",
+  "backupPageAction": "Şimdi Yedekle",
+  "backupPageErrorTitle": "Yedekleme Hatası",
+  "backupPageAutoTitle": "Otomatik Yedekle",
+  "backupPageLastBackupLabel": "Son Yedek",
+  "backupPageLastBackupNever": "Hiç",
+  "restorePageTitle": "Geri Yükle",
+  "restorePageDescription": "Verileri geri yüklemek, mevcut günlüğünüzü Google Drive™daki verilerle tamamen değiştirir. Veri yoksa günlüğünüz değişmez.\n\nGeri yükleme işlemi birkaç dakika sürebilir.",
+  "restorePageAction": "Şimdi Geri Yükle",
+  "restorePageErrorTitle": "Geri Yükleme Hatası",
+  "backupRestoreAuthError": "Kimlik doğrulama hatası. Lütfen daha sonra tekrar deneyin.",
+  "backupRestoreAutoSignedOutError": "Kimlik doğrulama zaman aşımı nedeniyle otomatik yedek başarısız oldu. Lütfen tekrar oturum açın.",
+  "backupRestoreAutoNetworkError": "Ağ bağlantısı sorunu nedeniyle otomatik yedek başarısız oldu. Lütfen manuel yedek yapın veya bir sonraki otomatik yedek denemesini bekleyin.",
+  "backupRestoreCreateFolderError": "yedek klasörü oluşturulamadı, lütfen daha sonra tekrar deneyin.",
+  "backupRestoreFolderNotFound": "Yedek klasör bulunamadı. Verilerinizin geri yükled olabilmesi için yedek yapmanız gerekir.",
+  "backupRestoreApiRequestError": "Ağ kesintiye uğramış olabilir. İnternet bağlantınızı doğrulayıp tekrar deneyin. Sorun devam ederse lütfen inceleme için Balıkçı Günlüğü bir rapor gönderin.",
+  "backupRestoreDatabaseNotFound": "Yedek veri dosyası bulunamadı. Verilerinizin geri yükled olabilmesi için yedek yapmanız gerekir.",
+  "backupRestoreAccessDenied": "Balıkçı Günlüğü verilerinizi yedek kullanma iznine sahip değil. Lütfen çıkış yapın ve tekrar oturum açarak \"Google Drive''ınızda kendi yapılandırma verilerini görün, oluşturun ve silin™\" seçeneğinin olduğundan emin olun. kutucuğu işaretli ve tekrar deneyin.",
+  "backupRestoreStorageFull": "Google Drive™ depolama alanınız dolu. Lütfen biraz yer açın ve tekrar deneyin.",
+  "backupRestoreAuthenticating": "Kimlik doğrulanıyor...",
+  "backupRestoreFetchingFiles": "Veriler getiriliyor...",
+  "backupRestoreCreatingFolder": "yedek klasörü oluşturuluyor...",
+  "backupRestoreBackingUpDatabase": "Veritabanı yedekleniyor...",
+  "backupRestoreDownloadingDatabase": "Veritabanı indiriliyor...",
+  "backupRestoreDownloadingImages": "Resimler indiriliyor{percent}...",
+  "@backupRestoreDownloadingImages": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "backupRestoreReloadingData": "Veriler yeniden yükleniyor...",
+  "backupRestoreSuccess": "Başarılı!",
+  "cloudAuthSignOut": "Çıkış yap",
+  "cloudAuthSignedInAs": "Oturum açılan hesap",
+  "cloudAuthSignInWithGoogle": "Google ile oturum aç",
+  "cloudAuthDescription": "Devam etmek için Google hesabınızda oturum açmalısınız. Veriler özel bir Google Drive™ klasörüne kaydedilir ve yalnızca Balıkçı Günlüğü tarafından erişilebilir.",
+  "cloudAuthError": "Oturum açma hatası oluştu. Lütfen daha sonra tekrar deneyin.",
+  "cloudAuthNetworkError": "Oturum açarken bir ağ hatası oluştu. Lütfen internete bağlı olduğunuzdan emin olun ve tekrar deneyin.",
+  "asyncFeedbackSendReport": "Rapor Gönder",
+  "addAnythingTitle": "Yeni Ekle",
+  "proBlurUpgradeButton": "Yükselt",
+  "aboutPageEula": "Kullanım Koşulları (EULA)",
+  "aboutPagePrivacy": "Gizlilik Politikası",
+  "aboutPageWorldTides": "WorldTides™ Gizlilik Politikası",
+  "aboutPageWorldTidePrivacy": "Gelgit verileri www.worldtides.info adresinden alınmıştır. Telif hakkı © 2014-2023 Brainware LLC.\n\nSon kullanıcı tarafından bireysel mekânsal koordinatların kullanımı için lisanslanmıştır.\n\nBU GELGİT VERİLERİNİN DOĞRULUĞU KONUSUNDA HİÇBİR GARANTİ VERİLMEZ.\nBu verileri, kullanımı sonucu birinin veya bir şeyin zarar görebileceği durumlarda (ör. seyrüsefer amaçlı) kullanamazsınız.\n\nGelgit verileri çeşitli kaynaklardan elde edilir ve kısmen veya tamamen çeşitli telif haklarıyla korunur. Ayrıntılar için: http://www.worldtides.info/copyright",
+  "fishingSpotDetailsAddDetails": "Ayrıntı Ekle",
+  "fishingSpotDetailsCatches": "{numOfCatches} Av",
+  "@fishingSpotDetailsCatches": {
+    "placeholders": {
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "fishingSpotDetailsCatch": "1 Av",
+  "timeZoneInputLabel": "Saat Dilimi",
+  "timeZoneInputDescription": "Varsayılan olarak geçerli saat diliminiz kullanılır.",
+  "timeZoneInputSearchHint": "Saat dilimlerinde ara",
+  "pollsPageTitle": "Özellik Anketleri",
+  "pollsPageDescription": "Balıkçı Günlüğünün sonraki sürümüne hangi özelliklerin ekleneceğini oylayarak belirleyin.",
+  "pollsPageNoPollsTitle": "Anket Yok",
+  "pollsPageNoPollsDescription": "Şu anda herhangi bir özellik anketi yok. Bir özellik talep etmek istiyorsanız lütfen bize geri bildirim gönderin!",
+  "pollsPageSendFeedback": "Geri Bildirim Gönder",
+  "pollsPageNextFreeFeature": "Sonraki Ücretsiz Özellik",
+  "pollsPageNextProFeature": "Sonraki Pro Özellik",
+  "pollsPageThankYouFree": "Ücretsiz özellik anketine oy verdiğiniz için teşekkür ederiz!",
+  "pollsPageThankYouPro": "Profesyonel özellik anketine oy verdiğiniz için teşekkür ederiz!",
+  "pollsPageError": "Oyunuzu verirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+  "pollsPageComingSoonFree": "Yakında Ücretsiz Kullanıcılara Sunulacak (Oy verildiği gibi)",
+  "pollsPageComingSoonPro": "Yakında Profesyonel Kullanıcılara Sunulacak (Oylamaya Göre)",
+  "permissionLocationTitle": "Konum Erişimi",
+  "permissionCurrentLocationDescription": "Mevcut konumunuzu göstermek için Balıkçı Günlüğü cihazınızın konumunu okuma erişimine izin vermelisiniz. Bunu yapmak için cihaz ayarlarınızı açın.",
+  "permissionGpsTrailDescription": "Doğru bir GPS izi oluşturmak için Balıkçı Günlüğü, izleme etkinken cihazınızın konumuna her zaman erişebilmelidir. Gerekli izni vermek için cihazınızın ayarlarını açın.",
+  "permissionOpenSettings": "Ayarları Aç",
+  "permissionLocationNotificationDescription": "GPS izi etkin",
+  "calendarPageTitle": "Takvim",
+  "calendarPageTripLabel": "Gezi",
+  "gpsTrailListPageTitle": "GPS İzleri ({numOfTrails})",
+  "@gpsTrailListPageTitle": {
+    "placeholders": {
+      "numOfTrails": {
+        "type": "int"
+      }
+    }
+  },
+  "gpsTrailListPageSearchHint": "GPS izlerinde ara",
+  "gpsTrailListPageEmptyListTitle": "GPS İzi Yok",
+  "gpsTrailListPageEmptyListDescription": "GPS izi başlatmak için haritadaki %s düğmesine dokunun.",
+  "gpsTrailListPageDeleteMessageSingular": "Bu GPS izi 1 gezi ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "gpsTrailListPageDeleteMessage": "Bu GPS izi {numOfTrips} gezi ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@gpsTrailListPageDeleteMessage": {
+    "placeholders": {
+      "numOfTrips": {
+        "type": "int"
+      }
+    }
+  },
+  "gpsTrailListPageNumberOfPoints": "{numOfPoints} Nokta",
+  "@gpsTrailListPageNumberOfPoints": {
+    "placeholders": {
+      "numOfPoints": {
+        "type": "int"
+      }
+    }
+  },
+  "gpsTrailListPageInProgress": "Devam Ediyor",
+  "saveGpsTrailPageEditTitle": "GPS İzini Düzenle",
+  "tideFetcherErrorNoLocationFound": "Getirme konumu gelgit bilgisi belirlemek için karada çok içeride.",
+  "csvPageTitle": "CSV''yi dışa aktar",
+  "csvPageAction": "Dışa Aktar",
+  "csvPageDescription": "Aşağıdaki her seçim için ayrı bir CSV dosyası oluşturulur.",
+  "csvPageImportWarning": "Elektronik tablo yazılımına içe aktarırken, dışa aktarılan CSV dosyalarının dosya kaynağı Unicode''dur (UTF-8) ve sınırlayıcı virgüldür.",
+  "csvPageBackupWarning": "CSV dosyaları yedek değildir ve Balıkçı Günlüğü''ye aktarılamaz. Bunun yerine Diğer sayfasındaki Yedek ve Geri Yükle düğmelerini kullanın.",
+  "csvPageSuccess": "Başarılı!",
+  "csvPageMustSelect": "Lütfen yukarıdan en az bir dışa aktarma seçeneği seçin.",
+  "tripFieldStartDate": "Başlangıç Tarihi",
+  "tripFieldEndDate": "Bitiş Tarihi",
+  "tripFieldStartTime": "Başlangıç Saati",
+  "tripFieldEndTime": "Bitiş Saati",
+  "tripFieldPhotos": "Fotoğraflar",
+  "gearListPageTitle": "Ekipman ({numOfGear})",
+  "@gearListPageTitle": {
+    "placeholders": {
+      "numOfGear": {
+        "type": "int"
+      }
+    }
+  },
+  "gearListPageDeleteMessage": "{gear}, {numOfCatches} av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@gearListPageDeleteMessage": {
+    "placeholders": {
+      "gear": {
+        "type": "String"
+      },
+      "numOfCatches": {
+        "type": "int"
+      }
+    }
+  },
+  "gearListPageDeleteMessageSingular": "{gear}, 1 av ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@gearListPageDeleteMessageSingular": {
+    "placeholders": {
+      "gear": {
+        "type": "String"
+      }
+    }
+  },
+  "gearListPageSearchHint": "Ekipmanda ara",
+  "gearListPageEmptyListTitle": "Ekipman Yok",
+  "gearListPageEmptyListDescription": "Henüz hiç ekipman eklemediniz. Başlamak için %s düğmesine dokunun.",
+  "gearSummaryEmpty": "Günlüğünüze ekipman eklendiğinde, avlarının özeti burada gösterilir.",
+  "gearActionXFast": "Çok Hızlı",
+  "gearActionFast": "Hızlı",
+  "gearActionModerateFast": "Orta Hızlı",
+  "gearActionModerate": "Orta",
+  "gearActionSlow": "Yavaş",
+  "gearPowerUltralight": "Ultra Hafif",
+  "gearPowerLight": "Hafif",
+  "gearPowerMediumLight": "Orta Hafif",
+  "gearPowerMedium": "Orta",
+  "gearPowerMediumHeavy": "Orta Ağır",
+  "gearPowerHeavy": "Ağır",
+  "gearPowerXHeavy": "Çok Ağır",
+  "gearPowerXxHeavy": "Çift Çok Ağır",
+  "gearPowerXxxHeavy": "Üçlü Çok Ağır",
+  "gearFieldImage": "Fotoğraf",
+  "gearFieldRodMakeModel": "Olta Marka ve Model",
+  "gearFieldRodSerialNumber": "Olta Seri Numarası",
+  "gearFieldRodLength": "Olta Boyu",
+  "gearFieldRodAction": "Olta Aksiyonu",
+  "gearFieldRodPower": "Olta Gücü",
+  "gearFieldReelMakeModel": "Makine Marka ve Model",
+  "gearFieldReelSerialNumber": "Makine Seri Numarası",
+  "gearFieldReelSize": "Makine Boyutu",
+  "gearFieldLineMakeModel": "Misina Marka ve Model",
+  "gearFieldLineRating": "Misina Dayanımı",
+  "gearFieldLineColor": "Misina Rengi",
+  "gearFieldLeaderLength": "Öncü Boyu",
+  "gearFieldLeaderRating": "Öncü Dayanımı",
+  "gearFieldTippetLength": "Tippet Boyu",
+  "gearFieldTippetRating": "Tippet Dayanımı",
+  "gearFieldHookMakeModel": "İğne Marka ve Model",
+  "gearFieldHookSize": "İğne Boyutu",
+  "saveGearPageEditTitle": "Ekipmanı Düzenle",
+  "saveGearPageNewTitle": "Yeni Ekipman",
+  "saveGearPageNameExists": "Ekipman adı zaten var",
+  "gearPageSerialNumber": "Seri No: {serialNo}",
+  "@gearPageSerialNumber": {
+    "placeholders": {
+      "serialNo": {
+        "type": "String"
+      }
+    }
+  },
+  "gearPageSize": "Boyut: {size}",
+  "@gearPageSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "gearPageLeader": "Öncü: {leader}",
+  "@gearPageLeader": {
+    "placeholders": {
+      "leader": {
+        "type": "String"
+      }
+    }
+  },
+  "gearPageTippet": "Tippet: {tippet}",
+  "@gearPageTippet": {
+    "placeholders": {
+      "tippet": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationPermissionPageDesc": "Veri yedeklemesi herhangi bir nedenle (yeniden kimlik doğrulama gerekmesi dahil) başarısız olursa Balıkçı Günlüğünün sizi bilgilendirmesine izin verin.",
+  "notificationErrorBackupTitle": "Yedekleme Hatası",
+  "notificationErrorBackupBody": "Eyvah! Verileriniz yedeklenirken bir sorun oluştu. Ayrıntılar için buraya dokunun.",
+  "notificationChannelNameBackup": "Veri Yedekleme",
+  "speciesCounterPageTitle": "Tür Sayacı",
+  "speciesCounterPageReset": "Sıfırla",
+  "speciesCounterPageCreateTrip": "Gezi Oluştur",
+  "speciesCounterPageAddToTrip": "Geziye Ekle",
+  "speciesCounterPageSelect": "Tür Seç",
+  "speciesCounterPageTripUpdated": "Tür sayıları {trip} gezisine eklendi.",
+  "@speciesCounterPageTripUpdated": {
+    "placeholders": {
+      "trip": {
+        "type": "String"
+      }
+    }
+  },
+  "speciesCounterPageGeneralTripName": "gezi",
+  "locationDataFetcherErrorNoPermission": "Verileri almak için izin gerekiyor. Lütfen Balıkçı Günlüğü konum iznini verin ve tekrar deneyin.",
+  "locationDataFetcherPermissionError": "Konum izni istenirken bir hata oluştu. Balıkçı Günlüğü ekibine bilgi verildi ve rahatsızlıktan dolayı özür dileriz.",
+  "changeLogPageTitle": "Yenilikler",
+  "changeLogPagePreviousVersion": "Önceki Sürümünüz",
+  "changeLog_2022_1": "Balıkçı Günlüğü''nin tamamen yeniden yazılması",
+  "changeLog_2022_2": "Taze ve modern bir görünüm ve his",
+  "changeLog_2022_3": "Tamamen yeni, kapsamlı ve ayrıntılı bir istatistik özelliği",
+  "changeLog_2022_4": "ay evreleri ve gelgit dahil ayrıntılı atmosfer ve hava durumu verileri",
+  "changeLog_2022_5": "Balıkçı Günlüğü Pro''ye abone olarak Balıkçı Günlüğü''den daha fazla yararlanın",
+  "changeLog_2022_6": "Ayrıca kullanıcıların talep ettiği daha birçok özellik",
+  "changeLog_210_1": "Daha Fazla > Özellik Anketleri''nde artık bir sonraki adımda hangi özellikleri görmek istediğinize oy verebilirsiniz",
+  "changeLog_210_2": "Kişisel en iyi fotoğrafların köşelerinin yuvarlatılmaması sorunu düzeltildi",
+  "changeLog_210_3": "İstatistikler sayfasında av miktar değerlerinin sayılmaması sorunu düzeltildi",
+  "changeLog_210_4": "Otomatik av noktası toplama mesafesi artık Ayarlar''da yapılandırılabilir",
+  "changeLog_212_1": "Eski verileri içe aktarırken oluşan kilitlenme düzeltildi",
+  "changeLog_212_2": "Karşılaştırma raporlarını düzenlerken oluşan kilitlenme düzeltildi",
+  "changeLog_212_3": "Bazı kullanıcılar için ön plana döndükten sonra haritanın görünmesi düzeltildi",
+  "changeLog_212_4": "Not giriş alanı karakter sınırı kaldırıldı",
+  "changeLog_213_1": "Veri geri yüklemenin bazen başarısız olmasına neden olan sorun düzeltildi",
+  "changeLog_213_2": "Eski veri geçişi sırasındaki kilitlenme düzeltildi",
+  "changeLog_213_3": "Performans iyileştirmeleri",
+  "changeLog_213_4": "Ücretsiz kullanıcılar artık reklam görmeyecek",
+  "changeLog_215_1": "Daha sorunsuz bir kullanıcı deneyimi sağlayan rapor hesaplamalarının verimliliği artırıldı",
+  "changeLog_216_1": "Balık tutma noktası koordinatları artık düzenlenebilir",
+  "changeLog_216_2": "Geliştirilmiş yedek ve geri yükle hata mesajları",
+  "changeLog_216_3": "av noktası \"Yol Tarifi\" düğmesinin bazen çalışmaması sorunu düzeltildi",
+  "changeLog_216_4": "Fotoğraf galerisinin bazen boş görünmesi sorunu düzeltildi",
+  "changeLog_216_5": "Birkaç çökme düzeltildi",
+  "changeLog_220_1": "\"Diğer\" sayfasına geziler ve avlar için takvim görünümü eklendi",
+  "changeLog_220_2": "\"İstatistikler\" sayfasında yemlerin görüntülenmesiyle ilgili birden fazla sorun düzeltildi",
+  "changeLog_220_3": "Fotoğraf verileri okunamaz hale geldiğinde oluşan çökme düzeltildi",
+  "changeLog_230_1": "Haritadaki %s düğmesine dokunarak etkinleştirilebilecek canlı GPS takibi ekleyin",
+  "changeLog_230_2": "Yerel ayarları buna izin veren ülkeler artık virgülleri ondalık nokta olarak kullanabilir",
+  "changeLog_230_3": "av eklenirken fotoğrafın zamanının ve konumunun her zaman kullanılmaması sorunu düzeltildi",
+  "changeLog_230_4": "İstatistikler sayfasında yanlış avların gösterilmesine neden olan bir hata düzeltildi",
+  "changeLog_230_5": "Küçük kullanıcı arayüzü hata düzeltmeleri",
+  "changeLog_232_1": "gezi başlangıç ​​ve bitiş zamanlarının ayarlanamaması sorunu düzeltildi",
+  "changeLog_233_1": "\"Alanları Yönet\" menüsünden gezi başlangıç ​​ve bitiş tarihlerinin seçilememesi sorunu düzeltildi",
+  "changeLog_233_2": "Bazı genel kararlılık iyileştirmeleri",
+  "changeLog_234_1": "Artık \"KAYDET\" butonuna basmadan bir sayfadan ayrılırken uyarılacaksınız",
+  "changeLog_234_2": "Atmosfer ve hava durumu verileri alınırken artık gezi''ın manuel olarak ayarlanan başlangıç ​​zamanı kullanılıyor",
+  "changeLog_234_3": "av eklenirken fotoğrafların galeride görünmemesi sorunu düzeltildi",
+  "changeLog_234_4": "Haritanın her zaman mevcut konumunuzu getirememesi sorunu düzeltildi",
+  "changeLog_240_1": "Karanlık Mod için destek eklendi",
+  "changeLog_240_2": "gezi''nin uzunluk istatistik döşemesindeki ondalık basamaklar kaldırıldı",
+  "changeLog_240_3": "İstatistik zaman aralığı seçimi artık uygulama başlatıldığında kaydediliyor",
+  "changeLog_240_4": "\"Güneşli\" gökyüzü koşulu olarak eklendi",
+  "changeLog_240_5": "Not alanları artık boş satırlar içerebiliyor",
+  "changeLog_240_6": "Not alanları artık 4 satıra kısaltılmıyor",
+  "changeLog_241_1": "Atmosfer ve hava durumu verileri alınırken oluşan çökme düzeltildi",
+  "changeLog_241_2": "av eklerken nadir görülen bir çökme düzeltildi",
+  "changeLog_241_3": "av eklenirken av noktası''nin sıfırlanması sorunu düzeltildi",
+  "changeLog_241_4": "Gezi eklerken, seçilen avlara göre mevcut alanları otomatik ayarlama seçeneği sunuluyor",
+  "changeLog_241_5": "Çeşitli genel kararlılık iyileştirmeleri ve kilitlenme düzeltmeleri",
+  "changeLog_243_1": "Yanlış getirilen atmosfer ve hava durumu verileri düzeltildi",
+  "changeLog_250_1": "Gelgit verileri artık WorldTides™ üzerinden getirilebilir",
+  "changeLog_250_2": "Günün \"Akşam\" saati eklendi",
+  "changeLog_250_3": "Başka bir noktaya çok yakın olması durumunda av noktası''ın eklenememesi sorunu düzeltildi",
+  "changeLog_250_4": "Ayırıcı olarak virgül kullanan diller için ondalık değerlerin girilmesiyle ilgili sorun düzeltildi",
+  "changeLog_250_5": "Konumun fotoğraflardan okunamaması sorunu düzeltildi",
+  "changeLog_251_1": "ABD dışındaki yerel ayarların ölçüm birimlerini değiştirememesi sorunu düzeltildi",
+  "changeLog_252_1": "Otomatik yedek''ler artık av, gezi ve yem değişikliklerinde tetikleniyor",
+  "changeLog_252_2": "gelgit yükseklikte yinelenen negatif işaret düzeltildi",
+  "changeLog_252_3": "Pro''ya yükselttikten sonra özel raporlara dokunulamamasına neden olan sorun düzeltildi",
+  "changeLog_252_4": "İstatistik av listelerinde boş av uzunluk/ağırlık değerlerinin gösterilmesi düzeltildi",
+  "changeLog_260_1": "Profesyonel kullanıcılar artık Daha Fazla > CSV''yi Dışa Aktar aracılığıyla verilerini bir e-tabloya aktarabilirler.",
+  "changeLog_260_2": "Tüm kullanıcılar artık ekipman ekleyebilir ve bunları avlara bağlayabilir.",
+  "changeLog_260_3": "Bir yem adının yem listesindeki değişken metin tarafından kesilmesi sorunu düzeltildi.",
+  "changeLog_260_4": "Otomatik olarak getirilen veriler artık bir av''nin av noktası''si değiştiğinde güncelleniyor.",
+  "changeLog_260_5": "Atmosfer ve hava durumu verileri artık geziler için otomatik getiriliyor.",
+  "changeLog_270_1": "Diğer sayfasına gerçek zamanlı yakalanan tür sayacı (Pro özelliği) eklendi.",
+  "changeLog_270_2": "av görüntülerken bir av kopyala düğmesi (Pro özelliği) eklendi.",
+  "changeLog_270_3": "yem varyantlara fotoğraf eklendi.",
+  "changeLog_270_4": "Gezilere su koşulları eklendi.",
+  "changeLog_270_5": "Başarısız yedek bildirimleri eklendi.",
+  "changeLog_270_6": "gelgit çizelgelerine alçak ve yüksek yükseklikler eklendi.",
+  "changeLog_270_7": "Rüzgar hızı birimi seçeneği olarak saniyede metre eklendi.",
+  "changeLog_270_8": "Raporların farklı zaman aralıkları için aynı verileri göstermesi sorunu düzeltildi.",
+  "changeLog_270_9": "Bazı cihazlarda CSV kaydetme konumunu seçememeniz sorunu düzeltildi.",
+  "changeLog_270_10": "Bazı cihazlarda av veya gezi paylaşılamamasına neden olan sorun düzeltildi.",
+  "changeLog_270_11": "Gezi Özet raporunun yanlış en iyi uzunluk ve ağırlık değerlerini göstermesi sorunu düzeltildi.",
+  "changeLog_270_12": "Bize geri bildirim göndermeye çalışırken oluşan hatalı ağ hatası düzeltildi.",
+  "changeLog_270_13": "av eklenirken artık balık tutma noktası atlanabiliyor.",
+  "changeLog_270_14": "Balık tutma noktası artık av''den kaldırılabilir.",
+  "changeLog_270_15": "Dışa aktarılan CSV dosyaları artık enlem, boylam ve özel alanlar sütunlarını içeriyor.",
+  "changeLog_270_16": "\"Skunked\" damgası artık Birleşik Krallık''taki kullanıcılar için \"Boş\" diyor.",
+  "changeLog_271_1": "Gelgit grafik artık y ekseni etiketlerini doğru birimde gösteriyor.",
+  "changeLog_271_2": "Uygulama güncellemesinden sonra bazı av fotoğrafların kaldırılması sorunu düzeltildi.",
+  "changeLog_272_1": "Harici bağlantıları açarken oluşan kilitlenme düzeltildi.",
+  "changeLog_273_1": "Av noktası ayrıntılarına av sayısı eklendi.",
+  "changeLog_273_2": "gelgit ayrıntılarına gelgit veri değeri eklendi.",
+  "changeLog_273_3": "Fotoğraflardaki güvenilmez yakınlaştırma düzeltildi.",
+  "changeLog_273_4": "Hava durumu verileri alınırken oluşan hata düzeltildi.",
+  "changeLog_273_5": "gelgit yükseklik değerleri düzeltildi.",
+  "changeLog_273_6": "GPS izleri ile başlayan kilitlenme düzeltildi.",
+  "changeLog_273_7": "İstatistik çubuğu grafiklerindeki metinlerin kesilmesi düzeltildi.",
+  "changeLog_274_1": "Bazı metin alanlarına metin ekleme sorunu düzeltildi.",
+  "changeLog_275_1": "av''ın ağırlığından ondalık sayının kaldırılması düzeltildi.",
+  "changeLog_275_2": "Su sıcaklıklarının bazı hatalı yuvarlanması düzeltildi.",
+  "changeLog_275_3": "CSV dışa aktarımına \"içe aktarılamaz\" uyarısı eklendi.",
+  "changeLog_276_1": "Bazı bölgelerdeki sayı biçimlendirmesi düzeltildi.",
+  "changeLog_277_1": "Cihazın konumu kapatıldığında oluşan çökme düzeltildi.",
+  "changeLog_277_2": "İlk katılım sırasında nadir görülen çökme düzeltildi.",
+  "changeLog_277_3": "Norveç''teki kullanıcılar için sabit sayı biçimlendirmesi.",
+  "changeLog_278_1": "Konum izni istendiğinde oluşan kilitlenme düzeltildi.",
+  "changeLog_278_2": "Belirli bölgelerdeki kullanıcılar için uygulamanın başlangıçta donması düzeltildi.",
+  "translationWarningPageTitle": "Çeviriler",
+  "translationWarningPageDescription": "Balıkçı Günlüğü''ndeki metinler yapay zeka ile çevrilmiştir. Bir hata fark ederseniz veya bir şey mantıklı gelmezse Lütfen Diğer menüsünden Geri Bildirim Gönder''e dokunarak bize ulaşın. Yardımınız her zaman değerlidir, teşekkürler!",
+  "backupRestorePageOpenDoc": "Belgeleri Aç",
+  "backupRestorePageWarningApple": "yedek ve geri yükle özelliğinin güvenilmez olduğu kanıtlandı ve diğer seçenekleri değerlendiriyoruz. Bu arada hiçbir verinin kaybolmamasını sağlamak amacıyla tüm cihazınız için otomatik yedek''ler ayarlamanız önemle tavsiye edilir. Daha fazla bilgi için Apple''ın belgelerini ziyaret edin.",
+  "backupRestorePageWarningGoogle": "yedek ve geri yükle özelliğinin güvenilmez olduğu kanıtlandı ve diğer seçenekleri değerlendiriyoruz. Bu arada hiçbir verinin kaybolmamasını sağlamak amacıyla tüm cihazınız için otomatik yedek''ler ayarlamanız önemle tavsiye edilir. Daha fazla bilgi için Google''ın belgelerini ziyaret edin.",
+  "backupRestorePageWarningOwnRisk": "Bu özelliği kendi sorumluluğunuzda kullanın.",
+  "proPageBackupWarning": "Auto-yedek''nin güvenilmez olduğu kanıtlandı. Biz araştırma yaparken bu özelliği kullanmanın riski size aittir. Daha fazla ayrıntı için Diğer menüsündeki Yedek ve Geri Yükle sayfalarını ziyaret edin.",
+  "changeLog_279_1": "Bazı kullanıcı arayüzü hataları düzeltildi.",
+  "changeLog_279_2": "Bulutun güvenilmezliğini yansıtacak bir uyarı eklendi yedek.",
+  "changeLog_279_3": "İspanyolca çeviriler eklendi.",
+  "changeLog_2710_1": "Kesme işareti kullanan bölgeler için büyük sayı biçimlendirmesi düzeltildi.",
+  "changeLog_2710_2": "Profesyonel sayfasındaki bazı metin hizalama sorunları düzeltildi.",
+  "changeLog_2711_1": "E-posta adresi olmadan geri bildirim gönderme hatası düzeltildi.",
+  "changeLog_2711_2": "Gezi kaydetme sayfasını kapatmadan gezi eklerken av eklenebilir.",
+  "changeLog_2711_3": "Eksik \"Son Av''dan Beri\" ve \"Son Gezi''dan Beri\" istatistik kutucukları düzeltildi.",
+  "feedbackPageSendData": "Veri Gönder",
+  "feedbackPageSendDataDescription": "Fotoğraflar hariç günlük verileriniz araştırmamıza yardımcı olmak için gönderilir.",
+  "changeLog_2712_1": "Hata raporlarına günlük verilerini dahil etme seçeneği eklendi.",
+  "changeLog_2712_2": "Özellik anketlerinde oy verirken yaşanan çökme sorunu düzeltildi.",
+  "changeLog_2712_3": "Av eklerken veya güncellerken oluşan kilitlenme düzeltildi.",
+  "backupRestoreBackingUpData": "Veriler yedekleniyor{percent}...",
+  "@backupRestoreBackingUpData": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "changeLog_2717_1": "İstatistikler/Takvim başlığının yanlış hizalanması sorunu düzeltildi.",
+  "changeLog_2717_2": "Işık modunda İstatistikler/Takvim başlığının yanlış renk olması sorunu düzeltildi.",
+  "changeLog_2717_3": "İstatistik raporlarının süresiz olarak yüklenebilmesi sorunu düzeltildi.",
+  "changeLog_2716_1": "\"Gezi Başına Avlar\" alanlarına girilen değerlerin 0''a sıfırlanması sorunu düzeltildi.",
+  "changeLog_2715_1": "Haritayla etkileşimde bulunulurken nadir görülen bir çökme düzeltildi.",
+  "changeLog_2714_1": "Av eklerken fotoğraf konumlarının kullanılmaması sorunu düzeltildi.",
+  "changeLog_2713_1": "Yedekleme ve geri yükleme artık çok daha hızlı.",
+  "changeLog_2713_2": "Kişisel Rekorlar raporu artık balıkçı''ye göre filtrelenebilir.",
+  "changeLog_2713_3": "Avlar artık isteğe bağlı olarak gezilere otomatik eklenebilir.",
+  "changeLog_2713_4": "Avların yanlış günde gösterilmesine neden olan raporlama sorunu düzeltildi."
+}
