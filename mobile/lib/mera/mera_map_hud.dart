@@ -20,6 +20,7 @@ import 'package:mobile/navigation/marine_telemetry.dart';
 import 'package:mobile/navigation/nav_geo.dart';
 import 'package:mobile/navigation/nmea_udp_listener.dart';
 import 'package:mobile/pages/map_region_page.dart';
+import 'package:mobile/user_preference_manager.dart';
 import 'package:mobile/wrappers/share_plus_wrapper.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -267,7 +268,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
                   _sideBtn(
                     Icons.layers_outlined,
                     'Katmanlar',
-                    onTap: () => present(context, const MapRegionPage()),
+                    onTap: () => _showLayersSheet(context),
                   ),
                   const SizedBox(height: 10),
                   _sideBtn(
@@ -426,6 +427,94 @@ class _MeraMapHudState extends State<MeraMapHud> {
     final warn = _shallowHit ? '\n⚠ Sığlık kesişimi!' : '';
     return 'Mesafe: ${(dist / 1852).toStringAsFixed(2)} Nm · '
         'Kerteriz: ${brg.toStringAsFixed(0)}°$warn';
+  }
+
+  Future<void> _showLayersSheet(BuildContext context) async {
+    final prefs = UserPreferenceManager.get;
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: MeraColors.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(MeraRadii.lg)),
+      ),
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (ctx, setModal) {
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'Harita katmanları',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text('Derinlik (GEBCO / OpenSeaMap)'),
+                      subtitle: const Text(
+                        'Kontur ve derinlik tonları — zoom ≈11+',
+                        style: TextStyle(
+                          color: MeraColors.textSecondary,
+                          fontSize: 12,
+                        ),
+                      ),
+                      value: prefs.showMapBathymetry,
+                      activeThumbColor: MeraColors.blue,
+                      onChanged: (v) async {
+                        await prefs.setShowMapBathymetry(v);
+                        setModal(() {});
+                      },
+                    ),
+                    SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text('Seamark (şamandıra / fener)'),
+                      subtitle: const Text(
+                        'OpenSeaMap seyir işaretleri',
+                        style: TextStyle(
+                          color: MeraColors.textSecondary,
+                          fontSize: 12,
+                        ),
+                      ),
+                      value: prefs.showMapSeamarks,
+                      activeThumbColor: MeraColors.blue,
+                      onChanged: (v) async {
+                        await prefs.setShowMapSeamarks(v);
+                        setModal(() {});
+                      },
+                    ),
+                    const Divider(color: MeraColors.cardBorder),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.download_outlined),
+                      title: const Text('Çevrimdışı bölgeler (MBTiles)'),
+                      subtitle: const Text(
+                        'Yüksek çözünürlüklü derinlik paketi aktar',
+                        style: TextStyle(
+                          color: MeraColors.textSecondary,
+                          fontSize: 12,
+                        ),
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () {
+                        Navigator.pop(ctx);
+                        present(context, const MapRegionPage());
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   void _onRouteTap() {

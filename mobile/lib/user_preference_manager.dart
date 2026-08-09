@@ -66,6 +66,8 @@ class UserPreferenceManager extends PreferenceManager {
 
   static const keyMapType = "map_type";
   static const keyThemeMode = "theme_mode";
+  static const keyShowMapBathymetry = "show_map_bathymetry";
+  static const keyShowMapSeamarks = "show_map_seamarks";
 
   @override
   Future<void> init() async {
@@ -314,6 +316,16 @@ class UserPreferenceManager extends PreferenceManager {
   Future<void> setMapType(String? type) => put(keyMapType, type);
 
   String? get mapType => preferences[keyMapType];
+
+  /// Depth contours / bathymetry overlay (OpenSeaMap GEBCO). Default on.
+  Future<void> setShowMapBathymetry(bool show) =>
+      put(keyShowMapBathymetry, show);
+
+  bool get showMapBathymetry => preferences[keyShowMapBathymetry] ?? true;
+
+  Future<void> setShowMapSeamarks(bool show) => put(keyShowMapSeamarks, show);
+
+  bool get showMapSeamarks => preferences[keyShowMapSeamarks] ?? true;
 
   Future<void> updateAppVersion() async => put(
     _keyAppVersion,

@@ -23,6 +23,13 @@ const mapZoomDefault = 13.0;
 const openSeaMapSeamarkUrl =
     'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png';
 
+/// OpenSeaMap / GEBCO bathymetry (depth shades + contours at higher zoom).
+/// Served as WMS via GeoServer GWC — free/legal for OpenSeaMap clients.
+const openSeaMapBathymetryWmsBaseUrl =
+    'https://geoserver.openseamap.org/geoserver/gwc/service/wms?';
+
+const openSeaMapBathymetryWmsLayer = 'gebco2021:gebco_2021';
+
 /// Package name used for tile request User-Agent headers (OSM ToS).
 const mapTileUserAgentPackageName = 'com.cohenadair.anglerslog';
 

@@ -7,6 +7,7 @@ import 'package:mobile/map/flutter_map_controller.dart';
 import 'package:mobile/map/map_controller.dart';
 import 'package:mobile/map/map_region_manager.dart';
 import 'package:mobile/map/mbtiles_tile_provider.dart';
+import 'package:mobile/user_preference_manager.dart';
 
 import '../model/gen/anglers_log.pb.dart';
 import '../utils/map_utils.dart';
@@ -93,29 +94,36 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
         return StreamBuilder<void>(
           stream: MapRegionManager.get.stream,
           builder: (context, _) {
-            return FutureBuilder<String?>(
-              future: MapRegionManager.get.activeMbtilesPath(),
-              builder: (context, pathSnap) {
-                final path = pathSnap.data;
-                if (path != null) {
-                  return FutureBuilder<MbtilesTileProvider>(
-                    future: _mbtilesFutureFor(path),
-                    builder: (context, providerSnap) {
-                      if (!providerSnap.hasData) {
-                        if (providerSnap.hasError) {
-                          return _buildMap(context, start);
-                        }
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      return _buildMap(
-                        context,
-                        start,
-                        baseProvider: providerSnap.data,
+            return StreamBuilder<String>(
+              stream: UserPreferenceManager.get.stream,
+              builder: (context, _) {
+                return FutureBuilder<String?>(
+                  future: MapRegionManager.get.activeMbtilesPath(),
+                  builder: (context, pathSnap) {
+                    final path = pathSnap.data;
+                    if (path != null) {
+                      return FutureBuilder<MbtilesTileProvider>(
+                        future: _mbtilesFutureFor(path),
+                        builder: (context, providerSnap) {
+                          if (!providerSnap.hasData) {
+                            if (providerSnap.hasError) {
+                              return _buildMap(context, start);
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return _buildMap(
+                            context,
+                            start,
+                            baseProvider: providerSnap.data,
+                          );
+                        },
                       );
-                    },
-                  );
-                }
-                return _buildMap(context, start);
+                    }
+                    return _buildMap(context, start);
+                  },
+                );
               },
             );
           },
@@ -148,6 +156,8 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
       listenable: _controller,
       builder: (context, _) {
         final baseUrl = widget.style ?? _controller.mapType.url;
+        final showBathymetry = UserPreferenceManager.get.showMapBathymetry;
+        final showSeamarks = UserPreferenceManager.get.showMapSeamarks;
         final children = <Widget>[
           if (baseProvider != null)
             fm.TileLayer(tileProvider: baseProvider)
@@ -157,10 +167,23 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
               subdomains: const ['a', 'b', 'c', 'd'],
               userAgentPackageName: mapTileUserAgentPackageName,
             ),
-          fm.TileLayer(
-            urlTemplate: openSeaMapSeamarkUrl,
-            userAgentPackageName: mapTileUserAgentPackageName,
-          ),
+          // Depth shades + labelled contours (GEBCO via OpenSeaMap GeoServer).
+          if (showBathymetry)
+            fm.TileLayer(
+              wmsOptions: fm.WMSTileLayerOptions(
+                baseUrl: openSeaMapBathymetryWmsBaseUrl,
+                layers: const [openSeaMapBathymetryWmsLayer],
+                format: 'image/png',
+                transparent: true,
+                version: '1.1.1',
+              ),
+              userAgentPackageName: mapTileUserAgentPackageName,
+            ),
+          if (showSeamarks)
+            fm.TileLayer(
+              urlTemplate: openSeaMapSeamarkUrl,
+              userAgentPackageName: mapTileUserAgentPackageName,
+            ),
           fm.MarkerLayer(markers: _controller.markers),
         ];
 
