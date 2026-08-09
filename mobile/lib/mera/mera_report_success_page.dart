@@ -32,7 +32,7 @@ class MeraReportSuccessPage extends StatelessWidget {
               const SizedBox(height: 18),
               Text(
                 'Teşekkürler!',
-                style: GoogleFonts.plusJakartaSans(
+                style: GoogleFonts.inter(
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
                 ),
@@ -40,7 +40,7 @@ class MeraReportSuccessPage extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 'Bildiriminiz kaydedildi.',
-                style: GoogleFonts.plusJakartaSans(
+                style: GoogleFonts.inter(
                   color: MeraColors.textSecondary,
                 ),
               ),
@@ -74,7 +74,7 @@ class MeraReportSuccessPage extends StatelessWidget {
                 },
                 child: Text(
                   'Kayıtlarım',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: GoogleFonts.inter(
                     color: MeraColors.textSecondary,
                     fontWeight: FontWeight.w700,
                   ),
@@ -95,7 +95,7 @@ class MeraReportSuccessPage extends StatelessWidget {
           width: 72,
           child: Text(
             k,
-            style: GoogleFonts.plusJakartaSans(
+            style: GoogleFonts.inter(
               color: MeraColors.textSecondary,
               fontSize: 13,
             ),
@@ -104,7 +104,7 @@ class MeraReportSuccessPage extends StatelessWidget {
         Expanded(
           child: Text(
             v,
-            style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700),
+            style: GoogleFonts.inter(fontWeight: FontWeight.w700),
           ),
         ),
       ],

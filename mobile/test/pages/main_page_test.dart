@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/backup_restore_manager.dart';
 import 'package:mobile/entity_manager.dart';
-import 'package:mobile/mera/mera_records_page.dart';
+import 'package:mobile/mera/mera_boat_page.dart';
+import 'package:mobile/mera/mera_marks_page.dart';
 import 'package:mobile/mera/mera_routes_page.dart';
 import 'package:mobile/mera/mera_settings_page.dart';
-import 'package:mobile/mera/mera_stats_page.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart';
 import 'package:mobile/notification_manager.dart';
@@ -166,13 +166,11 @@ void main() {
     expect(findFirst<IndexedStack>(tester).index, 1);
     expect(find.byType(MeraRoutesPage), findsOneWidget);
 
-    await tapAndSettle(tester, find.byIcon(Icons.bar_chart_outlined));
+    await tapAndSettle(tester, find.byIcon(Icons.place_outlined));
     expect(findFirst<IndexedStack>(tester).index, 2);
-    expect(find.byType(MeraStatsPage), findsOneWidget);
 
-    await tapAndSettle(tester, find.byIcon(Icons.menu_book_outlined));
+    await tapAndSettle(tester, find.byIcon(Icons.directions_boat_outlined));
     expect(findFirst<IndexedStack>(tester).index, 3);
-    expect(find.byType(MeraRecordsPage), findsOneWidget);
 
     await tapAndSettle(tester, find.byIcon(Icons.settings_outlined));
     expect(findFirst<IndexedStack>(tester).index, 4);

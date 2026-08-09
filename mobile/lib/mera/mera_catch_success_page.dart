@@ -45,7 +45,7 @@ class MeraCatchSuccessPage extends StatelessWidget {
               const SizedBox(height: 18),
               Text(
                 'Başarıyla kaydedildi!',
-                style: GoogleFonts.plusJakartaSans(
+                style: GoogleFonts.inter(
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
                 ),
@@ -69,7 +69,7 @@ class MeraCatchSuccessPage extends StatelessWidget {
                         children: [
                           Text(
                             speciesName,
-                            style: GoogleFonts.plusJakartaSans(
+                            style: GoogleFonts.inter(
                               fontSize: 17,
                               fontWeight: FontWeight.w800,
                             ),
@@ -77,21 +77,21 @@ class MeraCatchSuccessPage extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             '${weightKg.toStringAsFixed(1)} kg · ${lengthCm.toStringAsFixed(0)} cm',
-                            style: GoogleFonts.plusJakartaSans(
+                            style: GoogleFonts.inter(
                               color: MeraColors.textSecondary,
                               fontSize: 13,
                             ),
                           ),
                           Text(
                             whenLabel,
-                            style: GoogleFonts.plusJakartaSans(
+                            style: GoogleFonts.inter(
                               color: MeraColors.textMuted,
                               fontSize: 12,
                             ),
                           ),
                           Text(
                             gps,
-                            style: GoogleFonts.plusJakartaSans(
+                            style: GoogleFonts.inter(
                               color: MeraColors.textMuted,
                               fontSize: 11,
                             ),
@@ -129,7 +129,7 @@ class MeraCatchSuccessPage extends StatelessWidget {
                 },
                 child: Text(
                   'Yakalamalarım',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: GoogleFonts.inter(
                     color: MeraColors.textSecondary,
                     fontWeight: FontWeight.w700,
                   ),

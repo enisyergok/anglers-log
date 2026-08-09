@@ -121,107 +121,138 @@ class _MeraMapHudState extends State<MeraMapHud> {
           ),
         SafeArea(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 10, 12, 0),
-            child: Column(
+            padding: EdgeInsets.fromLTRB(
+              SirenScale.clampOf(context, 14, min: 10, max: 16),
+              SirenScale.clampOf(context, 10, min: 8, max: 14),
+              SirenScale.clampOf(context, 14, min: 10, max: 16),
+              0,
+            ),
+            child: Row(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 46,
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        decoration: BoxDecoration(
-                          color: MeraColors.searchFill,
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: MeraColors.cardBorder),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.search,
-                              color: MeraColors.textMuted,
-                              size: 20,
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: TextField(
-                                controller: _search,
-                                style: const TextStyle(
-                                  color: MeraColors.textPrimary,
-                                  fontSize: 14,
-                                ),
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  border: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  filled: false,
-                                  hintText: 'Konum ara',
-                                  hintStyle: TextStyle(
-                                    color: MeraColors.textMuted,
-                                  ),
-                                  contentPadding: EdgeInsets.zero,
-                                ),
-                                onSubmitted: (_) {
-                                  showNoticeSnackBar(
-                                    context,
-                                    'Konum araması yakında — haritayı kaydırın',
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                _chromeCircle(Icons.menu, onTap: () {}),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Container(
+                    height: SirenScale.clampOf(context, 48, min: 42, max: 50),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      color: MeraColors.searchFill,
+                      borderRadius: BorderRadius.circular(MeraRadii.sm),
+                      border: Border.all(color: MeraColors.borderSecondary),
                     ),
-                    const SizedBox(width: 8),
-                    GestureDetector(
-                      onTap: () => present(context, const MeraWeatherPage()),
-                      child: Container(
-                        height: 46,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                          color: MeraColors.hudGlass,
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: MeraColors.cardBorder),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.search,
+                          color: MeraColors.textMuted,
+                          size: 18,
                         ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.wb_sunny_outlined,
-                              color: MeraColors.warning,
-                              size: 18,
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: TextField(
+                            controller: _search,
+                            style: const TextStyle(
+                              color: MeraColors.textPrimary,
+                              fontSize: 13,
                             ),
-                            const SizedBox(width: 6),
-                            Text(
-                              temp == null
-                                  ? '—'
-                                  : '${temp.toStringAsFixed(1)}°C',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w800,
+                            decoration: const InputDecoration(
+                              isDense: true,
+                              border: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              filled: false,
+                              hintText: 'Konum Ara',
+                              hintStyle: TextStyle(
+                                color: MeraColors.textMuted,
                                 fontSize: 13,
                               ),
+                              contentPadding: EdgeInsets.zero,
                             ),
-                            const SizedBox(width: 8),
-                            Text(
-                              [
-                                if (wind != null)
-                                  '${wind.toStringAsFixed(0)}km',
-                                if (wave != null)
-                                  '${wave.toStringAsFixed(1)}m',
-                              ].join(' '),
-                              style: const TextStyle(
-                                color: MeraColors.textSecondary,
-                                fontSize: 11,
-                              ),
-                            ),
-                          ],
+                            onSubmitted: (_) {
+                              showNoticeSnackBar(
+                                context,
+                                'Konum araması yakında — haritayı kaydırın',
+                              );
+                            },
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                _chromeCircle(
+                  Icons.bolt_outlined,
+                  onTap: () => present(context, const MeraWeatherPage()),
                 ),
               ],
+            ),
+          ),
+        ),
+        SafeArea(
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: SirenScale.clampOf(context, 70, min: 58, max: 80),
+                right: SirenScale.clampOf(context, 14, min: 10, max: 16),
+              ),
+              child: GestureDetector(
+                onTap: () => present(context, const MeraWeatherPage()),
+                child: Container(
+                  width: SirenScale.clampOf(context, 120, min: 108, max: 132),
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                  decoration: BoxDecoration(
+                    color: MeraColors.hudGlass,
+                    borderRadius: BorderRadius.circular(MeraRadii.sm),
+                    border: Border.all(color: MeraColors.borderSecondary),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.wb_cloudy_outlined,
+                            color: MeraColors.warning,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            temp == null
+                                ? '—'
+                                : '${temp.toStringAsFixed(1)}°C',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        wind == null
+                            ? 'Rüzgar —'
+                            : 'Rüzgar ${(wind / 1.852).toStringAsFixed(0)} kn',
+                        style: const TextStyle(
+                          color: MeraColors.textSecondary,
+                          fontSize: 10,
+                        ),
+                      ),
+                      Text(
+                        wave == null
+                            ? 'Dalga —'
+                            : 'Dalga ${wave.toStringAsFixed(1)} m',
+                        style: const TextStyle(
+                          color: MeraColors.textSecondary,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -318,7 +349,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
                   MeraPrimaryButton(
                     label: 'BALIK ALDIM',
                     icon: Icons.set_meal,
-                    height: 56,
+                    height: SirenScale.clampOf(context, 57, min: 50, max: 58),
                     onPressed: () => showMeraBalikAldimSheet(context),
                   ),
                   TextButton(
@@ -341,20 +372,44 @@ class _MeraMapHudState extends State<MeraMapHud> {
     );
   }
 
+  Widget _chromeCircle(IconData icon, {required VoidCallback onTap}) {
+    return Material(
+      color: MeraColors.searchFill,
+      shape: const CircleBorder(
+        side: BorderSide(color: MeraColors.borderSecondary),
+      ),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: onTap,
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child: Icon(icon, size: 18, color: MeraColors.textPrimary),
+        ),
+      ),
+    );
+  }
+
   Widget _sideBtn(
     IconData icon,
     String tip, {
     required VoidCallback onTap,
     bool active = false,
   }) {
-    return Material(
-      color: active ? MeraColors.blue : MeraColors.hudGlass,
-      shape: const CircleBorder(),
-      elevation: 2,
-      child: IconButton(
-        tooltip: tip,
-        icon: Icon(icon, color: Colors.white),
-        onPressed: onTap,
+    return Tooltip(
+      message: tip,
+      child: Material(
+        color: active ? MeraColors.blue : MeraColors.hudGlass,
+        borderRadius: BorderRadius.circular(MeraRadii.sm),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(MeraRadii.sm),
+          onTap: onTap,
+          child: SizedBox(
+            width: 44,
+            height: 52,
+            child: Icon(icon, color: Colors.white, size: 20),
+          ),
+        ),
       ),
     );
   }

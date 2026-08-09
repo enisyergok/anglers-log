@@ -38,9 +38,9 @@ void main() {
     expect(find.text('Çipura'), findsOneWidget);
   });
 
-  test('MeraColors tokens are stable mockup values', () {
-    expect(MeraColors.green, const Color(0xFF1FCB6A));
-    expect(MeraColors.blue, const Color(0xFF2F7BFF));
-    expect(MeraColors.bg, const Color(0xFF0A0F1A));
+  test('MeraColors tokens are stable Siren values', () {
+    expect(MeraColors.green, const Color(0xFF27D46C));
+    expect(MeraColors.blue, const Color(0xFF1198EE));
+    expect(MeraColors.bg, const Color(0xFF02111B));
   });
 }

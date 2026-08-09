@@ -67,7 +67,7 @@ class _NoCatchSheetState extends State<_NoCatchSheet> {
           const SizedBox(height: 16),
           Text(
             'Balık Almadım',
-            style: GoogleFonts.plusJakartaSans(
+            style: GoogleFonts.inter(
               fontSize: 22,
               fontWeight: FontWeight.w800,
             ),
@@ -76,7 +76,7 @@ class _NoCatchSheetState extends State<_NoCatchSheet> {
           Text(
             'Bu konumda balık almadığınızı bildirmek ister misiniz?',
             textAlign: TextAlign.center,
-            style: GoogleFonts.plusJakartaSans(
+            style: GoogleFonts.inter(
               color: MeraColors.textSecondary,
               fontSize: 14,
               height: 1.35,
@@ -102,7 +102,7 @@ class _NoCatchSheetState extends State<_NoCatchSheet> {
             onPressed: () => Navigator.pop(context),
             child: Text(
               'İPTAL',
-              style: GoogleFonts.plusJakartaSans(
+              style: GoogleFonts.inter(
                 color: MeraColors.textSecondary,
                 fontWeight: FontWeight.w700,
               ),

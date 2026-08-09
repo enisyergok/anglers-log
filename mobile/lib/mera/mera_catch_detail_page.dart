@@ -73,7 +73,7 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
           const SizedBox(height: 8),
           Text(
             widget.species.name,
-            style: GoogleFonts.plusJakartaSans(
+            style: GoogleFonts.inter(
               fontSize: 22,
               fontWeight: FontWeight.w800,
             ),
@@ -146,7 +146,7 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
         Expanded(
           child: Text(
             label,
-            style: GoogleFonts.plusJakartaSans(
+            style: GoogleFonts.inter(
               color: MeraColors.textSecondary,
               fontWeight: FontWeight.w600,
             ),
@@ -157,7 +157,7 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             value,
-            style: GoogleFonts.plusJakartaSans(
+            style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.w800,
             ),
@@ -197,7 +197,7 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
             children: [
               Text(
                 label,
-                style: GoogleFonts.plusJakartaSans(
+                style: GoogleFonts.inter(
                   color: MeraColors.textSecondary,
                   fontSize: 12,
                 ),
@@ -205,7 +205,7 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
               const SizedBox(height: 2),
               Text(
                 value,
-                style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700),
+                style: GoogleFonts.inter(fontWeight: FontWeight.w700),
               ),
             ],
           ),

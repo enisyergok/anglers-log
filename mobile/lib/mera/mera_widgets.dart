@@ -1,8 +1,9 @@
-import 'dart:math' as math;
+﻿import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/mera/mera_theme.dart';
+import 'package:mobile/mera/siren_fish_art.dart';
 
 class MeraCard extends StatelessWidget {
   final Widget child;
@@ -91,12 +92,14 @@ class MeraPrimaryButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           backgroundColor: color,
           disabledBackgroundColor: color.withValues(alpha: 0.4),
-          foregroundColor: Colors.white,
+          foregroundColor: color == MeraColors.green
+              ? const Color(0xFF002511)
+              : Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(MeraRadii.md),
           ),
-          textStyle: GoogleFonts.plusJakartaSans(
+          textStyle: GoogleFonts.inter(
             fontSize: 15,
             fontWeight: FontWeight.w800,
             letterSpacing: 0.6,
@@ -151,7 +154,7 @@ class MeraOutlineButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(MeraRadii.md),
           ),
-          textStyle: GoogleFonts.plusJakartaSans(
+          textStyle: GoogleFonts.inter(
             fontWeight: FontWeight.w700,
             fontSize: 14,
           ),
@@ -227,7 +230,7 @@ class MeraEmptyState extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: GoogleFonts.plusJakartaSans(
+              style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: MeraColors.textPrimary,
@@ -238,7 +241,7 @@ class MeraEmptyState extends StatelessWidget {
               Text(
                 subtitle!,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.plusJakartaSans(
+                style: GoogleFonts.inter(
                   color: MeraColors.textSecondary,
                 ),
               ),
@@ -261,7 +264,7 @@ class MeraSectionHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(4, 8, 4, 10),
       child: Text(
         title.toUpperCase(),
-        style: GoogleFonts.plusJakartaSans(
+        style: GoogleFonts.inter(
           color: MeraColors.textSecondary,
           fontSize: 12,
           fontWeight: FontWeight.w700,
@@ -377,6 +380,7 @@ class _ParticlePainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
+
 /// Stylized fish hero used where mockup shows a photo.
 class MeraFishHero extends StatelessWidget {
   final String label;
@@ -394,24 +398,30 @@ class MeraFishHero extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF16324F), Color(0xFF0B6E6A), Color(0xFF1B3A5C)],
+          colors: [Color(0xFF0A2231), Color(0xFF071A27), Color(0xFF16324F)],
         ),
+        border: Border.all(color: MeraColors.cardBorder),
       ),
       child: Stack(
+        alignment: Alignment.center,
         children: [
-          Positioned.fill(
-            child: CustomPaint(painter: _FishSilhouettePainter()),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 36),
+            child: SirenFishArt.image(
+              speciesName: label,
+              height: height * 0.55,
+            ),
           ),
           Positioned(
             left: 16,
-            bottom: 14,
+            bottom: 12,
             right: 16,
             child: Text(
               label,
-              style: GoogleFonts.plusJakartaSans(
+              style: GoogleFonts.inter(
                 color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
               ),
             ),
           ),
@@ -421,39 +431,7 @@ class MeraFishHero extends StatelessWidget {
   }
 }
 
-class _FishSilhouettePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.18)
-      ..style = PaintingStyle.fill;
-    final path = Path();
-    final cx = size.width * 0.55;
-    final cy = size.height * 0.42;
-    path.addOval(
-      Rect.fromCenter(
-        center: Offset(cx, cy),
-        width: size.width * 0.42,
-        height: size.height * 0.38,
-      ),
-    );
-    path.moveTo(cx + size.width * 0.2, cy);
-    path.lineTo(cx + size.width * 0.34, cy - size.height * 0.16);
-    path.lineTo(cx + size.width * 0.34, cy + size.height * 0.16);
-    path.close();
-    canvas.drawPath(path, paint);
-    canvas.drawCircle(
-      Offset(cx - size.width * 0.12, cy - size.height * 0.05),
-      4,
-      Paint()..color = Colors.white.withValues(alpha: 0.55),
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-/// Custom tab bar matching mockup proportions.
+/// Custom tab bar matching Siren reference (active = blue).
 class MeraBottomBar extends StatelessWidget {
   final int index;
   final ValueChanged<int> onTap;
@@ -468,70 +446,65 @@ class MeraBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final barH = SirenScale.clampOf(context, 78, min: 64, max: 84);
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: MeraColors.bgElevated,
-        border: const Border(
-          top: BorderSide(color: MeraColors.cardBorder, width: 0.8),
+        border: Border(
+          top: BorderSide(color: MeraColors.cardBorder, width: 1),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
-          ),
-        ],
       ),
       child: SafeArea(
         top: false,
         child: SizedBox(
-          height: 64,
+          height: barH - 12,
           child: Row(
             children: [
               for (var i = 0; i < items.length; i++)
                 Expanded(
                   child: InkWell(
                     onTap: () => onTap(i),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 180),
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            boxShadow: i == index
-                                ? [
-                                    const BoxShadow(
-                                      color: MeraColors.greenGlow,
-                                      blurRadius: 12,
-                                    ),
-                                  ]
-                                : null,
-                          ),
-                          child: Icon(
+                    child: SizedBox(
+                      height: 48,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (i == index)
+                            Container(
+                              width: 18,
+                              height: 2,
+                              margin: const EdgeInsets.only(bottom: 4),
+                              decoration: BoxDecoration(
+                                color: MeraColors.blue,
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            )
+                          else
+                            const SizedBox(height: 6),
+                          Icon(
                             i == index ? items[i].active : items[i].icon,
-                            size: 22,
+                            size: 20,
                             color: i == index
-                                ? MeraColors.green
+                                ? MeraColors.blue
                                 : MeraColors.textMuted,
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          items[i].label,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 10,
-                            fontWeight:
-                                i == index ? FontWeight.w700 : FontWeight.w500,
-                            color: i == index
-                                ? MeraColors.green
-                                : MeraColors.textMuted,
+                          const SizedBox(height: 2),
+                          Text(
+                            items[i].label,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.inter(
+                              fontSize: 10,
+                              fontWeight: i == index
+                                  ? FontWeight.w600
+                                  : FontWeight.w500,
+                              color: i == index
+                                  ? MeraColors.blue
+                                  : MeraColors.textMuted,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

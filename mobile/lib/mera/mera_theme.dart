@@ -1,56 +1,79 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Exact visual tokens from the Mera Asistanı mockup.
+/// Siren dark marine design tokens (reference fidelity).
 abstract final class MeraColors {
-  static const bg = Color(0xFF0A0F1A);
-  static const bgElevated = Color(0xFF0F1624);
-  static const card = Color(0xFF141C2C);
-  static const cardElevated = Color(0xFF1A2336);
-  static const cardBorder = Color(0xFF2A3548);
-  static const surface = Color(0xFF1C2638);
+  static const bg = Color(0xFF02111B);
+  static const bgElevated = Color(0xFF041722);
+  static const card = Color(0xFF071A27);
+  static const cardElevated = Color(0xFF0A2231);
+  static const cardBorder = Color(0xFF193947);
+  static const borderSecondary = Color(0xFF23404E);
+  static const surface = Color(0xFF0A2231);
 
-  static const textPrimary = Color(0xFFF5F7FB);
-  static const textSecondary = Color(0xFFA0ADC2);
-  static const textMuted = Color(0xFF6E7C93);
+  static const textPrimary = Color(0xFFF1F7F9);
+  static const textSecondary = Color(0xFF8098A5);
+  static const textMuted = Color(0xFF6F8793);
 
-  /// Primary CTA green from mockup.
-  static const green = Color(0xFF1FCB6A);
-  static const greenGlow = Color(0x661FCB6A);
-  static const greenDark = Color(0xFF149A4E);
+  static const green = Color(0xFF27D46C);
+  static const greenGlow = Color(0x6627D46C);
+  static const greenDark = Color(0xFF1AA853);
 
-  /// Secondary CTA blue from mockup.
-  static const blue = Color(0xFF2F7BFF);
-  static const blueGlow = Color(0x662F7BFF);
-  static const blueDark = Color(0xFF1E5FD1);
+  static const blue = Color(0xFF1198EE);
+  static const blueGlow = Color(0x661198EE);
+  static const blueDark = Color(0xFF0D7BC4);
 
-  static const danger = Color(0xFFFF4D5E);
-  static const warning = Color(0xFFFFB020);
+  static const danger = Color(0xFFFF514B);
+  static const warning = Color(0xFFFFD22F);
 
-  static const searchFill = Color(0xD9121A2A);
-  static const hudGlass = Color(0xE60F1624);
+  static const searchFill = Color(0xD9061B28);
+  static const hudGlass = Color(0xE6071D2A);
   static const modalScrim = Color(0x99000000);
 }
 
+/// Reference base radii 8â€“12px.
 abstract final class MeraRadii {
-  static const sm = 10.0;
-  static const md = 14.0;
-  static const lg = 18.0;
-  static const xl = 24.0;
+  static const sm = 8.0;
+  static const md = 10.0;
+  static const lg = 12.0;
+  static const xl = 16.0;
   static const pill = 999.0;
 }
 
 abstract final class MeraSpace {
-  static const xs = 6.0;
-  static const sm = 10.0;
-  static const md = 16.0;
-  static const lg = 20.0;
-  static const xl = 28.0;
+  static const xs = 4.0;
+  static const sm = 8.0;
+  static const md = 12.0;
+  static const lg = 16.0;
+  static const xl = 20.0;
+  static const xxl = 24.0;
+}
+
+/// Reference phone ~462Ã—859 â†’ proportional helpers.
+abstract final class SirenScale {
+  static const refW = 462.0;
+  static const refH = 859.0;
+
+  static double of(BuildContext context, double refPx) {
+    final w = MediaQuery.sizeOf(context).width;
+    return refPx * (w / refW);
+  }
+
+  static double clampOf(
+    BuildContext context,
+    double refPx, {
+    double min = 0,
+    double? max,
+  }) {
+    final v = of(context, refPx);
+    if (max != null) return v.clamp(min, max);
+    return v < min ? min : v;
+  }
 }
 
 ThemeData meraTheme() {
-  final baseText = GoogleFonts.plusJakartaSansTextTheme(
+  final baseText = GoogleFonts.interTextTheme(
     ThemeData(brightness: Brightness.dark).textTheme,
   );
 
@@ -61,7 +84,7 @@ ThemeData meraTheme() {
 
   const scheme = ColorScheme.dark(
     primary: MeraColors.green,
-    onPrimary: Colors.white,
+    onPrimary: Color(0xFF002511),
     secondary: MeraColors.blue,
     onSecondary: Colors.white,
     surface: MeraColors.bg,
@@ -88,24 +111,24 @@ ThemeData meraTheme() {
       scrolledUnderElevation: 0,
       centerTitle: false,
       systemOverlayStyle: SystemUiOverlayStyle.light,
-      titleTextStyle: GoogleFonts.plusJakartaSans(
+      titleTextStyle: GoogleFonts.inter(
         color: MeraColors.textPrimary,
-        fontSize: 20,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.4,
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        letterSpacing: -0.2,
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: MeraColors.bgElevated,
-      selectedItemColor: MeraColors.green,
+      selectedItemColor: MeraColors.blue,
       unselectedItemColor: MeraColors.textMuted,
       type: BottomNavigationBarType.fixed,
       elevation: 0,
-      selectedLabelStyle: GoogleFonts.plusJakartaSans(
+      selectedLabelStyle: GoogleFonts.inter(
         fontSize: 10,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
       ),
-      unselectedLabelStyle: GoogleFonts.plusJakartaSans(
+      unselectedLabelStyle: GoogleFonts.inter(
         fontSize: 10,
         fontWeight: FontWeight.w500,
       ),
@@ -114,11 +137,11 @@ ThemeData meraTheme() {
       filled: true,
       fillColor: MeraColors.surface,
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      hintStyle: GoogleFonts.plusJakartaSans(
+      hintStyle: GoogleFonts.inter(
         color: MeraColors.textMuted,
         fontSize: 14,
       ),
-      labelStyle: GoogleFonts.plusJakartaSans(
+      labelStyle: GoogleFonts.inter(
         color: MeraColors.textSecondary,
         fontSize: 13,
       ),
@@ -132,14 +155,12 @@ ThemeData meraTheme() {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(MeraRadii.md),
-        borderSide: const BorderSide(color: MeraColors.green, width: 1.5),
+        borderSide: const BorderSide(color: MeraColors.blue, width: 1.5),
       ),
     ),
     snackBarTheme: SnackBarThemeData(
       backgroundColor: MeraColors.cardElevated,
-      contentTextStyle: GoogleFonts.plusJakartaSans(
-        color: MeraColors.textPrimary,
-      ),
+      contentTextStyle: GoogleFonts.inter(color: MeraColors.textPrimary),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(MeraRadii.md),

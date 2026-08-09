@@ -9,12 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mobile/backup_restore_manager.dart';
 import 'package:mobile/catch_manager.dart';
+import 'package:mobile/mera/mera_boat_page.dart';
 import 'package:mobile/mera/mera_map_hud.dart';
-import 'package:mobile/mera/mera_records_page.dart';
+import 'package:mobile/mera/mera_marks_page.dart';
 import 'package:mobile/mera/mera_routes_page.dart';
 import 'package:mobile/mera/mera_settings_page.dart';
 import 'package:mobile/mera/mera_shell.dart';
-import 'package:mobile/mera/mera_stats_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/notification_manager.dart';
@@ -103,20 +103,20 @@ class MainPageState extends State<MainPage> {
       _BarItemModel(
         page: _NavigatorPage(
           navigatorKey: GlobalKey<NavigatorState>(),
-          builder: (context) => const MeraStatsPage(),
+          builder: (context) => const MeraMarksPage(),
         ),
-        icon: Icons.bar_chart_outlined,
-        activeIcon: Icons.bar_chart,
-        title: 'İstatistikler',
+        icon: Icons.place_outlined,
+        activeIcon: Icons.place,
+        title: 'İşaretlerim',
       ),
       _BarItemModel(
         page: _NavigatorPage(
           navigatorKey: GlobalKey<NavigatorState>(),
-          builder: (context) => const MeraRecordsPage(),
+          builder: (context) => const MeraBoatPage(),
         ),
-        icon: Icons.menu_book_outlined,
-        activeIcon: Icons.menu_book,
-        title: 'Kayıtlarım',
+        icon: Icons.directions_boat_outlined,
+        activeIcon: Icons.directions_boat,
+        title: 'Gemim',
       ),
       _BarItemModel(
         page: _NavigatorPage(

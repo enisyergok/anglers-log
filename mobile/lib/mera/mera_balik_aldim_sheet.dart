@@ -95,7 +95,7 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
           const SizedBox(height: 16),
           Text(
             'Tebrikler!',
-            style: GoogleFonts.plusJakartaSans(
+            style: GoogleFonts.inter(
               fontSize: 24,
               fontWeight: FontWeight.w800,
             ),
@@ -106,7 +106,7 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
                 ? 'Önce Ayarlar’dan veya tür listesinden bir tür ekleyin.'
                 : 'Balık yakalamanız kaydedildi.',
             textAlign: TextAlign.center,
-            style: GoogleFonts.plusJakartaSans(
+            style: GoogleFonts.inter(
               color: MeraColors.textSecondary,
               fontSize: 14,
             ),
@@ -117,7 +117,7 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
               padding: const EdgeInsets.only(bottom: 12),
               child: Text(
                 'Kayıtlı tür yok',
-                style: GoogleFonts.plusJakartaSans(
+                style: GoogleFonts.inter(
                   color: MeraColors.warning,
                   fontWeight: FontWeight.w700,
                 ),
@@ -167,7 +167,7 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
             onPressed: () => Navigator.pop(context),
             child: Text(
               'İPTAL',
-              style: GoogleFonts.plusJakartaSans(
+              style: GoogleFonts.inter(
                 color: MeraColors.textSecondary,
                 fontWeight: FontWeight.w700,
               ),
