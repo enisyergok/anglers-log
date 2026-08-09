@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/mera/mera_no_catch_manager.dart';
+import 'package:mobile/mera/mera_shell.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 
@@ -67,8 +68,10 @@ class MeraReportSuccessPage extends StatelessWidget {
                     Navigator.of(context).popUntil((r) => r.isFirst),
               ),
               TextButton(
-                onPressed: () =>
-                    Navigator.of(context).popUntil((r) => r.isFirst),
+                onPressed: () {
+                  MeraShell.goRecords();
+                  Navigator.of(context).popUntil((r) => r.isFirst);
+                },
                 child: Text(
                   'Kayıtlarım',
                   style: GoogleFonts.plusJakartaSans(

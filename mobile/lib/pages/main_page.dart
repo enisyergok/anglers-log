@@ -13,6 +13,7 @@ import 'package:mobile/mera/mera_map_hud.dart';
 import 'package:mobile/mera/mera_records_page.dart';
 import 'package:mobile/mera/mera_routes_page.dart';
 import 'package:mobile/mera/mera_settings_page.dart';
+import 'package:mobile/mera/mera_shell.dart';
 import 'package:mobile/mera/mera_stats_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
@@ -63,6 +64,14 @@ class MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _notificationManager = NotificationManager.of(context);
+    MeraShell.switchTab = (index) {
+      if (!mounted) return;
+      if (index < 0 || index >= _navItems.length) return;
+      setState(() => _currentBarItem = index);
+      _navItems[index].page?.navigatorKey.currentState?.popUntil(
+        (r) => r.isFirst,
+      );
+    };
 
     _navItems = [
       _BarItemModel(
@@ -159,6 +168,7 @@ class MainPageState extends State<MainPage> {
 
   @override
   void dispose() {
+    MeraShell.reset();
     _catchManagerSub.cancel();
     _tripManagerSub.cancel();
     _notificationManagerSub.cancel();

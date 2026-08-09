@@ -72,7 +72,33 @@ class MeraSettingsPage extends StatelessWidget {
                   UserPreferenceManager.get.autoBackup
                       ? 'Yedekleme bildirimleri açık'
                       : 'Yedekleme bildirimleri kapalı',
-                  () => present(context, BackupPage()),
+                  () {
+                    showDialog<void>(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        backgroundColor: MeraColors.card,
+                        title: const Text('Bildirimler'),
+                        content: Text(
+                          UserPreferenceManager.get.autoBackup
+                              ? 'Otomatik yedekleme açık; bildirim izni ayarlardan yönetilir.'
+                              : 'Otomatik yedekleme kapalı. Açmak için Yedekle ekranını kullanın.',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx),
+                            child: const Text('Tamam'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(ctx);
+                              present(context, BackupPage());
+                            },
+                            child: const Text('Yedekle'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 const Divider(height: 1, color: MeraColors.cardBorder),
                 _tile(

@@ -62,64 +62,78 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
                 separatorBuilder: (_, __) => const SizedBox(height: 12),
                 itemBuilder: (context, i) {
                   final r = routes[i];
-                  return MeraCard(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => MeraRouteDetailPage(routeId: r.id),
-                        ),
-                      );
-                    },
-                    padding: EdgeInsets.zero,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 110,
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(16),
-                            ),
-                            gradient: LinearGradient(
-                              colors: [Color(0xFF0F766E), Color(0xFF1E3A5F)],
-                            ),
+                  return Dismissible(
+                    key: ValueKey(r.id),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      decoration: BoxDecoration(
+                        color: MeraColors.danger.withValues(alpha: 0.25),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: const Icon(Icons.delete, color: MeraColors.danger),
+                    ),
+                    onDismissed: (_) => MeraRouteManager.get.delete(r.id),
+                    child: MeraCard(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => MeraRouteDetailPage(routeId: r.id),
                           ),
-                          child: CustomPaint(
-                            painter: _MiniRoutePainter(r),
-                            child: const Center(
-                              child: Icon(
-                                Icons.sailing,
-                                color: Colors.white54,
-                                size: 36,
+                        );
+                      },
+                      padding: EdgeInsets.zero,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 110,
+                            width: double.infinity,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(16),
+                              ),
+                              gradient: LinearGradient(
+                                colors: [Color(0xFF0F766E), Color(0xFF1E3A5F)],
                               ),
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(14),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                r.name,
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w800,
+                            child: CustomPaint(
+                              painter: _MiniRoutePainter(r),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.sailing,
+                                  color: Colors.white54,
+                                  size: 36,
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                '${r.distanceNm.toStringAsFixed(1)} NM · ${fmt.format(DateTime.fromMillisecondsSinceEpoch(r.createdMs))}',
-                                style: const TextStyle(
-                                  color: MeraColors.textSecondary,
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  r.name,
+                                  style: const TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '${r.distanceNm.toStringAsFixed(1)} NM · ${fmt.format(DateTime.fromMillisecondsSinceEpoch(r.createdMs))}',
+                                  style: const TextStyle(
+                                    color: MeraColors.textSecondary,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

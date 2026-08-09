@@ -34,6 +34,8 @@ class MeraRoute {
   final List<MeraRoutePoint> points;
   final int createdMs;
 
+  static const cruiseKnots = 7.4;
+
   const MeraRoute({
     required this.id,
     required this.name,
@@ -51,12 +53,12 @@ class MeraRoute {
 
   double get distanceNm => distanceMeters / 1852.0;
 
-  /// Estimated time at 7 kn cruise.
+  /// Estimated time at [cruiseKnots].
   Duration get estimatedAt7kn {
     if (distanceNm <= 0) {
       return Duration.zero;
     }
-    final hours = distanceNm / 7.0;
+    final hours = distanceNm / cruiseKnots;
     return Duration(minutes: (hours * 60).round());
   }
 
@@ -68,12 +70,12 @@ class MeraRoute {
   };
 
   factory MeraRoute.fromJson(Map<String, dynamic> json) => MeraRoute(
-    id: json['id'] as String,
-    name: json['name'] as String,
+    id: json['id'].toString(),
+    name: json['name'].toString(),
     points: (json['points'] as List<dynamic>)
         .map((e) => MeraRoutePoint.fromJson(e as Map<String, dynamic>))
         .toList(),
-    createdMs: json['createdMs'] as int,
+    createdMs: (json['createdMs'] as num).toInt(),
   );
 
   static double _haversine(MeraRoutePoint a, MeraRoutePoint b) {
@@ -84,7 +86,10 @@ class MeraRoute {
     final lat2 = _rad(b.lat);
     final h =
         math.sin(dLat / 2) * math.sin(dLat / 2) +
-        math.cos(lat1) * math.cos(lat2) * math.sin(dLng / 2) * math.sin(dLng / 2);
+        math.cos(lat1) *
+            math.cos(lat2) *
+            math.sin(dLng / 2) *
+            math.sin(dLng / 2);
     return 2 * r * math.asin(math.sqrt(h));
   }
 
@@ -110,27 +115,38 @@ class MeraRouteManager {
 
   List<MeraRoute> _routes = [];
   var _loaded = false;
+  Future<void>? _loading;
 
   List<MeraRoute> get routes => List.unmodifiable(_routes);
 
   Future<void> ensureLoaded() async {
-    if (_loaded) {
-      return;
-    }
+    if (_loaded) return;
+    _loading ??= _load();
+    await _loading;
+  }
+
+  Future<void> _load() async {
     try {
       final file = await _file();
       if (await file.exists()) {
         final raw = jsonDecode(await file.readAsString()) as List<dynamic>;
-        _routes = raw
-            .map((e) => MeraRoute.fromJson(e as Map<String, dynamic>))
-            .toList();
+        final parsed = <MeraRoute>[];
+        for (final e in raw) {
+          try {
+            parsed.add(MeraRoute.fromJson(e as Map<String, dynamic>));
+          } catch (_) {}
+        }
+        _routes = parsed;
+        // File exists (even if empty) → do NOT re-seed demos.
+      } else {
+        _routes = _seedDemoRoutes();
+        await _persist();
       }
     } catch (_) {
-      _routes = [];
-    }
-    if (_routes.isEmpty) {
       _routes = _seedDemoRoutes();
-      await _persist();
+      try {
+        await _persist();
+      } catch (_) {}
     }
     _loaded = true;
   }
@@ -161,9 +177,7 @@ class MeraRouteManager {
 
   MeraRoute? byId(String id) {
     for (final r in _routes) {
-      if (r.id == id) {
-        return r;
-      }
+      if (r.id == id) return r;
     }
     return null;
   }

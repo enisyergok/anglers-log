@@ -111,6 +111,14 @@ class _MeraMapHudState extends State<MeraMapHud> {
 
     return Stack(
       children: [
+        // Under chrome: empty-map taps set A/B without blocking HUD buttons.
+        if (_routeMode)
+          Positioned.fill(
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: _onRouteTap,
+            ),
+          ),
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(12, 10, 12, 0),
@@ -254,7 +262,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
                   _sideBtn(
                     Icons.push_pin_outlined,
                     'Pinler',
-                    onTap: _shareMera,
+                    onTap: _showPins,
                   ),
                 ],
               ),
@@ -329,13 +337,6 @@ class _MeraMapHudState extends State<MeraMapHud> {
             ),
           ),
         ),
-        if (_routeMode)
-          Positioned.fill(
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: _onRouteTap,
-            ),
-          ),
       ],
     );
   }
@@ -396,13 +397,28 @@ class _MeraMapHudState extends State<MeraMapHud> {
 
   Future<void> _saveRoute() async {
     if (_routeA == null || _routeB == null) return;
-    final name =
-        'Rota ${TimeOfDay.now().format(context)}';
+    final dist = NavGeo.haversineMeters(_routeA!, _routeB!);
+    if (dist < 20) {
+      showErrorSnackBar(
+        context,
+        'Rota çok kısa — nokta B için tekneyi hareket ettirip tekrar dokunun',
+      );
+      return;
+    }
+    final name = 'Rota ${TimeOfDay.now().format(context)}';
     await MeraRouteManager.get.add(
       name: name,
       points: [
-        MeraRoutePoint(lat: _routeA!.latitude, lng: _routeA!.longitude, label: 'A'),
-        MeraRoutePoint(lat: _routeB!.latitude, lng: _routeB!.longitude, label: 'B'),
+        MeraRoutePoint(
+          lat: _routeA!.latitude,
+          lng: _routeA!.longitude,
+          label: 'A',
+        ),
+        MeraRoutePoint(
+          lat: _routeB!.latitude,
+          lng: _routeB!.longitude,
+          label: 'B',
+        ),
       ],
     );
     if (!mounted) return;
@@ -414,13 +430,78 @@ class _MeraMapHudState extends State<MeraMapHud> {
     });
   }
 
+  Future<void> _showPins() async {
+    final spots = MeraManager.get.spots;
+    if (!mounted) return;
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: MeraColors.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+      ),
+      builder: (ctx) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Mera pinleri',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                ),
+                const SizedBox(height: 8),
+                if (spots.isEmpty)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      'Henüz pin yok — BALIK ALDIM ile eklenir',
+                      style: TextStyle(color: MeraColors.textSecondary),
+                    ),
+                  )
+                else
+                  ...spots.take(8).map(
+                    (s) => ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(
+                        Icons.push_pin,
+                        color: MeraColors.green,
+                      ),
+                      title: Text(
+                        s.note?.isNotEmpty == true ? s.note! : 'Pin',
+                      ),
+                      subtitle: Text(
+                        '${s.lat.toStringAsFixed(4)}, ${s.lng.toStringAsFixed(4)}'
+                        '${s.depthM != null ? ' · ${s.depthM!.toStringAsFixed(1)} m' : ''}',
+                      ),
+                    ),
+                  ),
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    _shareMera();
+                  },
+                  icon: const Icon(Icons.ios_share),
+                  label: const Text('Pinleri dışa aktar'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> _shareMera() async {
     try {
       final dir = await getTemporaryDirectory();
       final path = p.join(dir.path, 'mera_export.json');
       await File(path).writeAsString(MeraManager.get.exportJson());
+      if (!mounted) return;
       await SharePlusWrapper.of(context).shareFiles([XFile(path)], null);
     } catch (_) {
+      if (!mounted) return;
       await SharePlusWrapper.of(
         context,
       ).share(MeraManager.get.exportJson(), null);

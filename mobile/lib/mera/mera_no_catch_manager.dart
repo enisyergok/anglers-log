@@ -33,11 +33,11 @@ class MeraNoCatchReport {
 
   factory MeraNoCatchReport.fromJson(Map<String, dynamic> json) =>
       MeraNoCatchReport(
-        id: json['id'] as String,
+        id: json['id'].toString(),
         lat: (json['lat'] as num?)?.toDouble(),
         lng: (json['lng'] as num?)?.toDouble(),
         note: json['note'] as String?,
-        timestampMs: json['timestampMs'] as int,
+        timestampMs: (json['timestampMs'] as num).toInt(),
       );
 }
 
@@ -60,20 +60,32 @@ class MeraNoCatchManager {
 
   List<MeraNoCatchReport> _items = [];
   var _loaded = false;
+  Future<void>? _loading;
 
   List<MeraNoCatchReport> get items => List.unmodifiable(_items);
 
   Future<void> ensureLoaded() async {
-    if (_loaded) {
-      return;
-    }
+    if (_loaded) return;
+    _loading ??= _load();
+    await _loading;
+  }
+
+  Future<void> _load() async {
     try {
       final file = await _file();
       if (await file.exists()) {
         final raw = jsonDecode(await file.readAsString()) as List<dynamic>;
-        _items = raw
-            .map((e) => MeraNoCatchReport.fromJson(e as Map<String, dynamic>))
-            .toList();
+        final parsed = <MeraNoCatchReport>[];
+        for (final e in raw) {
+          try {
+            parsed.add(
+              MeraNoCatchReport.fromJson(e as Map<String, dynamic>),
+            );
+          } catch (_) {
+            // Skip corrupt rows.
+          }
+        }
+        _items = parsed;
       }
     } catch (_) {
       _items = [];
@@ -98,6 +110,13 @@ class MeraNoCatchManager {
     await _persist();
     _controller.add(null);
     return report;
+  }
+
+  Future<void> delete(String id) async {
+    await ensureLoaded();
+    _items = _items.where((e) => e.id != id).toList();
+    await _persist();
+    _controller.add(null);
   }
 
   Future<File> _file() async {

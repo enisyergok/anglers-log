@@ -102,7 +102,9 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
           ),
           const SizedBox(height: 6),
           Text(
-            'Balık yakalamanız kaydedildi.',
+            species.isEmpty
+                ? 'Önce Ayarlar’dan veya tür listesinden bir tür ekleyin.'
+                : 'Balık yakalamanız kaydedildi.',
             textAlign: TextAlign.center,
             style: GoogleFonts.plusJakartaSans(
               color: MeraColors.textSecondary,
@@ -110,15 +112,27 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
             ),
           ),
           const SizedBox(height: 20),
-          DropdownButtonFormField<Species>(
-            initialValue: _species,
-            decoration: const InputDecoration(labelText: 'Tür Seçin'),
-            dropdownColor: MeraColors.surface,
-            items: species
-                .map((s) => DropdownMenuItem(value: s, child: Text(s.name)))
-                .toList(),
-            onChanged: (s) => setState(() => _species = s),
-          ),
+          if (species.isEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Text(
+                'Kayıtlı tür yok',
+                style: GoogleFonts.plusJakartaSans(
+                  color: MeraColors.warning,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            )
+          else
+            DropdownButtonFormField<Species>(
+              initialValue: _species,
+              decoration: const InputDecoration(labelText: 'Tür Seçin'),
+              dropdownColor: MeraColors.surface,
+              items: species
+                  .map((s) => DropdownMenuItem(value: s, child: Text(s.name)))
+                  .toList(),
+              onChanged: (s) => setState(() => _species = s),
+            ),
           const SizedBox(height: 12),
           TextField(
             controller: _notes,
@@ -131,7 +145,7 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
           const SizedBox(height: 18),
           MeraPrimaryButton(
             label: 'KAYDET',
-            onPressed: _species == null
+            onPressed: (_species == null || species.isEmpty)
                 ? null
                 : () {
                     final selected = _species!;

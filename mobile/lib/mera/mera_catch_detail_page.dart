@@ -221,23 +221,31 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
       final loc = LocationMonitor.of(context).currentLatLng;
       final depth = NmeaUdpListener.get.latest?.depthM;
 
-      Id? spotId;
-      if (loc != null) {
-        final spot = FishingSpot()
-          ..id = randomId()
-          ..lat = loc.lat
-          ..lng = loc.lng
-          ..name = widget.species.name
-          ..notes = _notes.text.trim();
-        await FishingSpotManager.get.addOrUpdate(spot);
-        spotId = spot.id;
-        await MeraManager.get.add(
-          lat: loc.lat,
-          lng: loc.lng,
-          depthM: depth,
-          bottomType: 'av',
-          note: widget.species.name,
+      if (loc == null) {
+        final proceed = await showDialog<bool>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            backgroundColor: MeraColors.card,
+            title: const Text('Konum yok'),
+            content: const Text(
+              'GPS konumu alınamadı. Yine de konumsuz kaydetmek ister misiniz?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: const Text('İptal'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, true),
+                child: const Text('Kaydet'),
+              ),
+            ],
+          ),
         );
+        if (proceed != true) {
+          if (mounted) setState(() => _saving = false);
+          return;
+        }
       }
 
       final cat = Catch()
@@ -251,16 +259,35 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
         ..weight = MultiMeasurement(
           mainValue: Measurement(unit: Unit.kilograms, value: _weightKg),
         );
-      if (spotId != null) cat.fishingSpotId = spotId;
       final note = _notes.text.trim();
       if (note.isNotEmpty) cat.notes = note;
 
       final ok = await CatchManager.get.addOrUpdate(cat);
-      if (!mounted) return;
       if (!ok) {
-        showErrorSnackBar(context, 'Av kaydedilemedi');
+        if (mounted) showErrorSnackBar(context, 'Av kaydedilemedi');
         return;
       }
+
+      if (loc != null) {
+        final spot = FishingSpot()
+          ..id = randomId()
+          ..lat = loc.lat
+          ..lng = loc.lng
+          ..name = widget.species.name
+          ..notes = note;
+        await FishingSpotManager.get.addOrUpdate(spot);
+        cat.fishingSpotId = spot.id;
+        await CatchManager.get.addOrUpdate(cat);
+        await MeraManager.get.add(
+          lat: loc.lat,
+          lng: loc.lng,
+          depthM: depth,
+          bottomType: 'av',
+          note: widget.species.name,
+        );
+      }
+
+      if (!mounted) return;
       await Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) => MeraCatchSuccessPage(

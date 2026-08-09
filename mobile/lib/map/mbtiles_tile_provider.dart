@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
@@ -72,12 +71,19 @@ class _MbtilesImageProvider extends ImageProvider<_MbtilesImageProvider> {
     }
 
     final bytes = rows.first['tile_data'];
-    if (bytes is! Uint8List) {
-      return decode(
-        await ui.ImmutableBuffer.fromUint8List(_transparentPng),
-      );
+    late final Uint8List png;
+    if (bytes is Uint8List) {
+      png = bytes;
+    } else if (bytes is List<int>) {
+      png = Uint8List.fromList(bytes);
+    } else {
+      png = _transparentPng;
     }
-    return decode(await ui.ImmutableBuffer.fromUint8List(bytes));
+    try {
+      return decode(await ui.ImmutableBuffer.fromUint8List(png));
+    } catch (_) {
+      return decode(await ui.ImmutableBuffer.fromUint8List(_transparentPng));
+    }
   }
 
   @override

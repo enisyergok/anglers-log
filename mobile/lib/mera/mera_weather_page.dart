@@ -55,9 +55,7 @@ class _MeraWeatherPageState extends State<MeraWeatherPage> {
     for (var i = 0; i < temps.length && i < 6; i++) {
       hours.add(
         _Hour(
-          label: times[i].contains('T')
-              ? times[i].split('T').last.substring(0, 5)
-              : '${i + 1}',
+          label: _hourLabel(times.length > i ? times[i] : null, i),
           tempC: temps[i].toDouble(),
           code: codes.length > i ? codes[i].toInt() : 0,
         ),
@@ -233,6 +231,13 @@ class _MeraWeatherPageState extends State<MeraWeatherPage> {
         ],
       ),
     );
+  }
+
+  static String _hourLabel(String? raw, int index) {
+    if (raw == null || raw.isEmpty) return '${index + 1}';
+    final part = raw.contains('T') ? raw.split('T').last : raw;
+    if (part.length >= 5) return part.substring(0, 5);
+    return part;
   }
 
   static IconData _iconFor(int code) {

@@ -60,6 +60,8 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
 
   var _didNotifyCreated = false;
   MbtilesTileProvider? _mbtilesProvider;
+  String? _mbtilesPath;
+  Future<MbtilesTileProvider>? _mbtilesFuture;
 
   LocationMonitor get _locationMonitor => LocationMonitor.of(context);
 
@@ -97,7 +99,7 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
                 final path = pathSnap.data;
                 if (path != null) {
                   return FutureBuilder<MbtilesTileProvider>(
-                    future: _openMbtiles(path),
+                    future: _mbtilesFutureFor(path),
                     builder: (context, providerSnap) {
                       if (!providerSnap.hasData) {
                         if (providerSnap.hasError) {
@@ -120,6 +122,15 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
         );
       },
     );
+  }
+
+  Future<MbtilesTileProvider> _mbtilesFutureFor(String path) {
+    if (_mbtilesPath == path && _mbtilesFuture != null) {
+      return _mbtilesFuture!;
+    }
+    _mbtilesPath = path;
+    _mbtilesFuture = _openMbtiles(path);
+    return _mbtilesFuture!;
   }
 
   Future<MbtilesTileProvider> _openMbtiles(String path) async {

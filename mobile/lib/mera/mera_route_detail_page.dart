@@ -18,13 +18,17 @@ class MeraRouteDetailPage extends StatefulWidget {
 
 class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
   MeraRoute? _route;
+  var _loaded = false;
 
   @override
   void initState() {
     super.initState();
     MeraRouteManager.get.ensureLoaded().then((_) {
       if (mounted) {
-        setState(() => _route = MeraRouteManager.get.byId(widget.routeId));
+        setState(() {
+          _route = MeraRouteManager.get.byId(widget.routeId);
+          _loaded = true;
+        });
       }
     });
   }
@@ -32,6 +36,17 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
   @override
   Widget build(BuildContext context) {
     final r = _route;
+    if (_loaded && r == null) {
+      return Scaffold(
+        backgroundColor: MeraColors.bg,
+        appBar: AppBar(title: const Text('Rota')),
+        body: const MeraEmptyState(
+          icon: Icons.route,
+          title: 'Rota bulunamadı',
+          subtitle: 'Listeye dönüp başka bir rota seçin',
+        ),
+      );
+    }
     if (r == null) {
       return const Scaffold(
         backgroundColor: MeraColors.bg,
@@ -114,7 +129,7 @@ class _MeraRouteDetailPageState extends State<MeraRouteDetailPage> {
                   children: [
                     _kv('Mesafe', '${r.distanceNm.toStringAsFixed(1)} NM'),
                     _kv('Süre', etaLabel),
-                    _kv('Ort. Hız', '7.4 kn'),
+                    _kv('Ort. Hız', '${MeraRoute.cruiseKnots} kn'),
                   ],
                 ),
                 const SizedBox(height: 16),
