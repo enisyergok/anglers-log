@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/utils/date_time.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,9 @@ import 'wrappers/http_wrapper.dart';
 
 /// Fetches tide data from the free TideTurtle API (no API key).
 class TideFetcher extends LocationDataFetcher<Tide?> {
+  /// TideTurtle heights are relative to mean sea level (MSL).
+  static const datum = "MSL";
+
   static const _authority = "tideturtle.com";
   static const _path = "/api/v1/tides";
 
