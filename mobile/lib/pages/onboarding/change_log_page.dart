@@ -1,0 +1,689 @@
+import 'package:adair_flutter_lib/l10n/l10n.dart';
+import 'package:adair_flutter_lib/res/dimen.dart';
+import 'package:adair_flutter_lib/widgets/watermark_logo.dart';
+import 'package:flutter/material.dart';
+import 'package:mobile/pages/onboarding/onboarding_page.dart';
+import 'package:mobile/user_preference_manager.dart';
+import 'package:mobile/utils/widget_utils.dart';
+import 'package:mobile/widgets/bullet_list.dart';
+import 'package:mobile/widgets/list_item.dart';
+import 'package:quiver/strings.dart';
+import 'package:version/version.dart';
+
+import '../../res/gen/custom_icons.dart';
+import '../../utils/string_utils.dart';
+import '../../widgets/widget.dart';
+
+class ChangeLogPage extends StatelessWidget {
+  final ContextCallback onTapContinue;
+
+  const ChangeLogPage({required this.onTapContinue});
+
+  @override
+  Widget build(BuildContext context) {
+    return OnboardingPage(
+      showBackButton: false,
+      nextButtonText: L10n.get.lib.continueString,
+      onPressedNextButton: _onTapContinue,
+      children: [
+        Padding(
+          padding: insetsHorizontalDefault,
+          child: WatermarkLogo(
+            icon: CustomIcons.catches,
+            title: Strings.of(context).changeLogPageTitle,
+          ),
+        ),
+        Container(height: paddingDefault),
+        _build2_7_17(context),
+        _build2_7_16(context),
+        _build2_7_15(context),
+        _build2_7_14(context),
+        _build2_7_13(context),
+        _build2_7_12(context),
+        _build2_7_11(context),
+        _build2_7_10(context),
+        _build2_7_9(context),
+        _build2_7_8(context),
+        _build2_7_7(context),
+        _build2_7_6(context),
+        _build2_7_5(context),
+        _build2_7_4(context),
+        _build2_7_3(context),
+        _build2_7_2(context),
+        _build2_7_1(context),
+        _build2_7_0(context),
+        _build2_6_0(context),
+        _build2_5_2(context),
+        _build2_5_1(context),
+        _build2_5_0(context),
+        _build2_4_3(context),
+        _build2_4_2(context),
+        _build2_4_0(context),
+        _build2_3_4(context),
+        _build2_3_3(context),
+        _build2_3_2(context),
+        _build2_3_0(context),
+        _build2_2_0(context),
+        _build2_1_6(context),
+        _build2_1_5(context),
+        _build2_1_3(context),
+        _build2_1_2(context),
+        _build2_1_0(context),
+        _build2_0_22(context),
+      ],
+    );
+  }
+
+  Widget _build2_7_17(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.17")),
+      isExpanded: true,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_2717_1),
+            BulletListItem(Strings.of(context).changeLog_2717_2),
+            BulletListItem(Strings.of(context).changeLog_2717_3),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_16(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.16")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {BulletListItem(Strings.of(context).changeLog_2716_1)},
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_15(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.15")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {BulletListItem(Strings.of(context).changeLog_2715_1)},
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_14(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.14")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {BulletListItem(Strings.of(context).changeLog_2714_1)},
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_13(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.13")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_2713_1),
+            BulletListItem(Strings.of(context).changeLog_2713_2),
+            BulletListItem(Strings.of(context).changeLog_2713_3),
+            BulletListItem(Strings.of(context).changeLog_2713_4),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_12(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.12")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_2712_1),
+            BulletListItem(Strings.of(context).changeLog_2712_2),
+            BulletListItem(Strings.of(context).changeLog_2712_3),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_11(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.11")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_2711_1),
+            BulletListItem(Strings.of(context).changeLog_2711_2),
+            BulletListItem(Strings.of(context).changeLog_2711_3),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_10(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.10")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_2710_1),
+            BulletListItem(Strings.of(context).changeLog_2710_2),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_9(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.9")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_279_1),
+            BulletListItem(Strings.of(context).changeLog_279_2),
+            BulletListItem(Strings.of(context).changeLog_279_3),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_8(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.8")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_278_1),
+            BulletListItem(Strings.of(context).changeLog_278_2),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_7(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.7")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_277_1),
+            BulletListItem(Strings.of(context).changeLog_277_2),
+            BulletListItem(Strings.of(context).changeLog_277_3),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_6(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.6")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {BulletListItem(Strings.of(context).changeLog_276_1)},
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_5(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.5")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_275_1),
+            BulletListItem(Strings.of(context).changeLog_275_2),
+            BulletListItem(Strings.of(context).changeLog_275_3),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_4(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.4")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {BulletListItem(Strings.of(context).changeLog_274_1)},
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_3(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.3")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_273_1),
+            BulletListItem(Strings.of(context).changeLog_273_2),
+            BulletListItem(Strings.of(context).changeLog_273_3),
+            BulletListItem(Strings.of(context).changeLog_273_4),
+            BulletListItem(Strings.of(context).changeLog_273_5),
+            BulletListItem(Strings.of(context).changeLog_273_6),
+            BulletListItem(Strings.of(context).changeLog_273_7),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_2(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.2")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {BulletListItem(Strings.of(context).changeLog_272_1)},
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_1(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.1")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_271_1),
+            BulletListItem(Strings.of(context).changeLog_271_2),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_7_0(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.7.0")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_270_1),
+            BulletListItem(Strings.of(context).changeLog_270_2),
+            BulletListItem(Strings.of(context).changeLog_270_3),
+            BulletListItem(Strings.of(context).changeLog_270_4),
+            BulletListItem(Strings.of(context).changeLog_270_5),
+            BulletListItem(Strings.of(context).changeLog_270_6),
+            BulletListItem(Strings.of(context).changeLog_270_7),
+            BulletListItem(Strings.of(context).changeLog_270_8),
+            BulletListItem(Strings.of(context).changeLog_270_9),
+            BulletListItem(Strings.of(context).changeLog_270_10),
+            BulletListItem(Strings.of(context).changeLog_270_11),
+            BulletListItem(Strings.of(context).changeLog_270_12),
+            BulletListItem(Strings.of(context).changeLog_270_13),
+            BulletListItem(Strings.of(context).changeLog_270_14),
+            BulletListItem(Strings.of(context).changeLog_270_15),
+            BulletListItem(Strings.of(context).changeLog_270_16),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_6_0(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.6.0")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_260_1),
+            BulletListItem(Strings.of(context).changeLog_260_2),
+            BulletListItem(Strings.of(context).changeLog_260_3),
+            BulletListItem(Strings.of(context).changeLog_260_4),
+            BulletListItem(Strings.of(context).changeLog_260_5),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_5_2(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.5.2")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_252_1),
+            BulletListItem(Strings.of(context).changeLog_252_2),
+            BulletListItem(Strings.of(context).changeLog_252_3),
+            BulletListItem(Strings.of(context).changeLog_252_4),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_5_1(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.5.1")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {BulletListItem(Strings.of(context).changeLog_251_1)},
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_5_0(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.5.0")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_250_1),
+            BulletListItem(Strings.of(context).changeLog_250_2),
+            BulletListItem(Strings.of(context).changeLog_250_3),
+            BulletListItem(Strings.of(context).changeLog_250_4),
+            BulletListItem(Strings.of(context).changeLog_250_5),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_4_3(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.4.3")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {BulletListItem(Strings.of(context).changeLog_243_1)},
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_4_2(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.4.2")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_241_1),
+            BulletListItem(Strings.of(context).changeLog_241_2),
+            BulletListItem(Strings.of(context).changeLog_241_3),
+            BulletListItem(Strings.of(context).changeLog_241_4),
+            BulletListItem(Strings.of(context).changeLog_241_5),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_4_0(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.4.0")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_240_1),
+            BulletListItem(Strings.of(context).changeLog_240_2),
+            BulletListItem(Strings.of(context).changeLog_240_3),
+            BulletListItem(Strings.of(context).changeLog_240_4),
+            BulletListItem(Strings.of(context).changeLog_240_5),
+            BulletListItem(Strings.of(context).changeLog_240_6),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_3_4(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.3.4")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_234_1),
+            BulletListItem(Strings.of(context).changeLog_234_2),
+            BulletListItem(Strings.of(context).changeLog_234_3),
+            BulletListItem(Strings.of(context).changeLog_234_4),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_3_3(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.3.3")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(Strings.of(context).changeLog_233_1),
+            BulletListItem(Strings.of(context).changeLog_233_2),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_3_2(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.3.2")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {BulletListItem(Strings.of(context).changeLog_232_1)},
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_3_0(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.3.1")),
+      isExpanded: false,
+      children: [
+        BulletList(
+          padding: insetsHorizontalDefaultBottomDefault,
+          items: {
+            BulletListItem(
+              Strings.of(context).changeLog_230_1,
+              const Icon(iconGpsTrail, color: Colors.black),
+            ),
+            BulletListItem(Strings.of(context).changeLog_230_2),
+            BulletListItem(Strings.of(context).changeLog_230_3),
+            BulletListItem(Strings.of(context).changeLog_230_4),
+            BulletListItem(Strings.of(context).changeLog_230_5),
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _build2_2_0(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.2.0")),
+      isExpanded: false,
+      children: [
+        _buildStringChangeList({
+          Strings.of(context).changeLog_220_1,
+          Strings.of(context).changeLog_220_2,
+          Strings.of(context).changeLog_220_3,
+        }),
+      ],
+    );
+  }
+
+  Widget _build2_1_6(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.1.6")),
+      isExpanded: false,
+      children: [
+        _buildStringChangeList({
+          Strings.of(context).changeLog_216_1,
+          Strings.of(context).changeLog_216_2,
+          Strings.of(context).changeLog_216_3,
+          Strings.of(context).changeLog_216_4,
+          Strings.of(context).changeLog_216_5,
+        }),
+      ],
+    );
+  }
+
+  Widget _build2_1_5(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.1.5")),
+      isExpanded: false,
+      children: [
+        _buildStringChangeList({Strings.of(context).changeLog_215_1}),
+      ],
+    );
+  }
+
+  Widget _build2_1_3(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.1.3")),
+      isExpanded: false,
+      children: [
+        _buildStringChangeList({
+          Strings.of(context).changeLog_213_1,
+          Strings.of(context).changeLog_213_2,
+          Strings.of(context).changeLog_213_3,
+          Strings.of(context).changeLog_213_4,
+        }),
+      ],
+    );
+  }
+
+  Widget _build2_1_2(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.1.2")),
+      isExpanded: false,
+      children: [
+        _buildStringChangeList({
+          Strings.of(context).changeLog_212_1,
+          Strings.of(context).changeLog_212_2,
+          Strings.of(context).changeLog_212_3,
+          Strings.of(context).changeLog_212_4,
+        }),
+      ],
+    );
+  }
+
+  Widget _build2_1_0(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.1.1")),
+      isExpanded: false,
+      children: [
+        _buildStringChangeList({
+          Strings.of(context).changeLog_210_1,
+          Strings.of(context).changeLog_210_2,
+          Strings.of(context).changeLog_210_3,
+          Strings.of(context).changeLog_210_4,
+        }),
+      ],
+    );
+  }
+
+  Widget _build2_0_22(BuildContext context) {
+    return ExpansionListItem(
+      title: Text(_buildVersionText(context, "2.0.22")),
+      children: [
+        _buildStringChangeList({
+          Strings.of(context).changeLog_2022_1,
+          Strings.of(context).changeLog_2022_2,
+          Strings.of(context).changeLog_2022_3,
+          Strings.of(context).changeLog_2022_4,
+          Strings.of(context).changeLog_2022_5,
+          Strings.of(context).changeLog_2022_6,
+        }),
+      ],
+    );
+  }
+
+  Widget _buildStringChangeList(Set<String> items) {
+    return BulletList(
+      padding: insetsHorizontalDefaultBottomDefault,
+      items: items.map((e) => BulletListItem(e)).toSet(),
+    );
+  }
+
+  String _buildVersionText(BuildContext context, String version) {
+    assert(isNotEmpty(version));
+
+    var result = version;
+    var oldVersion = UserPreferenceManager.get.appVersion;
+    if (isNotEmpty(oldVersion) &&
+        Version.parse(oldVersion!) == Version.parse(version)) {
+      result += " (${Strings.of(context).changeLogPagePreviousVersion})";
+    }
+
+    return result;
+  }
+
+  void _onTapContinue(BuildContext context) {
+    UserPreferenceManager.get.updateAppVersion();
+    onTapContinue(context);
+  }
+}

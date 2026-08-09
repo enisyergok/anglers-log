@@ -1,0 +1,128 @@
+import 'package:adair_flutter_lib/utils/log.dart';
+import 'package:adair_flutter_lib/utils/number.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile/region_manager.dart';
+
+const _log = Log("NumberUtils");
+
+/// Converts [value] to a [double], if possible. This function will work if
+/// [value] is one of the following data types:
+///   - String
+///   - int
+///   - double
+double? doubleFromDynamic(dynamic value) {
+  if (value == null) {
+    return null;
+  } else if (value is String) {
+    return tryParseDouble(value);
+  } else if (value is int) {
+    return value.toDouble();
+  } else if (value is double) {
+    return value;
+  }
+  _log.w("Can't convert type to double: ${value.runtimeType}");
+  // ignore: avoid_returning_null
+  return null;
+}
+
+/// Converts [value] to an [int], if possible. This function will work if
+/// [value] is one of the following data types:
+///   - String
+///   - int
+///   - double
+int? intFromDynamic(dynamic value) {
+  if (value == null) {
+    // ignore: avoid_returning_null
+    return null;
+  } else if (value is String) {
+    return int.tryParse(value);
+  } else if (value is double) {
+    return value.round();
+  } else if (value is int) {
+    return value;
+  }
+  _log.w("Can't convert type to int: ${value.runtimeType}");
+  // ignore: avoid_returning_null
+  return null;
+}
+
+int percent(int numerator, int denominator) {
+  assert(denominator > 0);
+  return (numerator / denominator * 100).round();
+}
+
+extension Doubles on double {
+  bool get isWhole => this % 1 == 0;
+
+  int? roundIfWhole() => isWhole ? round() : null;
+
+  /// Returns a display value for the double. [decimalPlaces] defaults to 2.
+  /// The result takes a user's locale and number format preferences into
+  /// account via [RegionManager].
+  String displayValue({int? decimalPlaces}) {
+    if (isWhole || (decimalPlaces != null && decimalPlaces <= 0)) {
+      return round().toString();
+    }
+
+    // Pass a locale we know uses the number format given to us by
+    // RegionManager. This is necessary because on iOS a person's number
+    // format preference can be independent of their locale, so the intl
+    // package's [NumberFormat] parsing always doesn't work. For more
+    // details, see https://github.com/dart-lang/i18n/issues/399.
+    //
+    // By passing in a locale we know works with NumberFormat, we ensure
+    // the number is displayed how the user expects.
+    const spaceDotFormat = "#\u202f###\u202f###.##";
+    const swissFrench = "fr_CH";
+    final format = RegionManager.get.decimalFormat;
+
+    var languageTag = "en_CA";
+    switch (format) {
+      case "#\u202f###\u202f###,##":
+      case "#\u00A0###\u00A0###,##":
+      case "# ### ###,##":
+        languageTag = "fr_FR";
+        break;
+      case spaceDotFormat:
+        languageTag = "fr_CA";
+        break;
+      case "#.###.###,##":
+        languageTag = "de_DE";
+        break;
+      case "#’###’###.##":
+      case "#'###'###.##":
+        languageTag = swissFrench;
+      case "#,###,###.##":
+        // Nothing to do. Already set to the default.
+        break;
+      default:
+        _log.e("Unknown format: ${RegionManager.get.decimalFormat}");
+    }
+
+    final decimals = decimalPlaces ?? 2;
+    var fixed =
+        (NumberFormat.decimalPattern(languageTag)
+              ..minimumFractionDigits = decimals
+              ..maximumFractionDigits = decimals)
+            .format(this);
+
+    // There's no locale that officially uses apostropheFormat, so we
+    // use the Swiss French locale and replace the comma and spaces.
+    if (languageTag == swissFrench) {
+      fixed = fixed.replaceAll("\u202f", "'");
+      fixed = fixed.replaceAll(",", ".");
+    }
+
+    // There's no locale that officially uses spaceDotFormat, so we
+    // use the normal French locale and replace the comma.
+    if (format == spaceDotFormat) {
+      fixed = fixed.replaceAll(",", ".");
+    }
+
+    if (fixed[fixed.length - 1] == "0") {
+      fixed = fixed.substring(0, fixed.length - 1);
+    }
+
+    return fixed;
+  }
+}

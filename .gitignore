@@ -1,0 +1,13 @@
+.DS_Store
+mobile/.flutter-plugins-dependencies
+mobile/ios/Flutter/Flutter.podspec
+mobile/ios/Flutter/.last_build_id
+mobile/assets/sensitive.properties
+web/.firebase/hosting.cHVibGlj.cache
+mobile/coverage/lcov.info
+mobile/Test Results - all_tests.html
+mobile/ios/Flutter/ephemeral/flutter_lldbinit
+mobile/ios/Flutter/ephemeral/flutter_lldb_helper.py
+mobile/untranslated-strings.txt
+*.salive
+mobile/build_and_upload_release.sh

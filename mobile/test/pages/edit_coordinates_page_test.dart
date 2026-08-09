@@ -1,0 +1,118 @@
+import 'package:adair_flutter_lib/widgets/animated_visibility.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mobile/model/gen/anglers_log.pb.dart';
+import 'package:mobile/pages/edit_coordinates_page.dart';
+import 'package:mobile/res/gen/custom_icons.dart';
+import 'package:mobile/utils/map_utils.dart';
+import 'package:mobile/utils/protobuf_utils.dart';
+import 'package:mobile/widgets/input_controller.dart';
+import 'package:mockito/mockito.dart';
+
+import '../../../../adair-flutter-lib/test/test_utils/finder.dart';
+import '../mocks/stubbed_managers.dart';
+import '../mocks/stubbed_map_controller.dart';
+import '../test_utils.dart';
+
+void main() {
+  late StubbedManagers managers;
+  late StubbedMapController mapController;
+
+  setUp(() async {
+    managers = await StubbedManagers.create();
+    mapController = StubbedMapController(managers);
+
+    when(managers.userPreferenceManager.mapType).thenReturn(MapType.light.id);
+    when(managers.propertiesManager.mapboxApiKey).thenReturn("KEY");
+    when(managers.lib.ioWrapper.isAndroid).thenReturn(false);
+  });
+
+  testWidgets("Controller defaults to 0, 0", (tester) async {
+    when(managers.locationMonitor.currentLatLng).thenReturn(null);
+
+    var spotController = InputController<FishingSpot>();
+    await pumpMap(tester, mapController, EditCoordinatesPage(spotController));
+
+    expect(spotController.value!.lat.toStringAsFixed(4), "0.0000");
+    expect(spotController.value!.lng.toStringAsFixed(4), "0.0000");
+    expect(find.text("Lat: 0.000000, Lng: 0.000000"), findsOneWidget);
+  });
+
+  testWidgets("Controller has value", (tester) async {
+    var spotController = InputController<FishingSpot>();
+    spotController.value = FishingSpot(lat: 1.234567, lng: 7.654321);
+    await pumpMap(tester, mapController, EditCoordinatesPage(spotController));
+
+    expect(find.text("Lat: 1.234567, Lng: 7.654321"), findsOneWidget);
+  });
+
+  testWidgets("Symbol is created on startup", (tester) async {
+    var spotController = InputController<FishingSpot>();
+    spotController.value = FishingSpot(lat: 1.234567, lng: 7.654321);
+    await pumpMap(tester, mapController, EditCoordinatesPage(spotController));
+
+    expect(mapController.value.symbols.length, 1);
+  });
+
+  testWidgets("Target shows while map is moving", (tester) async {
+    var spotController = InputController<FishingSpot>();
+    spotController.value = FishingSpot(lat: 1.234567, lng: 7.654321);
+
+    mapController.stubCameraPosition(
+      CameraPosition(latLng: spotController.value!.latLng),
+    );
+    await pumpMap(tester, mapController, EditCoordinatesPage(spotController));
+
+    // Verify target isn't showing.
+    expect(
+      findFirstWithIcon<AnimatedVisibility>(
+        tester,
+        CustomIcons.mapTarget,
+      ).isVisible,
+      isFalse,
+    );
+
+    // Manually invoke controller update listener to trigger _updateTarget.
+    mapController.moveMap(isMoving: true);
+    await tester.pumpAndSettle(const Duration(milliseconds: 50));
+
+    // Verify target is showing.
+    expect(
+      findFirstWithIcon<AnimatedVisibility>(
+        tester,
+        CustomIcons.mapTarget,
+      ).isVisible,
+      isTrue,
+    );
+
+    // Manually invoke controller update listener to trigger _updateTarget.
+    mapController.moveMap(isMoving: false);
+    await tester.pumpAndSettle(const Duration(milliseconds: 50));
+
+    // Verify target isn't showing.
+    expect(
+      findFirstWithIcon<AnimatedVisibility>(
+        tester,
+        CustomIcons.mapTarget,
+      ).isVisible,
+      isFalse,
+    );
+  });
+
+  testWidgets("Controller is updated when map becomes idle", (tester) async {
+    var spotController = InputController<FishingSpot>();
+    spotController.value = FishingSpot(lat: 1.234567, lng: 7.654321);
+    await pumpMap(tester, mapController, EditCoordinatesPage(spotController));
+
+    mapController.stubCameraPosition(
+      CameraPosition(latLng: LatLng(lat: 2.3456, lng: 6.5432)),
+    );
+
+    // Manually invoke onMapMoveCallback.
+    mapController.moveMap(isMoving: false);
+    await tester.pumpAndSettle(const Duration(milliseconds: 50));
+
+    expect(spotController.value!.lat.toStringAsFixed(4), "2.3456");
+    expect(spotController.value!.lng.toStringAsFixed(4), "6.5432");
+    expect(find.text("Lat: 2.345600, Lng: 6.543200"), findsOneWidget);
+  });
+}

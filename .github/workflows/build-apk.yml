@@ -1,0 +1,50 @@
+name: Build APK
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone adair-flutter-lib dependency
+        run: |
+          git clone https://github.com/cohenadair/adair-flutter-lib.git ../adair-flutter-lib
+
+      - name: Create dummy sensitive.properties
+        run: |
+          echo "# Dummy config for CI build" > mobile/assets/sensitive.properties
+          echo "mapbox.token=dummy" >> mobile/assets/sensitive.properties
+
+      - name: Setup signing keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > mobile/android/app/anglers-log-release.keystore
+          cat > mobile/android/keystore.properties << PROPS
+          storeFile=anglers-log-release.keystore
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          PROPS
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install Dependencies
+        working-directory: ./mobile
+        run: flutter pub get
+
+      - name: Build Release APK
+        working-directory: ./mobile
+        run: flutter build apk --release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: anglers-log-pro-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk

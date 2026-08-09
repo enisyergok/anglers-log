@@ -1,0 +1,111 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "org.jetbrains.kotlin.android"
+    id "com.google.gms.google-services"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+// Load the build signing secrets from a local `keystore.properties` file. This configuration is
+// originally used in Flutter's In-app-purchase library example:
+// https://github.com/flutter/plugins/blob/master/packages/in_app_purchase/example/android/app/build.gradle
+//
+// Since Google's Billing API only works with signed APKs (and APKs that are signed with the same
+// signing credentials as the app released on Google Play), debug builds need to be signed in order
+// to test in-app-purchases.
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+def configured = true
+try {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} catch (IOException e) {
+    configured = false
+    logger.error('Release signing information not found.')
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+android {
+    namespace "com.cohenadair.anglerslog"
+    compileSdkVersion 36
+
+    lintOptions {
+        disable "InvalidPackage"
+    }
+
+    defaultConfig {
+        applicationId "com.cohenadair.anglerslog"
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 35
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        release {
+            if (configured) {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    }
+
+    buildTypes {
+        // Google Play Billing APIs only work with apps signed for production.
+        debug {
+            minifyEnabled true
+
+            if (configured) {
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
+            }
+        }
+        release {
+            signingConfig signingConfigs.release
+            ndk {
+                abiFilters 'armeabi-v7a','arm64-v8a','x86_64', 'x86'
+            }
+        }
+    }
+
+    compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+        // Sets Java compatibility to Java 8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+}

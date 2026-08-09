@@ -1,0 +1,447 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:adair_flutter_lib/widgets/checkbox_input.dart';
+import 'package:adair_flutter_lib/widgets/loading.dart';
+import 'package:adair_flutter_lib/widgets/text_input.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart';
+import 'package:mobile/pages/feedback_page.dart';
+import 'package:mobile/widgets/button.dart';
+import 'package:mobile/widgets/radio_input.dart';
+import 'package:mockito/mockito.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
+import '../../../../adair-flutter-lib/test/test_utils/finder.dart';
+import '../../../../adair-flutter-lib/test/test_utils/testable.dart';
+import '../../../../adair-flutter-lib/test/test_utils/widget.dart';
+import '../mocks/stubbed_managers.dart';
+
+void main() {
+  late StubbedManagers managers;
+
+  setUp(() async {
+    managers = await StubbedManagers.create();
+
+    when(
+      managers.lib.ioWrapper.lookup(any),
+    ).thenAnswer((_) => Future.value([InternetAddress("192.168.2.211")]));
+    when(managers.lib.ioWrapper.isIOS).thenReturn(false);
+    when(managers.lib.ioWrapper.isAndroid).thenReturn(false);
+
+    when(managers.lib.packageInfoWrapper.fromPlatform()).thenAnswer(
+      (_) => Future.value(
+        PackageInfo(
+          appName: "",
+          buildNumber: "",
+          packageName: "",
+          version: "1.0",
+        ),
+      ),
+    );
+    when(
+      managers.lib.subscriptionManager.userId,
+    ).thenAnswer((_) => Future.value("USER-ID"));
+    when(managers.lib.subscriptionManager.isPro).thenReturn(false);
+    when(
+      managers.lib.propertiesManager.feedbackTemplate,
+    ).thenReturn("%s%s%s%%s%ss%s%s%s%s%s");
+
+    when(managers.userPreferenceManager.userName).thenReturn(null);
+    when(managers.userPreferenceManager.userEmail).thenReturn("test@test.com");
+
+    when(
+      managers.localDatabaseManager.databaseAsBase64(),
+    ).thenAnswer((_) => Future.value("Test db content"));
+  });
+
+  testWidgets("Email is required", (tester) async {
+    when(managers.userPreferenceManager.userEmail).thenReturn(null);
+    await tester.pumpWidget(Testable((_) => const FeedbackPage()));
+    expect(findFirstWithText<ActionButton>(tester, "SEND").onPressed, isNull);
+    expect(find.text("Required"), findsNWidgets(2)); // Email and message.
+  });
+
+  testWidgets("Message required for non-errors", (tester) async {
+    await tester.pumpWidget(Testable((_) => const FeedbackPage()));
+    expect(findFirstWithText<ActionButton>(tester, "SEND").onPressed, isNull);
+    expect(find.text("Required"), findsOneWidget);
+  });
+
+  testWidgets("Custom title", (tester) async {
+    await tester.pumpWidget(
+      Testable((_) => const FeedbackPage(title: "Title")),
+    );
+    expect(find.text("Title"), findsOneWidget);
+  });
+
+  testWidgets("Default title", (tester) async {
+    await tester.pumpWidget(Testable((_) => const FeedbackPage()));
+    expect(find.text("Send Feedback"), findsOneWidget);
+  });
+
+  testWidgets("Warning message shown", (tester) async {
+    await tester.pumpWidget(
+      Testable(
+        (_) => const FeedbackPage(
+          warningMessage: "This is a warning.",
+          error: "Error",
+        ),
+      ),
+    );
+    expect(find.text("This is a warning."), findsOneWidget);
+  });
+
+  testWidgets("Warning message not shown", (tester) async {
+    await tester.pumpWidget(
+      Testable((_) => const FeedbackPage(warningMessage: "This is a warning.")),
+    );
+    expect(find.text("This is a warning."), findsNothing);
+  });
+
+  testWidgets("Send button state updates when email changes", (tester) async {
+    await tester.pumpWidget(Testable((_) => const FeedbackPage()));
+    expect(findFirstWithText<ActionButton>(tester, "SEND").onPressed, isNull);
+
+    await enterTextAndSettle(
+      tester,
+      find.widgetWithText(TextInput, "Message"),
+      "A message.",
+    );
+    await enterTextAndSettle(
+      tester,
+      find.widgetWithText(TextInput, "Email"),
+      "test@test.com",
+    );
+    expect(
+      findFirstWithText<ActionButton>(tester, "SEND").onPressed,
+      isNotNull,
+    );
+
+    await enterTextAndSettle(
+      tester,
+      find.widgetWithText(TextInput, "Email"),
+      "test@tes",
+    );
+    expect(findFirstWithText<ActionButton>(tester, "SEND").onPressed, isNull);
+
+    await enterTextAndSettle(
+      tester,
+      find.widgetWithText(TextInput, "Email"),
+      "test@test.com",
+    );
+    expect(
+      findFirstWithText<ActionButton>(tester, "SEND").onPressed,
+      isNotNull,
+    );
+  });
+
+  testWidgets("For errors, type RadioInput is hidden", (tester) async {
+    await tester.pumpWidget(
+      Testable((_) => const FeedbackPage(error: "Error")),
+    );
+    expect(find.byType(RadioInput), findsNothing);
+  });
+
+  testWidgets("For non-errors, type RadioInput is shown", (tester) async {
+    await tester.pumpWidget(Testable((_) => const FeedbackPage()));
+    expect(find.byType(RadioInput), findsOneWidget);
+  });
+
+  testWidgets("Selecting type updates state", (tester) async {
+    await tester.pumpWidget(Testable((_) => const FeedbackPage()));
+    expect(
+      findSiblingOfText<Icon>(tester, InkWell, "Bug").icon,
+      Icons.radio_button_checked,
+    );
+
+    await tapAndSettle(tester, find.text("Feedback"));
+    expect(
+      findSiblingOfText<Icon>(tester, InkWell, "Bug").icon,
+      Icons.radio_button_unchecked,
+    );
+    expect(
+      findSiblingOfText<Icon>(tester, InkWell, "Feedback").icon,
+      Icons.radio_button_checked,
+    );
+
+    await tapAndSettle(tester, find.text("Suggestion"));
+    expect(
+      findSiblingOfText<Icon>(tester, InkWell, "Bug").icon,
+      Icons.radio_button_unchecked,
+    );
+    expect(
+      findSiblingOfText<Icon>(tester, InkWell, "Feedback").icon,
+      Icons.radio_button_unchecked,
+    );
+    expect(
+      findSiblingOfText<Icon>(tester, InkWell, "Suggestion").icon,
+      Icons.radio_button_checked,
+    );
+  });
+
+  testWidgets("Snack bar shows for no connection", (tester) async {
+    await tester.pumpWidget(
+      Testable((_) => const FeedbackPage(error: "Error")),
+    );
+    when(
+      managers.lib.ioWrapper.lookup(any),
+    ).thenAnswer((_) => Future.value([]));
+
+    await tapAndSettle(tester, find.text("SEND"));
+    expect(
+      find.widgetWithText(
+        SnackBar,
+        "No internet connection. Please check your connection and try again.",
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets("Error snack bar shows for sending error", (tester) async {
+    await tester.pumpWidget(
+      Testable((_) => const FeedbackPage(error: "Error")),
+    );
+    when(
+      managers.lib.propertiesManager.supportEmail,
+    ).thenReturn("test@test.com");
+    when(
+      managers.lib.propertiesManager.clientSenderEmail,
+    ).thenReturn("sender@test.com");
+    when(
+      managers.lib.propertiesManager.sendGridApiKey,
+    ).thenReturn("random-api-key");
+    when(
+      managers.httpWrapper.post(
+        any,
+        headers: anyNamed("headers"),
+        body: anyNamed("body"),
+      ),
+    ).thenAnswer((_) => Future.value(Response("", 400)));
+
+    await tapAndSettle(tester, find.text("SEND"));
+    expect(
+      find.widgetWithText(
+        SnackBar,
+        "Error sending feedback. Please try "
+        "again later, or email support@anglerslog.ca directly.",
+      ),
+      findsOneWidget,
+    );
+    expect(
+      findFirstWithText<ActionButton>(tester, "SEND").onPressed,
+      isNotNull,
+    );
+  });
+
+  testWidgets("Successful send closes page", (tester) async {
+    await tester.pumpWidget(
+      Testable((_) => const FeedbackPage(error: "Error")),
+    );
+    when(
+      managers.lib.propertiesManager.supportEmail,
+    ).thenReturn("test@test.com");
+    when(
+      managers.lib.propertiesManager.clientSenderEmail,
+    ).thenReturn("sender@test.com");
+    when(
+      managers.lib.propertiesManager.sendGridApiKey,
+    ).thenReturn("random-api-key");
+    when(
+      managers.httpWrapper.post(
+        any,
+        headers: anyNamed("headers"),
+        body: anyNamed("body"),
+      ),
+    ).thenAnswer(
+      (_) => Future.delayed(
+        const Duration(milliseconds: 165),
+        () => Response("", 202),
+      ),
+    );
+
+    await tester.tap(find.text("SEND"));
+    await tester.pump();
+
+    expect(find.text("SEND"), findsNothing);
+    expect(find.byType(Loading), findsOneWidget);
+
+    await tester.pumpAndSettle();
+    expect(find.text("SEND"), findsNothing);
+
+    verify(managers.userPreferenceManager.setUserName(any)).called(1);
+    verify(managers.userPreferenceManager.setUserEmail(any)).called(1);
+  });
+
+  testWidgets("Name and email are pre-populated", (tester) async {
+    when(managers.userPreferenceManager.userName).thenReturn("Cohen Adair");
+    when(managers.userPreferenceManager.userEmail).thenReturn("test@test.com");
+
+    await pumpContext(tester, (_) => const FeedbackPage());
+
+    expect(find.text("Cohen Adair"), findsOneWidget);
+    expect(find.text("test@test.com"), findsOneWidget);
+  });
+
+  testWidgets("Name is focused on startup", (tester) async {
+    when(managers.userPreferenceManager.userName).thenReturn(null);
+    when(managers.userPreferenceManager.userEmail).thenReturn(null);
+
+    await pumpContext(tester, (_) => const FeedbackPage());
+
+    expect(findFirstWithText<TextInput>(tester, "Name").isAutofocused, isTrue);
+    expect(
+      findFirstWithText<TextInput>(tester, "Email").isAutofocused,
+      isFalse,
+    );
+    expect(
+      findFirstWithText<TextInput>(tester, "Message").isAutofocused,
+      isFalse,
+    );
+  });
+
+  testWidgets("Email is focused on startup", (tester) async {
+    when(managers.userPreferenceManager.userEmail).thenReturn(null);
+    when(managers.userPreferenceManager.userName).thenReturn("Cohen Adair");
+
+    await pumpContext(tester, (_) => const FeedbackPage());
+
+    expect(findFirstWithText<TextInput>(tester, "Name").isAutofocused, isFalse);
+    expect(findFirstWithText<TextInput>(tester, "Email").isAutofocused, isTrue);
+    expect(
+      findFirstWithText<TextInput>(tester, "Message").isAutofocused,
+      isFalse,
+    );
+  });
+
+  testWidgets("Message is focused on startup", (tester) async {
+    when(managers.userPreferenceManager.userName).thenReturn("Cohen Adair");
+    when(managers.userPreferenceManager.userEmail).thenReturn("test@test.com");
+
+    await pumpContext(tester, (_) => const FeedbackPage());
+
+    expect(findFirstWithText<TextInput>(tester, "Name").isAutofocused, isFalse);
+    expect(
+      findFirstWithText<TextInput>(tester, "Email").isAutofocused,
+      isFalse,
+    );
+    expect(
+      findFirstWithText<TextInput>(tester, "Message").isAutofocused,
+      isTrue,
+    );
+  });
+
+  testWidgets("Send exits early if sending is in progress", (tester) async {
+    // Note that this scenario can't be tested in a unit test because there's
+    // no way to simulate animation "lag" such that the SEND button being
+    // pressed multiple times.
+  });
+
+  testWidgets("Data checkbox is only shown for bugs", (tester) async {
+    await pumpContext(tester, (_) => const FeedbackPage());
+
+    expect(
+      findSiblingOfText<Icon>(tester, InkWell, "Bug").icon,
+      Icons.radio_button_checked,
+    );
+    expect(findFirst<CheckboxInput>(tester).value, isTrue);
+
+    await tapAndSettle(tester, find.text("Feedback"));
+    expect(find.byType(CheckboxInput), findsNothing);
+  });
+
+  testWidgets("Data is included when checked", (tester) async {
+    await pumpContext(tester, (_) => const FeedbackPage());
+
+    expect(findFirst<CheckboxInput>(tester).value, isTrue);
+    await enterTextAndSettle(
+      tester,
+      find.widgetWithText(TextInput, "Message"),
+      "Test",
+    );
+
+    managers.lib.stubCurrentTime(DateTime(2025, 9, 22, 8));
+    when(
+      managers.lib.propertiesManager.supportEmail,
+    ).thenReturn("test@test.com");
+    when(
+      managers.lib.propertiesManager.clientSenderEmail,
+    ).thenReturn("sender@test.com");
+    when(
+      managers.lib.propertiesManager.sendGridApiKey,
+    ).thenReturn("random-api-key");
+    when(
+      managers.httpWrapper.post(
+        any,
+        headers: anyNamed("headers"),
+        body: anyNamed("body"),
+      ),
+    ).thenAnswer((_) => Future.value(Response("", 202)));
+
+    await tester.tap(find.text("SEND"));
+    await tester.pump();
+
+    var result = verify(
+      managers.httpWrapper.post(
+        any,
+        headers: anyNamed("headers"),
+        body: captureAnyNamed("body"),
+      ),
+    );
+    result.called(1);
+
+    var json = jsonDecode(result.captured.first) as Map<String, dynamic>;
+    expect(json["attachments"], isNotNull);
+    expect(json["attachments"][0]["content"], "Test db content");
+    expect(
+      json["attachments"][0]["filename"],
+      "AnglersLog-ER-ID-202509220800.db",
+    );
+  });
+
+  testWidgets("Data is excluded when not checked", (tester) async {
+    await pumpContext(tester, (_) => const FeedbackPage());
+
+    await tapAndSettle(tester, find.text("Feedback"));
+    expect(find.byType(CheckboxInput), findsNothing);
+
+    await enterTextAndSettle(
+      tester,
+      find.widgetWithText(TextInput, "Message"),
+      "Test",
+    );
+
+    when(
+      managers.lib.propertiesManager.supportEmail,
+    ).thenReturn("test@test.com");
+    when(
+      managers.lib.propertiesManager.clientSenderEmail,
+    ).thenReturn("sender@test.com");
+    when(
+      managers.lib.propertiesManager.sendGridApiKey,
+    ).thenReturn("random-api-key");
+    when(
+      managers.httpWrapper.post(
+        any,
+        headers: anyNamed("headers"),
+        body: anyNamed("body"),
+      ),
+    ).thenAnswer((_) => Future.value(Response("", 202)));
+
+    await tester.tap(find.text("SEND"));
+    await tester.pump();
+
+    var result = verify(
+      managers.httpWrapper.post(
+        any,
+        headers: anyNamed("headers"),
+        body: captureAnyNamed("body"),
+      ),
+    );
+    result.called(1);
+
+    var json = jsonDecode(result.captured.first) as Map<String, dynamic>;
+    expect(json["attachments"], isNull);
+  });
+}

@@ -1,0 +1,383 @@
+import 'dart:io';
+
+import 'package:adair_flutter_lib/widgets/button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart';
+import 'package:mobile/atmosphere_fetcher.dart';
+import 'package:mobile/model/gen/anglers_log.pb.dart';
+import 'package:mobile/utils/atmosphere_utils.dart';
+import 'package:mobile/utils/protobuf_utils.dart';
+import 'package:mobile/widgets/fetch_input_header.dart';
+import 'package:mockito/mockito.dart';
+
+import '../../../adair-flutter-lib/test/test_utils/testable.dart';
+import '../../../adair-flutter-lib/test/test_utils/widget.dart';
+import 'mocks/mocks.mocks.dart';
+import 'mocks/stubbed_managers.dart';
+import 'test_utils.dart';
+
+void main() {
+  late StubbedManagers managers;
+
+  setUp(() async {
+    managers = await StubbedManagers.create();
+
+    when(managers.propertiesManager.visualCrossingApiKey).thenReturn("");
+
+    when(managers.userPreferenceManager.atmosphereFieldIds).thenReturn([]);
+
+    // Set to the VisualCrossing defaults for each measurement type.
+    when(
+      managers.userPreferenceManager.airTemperatureSystem,
+    ).thenReturn(MeasurementSystem.imperial_decimal);
+    when(
+      managers.userPreferenceManager.airVisibilitySystem,
+    ).thenReturn(MeasurementSystem.imperial_decimal);
+    when(
+      managers.userPreferenceManager.airPressureSystem,
+    ).thenReturn(MeasurementSystem.metric);
+    when(
+      managers.userPreferenceManager.airPressureImperialUnit,
+    ).thenReturn(Unit.inch_of_mercury);
+    when(
+      managers.userPreferenceManager.windSpeedSystem,
+    ).thenReturn(MeasurementSystem.imperial_decimal);
+
+    when(
+      managers.lib.permissionHandlerWrapper.isLocationGranted,
+    ).thenAnswer((_) => Future.value(true));
+
+    when(
+      managers.locationMonitor.currentLatLng,
+    ).thenReturn(LatLng(lat: 1.23456, lng: 6.54321));
+  });
+
+  void expectMissingField(
+    BuildContext context,
+    String field,
+    bool Function(Atmosphere) hasValue,
+  ) async {
+    var response = MockResponse();
+    when(response.statusCode).thenReturn(HttpStatus.ok);
+    when(
+      response.body,
+    ).thenReturn("{\"currentConditions\":{\"$field\": \"wrong\"}}");
+    when(
+      managers.httpWrapper.get(any),
+    ).thenAnswer((_) => Future.value(response));
+
+    var fetcher = AtmosphereFetcher(dateTime(0), LatLngs.zero);
+
+    var atmosphere = await fetcher.fetch(context);
+    expect(atmosphere, isNotNull);
+    expect(hasValue(atmosphere.data!), isFalse);
+  }
+
+  Future<BuildContext> buildStubbedContext(WidgetTester tester) {
+    return buildContext(tester);
+  }
+
+  testWidgets("Null latLng returns null", (tester) async {
+    when(managers.locationMonitor.currentLatLng).thenReturn(null);
+
+    var fetcher = AtmosphereFetcher(dateTime(0), null);
+    expect(
+      (await fetcher.fetch(await buildStubbedContext(tester))).data,
+      isNull,
+    );
+  });
+
+  testWidgets("Location permission not granted", (tester) async {
+    when(
+      managers.lib.permissionHandlerWrapper.isLocationGranted,
+    ).thenAnswer((_) => Future.value(false));
+    when(
+      managers.lib.permissionHandlerWrapper.requestLocation(),
+    ).thenAnswer((_) => Future.value(false));
+
+    FetchInputResult<Atmosphere?>? result;
+    var fetcher = AtmosphereFetcher(dateTime(0), null);
+    await pumpContext(
+      tester,
+      (context) => Button(
+        text: "TEST",
+        onPressed: () async => result = await fetcher.fetch(context),
+      ),
+    );
+
+    await tapAndSettle(tester, find.text("TEST"));
+
+    // Explanation dialog.
+    expect(find.text("Location Access"), findsOneWidget);
+
+    await tapAndSettle(tester, find.text("CANCEL"));
+
+    expect(result, isNotNull);
+    expect(result!.data, isNull);
+    expect(result!.errorMessage, isNull);
+    expect(result!.notifyOnError, isFalse);
+  });
+
+  testWidgets("HTTP request throws exception", (tester) async {
+    when(
+      managers.httpWrapper.get(any),
+    ).thenThrow(const SocketException("Test error"));
+
+    var fetcher = AtmosphereFetcher(dateTime(0), LatLngs.zero);
+    expect(
+      (await fetcher.fetch(await buildStubbedContext(tester))).data,
+      isNull,
+    );
+  });
+
+  testWidgets("Request includes no fields", (tester) async {
+    when(
+      managers.httpWrapper.get(any),
+    ).thenAnswer((_) => Future.value(Response("", HttpStatus.badGateway)));
+
+    var fetcher = AtmosphereFetcher(dateTime(0), LatLngs.zero);
+    expect(
+      (await fetcher.fetch(await buildStubbedContext(tester))).data,
+      isNull,
+    );
+
+    var result = verify(managers.httpWrapper.get(captureAny));
+    expect(result.captured.first is Uri, isTrue);
+
+    var uri = result.captured.first as Uri;
+    expect(uri.queryParameters["elements"], isEmpty);
+  });
+
+  testWidgets("Request includes user preference fields", (tester) async {
+    when(managers.userPreferenceManager.atmosphereFieldIds).thenReturn([
+      atmosphereFieldIdTemperature,
+      atmosphereFieldIdHumidity,
+      atmosphereFieldIdSkyCondition,
+      atmosphereFieldIdMoonPhase,
+      atmosphereFieldIdPressure,
+      atmosphereFieldIdVisibility,
+      atmosphereFieldIdWindSpeed,
+      atmosphereFieldIdWindDirection,
+      atmosphereFieldIdSunriseTimestamp,
+      atmosphereFieldIdSunsetTimestamp,
+    ]);
+    when(
+      managers.httpWrapper.get(any),
+    ).thenAnswer((_) => Future.value(Response("", HttpStatus.badGateway)));
+
+    var fetcher = AtmosphereFetcher(dateTime(0), LatLngs.zero);
+    expect(
+      (await fetcher.fetch(await buildStubbedContext(tester))).data,
+      isNull,
+    );
+
+    var result = verify(managers.httpWrapper.get(captureAny));
+    expect(result.captured.first is Uri, isTrue);
+
+    var uri = result.captured.first as Uri;
+    expect(
+      uri.queryParameters["elements"],
+      "temp,humidity,conditions,moonphase,pressure,visibility,windspeed,"
+      "winddir,sunriseEpoch,sunsetEpoch",
+    );
+  });
+
+  testWidgets("Response includes invalid JSON", (tester) async {
+    var response = MockResponse();
+    when(response.statusCode).thenReturn(HttpStatus.ok);
+    when(response.body).thenReturn("not JSON");
+    when(
+      managers.httpWrapper.get(any),
+    ).thenAnswer((_) => Future.value(response));
+
+    var fetcher = AtmosphereFetcher(dateTime(0), LatLngs.zero);
+    expect(
+      (await fetcher.fetch(await buildStubbedContext(tester))).data,
+      isNull,
+    );
+  });
+
+  testWidgets("Response invalid 'currentConditions' key", (tester) async {
+    var response = MockResponse();
+    when(response.statusCode).thenReturn(HttpStatus.ok);
+    when(
+      managers.httpWrapper.get(any),
+    ).thenAnswer((_) => Future.value(response));
+
+    // Null.
+    when(response.body).thenReturn("{\"currentConditions\":null}");
+    var fetcher = AtmosphereFetcher(dateTime(0), LatLngs.zero);
+    expect(
+      (await fetcher.fetch(await buildStubbedContext(tester))).data,
+      isNull,
+    );
+  });
+
+  testWidgets("Wrong data type - temperature", (tester) async {
+    expectMissingField(
+      await buildStubbedContext(tester),
+      "temp",
+      (atmosphere) => atmosphere.hasTemperature(),
+    );
+  });
+
+  testWidgets("Wrong data type - humidity", (tester) async {
+    expectMissingField(
+      await buildStubbedContext(tester),
+      "humidity",
+      (atmosphere) => atmosphere.hasHumidity(),
+    );
+  });
+
+  testWidgets("Wrong data type - wind speed", (tester) async {
+    expectMissingField(
+      await buildStubbedContext(tester),
+      "windspeed",
+      (atmosphere) => atmosphere.hasWindSpeed(),
+    );
+  });
+
+  testWidgets("Wrong data type - wind direction", (tester) async {
+    expectMissingField(
+      await buildStubbedContext(tester),
+      "winddir",
+      (atmosphere) => atmosphere.hasWindDirection(),
+    );
+  });
+
+  testWidgets("Wrong data type - pressure", (tester) async {
+    expectMissingField(
+      await buildStubbedContext(tester),
+      "pressure",
+      (atmosphere) => atmosphere.hasPressure(),
+    );
+  });
+
+  testWidgets("Wrong data type - visibility", (tester) async {
+    expectMissingField(
+      await buildStubbedContext(tester),
+      "visibility",
+      (atmosphere) => atmosphere.hasVisibility(),
+    );
+  });
+
+  testWidgets("Wrong data type - conditions", (tester) async {
+    expectMissingField(
+      await buildStubbedContext(tester),
+      "conditions",
+      (atmosphere) => atmosphere.skyConditions.isNotEmpty,
+    );
+  });
+
+  testWidgets("Wrong data type - sunrise", (tester) async {
+    expectMissingField(
+      await buildStubbedContext(tester),
+      "sunriseEpoch",
+      (atmosphere) => atmosphere.hasSunsetTimestamp(),
+    );
+  });
+
+  testWidgets("Wrong data type - sunset", (tester) async {
+    expectMissingField(
+      await buildStubbedContext(tester),
+      "sunsetEpoch",
+      (atmosphere) => atmosphere.hasSunsetTimestamp(),
+    );
+  });
+
+  testWidgets("Wrong data type - moon phase", (tester) async {
+    expectMissingField(
+      await buildStubbedContext(tester),
+      "moonphase",
+      (atmosphere) => atmosphere.hasMoonPhase(),
+    );
+  });
+
+  testWidgets("Successful response", (tester) async {
+    // Real response from VisualCrossing API.
+    var json =
+        '{"queryCost":1,"latitude":35.925178304610114,"longitude":-83.96468538790941,"resolvedAddress":"35.925178304610114,-83.96468538790941","address":"35.925178304610114,-83.96468538790941","timezone":"America/New_York","tzoffset":-4.0,"days":[{"temp":77.9,"humidity":79.15,"windspeed":12.1,"winddir":93.8,"pressure":1021.9,"visibility":9.9,"sunriseEpoch":1624962142,"sunsetEpoch":1625014586,"moonphase":0.64,"conditions":"type_21, type_42"}],"currentConditions":{"temp":74.0,"humidity":90.3,"windspeed":4.7,"winddir":8.0,"pressure":1022.5,"visibility":9.9,"conditions":"type_42","sunriseEpoch":1624962142,"sunsetEpoch":1625014586,"moonphase":0.63}}';
+    var response = MockResponse();
+    when(response.statusCode).thenReturn(HttpStatus.ok);
+    when(response.body).thenReturn(json);
+    when(
+      managers.httpWrapper.get(any),
+    ).thenAnswer((_) => Future.value(response));
+
+    var fetcher = AtmosphereFetcher(dateTime(0), LatLngs.zero);
+
+    var atmosphere = (await fetcher.fetch(
+      await buildStubbedContext(tester),
+    )).data;
+    expect(atmosphere, isNotNull);
+    expect(atmosphere!.temperature.mainValue.value, 74.0);
+    expect(atmosphere.temperature.mainValue.unit, Unit.fahrenheit);
+    expect(atmosphere.humidity.mainValue.value, 90.0);
+    expect(atmosphere.windSpeed.mainValue.value, 4.7);
+    expect(atmosphere.windSpeed.mainValue.unit, Unit.miles_per_hour);
+    expect(atmosphere.windDirection, Direction.north);
+    expect(atmosphere.pressure.mainValue.value, 1022.5);
+    expect(atmosphere.pressure.mainValue.unit, Unit.millibars);
+    expect(atmosphere.visibility.mainValue.value, 9.9);
+    expect(atmosphere.visibility.mainValue.unit, Unit.miles);
+    expect(atmosphere.sunriseTimestamp.toInt(), 1624962142000); // ms
+    expect(atmosphere.sunsetTimestamp.toInt(), 1625014586000); // ms
+    expect(atmosphere.moonPhase, MoonPhase.waning_gibbous);
+    expect(atmosphere.skyConditions, [SkyCondition.cloudy]);
+    expect(atmosphere.timeZone, defaultTimeZone);
+  });
+
+  testWidgets("API value is converted to user preference units", (
+    tester,
+  ) async {
+    // Set to something different from the VisualCrossing default.
+    when(
+      managers.userPreferenceManager.airTemperatureSystem,
+    ).thenReturn(MeasurementSystem.imperial_whole);
+    when(
+      managers.userPreferenceManager.airVisibilitySystem,
+    ).thenReturn(MeasurementSystem.metric);
+    when(
+      managers.userPreferenceManager.airPressureSystem,
+    ).thenReturn(MeasurementSystem.imperial_decimal);
+    when(
+      managers.userPreferenceManager.airPressureImperialUnit,
+    ).thenReturn(Unit.pounds_per_square_inch);
+    when(
+      managers.userPreferenceManager.windSpeedSystem,
+    ).thenReturn(MeasurementSystem.metric);
+
+    // Real response from VisualCrossing API.
+    var json =
+        '{"queryCost":1,"latitude":35.925178304610114,"longitude":-83.96468538790941,"resolvedAddress":"35.925178304610114,-83.96468538790941","address":"35.925178304610114,-83.96468538790941","timezone":"America/New_York","tzoffset":-4.0,"days":[{"temp":77.9,"humidity":79.15,"windspeed":12.1,"winddir":93.8,"pressure":1021.9,"visibility":9.9,"sunriseEpoch":1624962142,"sunsetEpoch":1625014586,"moonphase":0.64,"conditions":"type_21, type_42"}],"currentConditions":{"temp":74.0,"humidity":90.3,"windspeed":4.7,"winddir":8.0,"pressure":1022.5,"visibility":9.9,"conditions":"type_42","sunriseEpoch":1624962142,"sunsetEpoch":1625014586,"moonphase":0.63}}';
+    var response = MockResponse();
+    when(response.statusCode).thenReturn(HttpStatus.ok);
+    when(response.body).thenReturn(json);
+    when(
+      managers.httpWrapper.get(any),
+    ).thenAnswer((_) => Future.value(response));
+
+    var fetcher = AtmosphereFetcher(dateTime(0), LatLngs.zero);
+
+    var atmosphere = (await fetcher.fetch(
+      await buildStubbedContext(tester),
+    )).data;
+    expect(atmosphere, isNotNull);
+    expect(atmosphere!.temperature.mainValue.value, 74);
+    expect(atmosphere.temperature.mainValue.unit, Unit.fahrenheit);
+    expect(atmosphere.humidity.mainValue.value, 90.0);
+    expect(atmosphere.windSpeed.mainValue.value, 7.563916800000001);
+    expect(atmosphere.windSpeed.mainValue.unit, Unit.kilometers_per_hour);
+    expect(atmosphere.windDirection, Direction.north);
+    expect(atmosphere.pressure.mainValue.value, 14.8301355);
+    expect(atmosphere.pressure.mainValue.unit, Unit.pounds_per_square_inch);
+    expect(atmosphere.visibility.mainValue.value, 15.932505600000002);
+    expect(atmosphere.visibility.mainValue.unit, Unit.kilometers);
+    expect(atmosphere.sunriseTimestamp.toInt(), 1624962142000); // ms
+    expect(atmosphere.sunsetTimestamp.toInt(), 1625014586000); // ms
+    expect(atmosphere.moonPhase, MoonPhase.waning_gibbous);
+    expect(atmosphere.skyConditions, [SkyCondition.cloudy]);
+    expect(atmosphere.timeZone, defaultTimeZone);
+  });
+}

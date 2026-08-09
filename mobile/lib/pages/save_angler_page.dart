@@ -1,0 +1,41 @@
+import 'package:adair_flutter_lib/utils/validator.dart';
+import 'package:flutter/material.dart';
+
+import '../angler_manager.dart';
+import '../model/gen/anglers_log.pb.dart';
+import '../pages/save_name_page.dart';
+import '../utils/protobuf_utils.dart';
+import '../utils/string_utils.dart';
+
+class SaveAnglerPage extends StatelessWidget {
+  final Angler? oldAngler;
+
+  const SaveAnglerPage() : oldAngler = null;
+
+  const SaveAnglerPage.edit(this.oldAngler);
+
+  @override
+  Widget build(BuildContext context) {
+    var anglerManager = AnglerManager.of(context);
+
+    return SaveNamePage(
+      title: oldAngler == null
+          ? Text(Strings.of(context).saveAnglerPageNewTitle)
+          : Text(Strings.of(context).saveAnglerPageEditTitle),
+      oldName: oldAngler?.name,
+      onSave: (newName) {
+        anglerManager.addOrUpdate(
+          Angler()
+            ..id = oldAngler?.id ?? randomId()
+            ..name = newName!,
+        );
+        return true;
+      },
+      validator: NameValidator(
+        nameExistsMessage: (context) =>
+            Strings.of(context).saveAnglerPageExistsMessage,
+        nameExists: (name) => anglerManager.nameExists(name),
+      ),
+    );
+  }
+}

@@ -1,0 +1,41 @@
+import 'package:adair_flutter_lib/utils/validator.dart';
+import 'package:flutter/material.dart';
+
+import '../model/gen/anglers_log.pb.dart';
+import '../pages/save_name_page.dart';
+import '../utils/protobuf_utils.dart';
+import '../utils/string_utils.dart';
+import '../water_clarity_manager.dart';
+
+class SaveWaterClarityPage extends StatelessWidget {
+  final WaterClarity? oldWaterClarity;
+
+  const SaveWaterClarityPage() : oldWaterClarity = null;
+
+  const SaveWaterClarityPage.edit(this.oldWaterClarity);
+
+  @override
+  Widget build(BuildContext context) {
+    var waterClarityManager = WaterClarityManager.of(context);
+
+    return SaveNamePage(
+      title: oldWaterClarity == null
+          ? Text(Strings.of(context).saveWaterClarityPageNewTitle)
+          : Text(Strings.of(context).saveWaterClarityPageEditTitle),
+      oldName: oldWaterClarity?.name,
+      onSave: (newName) {
+        waterClarityManager.addOrUpdate(
+          WaterClarity()
+            ..id = oldWaterClarity?.id ?? randomId()
+            ..name = newName!,
+        );
+        return true;
+      },
+      validator: NameValidator(
+        nameExistsMessage: (context) =>
+            Strings.of(context).saveWaterClarityPageExistsMessage,
+        nameExists: (name) => waterClarityManager.nameExists(name),
+      ),
+    );
+  }
+}
