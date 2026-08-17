@@ -130,7 +130,7 @@ class AnglersLogState extends State<AnglersLog> {
           themeMode: AppConfig.get.themeMode(),
           localizationsDelegates: const [
             SfLocalizationsOverrideDelegate(),
-            AdairFlutterLibLocalizations.delegate,
+            _AdairFlutterLibLocalizationsFallbackDelegate(),
             ...AnglersLogLocalizations.localizationsDelegates,
           ],
           supportedLocales: AnglersLogLocalizations.supportedLocales,
@@ -346,6 +346,31 @@ class AnglersLogState extends State<AnglersLog> {
       }
     }
   }
+}
+
+/// Wraps [AdairFlutterLibLocalizations.delegate] so locales not yet
+/// translated by adair_flutter_lib (which is versioned separately from this
+/// app) fall back to English instead of throwing and crashing app startup.
+class _AdairFlutterLibLocalizationsFallbackDelegate
+    extends LocalizationsDelegate<AdairFlutterLibLocalizations> {
+  const _AdairFlutterLibLocalizationsFallbackDelegate();
+
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  Future<AdairFlutterLibLocalizations> load(Locale locale) {
+    var delegate = AdairFlutterLibLocalizations.delegate;
+    var resolvedLocale = delegate.isSupported(locale)
+        ? locale
+        : const Locale("en");
+    return delegate.load(resolvedLocale);
+  }
+
+  @override
+  bool shouldReload(
+    LocalizationsDelegate<AdairFlutterLibLocalizations> old,
+  ) => false;
 }
 
 enum _StartPageState { mainPage, onboarding, changeLog }

@@ -10,17 +10,18 @@ class SfLocalizationsOverrideDelegate
   const SfLocalizationsOverrideDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => true;
 
   @override
   Future<SfLocalizations> load(Locale locale) {
     switch (locale.languageCode) {
-      case 'en':
-        return SynchronousFuture<SfLocalizations>(SfLocalizationsEnOverride());
       case 'es':
         return SynchronousFuture<SfLocalizations>(SfLocalizationsEsOverride());
+      default:
+        // Fall back to English for locales that don't have a dedicated
+        // override yet, rather than throwing and crashing app startup.
+        return SynchronousFuture<SfLocalizations>(SfLocalizationsEnOverride());
     }
-    throw FlutterError('Unsupported locale "$locale".');
   }
 
   @override
