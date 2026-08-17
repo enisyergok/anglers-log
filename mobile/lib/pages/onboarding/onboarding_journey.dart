@@ -1,4 +1,4 @@
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -71,11 +71,11 @@ class OnboardingJourneyState extends State<OnboardingJourney> {
         } else if (name == _routeFeedback) {
           return MaterialPageRoute(
             builder: (context) => HowToFeedbackPage(
-              nextLabel: SubscriptionManager.get.isFree
+              nextLabel: !hasProAccess
                   ? Strings.of(context).next
                   : Strings.of(context).finish,
               onNext: (context) {
-                if (SubscriptionManager.get.isFree) {
+                if (!hasProAccess) {
                   Navigator.of(context).pushNamed(_routePro);
                 } else {
                   widget.onFinished(context);

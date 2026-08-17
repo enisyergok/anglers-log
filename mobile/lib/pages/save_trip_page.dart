@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:adair_flutter_lib/l10n/l10n.dart';
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/dialog.dart';
@@ -586,7 +586,7 @@ class SaveTripPageState extends State<SaveTripPage> {
   }
 
   void _updateAtmosphereIfNeeded() {
-    if (SubscriptionManager.get.isFree ||
+    if (!hasProAccess ||
         !_fields[_idAtmosphere]!.isShowing ||
         !UserPreferenceManager.get.autoFetchAtmosphere ||
         !UserPreferenceManager.get.autoSetTripFields) {

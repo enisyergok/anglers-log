@@ -1,4 +1,4 @@
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
 import 'package:adair_flutter_lib/utils/page.dart';
@@ -773,7 +773,7 @@ class SaveCatchPageState extends State<SaveCatchPage> {
   }
 
   void _fetchAtmosphereIfNeeded() {
-    if (SubscriptionManager.get.isFree ||
+    if (!hasProAccess ||
         !_fields[_idAtmosphere]!.isShowing ||
         !UserPreferenceManager.get.autoFetchAtmosphere) {
       return;
@@ -787,7 +787,7 @@ class SaveCatchPageState extends State<SaveCatchPage> {
   }
 
   void _fetchTideIfNeeded() {
-    if (SubscriptionManager.get.isFree ||
+    if (!hasProAccess ||
         !_fields[_idTide]!.isShowing ||
         !UserPreferenceManager.get.autoFetchTide) {
       return;

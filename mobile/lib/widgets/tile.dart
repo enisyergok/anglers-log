@@ -49,19 +49,29 @@ class Tile extends StatelessWidget {
       );
     }
 
-    return InkWell(
-      onTap: item.onTap,
-      borderRadius: defaultBorderRadius,
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: defaultBorderRadius,
-          color: randomAccentColor(),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [title, subtitle1, subtitle2],
+    var accent = randomAccentColor();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: InkWell(
+        onTap: item.onTap,
+        borderRadius: cardBorderRadius,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: cardBorderRadius,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [accent.lighten(0.04), accent.darken(0.12)],
+            ),
+            boxShadow: boxShadowElevated(accent),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [title, subtitle1, subtitle2],
+          ),
         ),
       ),
     );

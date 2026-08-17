@@ -1,4 +1,4 @@
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
@@ -58,7 +58,7 @@ class CustomEntityListPage extends StatelessWidget {
         ),
         deleteItem: (context, entity) async =>
             await customEntityManager.delete(entity.id),
-        addPageBuilder: () => SubscriptionManager.get.isPro
+        addPageBuilder: () => hasProAccess
             ? const SaveCustomEntityPage()
             : const AnglersLogProPage(),
         editPageBuilder: (entity) => SaveCustomEntityPage.edit(entity),

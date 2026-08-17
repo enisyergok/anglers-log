@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:adair_flutter_lib/app_config.dart';
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/utils/date_time.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
@@ -185,32 +185,44 @@ class MainPageState extends State<MainPage> {
               .toList(),
         ),
         bottomNavigationBar: Container(
-          decoration: BoxDecoration(boxShadow: boxShadowDefault(context)),
-          child: BottomNavigationBar(
-            selectedItemColor: AppConfig.get.colorAppTheme,
-            currentIndex: _currentBarItem,
-            type: BottomNavigationBarType.fixed,
-            items: _navItems
-                .map(
-                  (data) => BottomNavigationBarItem(
-                    icon: data.iconBuilder(),
-                    label: data.titleBuilder(context),
-                  ),
-                )
-                .toList(),
-            onTap: (index) {
-              if (_navItems[index].onTapOverride != null) {
-                _navItems[index].onTapOverride!();
-                return;
-              }
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(cardCornerRadius),
+              topRight: Radius.circular(cardCornerRadius),
+            ),
+            boxShadow: boxShadowFloatingBar(context),
+          ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(cardCornerRadius),
+              topRight: Radius.circular(cardCornerRadius),
+            ),
+            child: BottomNavigationBar(
+              selectedItemColor: AppConfig.get.colorAppTheme,
+              currentIndex: _currentBarItem,
+              type: BottomNavigationBarType.fixed,
+              items: _navItems
+                  .map(
+                    (data) => BottomNavigationBarItem(
+                      icon: data.iconBuilder(),
+                      label: data.titleBuilder(context),
+                    ),
+                  )
+                  .toList(),
+              onTap: (index) {
+                if (_navItems[index].onTapOverride != null) {
+                  _navItems[index].onTapOverride!();
+                  return;
+                }
 
-              if (_currentBarItem == index) {
-                // Reset navigation stack if already on the current item.
-                _currentNavState.popUntil((r) => r.isFirst);
-              } else {
-                setState(() => _currentBarItem = index);
-              }
-            },
+                if (_currentBarItem == index) {
+                  // Reset navigation stack if already on the current item.
+                  _currentNavState.popUntil((r) => r.isFirst);
+                } else {
+                  setState(() => _currentBarItem = index);
+                }
+              },
+            ),
           ),
         ),
       ),
@@ -246,7 +258,7 @@ class MainPageState extends State<MainPage> {
 
   void _showFeedbackDialogIfNeeded() {
     // Check if ProPage should be shown.
-    if (SubscriptionManager.get.isFree &&
+    if (!hasProAccess &&
         isFrequencyTimerReady(
           timerStartedAt: UserPreferenceManager.get.proTimerStartedAt,
           setTimer: UserPreferenceManager.get.setProTimerStartedAt,

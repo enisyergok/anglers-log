@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io' as io;
 
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/utils/io.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
@@ -218,7 +218,7 @@ class BackupRestoreManager {
   }
 
   Future<void> _autoBackupIfNeeded() async {
-    if (SubscriptionManager.get.isFree ||
+    if (!hasProAccess ||
         !UserPreferenceManager.get.autoBackup) {
       return;
     }

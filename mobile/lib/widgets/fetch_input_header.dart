@@ -1,4 +1,4 @@
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/utils/date_time.dart';
 import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
@@ -99,7 +99,7 @@ class _FetchInputHeaderState<T> extends State<FetchInputHeader<T>> {
       return;
     }
 
-    if (SubscriptionManager.get.isFree) {
+    if (!hasProAccess) {
       AnglersLogProPage.present(context);
       return;
     }

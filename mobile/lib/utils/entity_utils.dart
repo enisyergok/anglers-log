@@ -1,4 +1,4 @@
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/utils/page.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/pages/add_catch_journey.dart';
@@ -202,7 +202,7 @@ var waterClaritiesEntitySpec = EntitySpec(
 void _presentSavePage(BuildContext context, bool isPro, Widget savePage) {
   present(
     context,
-    isPro && SubscriptionManager.get.isFree
+    isPro && !hasProAccess
         ? const AnglersLogProPage()
         : savePage,
   );

@@ -4,6 +4,7 @@ import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/pages/anglers_log_pro_page.dart';
 import 'package:mobile/res/style.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 
 import '../../utils/string_utils.dart';
 
@@ -19,7 +20,7 @@ class ProOverlay extends StatelessWidget {
     return StreamBuilder<void>(
       stream: SubscriptionManager.get.stream,
       builder: (context, snapshot) =>
-          SubscriptionManager.get.isFree ? _buildUpgrade(context) : proWidget,
+          !hasProAccess ? _buildUpgrade(context) : proWidget,
     );
   }
 

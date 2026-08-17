@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:adair_flutter_lib/app_config.dart';
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
 import 'package:adair_flutter_lib/utils/page.dart';
@@ -571,7 +571,7 @@ class FishingSpotMapState extends State<FishingSpotMap> {
             // Always allow users to stop tracking, regardless of subscription
             // status. This handles an edge case where their membership runs
             // out while a GPS trail is active.
-            if (SubscriptionManager.get.isPro ||
+            if (hasProAccess ||
                 _gpsTrailManager.hasActiveTrail) {
               onPressed();
             } else {

@@ -1,4 +1,4 @@
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/page.dart';
 import 'package:adair_flutter_lib/utils/string.dart';
@@ -383,7 +383,7 @@ class CatchPageState extends State<CatchPage> {
   }
 
   void _onCopy() {
-    if (SubscriptionManager.get.isFree) {
+    if (!hasProAccess) {
       AnglersLogProPage.present(context);
     } else {
       present(

@@ -1,4 +1,4 @@
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/res/anim.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/page.dart';
@@ -47,7 +47,7 @@ class AsyncFeedback extends StatelessWidget {
     var onPressed = action;
     if (onPressed != null &&
         actionRequiresPro &&
-        SubscriptionManager.get.isFree) {
+        !hasProAccess) {
       onPressed = () => AnglersLogProPage.present(context);
     }
 

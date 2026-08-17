@@ -1,4 +1,4 @@
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/utils/protobuf_utils.dart';
@@ -34,7 +34,7 @@ class ReportListPage extends StatelessWidget {
         deleteWidget: (context, report) =>
             Text(Strings.of(context).reportListPageConfirmDelete(report.name)),
         deleteItem: (_, item) => reportManager.delete(item.id),
-        addPageBuilder: () => SubscriptionManager.get.isPro
+        addPageBuilder: () => hasProAccess
             ? const SaveReportPage()
             : const AnglersLogProPage(),
         editPageBuilder: (report) => SaveReportPage.edit(report),
@@ -161,7 +161,7 @@ class ReportListPage extends StatelessWidget {
       result.addAll(remainingReports);
     }
 
-    if (SubscriptionManager.get.isFree && reportManager.entityCount > 0) {
+    if (!hasProAccess && reportManager.entityCount > 0) {
       result.add(_ItemType.blurredReports);
     } else {
       result.add(_ItemType.headingNoteDivider);

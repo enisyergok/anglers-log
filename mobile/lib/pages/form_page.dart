@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:mobile/utils/subscription_utils.dart';
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/page.dart';
@@ -408,7 +408,7 @@ class _SelectionPageState extends State<_SelectionPage> {
     return IconButton(
       icon: Icon(_addItemIconData),
       onPressed: () {
-        if (SubscriptionManager.get.isPro) {
+        if (hasProAccess) {
           present(context, const SaveCustomEntityPage());
         } else {
           AnglersLogProPage.present(context);
