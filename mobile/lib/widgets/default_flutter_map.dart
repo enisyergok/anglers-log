@@ -222,6 +222,7 @@ class _DefaultFlutterMapState extends State<DefaultFlutterMap> {
           child: SvgPicture.asset("assets/active-pin.svg"),
         );
       case SymbolOptions_PinType.active:
+      default:
         return SvgPicture.asset("assets/active-pin.svg");
     }
   }
