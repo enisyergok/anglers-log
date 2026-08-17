@@ -99,6 +99,8 @@ import 'package:region_settings/region_settings.dart' as _i49;
 import 'package:sqflite/sqflite.dart' as _i54;
 import 'package:timezone/timezone.dart' as _i37;
 import 'package:url_launcher/url_launcher.dart' as _i83;
+import 'package:flutter_map/flutter_map.dart' as _i94;
+import 'package:mobile/tile_cache_manager.dart' as _i95;
 
 import 'mocks.dart' as _i93;
 
@@ -6422,6 +6424,43 @@ class MockGpsTrailManager extends _i1.Mock implements _i13.GpsTrailManager {
 /// A class which mocks [ImageManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
+class MockTileCacheManager extends _i1.Mock implements _i95.TileCacheManager {
+  MockTileCacheManager() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.Future<void> initialize() =>
+      (super.noSuchMethod(
+            Invocation.method(#initialize, []),
+            returnValue: _i2.Future<void>.value(),
+            returnValueForMissingStub: _i2.Future<void>.value(),
+          )
+          as _i2.Future<void>);
+
+  @override
+  _i94.TileProvider tileProvider(_i79.MapType? mapType) =>
+      (super.noSuchMethod(
+            Invocation.method(#tileProvider, [mapType]),
+            returnValue: _i94.NetworkTileProvider(),
+          )
+          as _i94.TileProvider);
+
+  @override
+  Stream<double> saveAreaForOfflineUse({
+    required _i79.MapType? mapType,
+    required _i4.LatLngBounds? bounds,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveAreaForOfflineUse, [], {
+              #mapType: mapType,
+              #bounds: bounds,
+            }),
+            returnValue: const Stream<double>.empty(),
+          )
+          as Stream<double>);
+}
+
 class MockImageManager extends _i1.Mock implements _i14.ImageManager {
   MockImageManager() {
     _i1.throwOnMissingStub(this);
@@ -10215,6 +10254,22 @@ class MockIsolatesWrapper extends _i1.Mock implements _i31.IsolatesWrapper {
             returnValue: _i2.Future<List<int>>.value(<int>[]),
           )
           as _i2.Future<List<int>>);
+
+  @override
+  _i2.Future<String> computeCsv(
+    String Function(List<List<String>>)? callback,
+    List<List<String>>? arg,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#computeCsv, [callback, arg]),
+            returnValue: _i2.Future<String>.value(
+              _i58.dummyValue<String>(
+                this,
+                Invocation.method(#computeCsv, [callback, arg]),
+              ),
+            ),
+          )
+          as _i2.Future<String>);
 }
 
 /// A class which mocks [LocalNotificationsWrapper].
@@ -13374,6 +13429,11 @@ class MockMapController extends _i1.Mock implements _i78.MapController {
             returnValueForMissingStub: _i2.Future<void>.value(),
           )
           as _i2.Future<void>);
+
+  @override
+  _i4.LatLngBounds? get visibleBounds =>
+      (super.noSuchMethod(Invocation.getter(#visibleBounds))
+          as _i4.LatLngBounds?);
 
   @override
   _i2.Future<bool> isTelemetryEnabled() =>

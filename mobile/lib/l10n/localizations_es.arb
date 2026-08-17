@@ -659,6 +659,8 @@
   "reportSummaryPerFishingSpotDescription": "Viendo el número de capturas por lugar de pesca.",
   "reportSummaryPerGear": "Por equipo",
   "reportSummaryPerGearDescription": "Viendo el número de capturas por equipo.",
+  "reportSummaryLoadError": "Se produjo un error al cargar este informe.",
+  "reportSummaryRetry": "Reintentar",
   "reportSummaryPerHour": "Por hora",
   "reportSummaryPerMethod": "Por método de pesca",
   "reportSummaryPerMethodDescription": "Viendo el número de capturas por método de pesca.",

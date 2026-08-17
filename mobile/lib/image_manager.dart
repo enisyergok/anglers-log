@@ -29,6 +29,11 @@ class ImageManager {
   static const _imageCompressionQuality = 80;
   static const _thumbnailCompressionQuality = 50;
 
+  /// The maximum width/height, in pixels, of a full (non-thumbnail) image
+  /// saved to disk. Images larger than this are downscaled to keep on-disk
+  /// storage and memory usage reasonable.
+  static const _maxImageDimension = 2048.0;
+
   /// A memory cache map of file name to [_CachedThumbnail] objects.
   final Map<String, _CachedThumbnail> _thumbnails = LinkedLruHashMap(
     maximumSize: _memoryCacheCapacity,
@@ -169,7 +174,12 @@ class ImageManager {
       // Compress first, so image MD5 hashes are equal to existing files.
       List<int> jpgBytes;
       if (compress) {
-        jpgBytes = await _compress(file, _imageCompressionQuality, null, null);
+        jpgBytes = await _compress(
+          file,
+          _imageCompressionQuality,
+          _maxImageDimension,
+          null,
+        );
       } else {
         jpgBytes = await file.readAsBytes();
       }

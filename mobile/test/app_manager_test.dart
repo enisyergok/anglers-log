@@ -57,6 +57,9 @@ class TestAppManager extends AppManager {
 
   @override
   MockNotificationManager notificationManager = MockNotificationManager();
+
+  @override
+  MockTileCacheManager tileCacheManager = MockTileCacheManager();
 }
 
 void main() {
@@ -113,6 +116,9 @@ void main() {
     when(
       appManager.notificationManager.init(),
     ).thenAnswer((_) => Future.value());
+    when(
+      appManager.tileCacheManager.initialize(),
+    ).thenAnswer((_) => Future.value());
 
     stubRegionManager(MockRegionManager());
   });
@@ -123,6 +129,7 @@ void main() {
     verify(appManager.backupRestoreManager.initialize()).called(1);
     verify(appManager.imageManager.initialize()).called(1);
     verify(appManager.notificationManager.init()).called(1);
+    verify(appManager.tileCacheManager.initialize()).called(1);
     verify(pollManager.initialize()).called(1);
   });
 
@@ -132,6 +139,7 @@ void main() {
     verifyNever(appManager.backupRestoreManager.initialize());
     verifyNever(appManager.imageManager.initialize());
     verifyNever(appManager.notificationManager.init());
+    verifyNever(appManager.tileCacheManager.initialize());
     verifyNever(pollManager.initialize());
   });
 }

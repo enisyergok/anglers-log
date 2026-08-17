@@ -621,6 +621,9 @@ class SaveTripPageState extends State<SaveTripPage> {
       var newCatchIds = _findCatchesInTripRange(catchIds);
       if (newCatchIds.isNotEmpty) {
         var confirmed = await _showAutoAddCatchesPrompt(newCatchIds.length);
+        if (!mounted) {
+          return false;
+        }
         if (confirmed) {
           catchIds.addAll(newCatchIds);
         }

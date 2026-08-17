@@ -41,6 +41,7 @@ import 'package:mobile/water_clarity_manager.dart';
 import 'package:mobile/widgets/async_feedback.dart';
 import 'package:mobile/widgets/warning_container.dart';
 import 'package:mobile/wrappers/csv_wrapper.dart';
+import 'package:mobile/wrappers/isolates_wrapper.dart';
 import 'package:mobile/wrappers/share_plus_wrapper.dart';
 import 'package:quiver/strings.dart';
 import 'package:share_plus/share_plus.dart';
@@ -74,7 +75,7 @@ class _CsvPageState extends State<CsvPage> {
 
   BodyOfWaterManager get _bodyOfWaterManager => BodyOfWaterManager.of(context);
 
-  CsvWrapper get _csvWrapper => CsvWrapper.of(context);
+  IsolatesWrapper get _isolatesWrapper => IsolatesWrapper.of(context);
 
   CustomEntityManager get _customEntityManager =>
       CustomEntityManager.of(context);
@@ -177,6 +178,10 @@ class _CsvPageState extends State<CsvPage> {
     var trips = await _exportTrips();
     if (trips != null) {
       files.add(trips);
+    }
+
+    if (!mounted) {
+      return;
     }
 
     if (files.isEmpty) {
@@ -540,7 +545,10 @@ class _CsvPageState extends State<CsvPage> {
   }
 
   Future<File> _writeCsvToFile(List<List<String>> csv, File file) async {
-    return await file.writeAsString(_csvWrapper.convert(csv), flush: true);
+    // Offload the (potentially large) CSV serialization to a background
+    // isolate so it doesn't block the UI thread.
+    var content = await _isolatesWrapper.computeCsv(csvConvert, csv);
+    return await file.writeAsString(content, flush: true);
   }
 
   Future<File> _catchesFile() async => IoWrapper.get.file(

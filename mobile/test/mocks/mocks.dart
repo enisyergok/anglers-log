@@ -41,6 +41,7 @@ import 'package:mobile/properties_manager.dart';
 import 'package:mobile/region_manager.dart';
 import 'package:mobile/report_manager.dart';
 import 'package:mobile/species_manager.dart';
+import 'package:mobile/tile_cache_manager.dart';
 import 'package:mobile/trip_manager.dart';
 import 'package:mobile/user_preference_manager.dart';
 import 'package:mobile/water_clarity_manager.dart';
@@ -114,6 +115,7 @@ Trip_CatchesPerEntity newInputItemShim(dynamic pickerItem) =>
 @GenerateMocks([PropertiesManager])
 @GenerateMocks([ReportManager])
 @GenerateMocks([SpeciesManager])
+@GenerateMocks([TileCacheManager])
 @GenerateMocks([TripManager])
 @GenerateMocks([UserPreferenceManager])
 @GenerateMocks([WaterClarityManager])

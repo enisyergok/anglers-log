@@ -145,6 +145,9 @@ class FlutterMapController extends MapController with ChangeNotifier {
   }
 
   @override
+  LatLngBounds? get visibleBounds => fmController.camera.visibleBounds.toLatLngBounds;
+
+  @override
   Future<void> updateLogoAndAttributionMarginBottom(double marginBottom) async {
     // Attribution is rendered by MapAttribution, a widget positioned by the
     // caller; there's no native ornament to offset here.

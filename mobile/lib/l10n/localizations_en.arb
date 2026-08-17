@@ -562,6 +562,8 @@
   "reportSummaryPerGear": "Per Gear",
   "reportSummaryViewGear": "View all gear",
   "reportSummaryPerGearDescription": "Viewing number of catches per gear.",
+  "reportSummaryLoadError": "An error occurred while loading this report.",
+  "reportSummaryRetry": "Retry",
   "morePageTitle": "More",
   "morePageRateApp": "Rate Anglers'' Log",
   "morePagePro": "Anglers'' Log Pro",

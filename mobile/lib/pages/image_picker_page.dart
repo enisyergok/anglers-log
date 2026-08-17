@@ -782,6 +782,10 @@ class ImagePickerPageState extends State<ImagePickerPage> {
   }
 
   void _pop(List<PickedImage> results, {required bool showError}) {
+    if (!mounted) {
+      return;
+    }
+
     widget.onImagesPicked(context, results);
 
     if (widget.popsOnFinish) {

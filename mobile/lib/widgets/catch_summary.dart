@@ -35,6 +35,7 @@ import '../utils/collection_utils.dart';
 import '../utils/protobuf_utils.dart';
 import '../utils/string_utils.dart';
 import '../water_clarity_manager.dart';
+import 'async_feedback.dart';
 import 'chart.dart';
 import 'date_range_picker_input.dart';
 import 'list_picker_input.dart';
@@ -124,6 +125,15 @@ class _CatchSummaryState<T> extends State<CatchSummary<T>> {
       builder: (context) => FutureBuilder<List<int>>(
         future: _reportFuture,
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return AsyncFeedback(
+              state: AsyncFeedbackState.error,
+              description: Strings.of(context).reportSummaryLoadError,
+              actionText: Strings.of(context).reportSummaryRetry,
+              action: () => setState(_refreshReport),
+            );
+          }
+
           if (!snapshot.hasData) {
             return const Loading();
           }

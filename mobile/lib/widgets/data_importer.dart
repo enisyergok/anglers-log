@@ -126,6 +126,10 @@ class DataImporterState extends State<DataImporter> {
       allowedExtensions: ["zip"],
     );
 
+    if (!mounted) {
+      return;
+    }
+
     if (pickerResult == null) {
       _updateImportState(AsyncFeedbackState.none);
       return;
@@ -157,6 +161,9 @@ class DataImporterState extends State<DataImporter> {
   }
 
   void _updateImportState(AsyncFeedbackState state) {
+    if (!mounted) {
+      return;
+    }
     setState(() => _progressState = state);
   }
 

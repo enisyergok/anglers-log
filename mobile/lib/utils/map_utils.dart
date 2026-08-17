@@ -58,6 +58,9 @@ class MapType {
 
   static const _allTypes = [light, satellite, dark];
 
+  /// All available map types, e.g. for offline tile cache setup.
+  static const values = _allTypes;
+
   final String id;
 
   /// The tile URL template, using {z}/{x}/{y} (and optionally {s}/{r})

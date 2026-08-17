@@ -39,7 +39,13 @@ void main() {
 
     when(managers.lib.ioWrapper.isAndroid).thenReturn(false);
 
-    when(managers.csvWrapper.convert(any)).thenReturn("");
+    when(
+      managers.isolatesWrapper.computeCsv(any, any),
+    ).thenAnswer((invocation) {
+      return Future.value(
+        invocation.positionalArguments.first(invocation.positionalArguments[1]),
+      );
+    });
 
     when(managers.customEntityManager.entityExists(any)).thenReturn(false);
 
@@ -188,7 +194,7 @@ void main() {
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
-    var result = verify(managers.csvWrapper.convert(captureAny));
+    var result = verify(managers.isolatesWrapper.computeCsv(any, captureAny));
     result.called(1);
 
     var csvList = result.captured.first as List<List<dynamic>>;
@@ -232,7 +238,7 @@ void main() {
     await tapAndSettle(tester, find.text("EXPORT"));
 
     // Verify atmosphere fields are included.
-    var result = verify(managers.csvWrapper.convert(captureAny));
+    var result = verify(managers.isolatesWrapper.computeCsv(any, captureAny));
     result.called(2);
 
     // Catches.
@@ -261,7 +267,7 @@ void main() {
     await tapAndSettle(tester, find.text("EXPORT"));
 
     // Verify atmosphere fields are included.
-    result = verify(managers.csvWrapper.convert(captureAny));
+    result = verify(managers.isolatesWrapper.computeCsv(any, captureAny));
     result.called(2);
 
     // Catches.
@@ -383,7 +389,7 @@ void main() {
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
-    var result = verify(managers.csvWrapper.convert(captureAny));
+    var result = verify(managers.isolatesWrapper.computeCsv(any, captureAny));
     result.called(1);
 
     var csvList = result.captured.first as List<List<dynamic>>;
@@ -535,7 +541,7 @@ void main() {
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
-    var result = verify(managers.csvWrapper.convert(captureAny));
+    var result = verify(managers.isolatesWrapper.computeCsv(any, captureAny));
     result.called(1);
 
     var csvList = result.captured.first as List<List<dynamic>>;
@@ -634,7 +640,7 @@ void main() {
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
-    var result = verify(managers.csvWrapper.convert(captureAny));
+    var result = verify(managers.isolatesWrapper.computeCsv(any, captureAny));
     result.called(1);
 
     var csvList = result.captured.first as List<List<dynamic>>;
@@ -698,7 +704,7 @@ void main() {
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
-    var result = verify(managers.csvWrapper.convert(captureAny));
+    var result = verify(managers.isolatesWrapper.computeCsv(any, captureAny));
     result.called(1);
 
     var csvList = result.captured.first as List<List<dynamic>>;
@@ -786,7 +792,7 @@ void main() {
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
-    var result = verify(managers.csvWrapper.convert(captureAny));
+    var result = verify(managers.isolatesWrapper.computeCsv(any, captureAny));
     result.called(1);
 
     var csvList = result.captured.first as List<List<dynamic>>;
@@ -934,7 +940,7 @@ void main() {
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
-    var result = verify(managers.csvWrapper.convert(captureAny));
+    var result = verify(managers.isolatesWrapper.computeCsv(any, captureAny));
     result.called(1);
 
     var csvList = result.captured.first as List<List<dynamic>>;
@@ -1014,7 +1020,7 @@ void main() {
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
-    var result = verify(managers.csvWrapper.convert(captureAny));
+    var result = verify(managers.isolatesWrapper.computeCsv(any, captureAny));
     result.called(1);
 
     var csvList = result.captured.first as List<List<dynamic>>;

@@ -10,3 +10,8 @@ class CsvWrapper {
 
   String convert(List<List?>? rows) => const ListToCsvConverter().convert(rows);
 }
+
+/// A top-level function, safe to pass to [IsolatesWrapper.computeCsv], that
+/// converts CSV rows to their string representation off the main isolate.
+String csvConvert(List<List<String>> rows) =>
+    const ListToCsvConverter().convert(rows);

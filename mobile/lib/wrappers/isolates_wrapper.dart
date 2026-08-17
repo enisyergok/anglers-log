@@ -13,4 +13,11 @@ class IsolatesWrapper {
   ) {
     return compute(callback, arg);
   }
+
+  Future<String> computeCsv(
+    String Function(List<List<String>>) callback,
+    List<List<String>> arg,
+  ) {
+    return compute(callback, arg);
+  }
 }

@@ -25,6 +25,7 @@ import 'method_manager.dart';
 import 'notification_manager.dart';
 import 'report_manager.dart';
 import 'species_manager.dart';
+import 'tile_cache_manager.dart';
 import 'trip_manager.dart';
 import 'user_preference_manager.dart';
 import 'water_clarity_manager.dart';
@@ -72,6 +73,7 @@ class AppManager {
   NotificationManager? _notificationManager;
   ReportManager? _reportManager;
   SpeciesManager? _speciesManager;
+  TileCacheManager? _tileCacheManager;
   TripManager? _tripManager;
   WaterClarityManager? _waterClarityManager;
 
@@ -160,6 +162,11 @@ class AppManager {
   SpeciesManager get speciesManager {
     _speciesManager ??= SpeciesManager(this);
     return _speciesManager!;
+  }
+
+  TileCacheManager get tileCacheManager {
+    _tileCacheManager ??= TileCacheManager(this);
+    return _tileCacheManager!;
   }
 
   TripManager get tripManager {
@@ -287,6 +294,7 @@ class AppManager {
 
       await backupRestoreManager.initialize();
       await imageManager.initialize();
+      await tileCacheManager.initialize();
     }
   }
 }

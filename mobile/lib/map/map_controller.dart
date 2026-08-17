@@ -44,6 +44,10 @@ abstract class MapController {
 
   Future<void> animateToBounds(LatLngBounds? bounds);
 
+  /// The bounds of the map area currently visible on screen, or null if the
+  /// map hasn't been laid out yet.
+  LatLngBounds? get visibleBounds;
+
   Future<void> updateLogoAndAttributionMarginBottom(double marginBottom);
 
   Future<void> setMapType(MapType type);

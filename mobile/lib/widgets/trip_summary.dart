@@ -21,6 +21,7 @@ import 'package:timezone/data/latest_all.dart';
 import '../../utils/string_utils.dart';
 import '../entity_manager.dart';
 import '../wrappers/isolates_wrapper.dart';
+import 'async_feedback.dart';
 import 'date_range_picker_input.dart';
 
 const _log = Log("TripSummary");
@@ -70,6 +71,15 @@ class _TripSummaryState extends State<TripSummary> {
         return FutureBuilder<List<int>>(
           future: _reportFuture,
           builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return AsyncFeedback(
+                state: AsyncFeedbackState.error,
+                description: Strings.of(context).reportSummaryLoadError,
+                actionText: Strings.of(context).reportSummaryRetry,
+                action: () => setState(_refreshReport),
+              );
+            }
+
             if (!snapshot.hasData) {
               return const Loading();
             }
