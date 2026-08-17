@@ -8,7 +8,7 @@ import 'package:mobile/utils/string_utils.dart';
 
 import '../map/map_controller.dart';
 import '../model/gen/anglers_log.pb.dart';
-import '../widgets/default_mapbox_map.dart';
+import '../widgets/default_flutter_map.dart';
 import '../widgets/input_controller.dart';
 import '../widgets/map_target.dart';
 
@@ -53,8 +53,8 @@ class _EditCoordinatesPageState extends State<EditCoordinatesPage> {
     }
   }
 
-  DefaultMapboxMap _buildMap() {
-    return DefaultMapboxMap(
+  DefaultFlutterMap _buildMap() {
+    return DefaultFlutterMap(
       startPosition: _fishingSpot.latLng,
       onMapCreated: (controller) async {
         setState(() => _mapController = controller);

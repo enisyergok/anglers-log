@@ -9,7 +9,6 @@ import 'package:adair_flutter_lib/utils/page.dart';
 import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:adair_flutter_lib/utils/widget.dart';
 import 'package:adair_flutter_lib/widgets/animated_visibility.dart';
-import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:mobile/gps_trail_manager.dart';
@@ -34,7 +33,7 @@ import '../widgets/button.dart';
 import '../widgets/our_search_bar.dart';
 import '../widgets/widget.dart';
 import 'bottom_sheet_picker.dart';
-import 'default_mapbox_map.dart';
+import 'default_flutter_map.dart';
 import 'fishing_spot_details.dart';
 import 'input_controller.dart';
 import 'map_attribution.dart';
@@ -47,7 +46,7 @@ import 'slide_up_transition.dart';
 /// See:
 ///  - [StaticFishingSpotMap]
 ///  - [EditCoordinatesPage]
-///  - [DefaultMapboxMap]
+///  - [DefaultFlutterMap]
 class FishingSpotMap extends StatefulWidget {
   /// When non-null, sets up the map as an input picker.
   late final FishingSpotMapPickerSettings? pickerSettings;
@@ -157,7 +156,7 @@ class FishingSpotMapState extends State<FishingSpotMap> {
       _onUserPreferenceUpdate,
     );
 
-    // Refresh state so Mapbox attribution padding is updated. This needs to be
+    // Refresh state so map attribution padding is updated. This needs to be
     // done after the fishing spot widget is rendered.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {});
@@ -239,9 +238,9 @@ class FishingSpotMapState extends State<FishingSpotMap> {
   }
 
   Widget _buildMap() {
-    return DefaultMapboxMap(
+    return DefaultFlutterMap(
       isMyLocationEnabled: _myLocationEnabled,
-      style: _mapType.url,
+      mapType: _mapType,
       startPosition:
           _activeFishingSpot?.latLng ??
           _pickerSettings?.controller.value?.latLng,
@@ -541,7 +540,7 @@ class FishingSpotMapState extends State<FishingSpotMap> {
     }
 
     // If the map isn't yet setup, but there's a picked spot, use that for
-    // rendering. This allows us to calculate the padding for Mapbox
+    // rendering. This allows us to calculate the padding for map
     // attributions, and shows a smoother transition when selecting a symbol.
     fishingSpot ??= _pickerSettings?.controller.value;
 
@@ -606,7 +605,7 @@ class FishingSpotMapState extends State<FishingSpotMap> {
   }
 
   Widget _buildAttribution() {
-    return MapboxAttribution(mapController: _mapController, mapType: _mapType);
+    return MapAttribution(mapType: _mapType);
   }
 
   void _updateAttributionMargin() {
@@ -745,6 +744,7 @@ class FishingSpotMapState extends State<FishingSpotMap> {
   void _onUserPreferenceUpdate(String event) {
     if (event == UserPreferenceManager.keyMapType) {
       setState(() => _mapType = MapType.of(context));
+      _mapController?.setMapType(_mapType);
     }
   }
 
@@ -839,11 +839,6 @@ class FishingSpotMapState extends State<FishingSpotMap> {
         newIsDismissingFishingSpot = false;
       }
 
-      // Ensure annotation image is updated by redrawing the map. A redraw is
-      // only required on Android.
-      if (IoWrapper.get.isAndroid) {
-        _mapController?.redraw();
-      }
     } else {
       // Find the symbol associated with the given fishing spot.
       newActiveSymbol = _mapController?.symbols.firstWhereOrNull(

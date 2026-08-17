@@ -22,7 +22,6 @@ void main() {
     mapController = StubbedMapController(managers);
 
     when(managers.userPreferenceManager.mapType).thenReturn(MapType.light.id);
-    when(managers.propertiesManager.mapboxApiKey).thenReturn("KEY");
     when(managers.lib.ioWrapper.isAndroid).thenReturn(false);
   });
 
@@ -57,10 +56,11 @@ void main() {
     var spotController = InputController<FishingSpot>();
     spotController.value = FishingSpot(lat: 1.234567, lng: 7.654321);
 
+    await pumpMap(tester, mapController, EditCoordinatesPage(spotController));
+
     mapController.stubCameraPosition(
       CameraPosition(latLng: spotController.value!.latLng),
     );
-    await pumpMap(tester, mapController, EditCoordinatesPage(spotController));
 
     // Verify target isn't showing.
     expect(

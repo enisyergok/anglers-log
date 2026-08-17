@@ -110,7 +110,6 @@ void main() {
     ).thenAnswer((invocation) => invocation.positionalArguments[1].name);
 
     when(managers.propertiesManager.visualCrossingApiKey).thenReturn("");
-    when(managers.propertiesManager.mapboxApiKey).thenReturn("");
     when(managers.propertiesManager.worldTidesApiKey).thenReturn("");
 
     when(managers.userPreferenceManager.atmosphereFieldIds).thenReturn([]);

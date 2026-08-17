@@ -687,7 +687,6 @@ void main() {
     ).thenAnswer((_) => Future.value());
     when(managers.userPreferenceManager.autoAddCatchesToTrip).thenReturn(false);
 
-    when(managers.propertiesManager.mapboxApiKey).thenReturn("KEY");
 
     when(managers.lib.ioWrapper.isAndroid).thenReturn(false);
     when(managers.isolatesWrapper.computeIntList(any, any)).thenAnswer((

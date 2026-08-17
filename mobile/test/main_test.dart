@@ -66,7 +66,6 @@ void main() {
     when(managers.pollManager.canVote).thenReturn(false);
     when(managers.pollManager.stream).thenAnswer((_) => const Stream.empty());
 
-    when(managers.propertiesManager.mapboxApiKey).thenReturn("");
 
     when(managers.lib.subscriptionManager.isFree).thenReturn(false);
     when(managers.lib.subscriptionManager.isPro).thenReturn(true);

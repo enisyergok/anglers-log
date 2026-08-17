@@ -23,7 +23,6 @@ const mapZoomDefault = 13.0;
 const metersPerDegree = 111139;
 
 // TODO: Move to its own class in the map/ directory.
-// TODO: Abstract out Mapbox-specific functionality.
 class MapType {
   static MapType of(BuildContext context) =>
       MapType.fromId(UserPreferenceManager.get.mapType) ??
@@ -32,52 +31,53 @@ class MapType {
   static MapType? fromId(String? id) =>
       _allTypes.firstWhereOrNull((e) => e.id == id);
 
+  /// Standard OpenStreetMap raster tiles. Free, keyless, no usage limits.
   static const light = MapType._(
     "normal",
-    "ckt1zqb8d1h1p17pglx4pmz4y",
-    "ckz1rne34000o14p36fu4of1y",
-    "mapbox://styles/cohenadair/",
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    [],
+    "© OpenStreetMap contributors",
   );
 
+  /// Esri World Imagery raster tiles. Free, keyless, no usage limits.
   static const satellite = MapType._(
     "satellite",
-    "ckt1m613b127t17qqf3mmw47h",
-    "ckz1rts30002y15pq6t19lygy",
-    "mapbox://styles/cohenadair/",
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/"
+        "MapServer/tile/{z}/{y}/{x}",
+    [],
+    "Esri, Maxar, Earthstar Geographics, and the GIS User Community",
   );
 
+  /// CARTO Dark Matter raster tiles. Free, keyless, no usage limits.
   static const dark = MapType._(
     "dark",
-    "clgo7x3ne008a01pa2pi4e0h2",
-    "clgo8mr7o008k01nu7oj86r25",
-    "mapbox://styles/cohenadair/",
+    "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+    ["a", "b", "c", "d"],
+    "© OpenStreetMap contributors © CARTO",
   );
 
   static const _allTypes = [light, satellite, dark];
 
   final String id;
 
-  /// Mapbox ID for general map use.
-  final String mapboxId;
+  /// The tile URL template, using {z}/{x}/{y} (and optionally {s}/{r})
+  /// placeholders, as consumed by flutter_map's TileLayer.
+  final String urlTemplate;
 
-  /// Mapbox ID for static map use.
-  final String mapboxStaticId;
+  /// Subdomains to cycle through for {s} in [urlTemplate], if any.
+  final List<String> subdomains;
 
-  final String _url;
+  /// Attribution text required by the tile provider.
+  final String attribution;
 
-  const MapType._(this.id, this.mapboxId, this.mapboxStaticId, this._url);
-
-  String get url => "$_url$mapboxId";
+  const MapType._(this.id, this.urlTemplate, this.subdomains, this.attribution);
 
   @override
   bool operator ==(Object other) =>
-      other is MapType &&
-      other.id == id &&
-      other.mapboxId == other.mapboxId &&
-      other._url == _url;
+      other is MapType && other.id == id && other.urlTemplate == urlTemplate;
 
   @override
-  int get hashCode => hash3(id, mapboxId, _url);
+  int get hashCode => hash2(id, urlTemplate);
 }
 
 // TODO: Move to map/ directory.
@@ -201,8 +201,8 @@ LatLngBounds? latLngsToBounds(Iterable<LatLng> latLngs) {
 Color mapIconColor(MapType mapType) =>
     mapType == MapType.light ? Colors.black : Colors.white;
 
-/// Updates the Mapbox native logo and attribution margin so they appear above
-/// the widget identified by [detailsKey]. Uses the same formula as
+/// Updates the map's logo and attribution margin so they appear above the
+/// widget identified by [detailsKey]. Uses the same formula as
 /// [FishingSpotMap].
 void updateMapAttributionMargin(
   GlobalKey detailsKey,
@@ -210,8 +210,6 @@ void updateMapAttributionMargin(
   BuildContext context,
 ) {
   final height = detailsKey.globalPosition()?.height ?? 0;
-  // The iOS Mapbox SDK automatically offsets ornaments by the safe area, but
-  // the Android SDK uses raw screen-bottom offsets, so we add it manually.
   final androidBottomInset = IoWrapper.get.isAndroid
       ? MediaQuery.of(context).viewPadding.bottom
       : 0.0;

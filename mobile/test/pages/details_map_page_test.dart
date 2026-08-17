@@ -4,7 +4,7 @@ import 'package:mobile/map/map_controller.dart';
 import 'package:mobile/pages/details_map_page.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/utils/protobuf_utils.dart';
-import 'package:mobile/widgets/default_mapbox_map.dart';
+import 'package:mobile/widgets/default_flutter_map.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../adair-flutter-lib/test/test_utils/testable.dart';
@@ -17,7 +17,6 @@ void main() {
   setUp(() async {
     managers = await StubbedManagers.create();
     when(managers.userPreferenceManager.mapType).thenReturn(MapType.light.id);
-    when(managers.propertiesManager.mapboxApiKey).thenReturn("");
     when(managers.lib.ioWrapper.isAndroid).thenReturn(false);
   });
 
@@ -26,7 +25,7 @@ void main() {
       tester,
       (_) => DetailsMapPage(
         controller: null,
-        map: DefaultMapboxMap(startPosition: LatLngs.zero),
+        map: DefaultFlutterMap(startPosition: LatLngs.zero),
         details: const SizedBox(),
         isPresented: true,
       ),
@@ -44,7 +43,7 @@ void main() {
         data: ThemeData(platform: TargetPlatform.android),
         child: DetailsMapPage(
           controller: null,
-          map: DefaultMapboxMap(startPosition: LatLngs.zero),
+          map: DefaultFlutterMap(startPosition: LatLngs.zero),
           details: const SizedBox(),
           isPresented: false,
         ),
@@ -68,7 +67,7 @@ void main() {
       tester,
       (_) => DetailsMapPage(
         controller: mockController,
-        map: DefaultMapboxMap(startPosition: LatLngs.zero),
+        map: DefaultFlutterMap(startPosition: LatLngs.zero),
         details: const SizedBox(),
       ),
     );
@@ -99,7 +98,7 @@ void main() {
             stateSetter = setState;
             return DetailsMapPage(
               controller: currentController,
-              map: DefaultMapboxMap(startPosition: LatLngs.zero),
+              map: DefaultFlutterMap(startPosition: LatLngs.zero),
               details: const SizedBox(),
             );
           },
@@ -136,7 +135,7 @@ void main() {
             stateSetter = setState;
             return DetailsMapPage(
               controller: mockController,
-              map: DefaultMapboxMap(startPosition: LatLngs.zero),
+              map: DefaultFlutterMap(startPosition: LatLngs.zero),
               details: const SizedBox(),
             );
           },

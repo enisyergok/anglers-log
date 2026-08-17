@@ -14,7 +14,7 @@ import 'package:quiver/strings.dart';
 import '../map/map_controller.dart';
 import '../model/gen/anglers_log.pb.dart';
 import '../utils/string_utils.dart';
-import '../widgets/default_mapbox_map.dart';
+import '../widgets/default_flutter_map.dart';
 import 'catch_page.dart';
 import 'details_map_page.dart';
 
@@ -49,8 +49,8 @@ class _GpsTrailPageState extends State<GpsTrailPage> {
     );
   }
 
-  DefaultMapboxMap _buildMap() {
-    return DefaultMapboxMap(
+  DefaultFlutterMap _buildMap() {
+    return DefaultFlutterMap(
       startPosition: _trail.center,
       startZoom: mapZoomStart,
       onMapCreated: (controller) {

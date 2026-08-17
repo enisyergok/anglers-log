@@ -4,13 +4,13 @@ import 'package:mobile/utils/map_utils.dart';
 
 import '../map/map_controller.dart';
 import '../widgets/button.dart';
-import '../widgets/default_mapbox_map.dart';
+import '../widgets/default_flutter_map.dart';
 import '../widgets/floating_container.dart';
 import '../widgets/map_attribution.dart';
 
 class DetailsMapPage extends StatefulWidget {
   final MapController? controller;
-  final DefaultMapboxMap map;
+  final DefaultFlutterMap map;
   final Widget details;
   final List<Widget> children;
   final bool isPresented;
@@ -83,7 +83,7 @@ class _DetailsMapPageState extends State<DetailsMapPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              MapboxAttribution(mapController: widget.controller),
+              const MapAttribution(),
               Container(height: paddingSmall),
               FloatingContainer(
                 key: _detailsKey,

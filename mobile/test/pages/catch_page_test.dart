@@ -41,7 +41,6 @@ void main() {
 
     when(managers.lib.ioWrapper.isAndroid).thenReturn(false);
 
-    when(managers.propertiesManager.mapboxApiKey).thenReturn("");
 
     when(managers.speciesManager.entity(any)).thenReturn(
       Species()

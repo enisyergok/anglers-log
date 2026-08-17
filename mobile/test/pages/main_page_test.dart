@@ -75,7 +75,6 @@ void main() {
 
     when(managers.locationMonitor.currentLatLng).thenReturn(null);
 
-    when(managers.propertiesManager.mapboxApiKey).thenReturn("");
 
     when(
       managers.lib.subscriptionManager.stream,

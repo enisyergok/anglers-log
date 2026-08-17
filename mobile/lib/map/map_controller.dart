@@ -44,10 +44,6 @@ abstract class MapController {
 
   Future<void> animateToBounds(LatLngBounds? bounds);
 
-  Future<bool> isTelemetryEnabled();
-
-  Future<void> setTelemetryEnabled(bool enabled);
-
   Future<void> updateLogoAndAttributionMarginBottom(double marginBottom);
 
   Future<void> setMapType(MapType type);

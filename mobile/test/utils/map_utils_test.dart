@@ -1,16 +1,17 @@
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile/map/mapbox_map_controller.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/utils/protobuf_utils.dart';
+import 'package:mobile/widgets/default_flutter_map.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../adair-flutter-lib/test/test_utils/testable.dart';
 import '../mocks/mocks.mocks.dart';
 import '../mocks/stubbed_managers.dart';
 import '../mocks/stubbed_map_controller.dart';
+import '../test_utils.dart';
 
 void main() {
   group("distanceBetween", () {
@@ -73,13 +74,14 @@ void main() {
       managers = await StubbedManagers.create();
 
       when(managers.lib.ioWrapper.isAndroid).thenReturn(false);
+      when(managers.userPreferenceManager.mapType).thenReturn(MapType.light.id);
 
       controller = StubbedMapController(managers);
-      controller.value = await MapboxMapController.create(controller.map.value);
     });
 
     testWidgets("Draw exits early if there's nothing to draw", (tester) async {
-      var context = await buildContext(tester);
+      await pumpMap(tester, controller, const DefaultFlutterMap());
+      var context = tester.element(find.byType(DefaultFlutterMap));
       var gpsMapTrail = SymbolTrail(controller.value);
       gpsMapTrail.draw(context, GpsTrail());
       expect(controller.value.symbols.isEmpty, isTrue);
@@ -88,7 +90,8 @@ void main() {
     testWidgets("Each new point is drawn when points arrive one at a time", (
       tester,
     ) async {
-      var context = await buildContext(tester);
+      await pumpMap(tester, controller, const DefaultFlutterMap());
+      var context = tester.element(find.byType(DefaultFlutterMap));
       var gpsMapTrail = SymbolTrail(controller.value);
 
       final allPoints = [
@@ -108,7 +111,8 @@ void main() {
     });
 
     testWidgets("Only new points are drawn", (tester) async {
-      var context = await buildContext(tester);
+      await pumpMap(tester, controller, const DefaultFlutterMap());
+      var context = tester.element(find.byType(DefaultFlutterMap));
       var gpsMapTrail = SymbolTrail(controller.value);
 
       await gpsMapTrail.draw(
@@ -150,7 +154,8 @@ void main() {
         managers.fishingSpotManager.entity(any),
       ).thenReturn(FishingSpot(lat: 1, lng: 2));
 
-      var context = await buildContext(tester);
+      await pumpMap(tester, controller, const DefaultFlutterMap());
+      var context = tester.element(find.byType(DefaultFlutterMap));
       var gpsMapTrail = SymbolTrail(controller.value);
 
       await gpsMapTrail.draw(
@@ -180,7 +185,8 @@ void main() {
         when(managers.catchManager.catchesForGpsTrail(any)).thenReturn([]);
         when(managers.fishingSpotManager.entity(any)).thenReturn(FishingSpot());
 
-        var context = await buildContext(tester);
+        await pumpMap(tester, controller, const DefaultFlutterMap());
+        var context = tester.element(find.byType(DefaultFlutterMap));
         var gpsMapTrail = SymbolTrail(controller.value, null);
 
         await gpsMapTrail.draw(
@@ -208,7 +214,8 @@ void main() {
       when(managers.catchManager.catchesForGpsTrail(any)).thenReturn([]);
       when(managers.fishingSpotManager.entity(any)).thenReturn(FishingSpot());
 
-      var context = await buildContext(tester);
+      await pumpMap(tester, controller, const DefaultFlutterMap());
+      var context = tester.element(find.byType(DefaultFlutterMap));
       var invoked = false;
       var gpsMapTrail = SymbolTrail(controller.value, (_) => invoked = true);
 
@@ -239,7 +246,8 @@ void main() {
       when(managers.catchManager.catchesForGpsTrail(any)).thenReturn([]);
       when(managers.fishingSpotManager.entity(any)).thenReturn(FishingSpot());
 
-      var context = await buildContext(tester);
+      await pumpMap(tester, controller, const DefaultFlutterMap());
+      var context = tester.element(find.byType(DefaultFlutterMap));
       Id? invokedId;
       var gpsMapTrail = SymbolTrail(controller.value, (id) => invokedId = id);
 

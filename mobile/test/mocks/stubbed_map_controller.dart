@@ -1,57 +1,33 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
-import 'package:mobile/map/mapbox_map_controller.dart';
+import 'package:mobile/map/flutter_map_controller.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart';
-import 'package:mobile/widgets/default_mapbox_map.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mobile/widgets/default_flutter_map.dart';
 
-import '../../../../adair-flutter-lib/test/test_utils/finder.dart';
 import 'stubbed_managers.dart';
-import 'stubbed_mapbox_map.dart';
 
 class StubbedMapController {
-  late final MapboxMapController value;
+  late final FlutterMapController value;
 
   final StubbedManagers _managers;
-  final map = StubbedMapboxMap();
 
   StubbedMapController(this._managers);
 
-  /// MapboxMap callbacks aren't called in widget tests, so we manually invoke
-  /// them when needed.
+  /// Unlike Mapbox, [DefaultFlutterMap] creates a real, testable controller
+  /// synchronously in initState and invokes `onMapCreated` with it right
+  /// away, so there's no native map load to wait for. This just grabs that
+  /// already-created controller off the widget's state.
   Future<void> finishLoading(WidgetTester tester) async {
-    value = await MapboxMapController.create(map.value);
-    findFirst<DefaultMapboxMap>(tester).onMapCreated?.call(value);
+    value =
+        (tester.state(find.byType(DefaultFlutterMap)) as dynamic).controller
+            as FlutterMapController;
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
   }
 
   void moveMap({bool isMoving = false}) {
-    assert(map.onMapMoveCallback != null);
-    map.onMapMoveCallback!(
-      MapContentGestureContext(
-        touchPosition: ScreenCoordinate(x: 0, y: 0),
-        point: Point(coordinates: Position(0, 0)),
-        gestureState: isMoving ? .started : .ended,
-      ),
-    );
+    value.debugSimulateMapMove(isMoving: isMoving);
   }
 
   void stubCameraPosition(CameraPosition position) {
-    when(map.value.getCameraState()).thenAnswer(
-      (_) => Future.value(
-        CameraState(
-          center: position.latLng.point,
-          padding: MbxEdgeInsets(
-            left: position.left,
-            right: position.right,
-            top: position.top,
-            bottom: position.bottom,
-          ),
-          zoom: position.zoom,
-          bearing: 0,
-          pitch: 0,
-        ),
-      ),
-    );
+    value.fmController.move(position.latLng.point, position.zoom);
   }
 }

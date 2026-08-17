@@ -16,14 +16,11 @@ class PropertiesManager {
   PropertiesManager._();
 
   final String _keyVisualCrossing = "visualCrossing.apiKey";
-  final String _keyMapbox = "mapbox.apiKey";
   final String _keyWorldTides = "worldTides.apiKey";
   final String _keyFirebaseSecret = "firebase.secret";
 
   String get visualCrossingApiKey =>
       lib.PropertiesManager.get.stringForKey(_keyVisualCrossing);
-
-  String get mapboxApiKey => lib.PropertiesManager.get.stringForKey(_keyMapbox);
 
   String get worldTidesApiKey =>
       lib.PropertiesManager.get.stringForKey(_keyWorldTides);

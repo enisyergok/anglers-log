@@ -13,7 +13,6 @@ import 'package:googleapis/drive/v3.dart' as g_drive;
 import 'package:googleapis_auth/googleapis_auth.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' as mapbox;
 import 'package:mobile/angler_manager.dart';
 import 'package:mobile/app_manager.dart';
 import 'package:mobile/atmosphere_fetcher.dart';
@@ -57,7 +56,6 @@ import 'package:mobile/wrappers/image_compress_wrapper.dart';
 import 'package:mobile/wrappers/image_picker_wrapper.dart';
 import 'package:mobile/wrappers/in_app_review_wrapper.dart';
 import 'package:mobile/wrappers/isolates_wrapper.dart';
-import 'package:mobile/wrappers/mapbox_wrapper.dart';
 import 'package:mobile/wrappers/photo_manager_wrapper.dart';
 import 'package:mobile/wrappers/region_settings_wrapper.dart';
 import 'package:mobile/wrappers/services_wrapper.dart';
@@ -128,17 +126,6 @@ Trip_CatchesPerEntity newInputItemShim(dynamic pickerItem) =>
 @GenerateMocks([InAppReviewWrapper])
 @GenerateMocks([IsolatesWrapper])
 @GenerateMocks([LocalNotificationsWrapper])
-@GenerateMocks([mapbox.AnnotationManager])
-@GenerateMocks([mapbox.AttributionSettingsInterface])
-@GenerateMocks([mapbox.CameraState])
-@GenerateMocks([mapbox.Cancelable])
-@GenerateMocks([mapbox.CompassSettingsInterface])
-@GenerateMocks([mapbox.LogoSettingsInterface])
-@GenerateMocks([mapbox.LocationSettings])
-@GenerateMocks([mapbox.MapboxMap])
-@GenerateMocks([mapbox.PointAnnotationManager])
-@GenerateMocks([mapbox.ScaleBarSettingsInterface])
-@GenerateMocks([MapboxWrapper])
 @GenerateMocks([MapController])
 @GenerateMocks([PermissionHandlerWrapper])
 @GenerateMocks([PhotoManagerWrapper])

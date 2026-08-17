@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Removes BitCode from iOS frameworks, as required in Xcode 16. 
-# This should only be required until we've moved to the official Mapbox Flutter plugin.
+# Removes BitCode from iOS frameworks, as required in Xcode 16.
 #   - https://github.com/cohenadair/anglers-log/issues/762
 
 # Credit: https://stackoverflow.com/a/79000179/3304388.

@@ -66,8 +66,6 @@ void main() {
 
   setUp(() async {
     managers = await StubbedManagers.create();
-    when(managers.mapboxWrapper.setAccessToken(any)).thenAnswer((_) {});
-    when(managers.propertiesManager.mapboxApiKey).thenReturn("test-api-key");
 
     appManager = TestAppManager();
 
