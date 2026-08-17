@@ -1,46 +1,230 @@
-# Anglers' Log - Fishing Journal
+# Anglers' Log
 
-<img src="https://github.com/cohenadair/anglers-log/blob/master/img/app_icon.png" height="150">
+Anglers' Log is a fishing journal app for tracking, analyzing, and sharing your
+catches. This repository contains three related projects:
 
-<a href="https://itunes.apple.com/ca/app/anglers-log-fishing-journal/id959989008"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" height="48"></a>
-<a href="https://play.google.com/store/apps/details?id=com.cohenadair.anglerslog"><img src="https://play.google.com/intl/en_us/badges/images/badge_new.png" height="48"></a>
+| Directory | What it is |
+|---|---|
+| [`mobile/`](mobile) | The Flutter app (Android/iOS) — the main product. |
+| [`web/`](web) | The AngularJS + Bootstrap marketing/support site at [anglerslog.ca](http://anglerslog.ca). |
+| [`polls/`](polls) | JSON data files used to drive in-app polls. |
 
-<a href="https://www.facebook.com/anglerslog/"><img src="https://github.com/cohenadair/anglers-log/blob/master/web/public/assets/img/facebook.png" height="48"></a>
-<a href="https://www.instagram.com/anglerslog/"><img src="https://github.com/cohenadair/anglers-log/blob/master/web/public/assets/img/instagram.png" height="48"></a>
+This fork is maintained at [enisyergok/anglers-log](https://github.com/enisyergok/anglers-log)
+and is based on the original project by [Cohen Adair](#credits--license).
 
-Anglers' Log is a mobile application that allows users to track, analyze, and share their catches in the sport of fishing.  It is available for free on the [App Store](https://itunes.apple.com/ca/app/anglers-log-fishing-journal/id959989008) and [Google Play](https://play.google.com/store/apps/details?id=com.cohenadair.anglerslog).
+## Contents
 
-[https://anglerslog.ca/](https://anglerslog.ca/)
+- [Architecture](#architecture)
+- [Mobile app setup](#mobile-app-setup)
+- [Running the app](#running-the-app)
+- [Testing](#testing)
+- [Localization](#localization)
+- [Web site](#web-site)
+- [CI/CD](#cicd)
+- [Known setup caveats](#known-setup-caveats)
+- [Credits & license](#credits--license)
 
-## Contributing
+## Architecture
 
-Contributions are always welcome! Please run the test suite before opening a pull request, and create new tests where appropriate.
+The mobile app is organized around a few core patterns worth knowing before
+you dig into the code:
 
-## Setup
+- **Service locator** — `AppManager` is a singleton that wires up and exposes
+  every manager/service in the app (database, preferences, location, etc.).
+- **Entity managers** — Most data types (catches, trips, species, bait, ...)
+  are managed by a subclass of `EntityManager<T extends GeneratedMessage>`,
+  which provides CRUD operations and a `Stream`-based change-notification API
+  over entities stored in SQLite.
+- **Protocol Buffers** — Entities are defined as `.proto` messages and
+  serialized with the `protobuf` package. Generated Dart code lives in
+  `mobile/lib/model/gen/` and is **not** meant to be edited by hand — see
+  [Regenerating protobuf code](#regenerating-protobuf-code).
+  `mobile/lib/database/legacy_importer.dart` provides an import path for
+  pre-2.0 JSON/zip backups.
 
-For all setup instuctions and code guidelines, please refer to the [Anglers' Log Wiki](https://github.com/cohenadair/anglers-log/wiki).
+## Mobile app setup
 
-## A Plea
+### Prerequisites
 
-Anglers' Log has evolved from a small school assignment into a usable, multiplatform application that I take great pride in; it has taken a lot of work and a lot of dedication. I encourage people to use my code as their own; we are all programmers helping each other learn and evolve. 
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) matching
+  `environment.sdk: ^3.10.0` in `mobile/pubspec.yaml`.
+- Android Studio and/or Xcode, depending on which platform(s) you're building
+  for.
 
-I'm only saying this for good measure as I know the majority of people are good people, but I would greatly appreciate it if you didn't redistribute Anglers' Log under another name to any platform.
+### 1. Clone `adair-flutter-lib` as a sibling directory
 
-Thank-you!
+`mobile/pubspec.yaml` depends on a shared library via a relative path:
 
+```yaml
+adair_flutter_lib:
+  path: ../../adair-flutter-lib
+```
 
-## License
+This resolves to a directory **two levels above `mobile/`** — i.e. a sibling
+of this repository, not something inside it. Clone it next to this repo
+before running `flutter pub get`:
 
-The source code to Anglers' Log is available under the GNU General Public License. See the [LICENSE](https://raw.githubusercontent.com/cohenadair/anglers-log/master/LICENSE) file for more information.
+```
+some-parent-folder/
+├── anglers-log/              <- this repo
+└── adair-flutter-lib/        <- clone this here
+```
 
-Although allowed by the licensing terms, please do not submit your own version of Anglers' Log to the App Store, Google Play, or any other mobile app distribution platform.
+```bash
+git clone https://github.com/cohenadair/adair-flutter-lib.git
+```
 
+This mirrors what the project's own CI does (see
+[`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml)).
 
-## Contact
+### 2. Add API keys
 
-Cohen Adair
+The app calls out to several third-party services (Mapbox, VisualCrossing
+weather, WorldTides, Firebase, SendGrid) using keys read from
+`mobile/assets/sensitive.properties`. This file is gitignored and not included
+in the repo — you'll need to create it yourself with your own keys before the
+app will build with those features working:
 
-* [GitHub](https://github.com/cohenadair)
-* [LinkedIn](https://ca.linkedin.com/in/cohenadair)
-* [Facebook](https://www.facebook.com/cohen.adair)
+```properties
+# mobile/assets/sensitive.properties
+mapbox.apiKey=...
+visualCrossing.apiKey=...
+worldTides.apiKey=...
+firebase.secret=...
+```
 
+These dot-notation names come from `mobile/lib/properties_manager.dart`,
+which wraps `adair_flutter_lib`'s `PropertiesManager` and is the single
+source of truth for what key each fetcher reads (e.g.
+`mobile/lib/atmosphere_fetcher.dart` for `visualCrossing.apiKey`,
+`mobile/lib/tide_fetcher.dart` for `worldTides.apiKey`). Note that CI's
+dummy `sensitive.properties` (see [CI/CD](#cicd)) writes `mapbox.token`,
+which does **not** match the `mapbox.apiKey` key the app actually reads —
+harmless for a release build that doesn't exercise the map, but worth
+knowing if you're debugging why a "configured" Mapbox key isn't picked up.
+
+Firebase (Analytics/Crashlytics) also expects standard `google-services.json`
+(Android) / `GoogleService-Info.plist` (iOS) config files, which aren't
+included here either.
+
+### 3. Install dependencies
+
+```bash
+cd mobile
+flutter pub get
+```
+
+## Running the app
+
+```bash
+cd mobile
+flutter run
+```
+
+## Testing
+
+```bash
+cd mobile
+./run_tests.sh
+```
+
+> **Caveat:** `run_tests.sh` delegates to `../../run_tests.sh` — a script
+> expected two directories above `mobile/`, outside this repository entirely.
+> This script is not included here and isn't resolved by CI either. Until you
+> have it, run tests directly instead:
+> ```bash
+> flutter test
+> ```
+
+### Regenerating mocks
+
+If you change an interface that's mocked in tests:
+
+```bash
+cd mobile
+./gen_mocks.sh
+```
+
+### Regenerating protobuf code
+
+If you change a `.proto` file under `mobile/protobuf/`:
+
+```bash
+cd mobile/protobuf
+./gen.sh
+```
+
+> **Caveat (macOS/Linux):** `gen.sh` uses `sed -i ''` (BSD/macOS syntax). On
+> Linux (including most CI runners) this fails — use `sed -i` (no empty
+> argument) on GNU sed instead.
+
+### Static analysis
+
+`mobile/analysis_options.yaml` includes `../../analysis_options.yaml`, an
+external file not present in this repository. `flutter analyze` will fail to
+find it unless you provide one at that path (two directories above `mobile/`)
+or replace the `include:` with local rules.
+
+## Localization
+
+Strings are managed via ARB files and `flutter_localizations`, configured in
+[`mobile/l10n.yaml`](mobile/l10n.yaml):
+
+- Source strings: `mobile/lib/l10n/localizations_en.arb`
+- Generated output: `mobile/lib/l10n/gen/` (class `AnglersLogLocalizations`)
+
+Generation happens automatically as part of `flutter pub get` / `flutter run`
+via Flutter's `gen-l10n` tool. To add a string, add it to
+`localizations_en.arb` (and translated ARB files) and reference it through
+`AnglersLogLocalizations.of(context)`.
+
+## Web site
+
+See [`web/README.md`](web/README.md) for setting up and deploying the
+marketing/support site independently of the mobile app.
+
+## CI/CD
+
+[`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml) builds a
+release APK on GitHub Actions. It:
+
+1. Checks out this repo and clones `adair-flutter-lib` as a sibling directory.
+2. Writes a dummy `sensitive.properties` (the release build doesn't need real
+   third-party keys to compile).
+3. Reconstructs the Android release-signing keystore from GitHub Secrets
+   (`ANDROID_KEYSTORE_BASE64`, `ANDROID_STORE_PASSWORD`, `ANDROID_KEY_ALIAS`,
+   `ANDROID_KEY_PASSWORD`).
+4. Sets up Java 17 (Zulu) and the stable Flutter channel.
+5. Runs `flutter pub get` and `flutter build apk --release`.
+6. Uploads the resulting APK as a build artifact (`anglers-log-pro-apk`).
+
+## Known setup caveats
+
+A few things in this repo assume files or directories that live outside it —
+worth knowing up front rather than discovering via a failed build:
+
+- `mobile/pubspec.yaml` → `adair_flutter_lib` expects a sibling checkout at
+  `../../adair-flutter-lib` ([step 1 above](#1-clone-adair-flutter-lib-as-a-sibling-directory)).
+- `mobile/run_tests.sh` → delegates to `../../run_tests.sh`, not present in
+  this repo or resolved by CI. Use `flutter test` directly instead.
+- `mobile/analysis_options.yaml` → includes `../../analysis_options.yaml`,
+  not present in this repo or resolved by CI.
+- `mobile/assets/sensitive.properties` → gitignored; you must supply your own
+  API keys to exercise weather/tides/maps features locally.
+
+## Credits & license
+
+Anglers' Log was created by [Cohen Adair](https://github.com/cohenadair)
+([LinkedIn](https://www.linkedin.com/in/cohenadair/),
+[Facebook](https://www.facebook.com/anglerslog)). This repository is a fork
+of the original [cohenadair/anglers-log](https://github.com/cohenadair/anglers-log)
+project, maintained here under the terms of its license.
+
+If you build on this project, please don't redistribute it — or a
+lightly-modified version of it — under a different name. It represents a
+significant amount of original work; publishing a clone as your own isn't
+fair to that effort. Contributions and forks for personal/learning use are
+welcome and appreciated.
+
+Licensed under the terms in [`LICENSE`](LICENSE) (GPL). See that file for
+the full license text.

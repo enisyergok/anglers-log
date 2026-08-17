@@ -57,7 +57,12 @@ class FeedbackPage extends StatefulWidget {
 }
 
 class FeedbackPageState extends State<FeedbackPage> {
-  static const _urlSendGrid = "https://api.sendgrid.com/v3/mail/send";
+  // TODO: Point this at the real feedback backend (e.g. a Firebase Cloud
+  // Function) once one exists. The backend is responsible for holding any
+  // third-party credentials (such as a SendGrid API key) server-side — the
+  // client must never embed API secrets directly.
+  static const _urlFeedbackEndpoint =
+      "https://us-central1-anglers-log.cloudfunctions.net/sendFeedback";
 
   final _log = const Log("FeedbackPage");
   final FocusNode _messageNode = FocusNode();
@@ -228,67 +233,53 @@ class FeedbackPageState extends State<FeedbackPage> {
       deviceId = info.id;
     }
 
-    // API data, per https://www.twilio.com/docs/sendgrid/api-reference/mail-send/mail-send#operation-overview.
+    // Generic payload for our own backend to relay (e.g. via SendGrid),
+    // which keeps any third-party API credentials off the client.
     var body = <String, dynamic>{
-      "personalizations": [
-        {
-          "to": [
-            {"email": PropertiesManager.get.supportEmail},
-          ],
-        },
-      ],
+      "to": PropertiesManager.get.supportEmail,
       "from": {
         "name":
             "Anglers' Log ${IoWrapper.get.isAndroid ? "Android" : "iOS"} App",
         "email": PropertiesManager.get.clientSenderEmail,
       },
-      "reply_to": {"email": email, "name": name},
+      "replyTo": {"email": email, "name": name},
       "subject": type,
-      "content": [
-        {
-          "type": "text/plain",
-          "value": format(PropertiesManager.get.feedbackTemplate, [
-            appVersion,
-            isNotEmpty(osVersion) ? osVersion : "Unknown",
-            isNotEmpty(deviceModel) ? deviceModel : "Unknown",
-            isNotEmpty(deviceId) ? deviceId : "Unknown",
-            WidgetsBinding.instance.platformDispatcher.locale,
-            userId,
-            SubscriptionManager.get.isPro ? "Pro" : "Free",
-            type,
-            _error ? widget.error : "N/A",
-            isNotEmpty(widget.errorDetails) ? widget.errorDetails : "N/A",
-            isNotEmpty(name) ? name : "Unknown",
-            isNotEmpty(email) ? email : "Unknown",
-            "${isNotEmpty(message) ? message : "N/A"}\n\n",
-          ]),
-        },
-      ],
+      "message": format(PropertiesManager.get.feedbackTemplate, [
+        appVersion,
+        isNotEmpty(osVersion) ? osVersion : "Unknown",
+        isNotEmpty(deviceModel) ? deviceModel : "Unknown",
+        isNotEmpty(deviceId) ? deviceId : "Unknown",
+        WidgetsBinding.instance.platformDispatcher.locale,
+        userId,
+        SubscriptionManager.get.isPro ? "Pro" : "Free",
+        type,
+        _error ? widget.error : "N/A",
+        isNotEmpty(widget.errorDetails) ? widget.errorDetails : "N/A",
+        isNotEmpty(name) ? name : "Unknown",
+        isNotEmpty(email) ? email : "Unknown",
+        "${isNotEmpty(message) ? message : "N/A"}\n\n",
+      ]),
     };
 
     if (_isBug && _includeLogData) {
       var dateFormat = DateFormat("yyyyMMddHHmm").format(TimeManager.get.now());
-      body["attachments"] = [
-        {
-          "content": await LocalDatabaseManager.get.databaseAsBase64(),
-          "filename":
-              "AnglersLog-${userId.substring(userId.length - 5)}-$dateFormat.db",
-          "type": "application/x-sqlite3",
-          "disposition": "attachment",
-        },
-      ];
+      body["attachment"] = {
+        "content": await LocalDatabaseManager.get.databaseAsBase64(),
+        "filename":
+            "AnglersLog-${userId.substring(userId.length - 5)}-$dateFormat.db",
+        "contentType": "application/x-sqlite3",
+      };
     }
 
     var response = await _http.post(
-      Uri.parse(_urlSendGrid),
-      headers: <String, String>{
+      Uri.parse(_urlFeedbackEndpoint),
+      headers: const <String, String>{
         "Content-Type": "application/json; charset=UTF-8",
-        "Authorization": "Bearer ${PropertiesManager.get.sendGridApiKey}",
       },
       body: jsonEncode(body),
     );
 
-    if (response.statusCode != HttpStatus.accepted) {
+    if (response.statusCode != HttpStatus.ok) {
       _log.e(
         "Error sending feedback: ${response.statusCode} - ${response.body}",
       );

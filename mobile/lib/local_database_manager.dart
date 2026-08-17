@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:adair_flutter_lib/utils/log.dart';
@@ -110,9 +109,8 @@ class LocalDatabaseManager {
   }
 
   Future<bool> rawExists(String query, [List<dynamic>? args]) async {
-    return Sqflite.firstIntValue(await _database.rawQuery(query, args))
-            as FutureOr<bool>? ??
-        0 > 0;
+    var result = await _database.rawQuery(query, args);
+    return (Sqflite.firstIntValue(result) ?? 0) > 0;
   }
 
   Future<bool> rawUpdate(String query, [List<dynamic>? args]) async {

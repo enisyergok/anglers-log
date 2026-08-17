@@ -2,6 +2,7 @@ import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/date_time.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/res/style.dart';
@@ -29,6 +30,11 @@ class TideChart extends StatelessWidget {
   static const _timeTitleIntervalHours = 12;
   static const _tooltipAlpha = 0.40;
 
+  // Tide heights are floating point values that may have gone through
+  // rounding by the time they're plotted; use a tolerance instead of exact
+  // equality when locating the current spot.
+  static const _heightMatchEpsilon = 0.001;
+
   final Tide tide;
 
   const TideChart(this.tide);
@@ -49,10 +55,15 @@ class TideChart extends StatelessWidget {
     var spots = tide.daysHeights
         .map((e) => FlSpot(e.timestamp.toDouble(), e.value))
         .toList();
-    var currentSpot = spots.firstWhere(
-      (e) =>
-          e.x == tide.height.timestamp.toDouble() && e.y == tide.height.value,
-    );
+    // spots is guaranteed non-empty here; daysHeights.isEmpty is handled in
+    // build() before _buildChart() is called.
+    var currentSpot =
+        spots.firstWhereOrNull(
+          (e) =>
+              e.x == tide.height.timestamp.toDouble() &&
+              (e.y - tide.height.value).abs() < _heightMatchEpsilon,
+        ) ??
+        spots.first;
     var currentSpotIndex = spots.indexOf(currentSpot);
 
     var heights = tide.daysHeights.map((e) => e.value).toList();

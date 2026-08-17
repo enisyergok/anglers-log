@@ -154,9 +154,15 @@ class GpsTrailManager extends EntityManager<GpsTrail> {
   }
 
   void _onLocationUpdate(LocationPoint loc) {
-    if (!hasActiveTrail ||
-        distanceBetween(loc.latLng, _activeTrail!.points.last.latLng) <
-            _minPointDist) {
+    if (!hasActiveTrail) {
+      return;
+    }
+
+    // The trail may not have a starting point yet if tracking began without
+    // a GPS fix available; in that case, always accept the first point.
+    var points = _activeTrail!.points;
+    if (points.isNotEmpty &&
+        distanceBetween(loc.latLng, points.last.latLng) < _minPointDist) {
       return;
     }
 

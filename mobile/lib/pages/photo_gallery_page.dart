@@ -37,6 +37,9 @@ class PhotoGalleryPageState extends State<PhotoGalleryPage> {
     super.initState();
 
     var initialIndex = widget.fileNames.indexOf(widget.initialFileName);
+    if (initialIndex < 0) {
+      initialIndex = 0;
+    }
     _controller = PageController(initialPage: initialIndex);
     _currentImageName = widget.fileNames[initialIndex];
   }

@@ -616,7 +616,7 @@ class SaveCatchPageState extends State<SaveCatchPage> {
     );
   }
 
-  bool _save(Map<Id, dynamic> customFieldValueMap) {
+  Future<bool> _save(Map<Id, dynamic> customFieldValueMap) async {
     // imageNames is set in CatchManager.get.addOrUpdate
     var cat = Catch()
       ..id = _oldCatch?.id ?? randomId()
@@ -704,25 +704,20 @@ class SaveCatchPageState extends State<SaveCatchPage> {
       cat.tide.timeZone = cat.timeZone;
     }
 
-    bool isWaitingForFishingSpot = false;
     if (_fishingSpotController.hasValue) {
       cat.fishingSpotId = _fishingSpotController.value!.id;
 
       // If the fishing spot doesn't yet exist in the database, add it now.
       // This can happen when a user picks a completely new fishing spot, but
       // doesn't save any property changes, such as setting a name or body of
-      // water.
+      // water. This must be awaited so the catch isn't saved (or the page
+      // popped) before the fishing spot it references actually exists.
       if (!_fishingSpotManager.entityExists(cat.fishingSpotId)) {
-        isWaitingForFishingSpot = true;
-        _fishingSpotManager
-            .addOrUpdate(_fishingSpotController.value!)
-            .then((_) => _addOrUpdateCatch(cat));
+        await _fishingSpotManager.addOrUpdate(_fishingSpotController.value!);
       }
     }
 
-    if (!isWaitingForFishingSpot) {
-      _addOrUpdateCatch(cat);
-    }
+    await _addOrUpdateCatch(cat);
 
     if (widget.popOverride != null) {
       widget.popOverride!();
@@ -732,8 +727,8 @@ class SaveCatchPageState extends State<SaveCatchPage> {
     return true;
   }
 
-  void _addOrUpdateCatch(Catch cat) {
-    CatchManager.get.addOrUpdate(
+  Future<void> _addOrUpdateCatch(Catch cat) async {
+    await CatchManager.get.addOrUpdate(
       cat,
       imageFiles: _imagesController.originalFiles,
     );
@@ -784,9 +779,11 @@ class SaveCatchPageState extends State<SaveCatchPage> {
       return;
     }
 
-    _newAtmosphereFetcher()
-        .fetch(context)
-        .then((result) => _atmosphereController.value = result.data);
+    _newAtmosphereFetcher().fetch(context).then((result) {
+      if (mounted) {
+        _atmosphereController.value = result.data;
+      }
+    });
   }
 
   void _fetchTideIfNeeded() {
@@ -796,9 +793,11 @@ class SaveCatchPageState extends State<SaveCatchPage> {
       return;
     }
 
-    _newTideFetcher()
-        .fetch(context)
-        .then((result) => _tideController.value = result.data);
+    _newTideFetcher().fetch(context).then((result) {
+      if (mounted) {
+        _tideController.value = result.data;
+      }
+    });
   }
 
   void _onFishingSpotChanged() {

@@ -143,8 +143,13 @@ double distanceBetween(LatLng? latLng1, LatLng? latLng2) {
 
   var latDelta = (latLng1.lat - latLng2.lat).abs();
   var lngDelta = (latLng1.lng - latLng2.lng).abs();
+
+  // A degree of longitude covers less ground the further it is from the
+  // equator (it shrinks by a factor of cos(latitude)); without this, the
+  // computed distance grows increasingly inaccurate at higher latitudes.
+  var avgLatRadians = ((latLng1.lat + latLng2.lat) / 2) * (pi / 180);
   var latDistance = latDelta * metersPerDegree;
-  var lngDistance = lngDelta * metersPerDegree;
+  var lngDistance = lngDelta * metersPerDegree * cos(avgLatRadians);
 
   return sqrt(pow(latDistance, 2) + pow(lngDistance, 2));
 }

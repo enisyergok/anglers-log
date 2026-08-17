@@ -304,7 +304,7 @@ class __TideInputPageState extends State<_TideInputPage> {
   void _updateFromTide(Tide tide) {
     _controller.value = tide;
 
-    if (tide.hasFirstHighHeight()) {
+    if (tide.hasFirstLowHeight()) {
       _firstLowTideController.value = tide.firstLowDateTime(context);
     }
 

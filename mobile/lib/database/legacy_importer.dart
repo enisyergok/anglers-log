@@ -570,12 +570,14 @@ class LegacyImporter {
 
       var methods = <Method>[];
       var methodNames = map[_keyMethodNames];
-      for (var methodName in methodNames) {
-        var method = _methodManager.named(methodName);
-        if (method == null) {
-          _log.w("Method ($methodName) not found");
-        } else {
-          methods.add(method);
+      if (methodNames is List) {
+        for (var methodName in methodNames) {
+          var method = _methodManager.named(methodName);
+          if (method == null) {
+            _log.w("Method ($methodName) not found");
+          } else {
+            methods.add(method);
+          }
         }
       }
 
@@ -590,17 +592,20 @@ class LegacyImporter {
       }
 
       var images = <File>[];
-      for (var imageMap in map[_keyImages]) {
-        if (imageMap is! Map<String, dynamic>) {
-          _log.w("Corrupt image data (should be json map): $map");
-          continue;
-        }
+      var imagesJson = map[_keyImages];
+      if (imagesJson is List) {
+        for (var imageMap in imagesJson) {
+          if (imageMap is! Map<String, dynamic>) {
+            _log.w("Corrupt image data (should be json map): $map");
+            continue;
+          }
 
-        var fileName = basename(imageMap[_keyImagePath]);
-        if (_images.containsKey(fileName)) {
-          images.add(_images[fileName]!);
-        } else {
-          _log.w("Image $fileName not found in legacy data");
+          var fileName = basename(imageMap[_keyImagePath]);
+          if (_images.containsKey(fileName)) {
+            images.add(_images[fileName]!);
+          } else {
+            _log.w("Image $fileName not found in legacy data");
+          }
         }
       }
 
@@ -747,12 +752,14 @@ class LegacyImporter {
       }
 
       var catchIds = map[_keyCatches];
-      for (var idString in catchIds) {
-        var id = safeParseId(idString);
-        if (id == null) {
-          continue;
+      if (catchIds is List) {
+        for (var idString in catchIds) {
+          var id = safeParseId(idString);
+          if (id == null) {
+            continue;
+          }
+          trip.catchIds.add(id);
         }
-        trip.catchIds.add(id);
       }
 
       // Fetch all catches for this trip so we can fill in the new "catches per
@@ -769,28 +776,32 @@ class LegacyImporter {
       }
 
       var bodyOfWaterIds = map[_keyLocations];
-      for (var idString in bodyOfWaterIds) {
-        var bodyOfWater = _bodyOfWaterManager.entity(_parseJsonId(idString));
-        if (bodyOfWater == null) {
-          _log.w("Body of water not found: $idString");
-          continue;
+      if (bodyOfWaterIds is List) {
+        for (var idString in bodyOfWaterIds) {
+          var bodyOfWater = _bodyOfWaterManager.entity(_parseJsonId(idString));
+          if (bodyOfWater == null) {
+            _log.w("Body of water not found: $idString");
+            continue;
+          }
+          trip.bodyOfWaterIds.add(bodyOfWater.id);
         }
-        trip.bodyOfWaterIds.add(bodyOfWater.id);
       }
 
       var anglerIds = map[_keyAnglers];
-      for (var idString in anglerIds) {
-        var angler = _anglerManager.entity(safeParseId(idString));
-        if (angler == null) {
-          _log.w("Angler not found: $idString");
-          continue;
-        }
+      if (anglerIds is List) {
+        for (var idString in anglerIds) {
+          var angler = _anglerManager.entity(safeParseId(idString));
+          if (angler == null) {
+            _log.w("Angler not found: $idString");
+            continue;
+          }
 
-        // Angler cannot be attached to a catch in the legacy app, so don't
-        // bother iterating catches here.
-        trip.catchesPerAngler.add(
-          Trip_CatchesPerEntity(entityId: angler.id, value: 0),
-        );
+          // Angler cannot be attached to a catch in the legacy app, so don't
+          // bother iterating catches here.
+          trip.catchesPerAngler.add(
+            Trip_CatchesPerEntity(entityId: angler.id, value: 0),
+          );
+        }
       }
 
       // Set default properties not tracked in the legacy app.
