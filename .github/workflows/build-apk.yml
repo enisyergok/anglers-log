@@ -15,7 +15,6 @@ jobs:
       - name: Create dummy sensitive.properties
         run: |
           echo "# Dummy config for CI build" > mobile/assets/sensitive.properties
-          echo "mapbox.token=dummy" >> mobile/assets/sensitive.properties
 
       - name: Setup signing keystore
         run: |

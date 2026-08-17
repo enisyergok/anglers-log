@@ -79,15 +79,14 @@ This mirrors what the project's own CI does (see
 
 ### 2. Add API keys
 
-The app calls out to several third-party services (Mapbox, VisualCrossing
-weather, WorldTides, Firebase, SendGrid) using keys read from
+The app calls out to several third-party services (VisualCrossing weather,
+WorldTides, Firebase, SendGrid) using keys read from
 `mobile/assets/sensitive.properties`. This file is gitignored and not included
 in the repo — you'll need to create it yourself with your own keys before the
 app will build with those features working:
 
 ```properties
 # mobile/assets/sensitive.properties
-mapbox.apiKey=...
 visualCrossing.apiKey=...
 worldTides.apiKey=...
 firebase.secret=...
@@ -97,11 +96,10 @@ These dot-notation names come from `mobile/lib/properties_manager.dart`,
 which wraps `adair_flutter_lib`'s `PropertiesManager` and is the single
 source of truth for what key each fetcher reads (e.g.
 `mobile/lib/atmosphere_fetcher.dart` for `visualCrossing.apiKey`,
-`mobile/lib/tide_fetcher.dart` for `worldTides.apiKey`). Note that CI's
-dummy `sensitive.properties` (see [CI/CD](#cicd)) writes `mapbox.token`,
-which does **not** match the `mapbox.apiKey` key the app actually reads —
-harmless for a release build that doesn't exercise the map, but worth
-knowing if you're debugging why a "configured" Mapbox key isn't picked up.
+`mobile/lib/tide_fetcher.dart` for `worldTides.apiKey`). The map no longer
+requires an API key — it's rendered with `flutter_map` using free, keyless
+tile sources (standard OpenStreetMap, CARTO Dark Matter, and Esri World
+Imagery), with offline tile caching handled by `flutter_map_tile_caching`.
 
 Firebase (Analytics/Crashlytics) also expects standard `google-services.json`
 (Android) / `GoogleService-Info.plist` (iOS) config files, which aren't
