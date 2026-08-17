@@ -237,6 +237,12 @@ class _FakeTripManager_20 extends _i1.SmartFake implements _i20.TripManager {
     : super(parent, parentInvocation);
 }
 
+class _FakeTileCacheManager_95 extends _i1.SmartFake
+    implements _i95.TileCacheManager {
+  _FakeTileCacheManager_95(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 class _FakeWaterClarityManager_21 extends _i1.SmartFake
     implements _i21.WaterClarityManager {
   _FakeWaterClarityManager_21(Object parent, Invocation parentInvocation)
@@ -1783,6 +1789,17 @@ class MockAppManager extends _i1.Mock implements _i3.AppManager {
             ),
           )
           as _i19.SpeciesManager);
+
+  @override
+  _i95.TileCacheManager get tileCacheManager =>
+      (super.noSuchMethod(
+            Invocation.getter(#tileCacheManager),
+            returnValue: _FakeTileCacheManager_95(
+              this,
+              Invocation.getter(#tileCacheManager),
+            ),
+          )
+          as _i95.TileCacheManager);
 
   @override
   _i20.TripManager get tripManager =>

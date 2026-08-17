@@ -26,6 +26,7 @@ import '../location_monitor.dart';
 import '../map/map_controller.dart';
 import '../model/gen/anglers_log.pb.dart';
 import '../pages/fishing_spot_list_page.dart';
+import '../tile_cache_manager.dart';
 import '../utils/map_utils.dart';
 import '../utils/protobuf_utils.dart';
 import '../utils/string_utils.dart';
@@ -60,6 +61,8 @@ class FishingSpotMap extends StatefulWidget {
   /// spot is being picked (i.e. [pickerSettings] is not null).
   final bool showGpsTrailButton;
 
+  final bool showOfflineDownloadButton;
+
   final bool showFishingSpotActionButtons;
 
   /// Widgets placed in the map's stack, between the actual map, and the search
@@ -78,6 +81,7 @@ class FishingSpotMap extends StatefulWidget {
     this.showZoomExtentsButton = true,
     this.showMapTypeButton = true,
     this.showGpsTrailButton = false,
+    this.showOfflineDownloadButton = true,
     this.showFishingSpotActionButtons = true,
     this.children = const [],
     this.isPage = true,
@@ -91,6 +95,7 @@ class FishingSpotMap extends StatefulWidget {
       showZoomExtentsButton = false,
       showMapTypeButton = true,
       showGpsTrailButton = false,
+      showOfflineDownloadButton = true,
       showFishingSpotActionButtons = true,
       children = [
         const SafeArea(child: FloatingButton.back(padding: insetsDefault)),
@@ -118,6 +123,7 @@ class FishingSpotMapState extends State<FishingSpotMap> {
 
   bool _myLocationEnabled = true;
   bool _didAddFishingSpot = false;
+  bool _isDownloadingOfflineArea = false;
 
   // Displayed while dismissing the fishing spot container.
   FishingSpot? _oldFishingSpot;
@@ -215,6 +221,7 @@ class FishingSpotMapState extends State<FishingSpotMap> {
                   _buildCurrentLocationButton(),
                   _buildZoomExtentsButton(),
                   _buildGpsTrailButton(),
+                  _buildOfflineDownloadButton(),
                   _buildAddButton(),
                 ],
               ),
@@ -462,6 +469,69 @@ class FishingSpotMapState extends State<FishingSpotMap> {
         await _mapController?.animateToBounds(bounds);
       },
     );
+  }
+
+  Widget _buildOfflineDownloadButton() {
+    if (!widget.showOfflineDownloadButton) {
+      return const SizedBox();
+    }
+
+    return FloatingButton.icon(
+      padding: const EdgeInsets.only(
+        left: paddingDefault,
+        right: paddingDefault,
+        bottom: paddingDefault,
+      ),
+      tooltip: _isDownloadingOfflineArea
+          ? Strings.of(context).mapPageOfflineDownloadInProgress
+          : Strings.of(context).mapPageOfflineDownloadTooltip,
+      icon: _isDownloadingOfflineArea
+          ? Icons.downloading
+          : Icons.download_for_offline,
+      onPressed: _isDownloadingOfflineArea ? null : _saveAreaForOfflineUse,
+    );
+  }
+
+  Future<void> _saveAreaForOfflineUse() async {
+    var bounds = _mapController?.visibleBounds;
+    if (bounds == null) {
+      return;
+    }
+
+    setState(() => _isDownloadingOfflineArea = true);
+
+    try {
+      // Wait for the download to complete; progress updates aren't
+      // currently surfaced in the UI beyond the button's busy state.
+      await TileCacheManager.of(
+        context,
+      ).saveAreaForOfflineUse(mapType: _mapType, bounds: bounds).last;
+
+      if (!mounted) {
+        return;
+      }
+      showNoticeSnackBar(
+        context,
+        Strings.of(context).mapPageOfflineDownloadSuccess,
+      );
+    } catch (e, stackTrace) {
+      _log.e(
+        e,
+        reason: "Error saving map area for offline use",
+        stackTrace: stackTrace,
+      );
+      if (!mounted) {
+        return;
+      }
+      showErrorSnackBar(
+        context,
+        Strings.of(context).mapPageOfflineDownloadError,
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isDownloadingOfflineArea = false);
+      }
+    }
   }
 
   Widget _buildGpsTrailButton() {

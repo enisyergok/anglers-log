@@ -8,6 +8,7 @@ import 'package:mobile/map/map_controller.dart';
 import 'package:mobile/widgets/static_fishing_spot_map.dart';
 
 import '../model/gen/anglers_log.pb.dart';
+import '../tile_cache_manager.dart';
 import '../utils/map_utils.dart';
 import '../utils/protobuf_utils.dart';
 
@@ -109,6 +110,7 @@ class _DefaultFlutterMapState extends State<DefaultFlutterMap> {
               urlTemplate: mapType.urlTemplate,
               subdomains: mapType.subdomains,
               userAgentPackageName: "com.cohenadair.anglerslog",
+              tileProvider: TileCacheManager.of(context).tileProvider(mapType),
             ),
             if (widget.isMyLocationEnabled) _buildMyLocationLayer(),
             fm.MarkerLayer(markers: _buildMarkers()),

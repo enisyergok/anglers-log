@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:mobile/app_manager.dart';
 import 'package:mobile/catch_manager.dart';
 import 'package:mobile/fishing_spot_manager.dart';
@@ -42,6 +43,7 @@ class StubbedManagers {
   MockRegionManager regionManager = MockRegionManager();
   MockReportManager reportManager = MockReportManager();
   MockSpeciesManager speciesManager = MockSpeciesManager();
+  MockTileCacheManager tileCacheManager = MockTileCacheManager();
   MockTripManager tripManager = MockTripManager();
   MockUserPreferenceManager userPreferenceManager = MockUserPreferenceManager();
   MockWaterClarityManager waterClarityManager = MockWaterClarityManager();
@@ -83,6 +85,7 @@ class StubbedManagers {
     when(app.notificationManager).thenReturn(notificationManager);
     when(app.reportManager).thenReturn(reportManager);
     when(app.speciesManager).thenReturn(speciesManager);
+    when(app.tileCacheManager).thenReturn(tileCacheManager);
     when(app.tripManager).thenReturn(tripManager);
     when(app.waterClarityManager).thenReturn(waterClarityManager);
     when(app.csvWrapper).thenReturn(csvWrapper);
@@ -100,6 +103,10 @@ class StubbedManagers {
     when(app.sharePlusWrapper).thenReturn(sharePlusWrapper);
     when(app.servicesWrapper).thenReturn(servicesWrapper);
     when(app.urlLauncherWrapper).thenReturn(urlLauncherWrapper);
+
+    when(
+      tileCacheManager.tileProvider(any),
+    ).thenReturn(fm.NetworkTileProvider());
 
     AppManager.set(app);
     CatchManager.set(catchManager);
