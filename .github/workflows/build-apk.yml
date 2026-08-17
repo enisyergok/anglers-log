@@ -14,7 +14,17 @@ jobs:
 
       - name: Create dummy sensitive.properties
         run: |
-          echo "# Dummy config for CI build" > mobile/assets/sensitive.properties
+          cat > mobile/assets/sensitive.properties << PROPS
+          clientSender.email=dummy@example.com
+          revenueCat.googleApiKey=dummy
+          revenueCat.appleApiKey=dummy
+          support.email=dummy@example.com
+          mailjet.apiKey=dummy
+          mailjet.secretKey=dummy
+          visualCrossing.apiKey=dummy
+          worldTides.apiKey=dummy
+          firebase.secret=dummy
+          PROPS
 
       - name: Setup signing keystore
         run: |
