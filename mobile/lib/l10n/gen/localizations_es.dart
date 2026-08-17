@@ -939,6 +939,13 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
       'Viendo el número de capturas por equipo.';
 
   @override
+  String get reportSummaryLoadError =>
+      'Se produjo un error al cargar este informe.';
+
+  @override
+  String get reportSummaryRetry => 'Reintentar';
+
+  @override
   String get morePageTitle => 'Más';
 
   @override
@@ -1281,6 +1288,21 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get mapPageStopTrackingTooltip => 'Detener ruta GPS';
+
+  @override
+  String get mapPageOfflineDownloadTooltip =>
+      'Guardar esta área para uso sin conexión';
+
+  @override
+  String get mapPageOfflineDownloadInProgress => 'Descargando área del mapa…';
+
+  @override
+  String get mapPageOfflineDownloadSuccess =>
+      'Área del mapa guardada para uso sin conexión.';
+
+  @override
+  String get mapPageOfflineDownloadError =>
+      'Se produjo un error al guardar esta área del mapa para uso sin conexión.';
 
   @override
   String get mapPageAddTooltip => 'Agregar lugar de pesca';
@@ -2475,31 +2497,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get saveBodyOfWaterPageExistsMessage => 'El cuerpo de agua ya existe';
-
-  @override
-  String get mapAttributionTitleApple => 'SDK de Mapbox Maps para iOS';
-
-  @override
-  String get mapAttributionTitleAndroid => 'SDK de Mapbox Maps para Android';
-
-  @override
-  String get mapAttributionMapbox => '© Mapbox';
-
-  @override
-  String get mapAttributionOpenStreetMap => '© OpenStreetMap';
-
-  @override
-  String get mapAttributionImproveThisMap => 'Mejorar este mapa';
-
-  @override
-  String get mapAttributionMaxar => '© Maxar';
-
-  @override
-  String get mapAttributionTelemetryTitle => 'Telemetría de Mapbox';
-
-  @override
-  String get mapAttributionTelemetryDescription =>
-      'Ayuda a mejorar los mapas de OpenStreetMap y Mapbox contribuyendo con datos de uso anónimos.';
 
   @override
   String get entityNameAnglers => 'Pescadores';

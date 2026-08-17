@@ -1717,6 +1717,18 @@ abstract class AnglersLogLocalizations {
   /// **'Viewing number of catches per gear.'**
   String get reportSummaryPerGearDescription;
 
+  /// No description provided for @reportSummaryLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while loading this report.'**
+  String get reportSummaryLoadError;
+
+  /// No description provided for @reportSummaryRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get reportSummaryRetry;
+
   /// No description provided for @morePageTitle.
   ///
   /// In en, this message translates to:
@@ -2286,6 +2298,30 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'Stop GPS Trail'**
   String get mapPageStopTrackingTooltip;
+
+  /// No description provided for @mapPageOfflineDownloadTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Save This Area for Offline Use'**
+  String get mapPageOfflineDownloadTooltip;
+
+  /// No description provided for @mapPageOfflineDownloadInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading map area…'**
+  String get mapPageOfflineDownloadInProgress;
+
+  /// No description provided for @mapPageOfflineDownloadSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Map area saved for offline use.'**
+  String get mapPageOfflineDownloadSuccess;
+
+  /// No description provided for @mapPageOfflineDownloadError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while saving this map area for offline use.'**
+  String get mapPageOfflineDownloadError;
 
   /// No description provided for @mapPageAddTooltip.
   ///
@@ -4435,54 +4471,6 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'Body of water already exists'**
   String get saveBodyOfWaterPageExistsMessage;
-
-  /// No description provided for @mapAttributionTitleApple.
-  ///
-  /// In en, this message translates to:
-  /// **'Mapbox Maps SDK for iOS'**
-  String get mapAttributionTitleApple;
-
-  /// No description provided for @mapAttributionTitleAndroid.
-  ///
-  /// In en, this message translates to:
-  /// **'Mapbox Maps SDK for Android'**
-  String get mapAttributionTitleAndroid;
-
-  /// No description provided for @mapAttributionMapbox.
-  ///
-  /// In en, this message translates to:
-  /// **'© Mapbox'**
-  String get mapAttributionMapbox;
-
-  /// No description provided for @mapAttributionOpenStreetMap.
-  ///
-  /// In en, this message translates to:
-  /// **'© OpenStreetMap'**
-  String get mapAttributionOpenStreetMap;
-
-  /// No description provided for @mapAttributionImproveThisMap.
-  ///
-  /// In en, this message translates to:
-  /// **'Improve This Map'**
-  String get mapAttributionImproveThisMap;
-
-  /// No description provided for @mapAttributionMaxar.
-  ///
-  /// In en, this message translates to:
-  /// **'© Maxar'**
-  String get mapAttributionMaxar;
-
-  /// No description provided for @mapAttributionTelemetryTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Mapbox Telemetry'**
-  String get mapAttributionTelemetryTitle;
-
-  /// No description provided for @mapAttributionTelemetryDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Help make OpenStreetMap and Mapbox maps better by contributing anonymous usage data.'**
-  String get mapAttributionTelemetryDescription;
 
   /// No description provided for @entityNameAnglers.
   ///

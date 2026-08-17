@@ -935,6 +935,13 @@ class AnglersLogLocalizationsEn extends AnglersLogLocalizations {
       'Viewing number of catches per gear.';
 
   @override
+  String get reportSummaryLoadError =>
+      'An error occurred while loading this report.';
+
+  @override
+  String get reportSummaryRetry => 'Retry';
+
+  @override
   String get morePageTitle => 'More';
 
   @override
@@ -1277,6 +1284,19 @@ class AnglersLogLocalizationsEn extends AnglersLogLocalizations {
 
   @override
   String get mapPageStopTrackingTooltip => 'Stop GPS Trail';
+
+  @override
+  String get mapPageOfflineDownloadTooltip => 'Save This Area for Offline Use';
+
+  @override
+  String get mapPageOfflineDownloadInProgress => 'Downloading map area…';
+
+  @override
+  String get mapPageOfflineDownloadSuccess => 'Map area saved for offline use.';
+
+  @override
+  String get mapPageOfflineDownloadError =>
+      'An error occurred while saving this map area for offline use.';
 
   @override
   String get mapPageAddTooltip => 'Add Fishing Spot';
@@ -2468,31 +2488,6 @@ class AnglersLogLocalizationsEn extends AnglersLogLocalizations {
 
   @override
   String get saveBodyOfWaterPageExistsMessage => 'Body of water already exists';
-
-  @override
-  String get mapAttributionTitleApple => 'Mapbox Maps SDK for iOS';
-
-  @override
-  String get mapAttributionTitleAndroid => 'Mapbox Maps SDK for Android';
-
-  @override
-  String get mapAttributionMapbox => '© Mapbox';
-
-  @override
-  String get mapAttributionOpenStreetMap => '© OpenStreetMap';
-
-  @override
-  String get mapAttributionImproveThisMap => 'Improve This Map';
-
-  @override
-  String get mapAttributionMaxar => '© Maxar';
-
-  @override
-  String get mapAttributionTelemetryTitle => 'Mapbox Telemetry';
-
-  @override
-  String get mapAttributionTelemetryDescription =>
-      'Help make OpenStreetMap and Mapbox maps better by contributing anonymous usage data.';
 
   @override
   String get entityNameAnglers => 'Anglers';
