@@ -8,6 +8,7 @@ mobile/coverage/lcov.info
 mobile/Test Results - all_tests.html
 mobile/ios/Flutter/ephemeral/flutter_lldbinit
 mobile/ios/Flutter/ephemeral/flutter_lldb_helper.py
+mobile/ios/Flutter/ephemeral/flutter_native_integration.env
 mobile/untranslated-strings.txt
 *.salive
 mobile/build_and_upload_release.sh
