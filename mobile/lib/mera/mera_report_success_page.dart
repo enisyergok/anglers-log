@@ -6,6 +6,8 @@ import 'package:mobile/mera/mera_records_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 
+import 'package:mobile/mera/mera_date_formatter.dart';
+
 /// Mockup 06 — Bildirim başarılı.
 class MeraReportSuccessPage extends StatelessWidget {
   final MeraNoCatchReport report;
@@ -15,7 +17,7 @@ class MeraReportSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final when = DateTime.fromMillisecondsSinceEpoch(report.timestampMs);
-    final whenLabel = DateFormat('d MMM yyyy · HH:mm', 'tr').format(when);
+    final whenLabel = MeraDateFormatter.formatShort(when);
     final gps = (report.lat != null && report.lng != null)
         ? '${report.lat!.toStringAsFixed(5)}, ${report.lng!.toStringAsFixed(5)}'
         : 'Konum yok';

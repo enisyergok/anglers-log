@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/location_monitor.dart';
 import 'package:mobile/mera/fish_activity/solunar.dart';
+import 'package:mobile/mera/mera_date_formatter.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 
@@ -197,7 +198,7 @@ class _MeraSolunarPageState extends State<MeraSolunarPage> {
             ],
           ),
           Text(
-            DateFormat('d MMMM yyyy, EEEE', 'tr').format(_date),
+            MeraDateFormatter.formatWithDay(_date),
             style: const TextStyle(
               color: MeraColors.textSecondary,
               fontSize: 13,

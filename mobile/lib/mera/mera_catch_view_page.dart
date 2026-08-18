@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/catch_manager.dart';
 import 'package:mobile/fishing_spot_manager.dart';
 import 'package:mobile/mera/mera_catch_activity_store.dart';
+import 'package:mobile/mera/mera_date_formatter.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_shell.dart';
 import 'package:mobile/mera/mera_theme.dart';
@@ -42,7 +43,7 @@ class _MeraCatchViewPageState extends State<MeraCatchViewPage> {
     final species =
         SpeciesManager.of(context).entity(_catch.speciesId)?.name ?? 'Balık';
     final when = DateTime.fromMillisecondsSinceEpoch(_catch.timestamp.toInt());
-    final whenLabel = DateFormat('d MMMM yyyy · HH:mm', 'tr').format(when);
+    final whenLabel = MeraDateFormatter.formatFull(when);
     final spot = _catch.hasFishingSpotId()
         ? FishingSpotManager.get.entity(_catch.fishingSpotId)
         : null;

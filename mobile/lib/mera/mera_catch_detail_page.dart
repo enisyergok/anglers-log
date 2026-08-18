@@ -13,6 +13,7 @@ import 'package:mobile/bait_manager.dart';
 import 'package:mobile/catch_manager.dart';
 import 'package:mobile/fishing_spot_manager.dart';
 import 'package:mobile/location_monitor.dart';
+import 'package:mobile/mera/mera_date_formatter.dart';
 import 'package:mobile/mera/fish_activity/models.dart';
 import 'package:mobile/mera/fish_activity/service.dart';
 import 'package:mobile/mera/fish_activity/species_profiles.dart';
@@ -57,14 +58,11 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
   @override
   void dispose() {
     _notes.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final now = TimeManager.get.currentDateTime;
     final loc = LocationMonitor.of(context).currentLatLng;
-    final dateLabel = DateFormat('d MMMM yyyy · HH:mm', 'tr').format(now);
+    final dateLabel = MeraDateFormatter.formatFull(now);
 
     return Scaffold(
       backgroundColor: MeraColors.bg,

@@ -5,6 +5,7 @@ import 'package:mobile/catch_manager.dart';
 import 'package:mobile/fishing_spot_manager.dart';
 import 'package:mobile/mera/mera_animated_entry.dart';
 import 'package:mobile/mera/mera_catch_view_page.dart';
+import 'package:mobile/mera/mera_date_formatter.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_no_catch_manager.dart';
 import 'package:mobile/mera/mera_shell.dart';
@@ -221,7 +222,7 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
                             ),
                           ),
                           Text(
-                            fmt.format(
+                            MeraDateFormatter.formatShort(
                               DateTime.fromMillisecondsSinceEpoch(
                                 c.timestamp.toInt(),
                               ),

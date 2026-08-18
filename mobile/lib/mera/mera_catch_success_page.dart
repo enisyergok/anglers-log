@@ -8,6 +8,8 @@ import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/mera/siren_fish_art.dart';
 import 'package:mobile/wrappers/share_plus_wrapper.dart';
 
+import 'package:mobile/mera/mera_date_formatter.dart';
+
 /// Mockup 04 — Başarı ekranı.
 class MeraCatchSuccessPage extends StatelessWidget {
   final String speciesName;
@@ -32,7 +34,7 @@ class MeraCatchSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final when = DateTime.fromMillisecondsSinceEpoch(timestampMs);
-    final whenLabel = DateFormat('d MMM yyyy · HH:mm', 'tr').format(when);
+    final whenLabel = MeraDateFormatter.formatShort(when);
     final gps = (lat != null && lng != null)
         ? '${lat!.toStringAsFixed(5)}, ${lng!.toStringAsFixed(5)}'
         : '—';

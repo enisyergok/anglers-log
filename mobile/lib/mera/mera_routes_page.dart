@@ -5,6 +5,7 @@ import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile/mera/mera_date_formatter.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_route_detail_page.dart';
 import 'package:mobile/mera/mera_route_gpx.dart';
@@ -168,7 +169,7 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        '${r.distanceNm.toStringAsFixed(1)} NM · ${fmt.format(DateTime.fromMillisecondsSinceEpoch(r.createdMs))}',
+                                        '${r.distanceNm.toStringAsFixed(1)} NM · ${MeraDateFormatter.formatShort(DateTime.fromMillisecondsSinceEpoch(r.createdMs), includeTime: false)}',
                                         style: const TextStyle(
                                           color: MeraColors.textSecondary,
                                           fontSize: 13,
