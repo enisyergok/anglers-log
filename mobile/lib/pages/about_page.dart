@@ -39,7 +39,7 @@ class AboutPage extends StatelessWidget {
           padding: insetsDefault,
           children: [
             Text(
-              "Mera Asistanı tamamen cihazınızda çalışır. Kayıtlarınız, "
+              "CASTIQ (Akıllı. Planlı. Başarılı Av.) tamamen cihazınızda çalışır. Kayıtlarınız, "
               "fotoğraflarınız ve konum verileriniz yalnızca telefonunuzdaki "
               "yerel veritabanında saklanır; hiçbir sunucuya veya buluta "
               "gönderilmez.\n\n"
@@ -62,7 +62,7 @@ class AboutPage extends StatelessWidget {
     return ListItem(
       title: const Text("Açık Kaynak Lisansı"),
       subtitle: const Text(
-        "Mera Asistanı, Cohen Adair tarafından GNU GPLv3 lisansı ile "
+        "CASTIQ, Cohen Adair tarafından GNU GPLv3 lisansı ile "
         "yayımlanan açık kaynaklı \"Anglers' Log\" projesine dayanmaktadır.",
       ),
       trailing: const OpenInWebIcon(),

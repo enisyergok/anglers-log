@@ -128,7 +128,7 @@ class MeraCatchSuccessPage extends StatelessWidget {
                   icon: Icons.ios_share,
                   onPressed: () {
                     SharePlusWrapper.of(context).share(
-                      'Mera Asistanı — $speciesName\n'
+                      'CASTIQ — $speciesName\n'
                       '$measureLabel\n'
                       '$whenLabel\n$gps',
                       null,

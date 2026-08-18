@@ -142,8 +142,8 @@ class _MeraSettingsPageState extends State<MeraSettingsPage> {
                 return _tile(
                   context,
                   Icons.info_outline,
-                  'Mera Asistanı',
-                  'Sürüm $v',
+                  'CASTIQ',
+                  'Sürüm $v · Akıllı. Planlı. Başarılı Av.',
                   () => present(context, AboutPage()),
                 );
               },
