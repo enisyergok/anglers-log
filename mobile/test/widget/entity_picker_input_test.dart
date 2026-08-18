@@ -97,7 +97,7 @@ void main() {
     expect(controller.value, isEmpty);
 
     await tapAndSettle(tester, find.text("Nothing selected"));
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
     await tapAndSettle(tester, find.byType(BackButton));
 
     expect(controller.value.length, 3);
@@ -199,7 +199,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Test"));
-    await tapAndSettle(tester, find.text("None"));
+    await tapAndSettle(tester, find.text("Yok"));
     expect(controller.hasValue, isFalse);
   });
 
@@ -220,7 +220,7 @@ void main() {
       ),
     );
 
-    expect(find.text("Not Selected"), findsOneWidget);
+    expect(find.text("Seçilmedi"), findsOneWidget);
   });
 
   testWidgets("Single fetched value has length=1 if entity exists", (
@@ -307,12 +307,12 @@ void main() {
       ),
     );
 
-    expect(find.text("Not Selected"), findsOneWidget);
+    expect(find.text("Seçilmedi"), findsOneWidget);
 
     controller.value = species[0].id;
     await tester.pumpAndSettle();
 
-    expect(find.text("Not Selected"), findsNothing);
+    expect(find.text("Seçilmedi"), findsNothing);
     expect(find.text("Trout"), findsOneWidget);
   });
 

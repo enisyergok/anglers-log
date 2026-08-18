@@ -52,15 +52,15 @@ void main() {
   testWidgets("Menu hiding/showing", (tester) async {
     await tester.pumpWidget(Testable((_) => const HowToManageFieldsPage()));
     // One for title.
-    expect(find.text("Manage Fields"), findsOneWidget);
+    expect(find.text("Alanları Yönet"), findsOneWidget);
 
     await tester.pump(const Duration(milliseconds: 2000));
-    expect(find.text("Manage Fields"), findsNWidgets(2));
+    expect(find.text("Alanları Yönet"), findsNWidgets(2));
 
     await tester.pump(const Duration(milliseconds: 2000));
-    expect(find.text("Manage Fields"), findsOneWidget);
+    expect(find.text("Alanları Yönet"), findsOneWidget);
 
     await tester.pump(const Duration(milliseconds: 2000));
-    expect(find.text("Manage Fields"), findsNWidgets(2));
+    expect(find.text("Alanları Yönet"), findsNWidgets(2));
   });
 }

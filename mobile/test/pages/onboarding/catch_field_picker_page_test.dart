@@ -59,7 +59,7 @@ void main() {
     await tapAndSettle(
       tester,
       find.descendant(
-        of: find.widgetWithText(PickerListItem, "Bait"),
+        of: find.widgetWithText(PickerListItem, "Yem"),
         matching: find.byType(PaddedCheckbox),
       ),
     );
@@ -76,11 +76,11 @@ void main() {
     await tester.pumpWidget(Testable((_) => const CatchFieldPickerPage()));
 
     expect(find.text("Required"), findsNWidgets(2));
-    expect(find.text("Date and Time"), findsOneWidget);
-    expect(find.text("Species"), findsOneWidget);
-    expect(find.text("Photos"), findsOneWidget);
-    expect(find.text("Bait"), findsOneWidget);
-    expect(find.text("Fishing Spot"), findsOneWidget);
-    expect(find.text("Coordinates of where a catch was made."), findsOneWidget);
+    expect(find.text("Tarih ve Saat"), findsOneWidget);
+    expect(find.text("Türler"), findsOneWidget);
+    expect(find.text("Fotoğraflar"), findsOneWidget);
+    expect(find.text("Yem"), findsOneWidget);
+    expect(find.text("Av Noktası"), findsOneWidget);
+    expect(find.text("Avın yapıldığı konumun koordinatları."), findsOneWidget);
   });
 }

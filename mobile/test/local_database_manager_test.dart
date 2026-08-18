@@ -37,7 +37,7 @@ void main() {
       ),
     ).thenAnswer((_) => Future.value(1));
 
-    expect(await databaseManager.insertOrReplace("Any", {}), isTrue);
+    expect(await databaseManager.insertOrReplace("Herhangi", {}), isTrue);
     verify(
       database.insert(
         any,
@@ -53,7 +53,7 @@ void main() {
       batch.insert(any, any, conflictAlgorithm: anyNamed("conflictAlgorithm")),
     ).thenAnswer((_) => Future.value(null));
 
-    expect(await databaseManager.insertOrReplace("Any", {}, batch), isTrue);
+    expect(await databaseManager.insertOrReplace("Herhangi", {}, batch), isTrue);
 
     verifyNever(
       database.insert(
@@ -79,7 +79,7 @@ void main() {
       ),
     ).thenAnswer((_) => Future.value(1));
 
-    expect(await databaseManager.deleteEntity(randomId(), "Any"), isTrue);
+    expect(await databaseManager.deleteEntity(randomId(), "Herhangi"), isTrue);
     verify(
       database.delete(
         any,
@@ -100,7 +100,7 @@ void main() {
       ),
     ).thenAnswer((_) => Future.value(0));
 
-    expect(await databaseManager.deleteEntity(randomId(), "Any"), isFalse);
+    expect(await databaseManager.deleteEntity(randomId(), "Herhangi"), isFalse);
     verify(
       database.delete(
         any,
@@ -123,7 +123,7 @@ void main() {
     ).thenAnswer((_) => Future.value(1));
 
     expect(
-      await databaseManager.deleteEntity(randomId(), "Any", batch),
+      await databaseManager.deleteEntity(randomId(), "Herhangi", batch),
       isTrue,
     );
     verifyNever(

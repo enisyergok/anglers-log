@@ -23,12 +23,12 @@ void main() {
 
   testWidgets("Edit title", (tester) async {
     await tester.pumpWidget(Testable((_) => SaveAnglerPage.edit(Angler())));
-    expect(find.text("Edit Angler"), findsOneWidget);
+    expect(find.text("Balıkçıyı Düzenle"), findsOneWidget);
   });
 
   testWidgets("New title", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveAnglerPage()));
-    expect(find.text("New Angler"), findsOneWidget);
+    expect(find.text("Yeni Balıkçı"), findsOneWidget);
   });
 
   testWidgets("Save new", (tester) async {

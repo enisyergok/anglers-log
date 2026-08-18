@@ -164,14 +164,14 @@ void main() {
 
       await tapAndSettle(tester, find.widgetWithText(ActionButton, "EDIT"));
       await tapAndSettle(tester, find.byType(ManageableListItem).first);
-      expect(find.text("Edit Species"), findsOneWidget);
+      expect(find.text("Türü Düzenle"), findsOneWidget);
     });
 
     testWidgets("New species page shown", (tester) async {
       await tester.pumpWidget(Testable((_) => const SpeciesListPage()));
 
       await tapAndSettle(tester, find.byIcon(Icons.add));
-      expect(find.text("New Species"), findsOneWidget);
+      expect(find.text("Yeni Tür"), findsOneWidget);
     });
   });
 
@@ -187,7 +187,7 @@ void main() {
         ),
       );
 
-      expect(find.text("Select Species"), findsOneWidget);
+      expect(find.text("Tür Seç"), findsOneWidget);
     });
 
     testWidgets("Picked callback invoked", (tester) async {

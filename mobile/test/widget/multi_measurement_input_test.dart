@@ -208,7 +208,7 @@ void main() {
     expect(
       findFirstWithText<TextInput>(
         tester,
-        "Atmospheric Pressure",
+        "Atmosfer Basıncı",
       ).keyboardType?.decimal,
       isTrue,
     );
@@ -229,7 +229,7 @@ void main() {
     });
 
     expect(
-      findFirstWithText<TextInput>(tester, "Weight").keyboardType?.decimal,
+      findFirstWithText<TextInput>(tester, "Ağırlık").keyboardType?.decimal,
       isTrue,
     );
   });
@@ -251,7 +251,7 @@ void main() {
     expect(
       findFirstWithText<TextInput>(
         tester,
-        "Atmospheric Pressure",
+        "Atmosfer Basıncı",
       ).keyboardType?.decimal,
       isTrue,
     );
@@ -271,7 +271,7 @@ void main() {
     });
 
     expect(
-      findFirstWithText<TextInput>(tester, "Weight").keyboardType?.decimal,
+      findFirstWithText<TextInput>(tester, "Ağırlık").keyboardType?.decimal,
       isFalse,
     );
   });
@@ -363,7 +363,7 @@ void main() {
       }),
     );
 
-    expect(find.text("Length"), findsOneWidget);
+    expect(find.text("Boy"), findsOneWidget);
   });
 
   testWidgets("newInputController sets mainUnit", (tester) async {
@@ -404,7 +404,7 @@ void main() {
     );
     expect(
       MultiMeasurementInputSpec.waterDepth(context).title!(context),
-      "Water Depth",
+      "Su Derinliği",
     );
   });
 
@@ -659,7 +659,7 @@ void main() {
       return MultiMeasurementInput(controller, spec: spec, onChanged: () {});
     });
 
-    expect(find.text("km/h"), findsOneWidget);
+    expect(find.text("km/s"), findsOneWidget);
     expect(find.text("mph"), findsNothing);
     expect(find.text("m/s"), findsNothing);
   });
@@ -681,7 +681,7 @@ void main() {
       return MultiMeasurementInput(controller, spec: spec, onChanged: () {});
     });
 
-    expect(find.text("km/h"), findsNothing);
+    expect(find.text("km/s"), findsNothing);
     expect(find.text("mph"), findsNothing);
     expect(find.text("m/s"), findsOneWidget);
   });

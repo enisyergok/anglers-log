@@ -23,7 +23,7 @@ void main() {
 
   testWidgets("New title", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveSpeciesPage()));
-    expect(find.text("New Species"), findsOneWidget);
+    expect(find.text("Yeni Tür"), findsOneWidget);
   });
 
   testWidgets("Edit title", (tester) async {
@@ -36,7 +36,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text("Edit Species"), findsOneWidget);
+    expect(find.text("Türü Düzenle"), findsOneWidget);
     expect(find.widgetWithText(TextField, "Steelhead"), findsOneWidget);
   });
 

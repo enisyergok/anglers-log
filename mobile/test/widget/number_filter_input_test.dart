@@ -37,7 +37,7 @@ void main() {
       ),
     );
     expect(find.text("Filter"), findsOneWidget);
-    expect(find.text("Any"), findsOneWidget);
+    expect(find.text("Herhangi"), findsOneWidget);
   });
 
   testWidgets("Picker page is shown when tapped", (tester) async {
@@ -51,7 +51,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Any"));
+    await tapAndSettle(tester, find.text("Herhangi"));
     expect(find.text("Filter Title"), findsOneWidget);
 
     await tapAndSettle(tester, find.byType(BackButton));
@@ -69,8 +69,8 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Any"));
-    await tapAndSettle(tester, find.text("Greater than (>)"));
+    await tapAndSettle(tester, find.text("Herhangi"));
+    await tapAndSettle(tester, find.text("Büyüktür (>)"));
 
     expect(find.text("Required"), findsOneWidget);
   });
@@ -86,8 +86,8 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Any"));
-    await tapAndSettle(tester, find.text("Range"));
+    await tapAndSettle(tester, find.text("Herhangi"));
+    await tapAndSettle(tester, find.text("Aralık"));
 
     expect(find.text("Required"), findsNWidgets(2));
   });
@@ -122,7 +122,7 @@ void main() {
       siblingOfText(
         tester,
         Row,
-        "Range",
+        "Aralık",
         find.byIcon(Icons.radio_button_checked),
       ),
       findsOneWidget,
@@ -145,10 +145,10 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Filter"));
-    await tapAndSettle(tester, find.text("Less than (<)"));
+    await tapAndSettle(tester, find.text("Küçüktür (<)"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Value"),
+      find.widgetWithText(TextInput, "Değer"),
       "10",
     );
 
@@ -169,10 +169,10 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Filter"));
-    await tapAndSettle(tester, find.text("Less than (<)"));
+    await tapAndSettle(tester, find.text("Küçüktür (<)"));
 
-    expect(find.text("Value"), findsOneWidget);
-    expect(find.text("From"), findsNothing);
+    expect(find.text("Değer"), findsOneWidget);
+    expect(find.text("Başlangıç"), findsNothing);
   });
 
   testWidgets("From field label for range boundary", (tester) async {
@@ -187,11 +187,11 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Filter"));
-    await tapAndSettle(tester, find.text("Range"));
+    await tapAndSettle(tester, find.text("Aralık"));
 
-    expect(find.text("Value"), findsNothing);
-    expect(find.text("From"), findsOneWidget);
-    expect(find.text("To"), findsOneWidget);
+    expect(find.text("Değer"), findsNothing);
+    expect(find.text("Başlangıç"), findsOneWidget);
+    expect(find.text("Bitiş"), findsOneWidget);
   });
 
   testWidgets("Text fields not shown for 'any' boundary", (tester) async {
@@ -221,7 +221,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Filter"));
-    await tapAndSettle(tester, find.text("Range"));
+    await tapAndSettle(tester, find.text("Aralık"));
 
     expect(find.byType(TextInput), findsNWidgets(2));
     expect(find.byType(MultiMeasurementInput), findsNothing);
@@ -241,15 +241,15 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Filter"));
-    await tapAndSettle(tester, find.text("Range"));
+    await tapAndSettle(tester, find.text("Aralık"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "From"),
+      find.widgetWithText(TextInput, "Başlangıç"),
       "10",
     );
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "To"),
+      find.widgetWithText(TextInput, "Bitiş"),
       "15",
     );
 
@@ -273,15 +273,15 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Filter"));
-    await tapAndSettle(tester, find.text("Range"));
+    await tapAndSettle(tester, find.text("Aralık"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "From"),
+      find.widgetWithText(TextInput, "Başlangıç"),
       "10",
     );
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "To"),
+      find.widgetWithText(TextInput, "Bitiş"),
       "15",
     );
 
@@ -292,7 +292,7 @@ void main() {
     // Enter an invalid input into the "from" field.
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "From"),
+      find.widgetWithText(TextInput, "Başlangıç"),
       "20",
     );
 
@@ -317,7 +317,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Filter"));
-    await tapAndSettle(tester, find.text("Range"));
+    await tapAndSettle(tester, find.text("Aralık"));
 
     expect(find.byType(MultiMeasurementInput), findsNWidgets(2));
   });
@@ -337,15 +337,15 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Filter"));
-    await tapAndSettle(tester, find.text("Range"));
+    await tapAndSettle(tester, find.text("Aralık"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "From"),
+      find.widgetWithText(TextInput, "Başlangıç"),
       "10",
     );
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "To"),
+      find.widgetWithText(TextInput, "Bitiş"),
       "15",
     );
 
@@ -370,15 +370,15 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Filter"));
-    await tapAndSettle(tester, find.text("Range"));
+    await tapAndSettle(tester, find.text("Aralık"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "From"),
+      find.widgetWithText(TextInput, "Başlangıç"),
       "10",
     );
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "To"),
+      find.widgetWithText(TextInput, "Bitiş"),
       "15",
     );
 
@@ -389,7 +389,7 @@ void main() {
     // Enter an invalid input into the "from" field.
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "From"),
+      find.widgetWithText(TextInput, "Başlangıç"),
       "20",
     );
 
@@ -416,13 +416,13 @@ void main() {
     );
 
     await tapAndSettle(tester, find.text("Filter"));
-    await tapAndSettle(tester, find.text("Range"));
+    await tapAndSettle(tester, find.text("Aralık"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "From"),
+      find.widgetWithText(TextInput, "Başlangıç"),
       "10",
     );
-    await enterTextAndSettle(tester, find.widgetWithText(TextInput, "To"), "5");
+    await enterTextAndSettle(tester, find.widgetWithText(TextInput, "Bitiş"), "5");
 
     // Verify validation message is shown.
     expect(find.text("Must be greater than 10 m"), findsOneWidget);

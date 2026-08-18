@@ -51,7 +51,7 @@ void main() {
     );
   }
 
-  testWidgets("Selecting 'None' clears controller", (tester) async {
+  testWidgets("Selecting 'Yok' clears controller", (tester) async {
     controller.value = defaultAtmosphere();
 
     await tester.pumpWidget(
@@ -67,7 +67,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("None"));
+    await tapAndSettle(tester, find.text("Yok"));
     expect(controller.hasValue, isFalse);
   });
 
@@ -143,7 +143,7 @@ void main() {
     expect(find.text("Default error message"), findsNothing);
   });
 
-  testWidgets("Null fishing spot shows 'Current Location'", (tester) async {
+  testWidgets("Null fishing spot shows 'Mevcut Konum'", (tester) async {
     controller.value = defaultAtmosphere();
 
     await tester.pumpWidget(
@@ -159,7 +159,7 @@ void main() {
       ),
     );
 
-    expect(find.text("Current Location"), findsOneWidget);
+    expect(find.text("Mevcut Konum"), findsOneWidget);
   });
 
   testWidgets("Fishing spot display name shown", (tester) async {
@@ -188,7 +188,7 @@ void main() {
       ),
     );
 
-    expect(find.text("Current Location"), findsNothing);
+    expect(find.text("Mevcut Konum"), findsNothing);
     expect(find.text("Fishing Spot Name"), findsOneWidget);
   });
 

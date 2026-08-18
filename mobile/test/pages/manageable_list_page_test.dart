@@ -170,7 +170,7 @@ void main() {
       ),
     );
 
-    verifyCheckbox(tester, "All", checked: true);
+    verifyCheckbox(tester, "Tümü", checked: true);
     verifyCheckbox(tester, "Smallmouth Bass", checked: true);
     verifyCheckbox(tester, "Largemouth Bass", checked: true);
     verifyCheckbox(tester, "Striped Bass", checked: true);
@@ -229,7 +229,7 @@ void main() {
     );
 
     expect(find.byType(PaddedCheckbox), findsNothing);
-    expect(findCheckIcon(tester, "None"), findsOneWidget);
+    expect(findCheckIcon(tester, "Yok"), findsOneWidget);
   });
 
   testWidgets("Multi-picker callback invoked on close page", (tester) async {
@@ -531,7 +531,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text("All"), findsOneWidget);
+    expect(find.text("Tümü"), findsOneWidget);
     expect(find.byType(MinDivider), findsOneWidget);
   });
 
@@ -550,7 +550,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text("All"), findsNothing);
+    expect(find.text("Tümü"), findsNothing);
     expect(find.byType(MinDivider), findsNothing);
   });
 
@@ -569,17 +569,17 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
 
-    verifyCheckbox(tester, "All", checked: true);
+    verifyCheckbox(tester, "Tümü", checked: true);
     verifyCheckbox(tester, "Smallmouth Bass", checked: true);
     verifyCheckbox(tester, "Largemouth Bass", checked: true);
     verifyCheckbox(tester, "Striped Bass", checked: true);
     verifyCheckbox(tester, "White Bass", checked: true);
 
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
 
-    verifyCheckbox(tester, "All", checked: false);
+    verifyCheckbox(tester, "Tümü", checked: false);
     verifyCheckbox(tester, "Smallmouth Bass", checked: false);
     verifyCheckbox(tester, "Largemouth Bass", checked: false);
     verifyCheckbox(tester, "Striped Bass", checked: false);
@@ -601,7 +601,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
     expect(invoked, isTrue);
   });
 
@@ -624,7 +624,7 @@ void main() {
       ),
     );
 
-    // There should be 4 checkboxes -- "All", and all items, except
+    // There should be 4 checkboxes -- "Tümü", and all items, except
     // "White Bass".
     expect(find.byType(PaddedCheckbox), findsNWidgets(4));
   });
@@ -673,7 +673,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text("None"), findsOneWidget);
+    expect(find.text("Yok"), findsOneWidget);
     expect(find.byType(MinDivider), findsOneWidget);
   });
 
@@ -690,7 +690,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text("None"), findsNothing);
+    expect(find.text("Yok"), findsNothing);
     expect(find.byType(MinDivider), findsNothing);
   });
 
@@ -711,7 +711,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text("All"), findsNothing);
+    expect(find.text("Tümü"), findsNothing);
     expect(find.byType(MinDivider), findsNothing);
   });
 
@@ -729,9 +729,9 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
 
-    verifyCheckbox(tester, "All", checked: false);
+    verifyCheckbox(tester, "Tümü", checked: false);
     verifyCheckbox(tester, "Smallmouth Bass", checked: true);
     verifyCheckbox(tester, "Largemouth Bass", checked: true);
     verifyCheckbox(tester, "Striped Bass", checked: true);
@@ -1295,7 +1295,7 @@ void main() {
               detailPageBuilder: (_) => const SizedBox(),
               emptyItemsSettings: ManageableListPageEmptyListSettings(
                 title: "Test",
-                description: "Description",
+                description: "Açıklama",
                 icon: Icons.update,
               ),
             ),
@@ -1306,7 +1306,7 @@ void main() {
       );
 
       expect(find.text("Test"), findsOneWidget);
-      expect(find.text("Description"), findsOneWidget);
+      expect(find.text("Açıklama"), findsOneWidget);
       expect(find.byIcon(Icons.update), findsOneWidget);
     },
   );
@@ -1351,7 +1351,7 @@ void main() {
               detailPageBuilder: (_) => const SizedBox(),
               emptyItemsSettings: ManageableListPageEmptyListSettings(
                 title: "Test",
-                description: "Description",
+                description: "Açıklama",
                 icon: Icons.update,
               ),
             ),
@@ -1362,7 +1362,7 @@ void main() {
       );
 
       expect(find.text("Test"), findsOneWidget);
-      expect(find.text("Description"), findsOneWidget);
+      expect(find.text("Açıklama"), findsOneWidget);
       expect(find.byIcon(Icons.update), findsOneWidget);
     },
   );
@@ -1378,7 +1378,7 @@ void main() {
             detailPageBuilder: (_) => const SizedBox(),
             emptyItemsSettings: ManageableListPageEmptyListSettings(
               title: "Test",
-              description: "Description",
+              description: "Açıklama",
               icon: Icons.update,
             ),
           ),

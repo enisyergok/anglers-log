@@ -247,14 +247,14 @@ void main() {
 
   testWidgets("Angler picker hidden when no anglers", (tester) async {
     await pumpReport(tester);
-    expect(find.text("Angler"), findsNothing);
+    expect(find.text("Balıkçı"), findsNothing);
   });
 
   testWidgets("Angler picker shown when anglers exist", (tester) async {
     when(managers.anglerManager.hasEntities).thenReturn(true);
     await pumpReport(tester);
-    expect(find.text("Angler"), findsOneWidget);
-    expect(find.text("Not Selected"), findsOneWidget);
+    expect(find.text("Balıkçı"), findsOneWidget);
+    expect(find.text("Seçilmedi"), findsOneWidget);
   });
 
   testWidgets("Catches filtered by selected angler", (tester) async {
@@ -300,7 +300,7 @@ void main() {
     expect(find.text("Walleye"), findsOneWidget);
 
     // Tap the angler picker and select Jane.
-    await tapAndSettle(tester, find.text("Angler"));
+    await tapAndSettle(tester, find.text("Balıkçı"));
     await tapAndSettle(tester, find.text("Jane"));
 
     // Jane's longest catch is Flathead (45cm). Walleye (John's) should be
@@ -331,13 +331,13 @@ void main() {
 
   testWidgets("Longest catch shown", (tester) async {
     await pumpReport(tester);
-    expect(find.widgetWithText(InkWell, "Longest"), findsOneWidget);
+    expect(find.widgetWithText(InkWell, "En Uzun"), findsOneWidget);
   });
 
   testWidgets("Longest catch hidden when not tracking length", (tester) async {
     when(managers.userPreferenceManager.isTrackingLength).thenReturn(false);
     await pumpReport(tester);
-    expect(find.widgetWithText(InkWell, "Longest"), findsNothing);
+    expect(find.widgetWithText(InkWell, "En Uzun"), findsNothing);
   });
 
   testWidgets("Longest catch hidden when null", (tester) async {
@@ -345,18 +345,18 @@ void main() {
       cat.clearLength();
     }
     await pumpReport(tester);
-    expect(find.widgetWithText(InkWell, "Longest"), findsNothing);
+    expect(find.widgetWithText(InkWell, "En Uzun"), findsNothing);
   });
 
   testWidgets("Heaviest catch shown", (tester) async {
     await pumpReport(tester);
-    expect(find.widgetWithText(InkWell, "Heaviest"), findsOneWidget);
+    expect(find.widgetWithText(InkWell, "En Ağır"), findsOneWidget);
   });
 
   testWidgets("Heaviest catch hidden when not tracking weight", (tester) async {
     when(managers.userPreferenceManager.isTrackingWeight).thenReturn(false);
     await pumpReport(tester);
-    expect(find.widgetWithText(InkWell, "Heaviest"), findsNothing);
+    expect(find.widgetWithText(InkWell, "En Ağır"), findsNothing);
   });
 
   testWidgets("Heaviest catch hidden when null", (tester) async {
@@ -364,18 +364,18 @@ void main() {
       cat.clearWeight();
     }
     await pumpReport(tester);
-    expect(find.widgetWithText(InkWell, "Heaviest"), findsNothing);
+    expect(find.widgetWithText(InkWell, "En Ağır"), findsNothing);
   });
 
   testWidgets("Best trip shown", (tester) async {
     await pumpReport(tester);
-    expect(find.text("Best Trip"), findsOneWidget);
+    expect(find.text("En İyi Gezi"), findsOneWidget);
   });
 
   testWidgets("Best trip hidden when null", (tester) async {
     when(managers.tripManager.list()).thenReturn([]);
     await pumpReport(tester);
-    expect(find.text("Best Trip"), findsNothing);
+    expect(find.text("En İyi Gezi"), findsNothing);
   });
 
   testWidgets("Trip secondary subtitle is elapsed time", (tester) async {
@@ -418,7 +418,7 @@ void main() {
     var context = await pumpSingleScrollReport(tester);
 
     // Trip
-    expect(find.text("Best Trip"), findsOneWidget);
+    expect(find.text("En İyi Gezi"), findsOneWidget);
     expect(find.widgetWithText(MinChip, "4 Catches"), findsOneWidget);
     expect(find.primaryText(context, text: "Trip 3"), findsOneWidget);
     expect(
@@ -427,7 +427,7 @@ void main() {
     );
 
     // Longest
-    expect(find.text("Longest"), findsNWidgets(2));
+    expect(find.text("En Uzun"), findsNWidgets(2));
     expect(find.widgetWithText(MinChip, "50 cm"), findsOneWidget);
     expect(find.primaryText(context, text: "Walleye"), findsOneWidget);
     expect(
@@ -436,10 +436,10 @@ void main() {
     );
 
     // Heaviest
-    expect(find.text("Heaviest"), findsNWidgets(2));
+    expect(find.text("En Ağır"), findsNWidgets(2));
     expect(find.widgetWithText(MinChip, "35 kg"), findsOneWidget);
 
-    // 1 for PB, 1 in "Species By Length", and 1 in "Species By Weight".
+    // 1 for PB, 1 in "Boyuna Göre Türler", and 1 in "Ağırlığa Göre Türler".
     expect(find.primaryText(context, text: "Flathead"), findsNWidgets(3));
     expect(
       find.secondaryText(context, text: "Dec 31, 1969 at 7:00 PM"),
@@ -447,8 +447,8 @@ void main() {
     );
 
     // By length
-    await tester.ensureVisible(find.text("View all species").last);
-    await tapAndSettle(tester, find.text("View all species").first);
+    await tester.ensureVisible(find.text("Tüm türleri gör").last);
+    await tapAndSettle(tester, find.text("Tüm türleri gör").first);
     expect(find.text("Smallmouth"), findsOneWidget);
     expect(find.text("10 cm"), findsNWidgets(2));
     expect(find.text("Largemouth"), findsOneWidget);
@@ -472,7 +472,7 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // By weight
-    await tapAndSettle(tester, find.text("View all species").last);
+    await tapAndSettle(tester, find.text("Tüm türleri gör").last);
     expect(find.text("Smallmouth"), findsOneWidget);
     expect(find.text("2 kg"), findsNWidgets(2));
     expect(find.text("Largemouth"), findsOneWidget);
@@ -501,7 +501,7 @@ void main() {
     await tapAndSettle(tester, find.text("All dates"));
     await tapAndSettle(tester, find.text("Last week"));
 
-    expect(find.text("Best Trip"), findsNothing);
+    expect(find.text("En İyi Gezi"), findsNothing);
   });
 
   testWidgets("Personal best doesn't have a photo", (tester) async {
@@ -520,13 +520,13 @@ void main() {
   testWidgets("Biggest catch unknown species", (tester) async {
     catches[3].clearSpeciesId();
     await pumpReport(tester);
-    expect(find.text("Unknown Species"), findsOneWidget);
+    expect(find.text("Bilinmeyen Tür"), findsOneWidget);
     expect(find.text("Walleye"), findsNothing);
   });
 
   testWidgets("Biggest catch known species", (tester) async {
     await pumpReport(tester);
-    expect(find.text("Unknown Species"), findsNothing);
+    expect(find.text("Bilinmeyen Tür"), findsNothing);
     expect(find.text("Walleye"), findsOneWidget);
   });
 
@@ -537,16 +537,16 @@ void main() {
     }
 
     await pumpReport(tester);
-    expect(find.text("Species By Length"), findsNothing);
-    expect(find.text("Species By Weight"), findsNothing);
+    expect(find.text("Boyuna Göre Türler"), findsNothing);
+    expect(find.text("Ağırlığa Göre Türler"), findsNothing);
   });
 
   testWidgets("Measurement per species empty title", (tester) async {
     await pumpSingleScrollReport(tester);
 
     expect(find.byType(TitleText), findsNWidgets(5));
-    await tester.ensureVisible(find.text("View all species").first);
-    await tapAndSettle(tester, find.text("View all species").first);
+    await tester.ensureVisible(find.text("Tüm türleri gör").first);
+    await tapAndSettle(tester, find.text("Tüm türleri gör").first);
 
     expect(find.byType(TitleText), findsNothing);
   });
@@ -558,7 +558,7 @@ void main() {
 
     // 44 TableRowInkWell widgets comes from:
     //   - 5 rows * 4 columns in each row * 2 tables = 40, and
-    //   - 2 cells for the "Longest" and "Average" labels * 2 tables = 4.
+    //   - 2 cells for the "En Uzun" and "Ortalama" labels * 2 tables = 4.
     expect(find.byType(TableRowInkWell), findsNWidgets(44));
   });
 
@@ -566,21 +566,21 @@ void main() {
     var context = await pumpReport(tester);
     expect(
       find.textStyle(
-        "Longest",
+        "En Uzun",
         stylePrimary(context).copyWith(fontWeight: fontWeightBold),
       ),
       findsOneWidget,
     );
     expect(
       find.textStyle(
-        "Heaviest",
+        "En Ağır",
         stylePrimary(context).copyWith(fontWeight: fontWeightBold),
       ),
       findsOneWidget,
     );
     expect(
       find.textStyle(
-        "Average",
+        "Ortalama",
         stylePrimary(context).copyWith(fontWeight: fontWeightBold),
       ),
       findsNWidgets(2),
@@ -591,12 +591,12 @@ void main() {
     tester,
   ) async {
     await pumpReport(tester);
-    expect(find.text("View all species"), findsNWidgets(2));
+    expect(find.text("Tüm türleri gör"), findsNWidgets(2));
   });
 
   testWidgets("Measurement per species show all row is hidden", (tester) async {
     species = [Species(id: randomId(), name: "Steelhead")];
     await pumpReport(tester);
-    expect(find.text("View all species"), findsNothing);
+    expect(find.text("Tüm türleri gör"), findsNothing);
   });
 }

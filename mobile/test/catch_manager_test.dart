@@ -294,7 +294,7 @@ void main() {
     );
 
     var context = await buildContext(tester);
-    expect(catchManager.catches(context, filter: "Bait").length, 2);
+    expect(catchManager.catches(context, filter: "Yem").length, 2);
   });
 
   testWidgets("Filtering by search query; gear", (tester) async {
@@ -312,7 +312,7 @@ void main() {
     );
 
     var context = await buildContext(tester);
-    expect(catchManager.catches(context, filter: "Gear").length, 2);
+    expect(catchManager.catches(context, filter: "Ekipman").length, 2);
   });
 
   testWidgets("Filtering by search query; fishing spot", (tester) async {
@@ -355,7 +355,7 @@ void main() {
     );
 
     var context = await buildContext(tester);
-    expect(catchManager.catches(context, filter: "Species").length, 2);
+    expect(catchManager.catches(context, filter: "Türler").length, 2);
   });
 
   testWidgets("Filtering by search query; angler", (tester) async {
@@ -373,7 +373,7 @@ void main() {
     );
 
     var context = await buildContext(tester);
-    expect(catchManager.catches(context, filter: "Angler").length, 2);
+    expect(catchManager.catches(context, filter: "Balıkçı").length, 2);
   });
 
   testWidgets("Filtering by search query; water clarity", (tester) async {

@@ -302,7 +302,7 @@ void main() {
       atmosphere: Atmosphere(skyConditions: [SkyCondition.clear]),
     );
     expect(catchFilterMatchesAtmosphere(context, "", cat), isFalse);
-    expect(catchFilterMatchesAtmosphere(context, "Clear", cat), isTrue);
+    expect(catchFilterMatchesAtmosphere(context, "Açık", cat), isTrue);
   });
 
   testWidgets("catchFilterMatchesTide", (tester) async {
@@ -333,7 +333,7 @@ void main() {
 
   testWidgets("formatNumberOfCatches singular", (tester) async {
     var context = await buildContext(tester);
-    expect(formatNumberOfCatches(context, 1), "1 Catch");
+    expect(formatNumberOfCatches(context, 1), "1 Av");
   });
 
   testWidgets("formatNumberOfCatches plural", (tester) async {
@@ -369,14 +369,14 @@ void main() {
     when(managers.fishingSpotManager.entity(any)).thenReturn(null);
     when(
       managers.baitManager.attachmentDisplayValue(any, any),
-    ).thenReturn("Bait");
+    ).thenReturn("Yem");
 
     expect(
       CatchListItemModel(
         await buildContext(tester),
         Catch(baits: [BaitAttachment(baitId: randomId())]),
       ).subtitle2,
-      "Bait",
+      "Yem",
     );
   });
 
@@ -450,7 +450,7 @@ void main() {
         await buildContext(tester),
         Catch(speciesId: randomId()),
       ).title,
-      "Unknown Species",
+      "Bilinmeyen Tür",
     );
   });
 

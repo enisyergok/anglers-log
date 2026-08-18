@@ -60,7 +60,7 @@ void main() {
 
   testWidgets("Default values for new", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveBaitPage()));
-    expect(find.text("Not Selected"), findsOneWidget);
+    expect(find.text("Seçilmedi"), findsOneWidget);
     expect(findFirst<TextField>(tester).controller!.text, isEmpty);
   });
 
@@ -74,12 +74,12 @@ void main() {
         ),
       ),
     );
-    expect(find.text("Edit Bait"), findsOneWidget);
+    expect(find.text("Yemi Düzenle"), findsOneWidget);
   });
 
   testWidgets("New title", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveBaitPage()));
-    expect(find.text("New Bait"), findsOneWidget);
+    expect(find.text("Yeni Yem"), findsOneWidget);
   });
 
   testWidgets("Selecting bait category updates state", (tester) async {
@@ -108,11 +108,11 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => const SaveBaitPage()));
 
-    await tapAndSettle(tester, find.text("Not Selected"));
+    await tapAndSettle(tester, find.text("Seçilmedi"));
     await tapAndSettle(tester, find.text("Lure"));
 
     expect(find.byType(BaitCategoryListPage), findsNothing);
-    expect(find.text("Not Selected"), findsNothing);
+    expect(find.text("Seçilmedi"), findsNothing);
     expect(find.text("Lure"), findsOneWidget);
   });
 
@@ -154,7 +154,7 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => SaveBaitPage.edit(bait)));
 
-    expect(find.text("Not Selected"), findsNothing);
+    expect(find.text("Seçilmedi"), findsNothing);
     expect(find.text("Lure"), findsOneWidget);
     expect(find.text("Rapala"), findsOneWidget);
     expect(
@@ -174,13 +174,13 @@ void main() {
       find.widgetWithText(TextField, "Name"),
       "Plug",
     );
-    await tapAndSettle(tester, find.text("Artificial"));
+    await tapAndSettle(tester, find.text("Yapay"));
 
     await tester.ensureVisible(find.text("Red"));
     await tapAndSettle(tester, find.text("Red"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextField, "Colour"),
+      find.widgetWithText(TextField, "Renk"),
       "Green",
     );
     await tapAndSettle(tester, find.text("SAVE"));
@@ -230,7 +230,7 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => SaveBaitPage.edit(bait)));
 
-    expect(find.text("Not Selected"), findsNothing);
+    expect(find.text("Seçilmedi"), findsNothing);
     expect(find.text("Lure"), findsOneWidget);
     expect(find.text("Rapala"), findsOneWidget);
 

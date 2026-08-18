@@ -107,7 +107,7 @@ void main() {
   var waterClarityList = <WaterClarity>[
     WaterClarity()
       ..id = randomId()
-      ..name = "Clear",
+      ..name = "Açık",
     WaterClarity()
       ..id = randomId()
       ..name = "Stained",
@@ -412,7 +412,7 @@ void main() {
 
   testWidgets("New title", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
-    expect(find.text("New Report"), findsOneWidget);
+    expect(find.text("Yeni Rapor"), findsOneWidget);
   });
 
   testWidgets("Edit title", (tester) async {
@@ -421,19 +421,19 @@ void main() {
         (_) => SaveReportPage.edit(
           Report()
             ..id = randomId()
-            ..name = "Summary"
+            ..name = "Özet"
             ..type = Report_Type.summary,
         ),
       ),
     );
-    expect(find.text("Edit Report"), findsOneWidget);
+    expect(find.text("Raporu Düzenle"), findsOneWidget);
   });
 
   testWidgets("Type defaults to summary", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
     expect(
       find.descendant(
-        of: find.widgetWithText(Row, "Summary"),
+        of: find.widgetWithText(Row, "Özet"),
         matching: find.byIcon(Icons.radio_button_checked),
       ),
       findsOneWidget,
@@ -470,19 +470,19 @@ void main() {
     expect(find.byType(DateRangePickerInput), findsOneWidget);
 
     // Switch to comparison shows end date picker.
-    await tapAndSettle(tester, find.widgetWithText(InkWell, "Comparison"));
+    await tapAndSettle(tester, find.widgetWithText(InkWell, "Karşılaştırma"));
     expect(find.byType(DateRangePickerInput), findsNWidgets(2));
     expect(
-      find.widgetWithText(DateRangePickerInput, "Compare"),
+      find.widgetWithText(DateRangePickerInput, "Karşılaştır"),
       findsOneWidget,
     );
-    expect(find.widgetWithText(DateRangePickerInput, "To"), findsOneWidget);
+    expect(find.widgetWithText(DateRangePickerInput, "Bitiş"), findsOneWidget);
 
     // Switching back to summary removes end date picker.
-    await tapAndSettle(tester, find.widgetWithText(InkWell, "Summary"));
+    await tapAndSettle(tester, find.widgetWithText(InkWell, "Özet"));
     expect(find.byType(DateRangePickerInput), findsNWidgets(1));
-    expect(find.widgetWithText(DateRangePickerInput, "Compare"), findsNothing);
-    expect(find.widgetWithText(DateRangePickerInput, "To"), findsNothing);
+    expect(find.widgetWithText(DateRangePickerInput, "Karşılaştır"), findsNothing);
+    expect(find.widgetWithText(DateRangePickerInput, "Bitiş"), findsNothing);
   });
 
   testWidgets("Picking start date updates state", (tester) async {
@@ -497,8 +497,8 @@ void main() {
   testWidgets("Picking end date updates state", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tapAndSettle(tester, find.widgetWithText(InkWell, "Comparison"));
-    await tapAndSettle(tester, find.text("To"));
+    await tapAndSettle(tester, find.widgetWithText(InkWell, "Karşılaştırma"));
+    await tapAndSettle(tester, find.text("Bitiş"));
     await tapAndSettle(tester, find.text("Last week"));
     expect(find.byType(PickerPage), findsNothing);
     expect(find.text("Last week"), findsOneWidget);
@@ -507,92 +507,92 @@ void main() {
   testWidgets("Species picker shows picker page", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All species"));
-    await tapAndSettle(tester, find.text("All species"));
+    await tester.ensureVisible(find.text("Tüm türler"));
+    await tapAndSettle(tester, find.text("Tüm türler"));
     expect(find.byType(SpeciesListPage), findsOneWidget);
   });
 
   testWidgets("Bait picker shows picker page", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All baits"));
-    await tapAndSettle(tester, find.text("All baits"));
+    await tester.ensureVisible(find.text("Tüm yemler"));
+    await tapAndSettle(tester, find.text("Tüm yemler"));
     expect(find.byType(BaitListPage), findsOneWidget);
   });
 
   testWidgets("Gear picker shows picker page", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All gear"));
-    await tapAndSettle(tester, find.text("All gear"));
+    await tester.ensureVisible(find.text("Tüm ekipman"));
+    await tapAndSettle(tester, find.text("Tüm ekipman"));
     expect(find.byType(GearListPage), findsOneWidget);
   });
 
   testWidgets("Fishing spot picker shows picker page", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All fishing spots"));
-    await tapAndSettle(tester, find.text("All fishing spots"));
+    await tester.ensureVisible(find.text("Tüm av noktaları"));
+    await tapAndSettle(tester, find.text("Tüm av noktaları"));
     expect(find.byType(FishingSpotListPage), findsOneWidget);
   });
 
   testWidgets("Body of water picker shows picker page", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All bodies of water"));
-    await tapAndSettle(tester, find.text("All bodies of water"));
+    await tester.ensureVisible(find.text("Tüm su kütleleri"));
+    await tapAndSettle(tester, find.text("Tüm su kütleleri"));
     expect(find.byType(BodyOfWaterListPage), findsOneWidget);
   });
 
   testWidgets("Angler picker shows picker page", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All anglers"));
-    await tapAndSettle(tester, find.text("All anglers"));
+    await tester.ensureVisible(find.text("Tüm balıkçılar"));
+    await tapAndSettle(tester, find.text("Tüm balıkçılar"));
     expect(find.byType(AnglerListPage), findsOneWidget);
   });
 
   testWidgets("Water clarity picker shows picker page", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All water clarities"));
-    await tapAndSettle(tester, find.text("All water clarities"));
+    await tester.ensureVisible(find.text("Tüm su berraklıkları"));
+    await tapAndSettle(tester, find.text("Tüm su berraklıkları"));
     expect(find.byType(WaterClarityListPage), findsOneWidget);
   });
 
   testWidgets("Methods picker shows picker page", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All fishing methods"));
-    await tapAndSettle(tester, find.text("All fishing methods"));
+    await tester.ensureVisible(find.text("Tüm balık tutma yöntemleri"));
+    await tapAndSettle(tester, find.text("Tüm balık tutma yöntemleri"));
     expect(find.byType(MethodListPage), findsOneWidget);
   });
 
   testWidgets("Periods picker shows picker page", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All times of day"));
-    await tapAndSettle(tester, find.text("All times of day"));
-    expect(find.text("Select Times of Day"), findsOneWidget);
+    await tester.ensureVisible(find.text("Tüm günün zamanları"));
+    await tapAndSettle(tester, find.text("Tüm günün zamanları"));
+    expect(find.text("Günün Zamanlarını Seç"), findsOneWidget);
   });
 
   testWidgets("Seasons picker shows picker page", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All seasons"));
-    await tapAndSettle(tester, find.text("All seasons"));
-    expect(find.text("Select Seasons"), findsOneWidget);
+    await tester.ensureVisible(find.text("Tüm mevsimler"));
+    await tapAndSettle(tester, find.text("Tüm mevsimler"));
+    expect(find.text("Mevsim Seç"), findsOneWidget);
   });
 
   testWidgets("Picking all species shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All species"));
-    await tapAndSettle(tester, find.text("All species"));
+    await tester.ensureVisible(find.text("Tüm türler"));
+    await tapAndSettle(tester, find.text("Tüm türler"));
     expect(
       (tester.widget(
                 find.descendant(
-                  of: find.widgetWithText(ManageableListItem, "All"),
+                  of: find.widgetWithText(ManageableListItem, "Tümü"),
                   matching: find.byType(PaddedCheckbox),
                 ),
               )
@@ -602,18 +602,18 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All species"), findsOneWidget);
+    expect(find.text("Tüm türler"), findsOneWidget);
   });
 
   testWidgets("Picking all baits shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All baits"));
-    await tapAndSettle(tester, find.text("All baits"));
+    await tester.ensureVisible(find.text("Tüm yemler"));
+    await tapAndSettle(tester, find.text("Tüm yemler"));
     expect(
       (tester.widget(
                 find.descendant(
-                  of: find.widgetWithText(ManageableListItem, "All"),
+                  of: find.widgetWithText(ManageableListItem, "Tümü"),
                   matching: find.byType(PaddedCheckbox),
                 ),
               )
@@ -623,18 +623,18 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All baits"), findsOneWidget);
+    expect(find.text("Tüm yemler"), findsOneWidget);
   });
 
   testWidgets("Picking all gear shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All gear"));
-    await tapAndSettle(tester, find.text("All gear"));
+    await tester.ensureVisible(find.text("Tüm ekipman"));
+    await tapAndSettle(tester, find.text("Tüm ekipman"));
     expect(
       (tester.widget(
                 find.descendant(
-                  of: find.widgetWithText(ManageableListItem, "All"),
+                  of: find.widgetWithText(ManageableListItem, "Tümü"),
                   matching: find.byType(PaddedCheckbox),
                 ),
               )
@@ -644,18 +644,18 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All gear"), findsOneWidget);
+    expect(find.text("Tüm ekipman"), findsOneWidget);
   });
 
   testWidgets("Picking all fishing spots shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All fishing spots"));
-    await tapAndSettle(tester, find.text("All fishing spots"));
+    await tester.ensureVisible(find.text("Tüm av noktaları"));
+    await tapAndSettle(tester, find.text("Tüm av noktaları"));
     expect(
       (tester.widget(
                 find.descendant(
-                  of: find.widgetWithText(ManageableListItem, "All"),
+                  of: find.widgetWithText(ManageableListItem, "Tümü"),
                   matching: find.byType(PaddedCheckbox),
                 ),
               )
@@ -665,18 +665,18 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All fishing spots"), findsOneWidget);
+    expect(find.text("Tüm av noktaları"), findsOneWidget);
   });
 
   testWidgets("Picking all bodies of water shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All bodies of water"));
-    await tapAndSettle(tester, find.text("All bodies of water"));
+    await tester.ensureVisible(find.text("Tüm su kütleleri"));
+    await tapAndSettle(tester, find.text("Tüm su kütleleri"));
     expect(
       (tester.widget(
                 find.descendant(
-                  of: find.widgetWithText(ManageableListItem, "All"),
+                  of: find.widgetWithText(ManageableListItem, "Tümü"),
                   matching: find.byType(PaddedCheckbox),
                 ),
               )
@@ -686,18 +686,18 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All bodies of water"), findsOneWidget);
+    expect(find.text("Tüm su kütleleri"), findsOneWidget);
   });
 
   testWidgets("Picking all anglers shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All anglers"));
-    await tapAndSettle(tester, find.text("All anglers"));
+    await tester.ensureVisible(find.text("Tüm balıkçılar"));
+    await tapAndSettle(tester, find.text("Tüm balıkçılar"));
     expect(
       (tester.widget(
                 find.descendant(
-                  of: find.widgetWithText(ManageableListItem, "All"),
+                  of: find.widgetWithText(ManageableListItem, "Tümü"),
                   matching: find.byType(PaddedCheckbox),
                 ),
               )
@@ -707,18 +707,18 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All anglers"), findsOneWidget);
+    expect(find.text("Tüm balıkçılar"), findsOneWidget);
   });
 
   testWidgets("Picking all water clarities shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All water clarities"));
-    await tapAndSettle(tester, find.text("All water clarities"));
+    await tester.ensureVisible(find.text("Tüm su berraklıkları"));
+    await tapAndSettle(tester, find.text("Tüm su berraklıkları"));
     expect(
       (tester.widget(
                 find.descendant(
-                  of: find.widgetWithText(ManageableListItem, "All"),
+                  of: find.widgetWithText(ManageableListItem, "Tümü"),
                   matching: find.byType(PaddedCheckbox),
                 ),
               )
@@ -728,18 +728,18 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All water clarities"), findsOneWidget);
+    expect(find.text("Tüm su berraklıkları"), findsOneWidget);
   });
 
   testWidgets("Picking all fishing methods shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All fishing spots"));
-    await tapAndSettle(tester, find.text("All fishing spots"));
+    await tester.ensureVisible(find.text("Tüm av noktaları"));
+    await tapAndSettle(tester, find.text("Tüm av noktaları"));
     expect(
       (tester.widget(
                 find.descendant(
-                  of: find.widgetWithText(ManageableListItem, "All"),
+                  of: find.widgetWithText(ManageableListItem, "Tümü"),
                   matching: find.byType(PaddedCheckbox),
                 ),
               )
@@ -749,49 +749,49 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All fishing spots"), findsOneWidget);
+    expect(find.text("Tüm av noktaları"), findsOneWidget);
   });
 
   testWidgets("Picking all periods shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All times of day"));
-    await tapAndSettle(tester, find.text("All times of day"));
+    await tester.ensureVisible(find.text("Tüm günün zamanları"));
+    await tapAndSettle(tester, find.text("Tüm günün zamanları"));
     expect(
-      findSiblingOfText<PaddedCheckbox>(tester, ListItem, "All").isChecked,
+      findSiblingOfText<PaddedCheckbox>(tester, ListItem, "Tümü").isChecked,
       isTrue,
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All times of day"), findsOneWidget);
+    expect(find.text("Tüm günün zamanları"), findsOneWidget);
   });
 
   testWidgets("Picking all seasons shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All seasons"));
-    await tapAndSettle(tester, find.text("All seasons"));
+    await tester.ensureVisible(find.text("Tüm mevsimler"));
+    await tapAndSettle(tester, find.text("Tüm mevsimler"));
     expect(
-      findSiblingOfText<PaddedCheckbox>(tester, ListItem, "All").isChecked,
+      findSiblingOfText<PaddedCheckbox>(tester, ListItem, "Tümü").isChecked,
       isTrue,
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All seasons"), findsOneWidget);
+    expect(find.text("Tüm mevsimler"), findsOneWidget);
   });
 
   testWidgets("Picking all tides shows single chip", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveReportPage()));
 
-    await tester.ensureVisible(find.text("All tides"));
-    await tapAndSettle(tester, find.text("All tides"));
+    await tester.ensureVisible(find.text("Tüm gelgitler"));
+    await tapAndSettle(tester, find.text("Tüm gelgitler"));
     expect(
-      findSiblingOfText<PaddedCheckbox>(tester, ListItem, "All").isChecked,
+      findSiblingOfText<PaddedCheckbox>(tester, ListItem, "Tümü").isChecked,
       isTrue,
     );
 
     await tapAndSettle(tester, find.byType(BackButton));
-    expect(find.text("All tides"), findsOneWidget);
+    expect(find.text("Tüm gelgitler"), findsOneWidget);
   });
 
   testWidgets("Add report with all fields modified", (tester) async {
@@ -804,165 +804,165 @@ void main() {
     );
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextField, "Description"),
+      find.widgetWithText(TextField, "Açıklama"),
       "A brief description.",
     );
-    await tapAndSettle(tester, find.widgetWithText(InkWell, "Comparison"));
-    await tapAndSettle(tester, find.text("Compare"));
+    await tapAndSettle(tester, find.widgetWithText(InkWell, "Karşılaştırma"));
+    await tapAndSettle(tester, find.text("Karşılaştır"));
     await tapAndSettle(tester, find.text("Last month"));
-    await tapAndSettle(tester, find.text("To"));
+    await tapAndSettle(tester, find.text("Bitiş"));
     await tapAndSettle(tester, find.text("This month"));
-    await tapAndSettle(tester, find.text("Time Zone"));
+    await tapAndSettle(tester, find.text("Saat Dilimi"));
     await tapAndSettle(tester, find.text("America/New York"));
-    await selectItems(tester, "All anglers", ["All", "Cohen"]);
-    await selectItems(tester, "All species", ["All", "Catfish"]);
-    await selectItems(tester, "All baits", ["All", "Spoon"]);
-    await selectItems(tester, "All gear", ["All", "Bass Rod"]);
+    await selectItems(tester, "Tüm balıkçılar", ["Tümü", "Cohen"]);
+    await selectItems(tester, "Tüm türler", ["Tümü", "Catfish"]);
+    await selectItems(tester, "Tüm yemler", ["Tümü", "Spoon"]);
+    await selectItems(tester, "Tüm ekipman", ["Tümü", "Bass Rod"]);
 
-    await tester.ensureVisible(find.text("All fishing methods"));
-    await selectItems(tester, "All fishing methods", ["All", "Casting"]);
+    await tester.ensureVisible(find.text("Tüm balık tutma yöntemleri"));
+    await selectItems(tester, "Tüm balık tutma yöntemleri", ["Tümü", "Casting"]);
 
-    await tester.ensureVisible(find.text("All fishing spots"));
-    await selectItems(tester, "All fishing spots", ["All", "B"]);
+    await tester.ensureVisible(find.text("Tüm av noktaları"));
+    await selectItems(tester, "Tüm av noktaları", ["Tümü", "B"]);
 
-    await tester.ensureVisible(find.text("All bodies of water"));
-    await selectItems(tester, "All bodies of water", ["All", "Lake Huron"]);
+    await tester.ensureVisible(find.text("Tüm su kütleleri"));
+    await selectItems(tester, "Tüm su kütleleri", ["Tümü", "Lake Huron"]);
 
-    await tester.ensureVisible(find.text("All times of day"));
-    await selectItems(tester, "All times of day", ["All", "Afternoon"]);
+    await tester.ensureVisible(find.text("Tüm günün zamanları"));
+    await selectItems(tester, "Tüm günün zamanları", ["Tümü", "Öğleden sonra"]);
 
-    await tester.ensureVisible(find.text("All seasons"));
-    await selectItems(tester, "All seasons", ["All", "Summer"]);
+    await tester.ensureVisible(find.text("Tüm mevsimler"));
+    await selectItems(tester, "Tüm mevsimler", ["Tümü", "Yaz"]);
 
-    await tester.ensureVisible(find.text("All water clarities"));
-    await selectItems(tester, "All water clarities", ["All", "Stained"]);
+    await tester.ensureVisible(find.text("Tüm su berraklıkları"));
+    await selectItems(tester, "Tüm su berraklıkları", ["Tümü", "Stained"]);
 
-    await tester.ensureVisible(find.text("Water Depth"));
-    await tapAndSettle(tester, find.text("Water Depth"));
-    await tapAndSettle(tester, find.text("Greater than (>)"));
+    await tester.ensureVisible(find.text("Su Derinliği"));
+    await tapAndSettle(tester, find.text("Su Derinliği"));
+    await tapAndSettle(tester, find.text("Büyüktür (>)"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Value"),
+      find.widgetWithText(TextInput, "Değer"),
       "10",
     );
     await tapAndSettle(tester, find.byType(BackButton));
 
-    await tester.ensureVisible(find.text("Water Temperature"));
-    await tapAndSettle(tester, find.text("Water Temperature"));
-    await tapAndSettle(tester, find.text("Less than (<)"));
+    await tester.ensureVisible(find.text("Su Sıcaklığı"));
+    await tapAndSettle(tester, find.text("Su Sıcaklığı"));
+    await tapAndSettle(tester, find.text("Küçüktür (<)"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Value"),
+      find.widgetWithText(TextInput, "Değer"),
       "15",
     );
     await tapAndSettle(tester, find.byType(BackButton));
 
-    await tester.ensureVisible(find.text("Length"));
-    await tapAndSettle(tester, find.text("Length"));
-    await tapAndSettle(tester, find.text("Equal to (=)"));
+    await tester.ensureVisible(find.text("Boy"));
+    await tapAndSettle(tester, find.text("Boy"));
+    await tapAndSettle(tester, find.text("Eşittir (=)"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Value"),
+      find.widgetWithText(TextInput, "Değer"),
       "20",
     );
     await tapAndSettle(tester, find.byType(BackButton));
 
-    await tester.ensureVisible(find.text("Weight"));
-    await tapAndSettle(tester, find.text("Weight"));
-    await tapAndSettle(tester, find.text("Range"));
+    await tester.ensureVisible(find.text("Ağırlık"));
+    await tapAndSettle(tester, find.text("Ağırlık"));
+    await tapAndSettle(tester, find.text("Aralık"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "From"),
+      find.widgetWithText(TextInput, "Başlangıç"),
       "10",
     );
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "To"),
+      find.widgetWithText(TextInput, "Bitiş"),
       "15",
     );
     await tapAndSettle(tester, find.byType(BackButton));
 
-    await tester.ensureVisible(find.text("Quantity"));
-    await tapAndSettle(tester, find.text("Quantity"));
-    await tapAndSettle(tester, find.text("Any"));
+    await tester.ensureVisible(find.text("Adet"));
+    await tapAndSettle(tester, find.text("Adet"));
+    await tapAndSettle(tester, find.text("Herhangi"));
     await tapAndSettle(tester, find.byType(BackButton));
 
-    await tester.ensureVisible(find.text("Air Temperature"));
-    await tapAndSettle(tester, find.text("Air Temperature"));
-    await tapAndSettle(tester, find.text("Equal to (=)"));
+    await tester.ensureVisible(find.text("Hava Sıcaklığı"));
+    await tapAndSettle(tester, find.text("Hava Sıcaklığı"));
+    await tapAndSettle(tester, find.text("Eşittir (=)"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Value"),
+      find.widgetWithText(TextInput, "Değer"),
       "20",
     );
     await tapAndSettle(tester, find.byType(BackButton));
 
-    await tester.ensureVisible(find.text("Air Humidity"));
-    await tapAndSettle(tester, find.text("Air Humidity"));
-    await tapAndSettle(tester, find.text("Equal to (=)"));
+    await tester.ensureVisible(find.text("Hava Nemi"));
+    await tapAndSettle(tester, find.text("Hava Nemi"));
+    await tapAndSettle(tester, find.text("Eşittir (=)"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Value"),
+      find.widgetWithText(TextInput, "Değer"),
       "20",
     );
     await tapAndSettle(tester, find.byType(BackButton));
 
-    await tester.ensureVisible(find.text("Air Visibility"));
-    await tapAndSettle(tester, find.text("Air Visibility"));
-    await tapAndSettle(tester, find.text("Equal to (=)"));
+    await tester.ensureVisible(find.text("Hava Görüşü"));
+    await tapAndSettle(tester, find.text("Hava Görüşü"));
+    await tapAndSettle(tester, find.text("Eşittir (=)"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Value"),
+      find.widgetWithText(TextInput, "Değer"),
       "20",
     );
     await tapAndSettle(tester, find.byType(BackButton));
 
-    await tester.ensureVisible(find.text("Atmospheric Pressure"));
-    await tapAndSettle(tester, find.text("Atmospheric Pressure"));
-    await tapAndSettle(tester, find.text("Equal to (=)"));
+    await tester.ensureVisible(find.text("Atmosfer Basıncı"));
+    await tapAndSettle(tester, find.text("Atmosfer Basıncı"));
+    await tapAndSettle(tester, find.text("Eşittir (=)"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Value"),
+      find.widgetWithText(TextInput, "Değer"),
       "20",
     );
     await tapAndSettle(tester, find.byType(BackButton));
 
-    await tester.ensureVisible(find.text("Wind Speed"));
-    await tapAndSettle(tester, find.text("Wind Speed"));
-    await tapAndSettle(tester, find.text("Equal to (=)"));
+    await tester.ensureVisible(find.text("Rüzgar Hızı"));
+    await tapAndSettle(tester, find.text("Rüzgar Hızı"));
+    await tapAndSettle(tester, find.text("Eşittir (=)"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Value"),
+      find.widgetWithText(TextInput, "Değer"),
       "20",
     );
     await tapAndSettle(tester, find.byType(BackButton));
 
-    await tester.ensureVisible(find.text("All wind directions"));
-    await selectItems(tester, "All wind directions", ["All", "NE"]);
+    await tester.ensureVisible(find.text("Tüm rüzgar yönleri"));
+    await selectItems(tester, "Tüm rüzgar yönleri", ["Tümü", "KD"]);
 
-    await tester.ensureVisible(find.text("All sky conditions"));
-    await selectItems(tester, "All sky conditions", [
-      "All",
-      "Cloudy",
-      "Drizzle",
+    await tester.ensureVisible(find.text("Tüm gökyüzü koşulları"));
+    await selectItems(tester, "Tüm gökyüzü koşulları", [
+      "Tümü",
+      "Bulutlu",
+      "Çiseleme",
     ]);
 
-    await tester.ensureVisible(find.text("All moon phases"));
-    await selectItems(tester, "All moon phases", ["All", "Full"]);
+    await tester.ensureVisible(find.text("Tüm ay evreleri"));
+    await selectItems(tester, "Tüm ay evreleri", ["Tümü", "Dolunay"]);
 
-    await tester.ensureVisible(find.text("All tides"));
-    await selectItems(tester, "All tides", ["All", "Outgoing"]);
+    await tester.ensureVisible(find.text("Tüm gelgitler"));
+    await selectItems(tester, "Tüm gelgitler", ["Tümü", "Çeken"]);
 
     expect(
       find.descendant(
-        of: find.widgetWithText(InkWell, "Compare"),
+        of: find.widgetWithText(InkWell, "Karşılaştır"),
         matching: find.text("Last month"),
       ),
       findsOneWidget,
     );
     expect(
       find.descendant(
-        of: find.widgetWithText(InkWell, "To"),
+        of: find.widgetWithText(InkWell, "Bitiş"),
         matching: find.text("This month"),
       ),
       findsOneWidget,
@@ -974,8 +974,8 @@ void main() {
     expect(find.text("Bass Rod"), findsOneWidget);
     expect(find.text("Cohen"), findsOneWidget);
     expect(find.text("Casting"), findsOneWidget);
-    expect(find.text("Afternoon"), findsOneWidget);
-    expect(find.text("Summer"), findsOneWidget);
+    expect(find.text("Öğleden sonra"), findsOneWidget);
+    expect(find.text("Yaz"), findsOneWidget);
     expect(find.text("Stained"), findsOneWidget);
     expect(find.text("> 10 m"), findsOneWidget);
     expect(find.text("< 15\u00B0C"), findsOneWidget);
@@ -987,11 +987,11 @@ void main() {
     expect(find.text("= 20 MB"), findsOneWidget);
     expect(find.text("= 20 km/h"), findsOneWidget);
     expect(find.text("Wind: NE"), findsOneWidget);
-    expect(find.text("Drizzle"), findsOneWidget);
-    expect(find.text("Cloudy"), findsOneWidget);
+    expect(find.text("Çiseleme"), findsOneWidget);
+    expect(find.text("Bulutlu"), findsOneWidget);
     expect(find.text("Full Moon"), findsOneWidget);
-    expect(find.text("Any"), findsOneWidget);
-    expect(find.text("Outgoing Tide"), findsOneWidget);
+    expect(find.text("Herhangi"), findsOneWidget);
+    expect(find.text("Çeken Gelgit"), findsOneWidget);
     expect(find.text("Lake Huron"), findsOneWidget);
 
     await tapAndSettle(tester, find.text("SAVE"));
@@ -1041,7 +1041,7 @@ void main() {
       find.widgetWithText(TextField, "Name"),
       "Report Name",
     );
-    await tapAndSettle(tester, find.widgetWithText(InkWell, "Summary"));
+    await tapAndSettle(tester, find.widgetWithText(InkWell, "Özet"));
     await tapAndSettle(tester, find.text("All dates"));
     await tapAndSettle(tester, find.text("Last month"));
 
@@ -1103,16 +1103,16 @@ void main() {
       find.widgetWithText(TextField, "Name"),
       "Report Name",
     );
-    await tapAndSettle(tester, find.widgetWithText(InkWell, "Comparison"));
+    await tapAndSettle(tester, find.widgetWithText(InkWell, "Karşılaştırma"));
 
-    await tapAndSettle(tester, find.text("Compare"));
+    await tapAndSettle(tester, find.text("Karşılaştır"));
     // Scroll so "Custom" is visible.
     await tester.drag(find.text("Last year"), const Offset(0, -400));
     await tester.pumpAndSettle();
     await tapAndSettle(tester, find.text("Custom"));
     await tapAndSettle(tester, find.text("OK"));
 
-    await tapAndSettle(tester, find.text("To"));
+    await tapAndSettle(tester, find.text("Bitiş"));
     // Scroll so "Custom" is visible.
     await tester.drag(find.text("Last year"), const Offset(0, -400));
     await tester.pumpAndSettle();
@@ -1171,46 +1171,46 @@ void main() {
       find.widgetWithText(TextField, "Name"),
       "Report Name",
     );
-    await tapAndSettle(tester, find.widgetWithText(InkWell, "Comparison"));
-    await tapAndSettle(tester, find.text("Compare"));
+    await tapAndSettle(tester, find.widgetWithText(InkWell, "Karşılaştırma"));
+    await tapAndSettle(tester, find.text("Karşılaştır"));
     await tapAndSettle(tester, find.text("Last month"));
-    await tapAndSettle(tester, find.text("To"));
+    await tapAndSettle(tester, find.text("Bitiş"));
     await tapAndSettle(tester, find.text("This month"));
 
     // Toggle none/all for good measure.
-    await selectItems(tester, "All anglers", ["All", "All"]);
-    await selectItems(tester, "All species", ["All", "All"]);
-    await selectItems(tester, "All baits", ["All", "All"]);
-    await selectItems(tester, "All gear", ["All", "All"]);
+    await selectItems(tester, "Tüm balıkçılar", ["Tümü", "Tümü"]);
+    await selectItems(tester, "Tüm türler", ["Tümü", "Tümü"]);
+    await selectItems(tester, "Tüm yemler", ["Tümü", "Tümü"]);
+    await selectItems(tester, "Tüm ekipman", ["Tümü", "Tümü"]);
 
-    await tester.ensureVisible(find.text("All fishing spots"));
-    await selectItems(tester, "All fishing spots", ["All", "All"]);
+    await tester.ensureVisible(find.text("Tüm av noktaları"));
+    await selectItems(tester, "Tüm av noktaları", ["Tümü", "Tümü"]);
 
-    await tester.ensureVisible(find.text("All bodies of water"));
-    await selectItems(tester, "All bodies of water", ["All", "All"]);
+    await tester.ensureVisible(find.text("Tüm su kütleleri"));
+    await selectItems(tester, "Tüm su kütleleri", ["Tümü", "Tümü"]);
 
-    await tester.ensureVisible(find.text("All fishing methods"));
-    await selectItems(tester, "All fishing methods", ["All", "All"]);
+    await tester.ensureVisible(find.text("Tüm balık tutma yöntemleri"));
+    await selectItems(tester, "Tüm balık tutma yöntemleri", ["Tümü", "Tümü"]);
 
-    await tester.ensureVisible(find.text("All times of day"));
-    await selectItems(tester, "All times of day", ["All", "All"]);
+    await tester.ensureVisible(find.text("Tüm günün zamanları"));
+    await selectItems(tester, "Tüm günün zamanları", ["Tümü", "Tümü"]);
 
-    await tester.ensureVisible(find.text("All seasons"));
-    await selectItems(tester, "All seasons", ["All", "All"]);
+    await tester.ensureVisible(find.text("Tüm mevsimler"));
+    await selectItems(tester, "Tüm mevsimler", ["Tümü", "Tümü"]);
 
-    await tester.ensureVisible(find.text("All water clarities"));
-    await selectItems(tester, "All water clarities", ["All", "All"]);
+    await tester.ensureVisible(find.text("Tüm su berraklıkları"));
+    await selectItems(tester, "Tüm su berraklıkları", ["Tümü", "Tümü"]);
 
-    expect(find.text("All anglers"), findsOneWidget);
-    expect(find.text("All species"), findsOneWidget);
-    expect(find.text("All baits"), findsOneWidget);
-    expect(find.text("All gear"), findsOneWidget);
-    expect(find.text("All fishing spots"), findsOneWidget);
-    expect(find.text("All bodies of water"), findsOneWidget);
-    expect(find.text("All fishing methods"), findsOneWidget);
-    expect(find.text("All times of day"), findsOneWidget);
-    expect(find.text("All seasons"), findsOneWidget);
-    expect(find.text("All water clarities"), findsOneWidget);
+    expect(find.text("Tüm balıkçılar"), findsOneWidget);
+    expect(find.text("Tüm türler"), findsOneWidget);
+    expect(find.text("Tüm yemler"), findsOneWidget);
+    expect(find.text("Tüm ekipman"), findsOneWidget);
+    expect(find.text("Tüm av noktaları"), findsOneWidget);
+    expect(find.text("Tüm su kütleleri"), findsOneWidget);
+    expect(find.text("Tüm balık tutma yöntemleri"), findsOneWidget);
+    expect(find.text("Tüm günün zamanları"), findsOneWidget);
+    expect(find.text("Tüm mevsimler"), findsOneWidget);
+    expect(find.text("Tüm su berraklıkları"), findsOneWidget);
 
     await tapAndSettle(tester, find.text("SAVE"));
 
@@ -1299,14 +1299,14 @@ void main() {
     expect(find.text("Report description"), findsOneWidget);
     expect(
       find.descendant(
-        of: find.widgetWithText(InkWell, "Compare"),
+        of: find.widgetWithText(InkWell, "Karşılaştır"),
         matching: find.text("Yesterday"),
       ),
       findsOneWidget,
     );
     expect(
       find.descendant(
-        of: find.widgetWithText(InkWell, "To"),
+        of: find.widgetWithText(InkWell, "Bitiş"),
         matching: find.text("Today"),
       ),
       findsOneWidget,
@@ -1324,11 +1324,11 @@ void main() {
     expect(find.text("Catfish"), findsOneWidget);
     expect(find.text("Casting"), findsOneWidget);
     expect(find.text("Kayak"), findsOneWidget);
-    expect(find.text("Dawn"), findsOneWidget);
-    expect(find.text("Afternoon"), findsOneWidget);
-    expect(find.text("Winter"), findsOneWidget);
-    expect(find.text("Summer"), findsOneWidget);
-    expect(find.text("Clear"), findsOneWidget);
+    expect(find.text("Şafak"), findsOneWidget);
+    expect(find.text("Öğleden sonra"), findsOneWidget);
+    expect(find.text("Kış"), findsOneWidget);
+    expect(find.text("Yaz"), findsOneWidget);
+    expect(find.text("Açık"), findsOneWidget);
     expect(find.text("Stained"), findsOneWidget);
     expect(find.text("< 1 m"), findsOneWidget);
     expect(find.text("< 80\u00B0F"), findsOneWidget);
@@ -1336,8 +1336,8 @@ void main() {
     expect(find.text("< 2 kg"), findsOneWidget);
     expect(find.text("< 50"), findsOneWidget);
     expect(find.text("Full Moon"), findsOneWidget);
-    expect(find.text("Outgoing Tide"), findsOneWidget);
-    expect(find.text("Incoming Tide"), findsOneWidget);
+    expect(find.text("Çeken Gelgit"), findsOneWidget);
+    expect(find.text("Gelen Gelgit"), findsOneWidget);
     expect(find.text("Lake Huron"), findsOneWidget);
     expect(find.text("Tennessee River"), findsOneWidget);
 
@@ -1378,20 +1378,20 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => SaveReportPage.edit(report)));
 
-    expect(find.text("All anglers"), findsOneWidget);
-    expect(find.text("All species"), findsOneWidget);
-    expect(find.text("All fishing spots"), findsOneWidget);
-    expect(find.text("All baits"), findsOneWidget);
-    expect(find.text("All gear"), findsOneWidget);
-    expect(find.text("All fishing methods"), findsOneWidget);
-    expect(find.text("All bodies of water"), findsOneWidget);
-    expect(find.text("All times of day"), findsOneWidget);
-    expect(find.text("All seasons"), findsOneWidget);
-    expect(find.text("All water clarities"), findsOneWidget);
-    expect(find.text("All wind directions"), findsOneWidget);
-    expect(find.text("All sky conditions"), findsOneWidget);
-    expect(find.text("All moon phases"), findsOneWidget);
-    expect(find.text("All tides"), findsOneWidget);
+    expect(find.text("Tüm balıkçılar"), findsOneWidget);
+    expect(find.text("Tüm türler"), findsOneWidget);
+    expect(find.text("Tüm av noktaları"), findsOneWidget);
+    expect(find.text("Tüm yemler"), findsOneWidget);
+    expect(find.text("Tüm ekipman"), findsOneWidget);
+    expect(find.text("Tüm balık tutma yöntemleri"), findsOneWidget);
+    expect(find.text("Tüm su kütleleri"), findsOneWidget);
+    expect(find.text("Tüm günün zamanları"), findsOneWidget);
+    expect(find.text("Tüm mevsimler"), findsOneWidget);
+    expect(find.text("Tüm su berraklıkları"), findsOneWidget);
+    expect(find.text("Tüm rüzgar yönleri"), findsOneWidget);
+    expect(find.text("Tüm gökyüzü koşulları"), findsOneWidget);
+    expect(find.text("Tüm ay evreleri"), findsOneWidget);
+    expect(find.text("Tüm gelgitler"), findsOneWidget);
   });
 
   testWidgets("New report without changing date ranges", (tester) async {
@@ -1402,7 +1402,7 @@ void main() {
       find.widgetWithText(TextField, "Name"),
       "Test",
     );
-    await tapAndSettle(tester, find.widgetWithText(InkWell, "Comparison"));
+    await tapAndSettle(tester, find.widgetWithText(InkWell, "Karşılaştırma"));
 
     // The test here is that the app doesn't crash. If the test passes, the
     // app doesn't crash.
@@ -1417,8 +1417,8 @@ void main() {
       find.widgetWithText(TextField, "Name"),
       "Test",
     );
-    await tapAndSettle(tester, find.widgetWithText(InkWell, "Comparison"));
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Favourites Only"));
+    await tapAndSettle(tester, find.widgetWithText(InkWell, "Karşılaştırma"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Yalnızca Favoriler"));
 
     await tapAndSettle(tester, find.text("SAVE"));
 
@@ -1436,10 +1436,10 @@ void main() {
       find.widgetWithText(TextField, "Name"),
       "Test",
     );
-    await tapAndSettle(tester, find.widgetWithText(InkWell, "Comparison"));
+    await tapAndSettle(tester, find.widgetWithText(InkWell, "Karşılaştırma"));
     await tapAndSettle(
       tester,
-      findListItemCheckbox(tester, "Catch and Release Only"),
+      findListItemCheckbox(tester, "Yalnızca Yakala ve Bırak"),
     );
 
     await tapAndSettle(tester, find.text("SAVE"));
@@ -1457,7 +1457,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Catch and Release Only"), findsNothing);
+    expect(find.text("Yalnızca Yakala ve Bırak"), findsNothing);
   });
 
   testWidgets("Favourites hidden when not tracked", (tester) async {
@@ -1467,7 +1467,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Favourites Only"), findsNothing);
+    expect(find.text("Yalnızca Favoriler"), findsNothing);
   });
 
   testWidgets("Water depth hidden when not tracked", (tester) async {
@@ -1477,7 +1477,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Water Depth"), findsNothing);
+    expect(find.text("Su Derinliği"), findsNothing);
   });
 
   testWidgets("Water temperature hidden when not tracked", (tester) async {
@@ -1487,7 +1487,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Water Temperature"), findsNothing);
+    expect(find.text("Su Sıcaklığı"), findsNothing);
   });
 
   testWidgets("Length hidden when not tracked", (tester) async {
@@ -1497,7 +1497,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Length"), findsNothing);
+    expect(find.text("Boy"), findsNothing);
   });
 
   testWidgets("Weight hidden when not tracked", (tester) async {
@@ -1507,7 +1507,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Weight"), findsNothing);
+    expect(find.text("Ağırlık"), findsNothing);
   });
 
   testWidgets("Quantity hidden when not tracked", (tester) async {
@@ -1517,7 +1517,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Quantity"), findsNothing);
+    expect(find.text("Adet"), findsNothing);
   });
 
   testWidgets("Periods hidden when not tracked", (tester) async {
@@ -1527,7 +1527,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All times of day"), findsNothing);
+    expect(find.text("Tüm günün zamanları"), findsNothing);
   });
 
   testWidgets("Seasons hidden when not tracked", (tester) async {
@@ -1537,7 +1537,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All seasons"), findsNothing);
+    expect(find.text("Tüm mevsimler"), findsNothing);
   });
 
   testWidgets("Anglers hidden when not tracked", (tester) async {
@@ -1547,7 +1547,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All anglers"), findsNothing);
+    expect(find.text("Tüm balıkçılar"), findsNothing);
   });
 
   testWidgets("Species hidden when not tracked", (tester) async {
@@ -1557,7 +1557,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All species"), findsNothing);
+    expect(find.text("Tüm türler"), findsNothing);
   });
 
   testWidgets("Gear hidden when not tracked", (tester) async {
@@ -1567,7 +1567,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All gear"), findsNothing);
+    expect(find.text("Tüm ekipman"), findsNothing);
   });
 
   testWidgets("Baits hidden when not tracked", (tester) async {
@@ -1577,7 +1577,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All baits"), findsNothing);
+    expect(find.text("Tüm yemler"), findsNothing);
   });
 
   testWidgets("Fishing spots hidden when not tracked", (tester) async {
@@ -1587,7 +1587,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All fishing spots"), findsNothing);
+    expect(find.text("Tüm av noktaları"), findsNothing);
   });
 
   testWidgets("Bodies of water hidden when not tracked", (tester) async {
@@ -1597,7 +1597,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All bodies of water"), findsNothing);
+    expect(find.text("Tüm su kütleleri"), findsNothing);
   });
 
   testWidgets("Methods hidden when not tracked", (tester) async {
@@ -1607,7 +1607,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All fishing methods"), findsNothing);
+    expect(find.text("Tüm balık tutma yöntemleri"), findsNothing);
   });
 
   testWidgets("Air temperature hidden when not tracked", (tester) async {
@@ -1617,7 +1617,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Air Temperature"), findsNothing);
+    expect(find.text("Hava Sıcaklığı"), findsNothing);
   });
 
   testWidgets("Air pressure hidden when not tracked", (tester) async {
@@ -1627,7 +1627,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Atmospheric Pressure"), findsNothing);
+    expect(find.text("Atmosfer Basıncı"), findsNothing);
   });
 
   testWidgets("Air humidity hidden when not tracked", (tester) async {
@@ -1637,7 +1637,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Air Humidity"), findsNothing);
+    expect(find.text("Hava Nemi"), findsNothing);
   });
 
   testWidgets("Air visibility hidden when not tracked", (tester) async {
@@ -1647,7 +1647,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Air Visibility"), findsNothing);
+    expect(find.text("Hava Görüşü"), findsNothing);
   });
 
   testWidgets("Wind speeds hidden when not tracked", (tester) async {
@@ -1657,7 +1657,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Wind Speed"), findsNothing);
+    expect(find.text("Rüzgar Hızı"), findsNothing);
   });
 
   testWidgets("Wind directions hidden when not tracked", (tester) async {
@@ -1667,7 +1667,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All wind directions"), findsNothing);
+    expect(find.text("Tüm rüzgar yönleri"), findsNothing);
   });
 
   testWidgets("Sky conditions hidden when not tracked", (tester) async {
@@ -1677,7 +1677,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All sky conditions"), findsNothing);
+    expect(find.text("Tüm gökyüzü koşulları"), findsNothing);
   });
 
   testWidgets("Moon phases hidden when not tracked", (tester) async {
@@ -1687,7 +1687,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All moon phases"), findsNothing);
+    expect(find.text("Tüm ay evreleri"), findsNothing);
   });
 
   testWidgets("Tides hidden when not tracked", (tester) async {
@@ -1697,7 +1697,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All tides"), findsNothing);
+    expect(find.text("Tüm gelgitler"), findsNothing);
   });
 
   testWidgets("Water clarities hidden when not tracked", (tester) async {
@@ -1707,7 +1707,7 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("All water clarities"), findsNothing);
+    expect(find.text("Tüm su berraklıkları"), findsNothing);
   });
 
   testWidgets("Time zone hidden when not tracked", (tester) async {
@@ -1717,6 +1717,6 @@ void main() {
         return const SaveReportPage();
       }),
     );
-    expect(find.text("Time Zone"), findsNothing);
+    expect(find.text("Saat Dilimi"), findsNothing);
   });
 }

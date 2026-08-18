@@ -231,7 +231,7 @@ void main() {
   });
 
   group("valueForCustomEntityType", () {
-    test("Number", () {
+    test("Sayı", () {
       expect(
         valueForCustomEntityType(
           CustomEntity_Type.number,
@@ -241,7 +241,7 @@ void main() {
       );
     });
 
-    test("Text", () {
+    test("Metin", () {
       expect(
         valueForCustomEntityType(
           CustomEntity_Type.text,
@@ -950,7 +950,7 @@ void main() {
 
     testWidgets("Any displayValue", (tester) async {
       var filter = NumberFilter(boundary: NumberBoundary.number_boundary_any);
-      expect(filter.displayValue(await buildContext(tester)), "Any");
+      expect(filter.displayValue(await buildContext(tester)), "Herhangi");
     });
 
     testWidgets("Signed displayValue", (tester) async {
@@ -975,12 +975,12 @@ void main() {
         boundary: NumberBoundary.range,
         from: MultiMeasurement(mainValue: Measurement(value: 5)),
       );
-      expect(filter.displayValue(await buildContext(tester)), "Any");
+      expect(filter.displayValue(await buildContext(tester)), "Herhangi");
     });
 
     testWidgets("Invalid start value in displayValue", (tester) async {
       var filter = NumberFilter(boundary: NumberBoundary.greater_than);
-      expect(filter.displayValue(await buildContext(tester)), "Any");
+      expect(filter.displayValue(await buildContext(tester)), "Herhangi");
     });
 
     test("Range containsMultiMeasurement", () {
@@ -1295,7 +1295,7 @@ void main() {
     });
   });
 
-  group("Directions", () {
+  group("Yol tarifi", () {
     test("fromDegrees north", () {
       expect(Directions.fromDegrees(0), Direction.north);
       expect(Directions.fromDegrees(360), Direction.north);
@@ -1395,7 +1395,7 @@ void main() {
         Tide(
           type: TideType.high,
         ).currentDisplayValue(await buildContext(tester), useChipName: true),
-        "High Tide",
+        "Yüksek Gelgit",
       );
     });
 
@@ -1406,7 +1406,7 @@ void main() {
         Tide(
           type: TideType.high,
         ).currentDisplayValue(await buildContext(tester), useChipName: false),
-        "High",
+        "Yüksek",
       );
     });
 
@@ -1544,7 +1544,7 @@ void main() {
     });
   });
 
-  group("Baits", () {
+  group("Yemler", () {
     test("displayImageName returns bait image", () {
       expect(Bait(imageName: "test.png").displayImageName, "test.png");
     });
@@ -1700,8 +1700,8 @@ void main() {
       expect(atmosphere.matchesFilter(context, "50"), isTrue);
       expect(atmosphere.matchesFilter(context, "10"), isTrue);
       expect(atmosphere.matchesFilter(context, "full"), isTrue);
-      expect(atmosphere.matchesFilter(context, "sunrise"), isTrue);
-      expect(atmosphere.matchesFilter(context, "sunset"), isTrue);
+      expect(atmosphere.matchesFilter(context, "gündoğumu"), isTrue);
+      expect(atmosphere.matchesFilter(context, "gün batımı"), isTrue);
       expect(atmosphere.matchesFilter(context, "500"), isFalse);
       expect(atmosphere.matchesFilter(context, "37"), isFalse);
       expect(atmosphere.matchesFilter(context, "nothing"), isFalse);
@@ -1776,7 +1776,7 @@ void main() {
     });
   });
 
-  group("Trips", () {
+  group("Geziler", () {
     test("incCatchesPerEntity early exit if ID isn't valid", () {
       var catchesPerEntity = <Trip_CatchesPerEntity>[];
       Trips.incCatchesPerEntity(catchesPerEntity, Id(uuid: ""), Catch());

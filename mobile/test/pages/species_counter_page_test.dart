@@ -97,7 +97,7 @@ void main() {
     await pumpContext(tester, (_) => SpeciesCounterPage());
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Create Trip"));
+    await tapAndSettle(tester, find.text("Gezi Oluştur"));
     expect(find.byType(SaveTripPage), findsOneWidget);
 
     var trip = findFirst<SaveTripPage>(tester).oldTrip;
@@ -115,11 +115,11 @@ void main() {
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
     expect(
-      findFirstWithText<PopupMenuItem<String>>(tester, "Create Trip").enabled,
+      findFirstWithText<PopupMenuItem<String>>(tester, "Gezi Oluştur").enabled,
       isFalse,
     );
     expect(
-      findFirstWithText<PopupMenuItem<String>>(tester, "Append Trip").enabled,
+      findFirstWithText<PopupMenuItem<String>>(tester, "Geziye Ekle").enabled,
       isFalse,
     );
   });
@@ -139,7 +139,7 @@ void main() {
     await pumpContext(tester, (_) => SpeciesCounterPage());
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Append Trip"));
+    await tapAndSettle(tester, find.text("Geziye Ekle"));
     expect(find.byType(TripListPage), findsOneWidget);
 
     await tapAndSettle(tester, find.byType(CloseButton));
@@ -175,7 +175,7 @@ void main() {
     await pumpContext(tester, (_) => SpeciesCounterPage());
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Append Trip"));
+    await tapAndSettle(tester, find.text("Geziye Ekle"));
     expect(find.byType(TripListPage), findsOneWidget);
 
     await tapAndSettle(tester, find.text("Test Trip"));
@@ -219,7 +219,7 @@ void main() {
     await pumpContext(tester, (_) => SpeciesCounterPage());
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Append Trip"));
+    await tapAndSettle(tester, find.text("Geziye Ekle"));
     expect(find.byType(TripListPage), findsOneWidget);
 
     await tapAndSettle(tester, find.text("Test Trip"));
@@ -255,7 +255,7 @@ void main() {
     await pumpContext(tester, (_) => SpeciesCounterPage());
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Append Trip"));
+    await tapAndSettle(tester, find.text("Geziye Ekle"));
     expect(find.byType(TripListPage), findsOneWidget);
 
     await tapAndSettle(tester, find.text("Test Trip"));
@@ -285,7 +285,7 @@ void main() {
     await pumpContext(tester, (_) => SpeciesCounterPage());
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Append Trip"));
+    await tapAndSettle(tester, find.text("Geziye Ekle"));
     expect(find.byType(TripListPage), findsOneWidget);
 
     await tapAndSettle(tester, find.byType(ManageableListItem).last);
@@ -300,10 +300,10 @@ void main() {
     when(managers.userPreferenceManager.speciesCounter).thenReturn({});
 
     await pumpContext(tester, (_) => SpeciesCounterPage());
-    expect(find.byType(ListItem), findsOneWidget); // "Select Species".
+    expect(find.byType(ListItem), findsOneWidget); // "Tür Seç".
 
     // Select species.
-    await tapAndSettle(tester, find.text("Select Species"));
+    await tapAndSettle(tester, find.text("Tür Seç"));
     expect(find.byType(SpeciesListPage), findsOneWidget);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -324,7 +324,7 @@ void main() {
     expect(find.byType(ListItem), findsNWidgets(4));
 
     // Deselect all species.
-    await tapAndSettle(tester, find.text("Select Species"));
+    await tapAndSettle(tester, find.text("Tür Seç"));
     expect(find.byType(SpeciesListPage), findsOneWidget);
     await tapAndSettle(tester, find.byType(Checkbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
@@ -345,7 +345,7 @@ void main() {
     await pumpContext(tester, (_) => SpeciesCounterPage());
 
     // Deselect all species.
-    await tapAndSettle(tester, find.text("Select Species"));
+    await tapAndSettle(tester, find.text("Tür Seç"));
     expect(find.byType(SpeciesListPage), findsOneWidget);
     await tapAndSettle(tester, find.byType(Checkbox).last);
     await tapAndSettle(tester, find.byType(BackButton));

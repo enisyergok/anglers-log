@@ -279,7 +279,7 @@ void main() {
     await pumpContext(tester, (_) => CalendarPage());
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
-    await tapAndSettle(tester, find.text("Trip"));
+    await tapAndSettle(tester, find.text("Gezi"));
     expect(find.byType(TripPage), findsOneWidget);
   });
 
@@ -300,7 +300,7 @@ void main() {
     await pumpContext(tester, (_) => CalendarPage());
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
-    expect(find.text("Trip"), findsOneWidget);
+    expect(find.text("Gezi"), findsOneWidget);
     expect(find.text("Rainbow"), findsOneWidget);
   });
 
@@ -364,7 +364,7 @@ void main() {
     await pumpContext(tester, (_) => CalendarPage());
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
-    expect(find.text("Unknown Species"), findsOneWidget);
+    expect(find.text("Bilinmeyen Tür"), findsOneWidget);
   });
 
   testWidgets("Trip with name", (tester) async {

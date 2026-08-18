@@ -156,7 +156,7 @@ void main() {
     await tester.pumpWidget(
       Testable((_) => EntityPage(isStatic: true, children: const [])),
     );
-    expect(find.text("Custom Fields"), findsNothing);
+    expect(find.text("Özel Alanlar"), findsNothing);
   });
 
   testWidgets("Custom entities are shown with separator", (tester) async {
@@ -181,7 +181,7 @@ void main() {
       ),
     );
 
-    expect(find.text("Custom Fields"), findsOneWidget);
+    expect(find.text("Özel Alanlar"), findsOneWidget);
     expect(find.text("Test Name"), findsOneWidget);
     expect(find.text("Test Value"), findsOneWidget);
   });

@@ -25,37 +25,37 @@ void main() {
     await tester.pumpWidget(
       Testable((_) => SaveWaterClarityPage.edit(WaterClarity())),
     );
-    expect(find.text("Edit Water Clarity"), findsOneWidget);
+    expect(find.text("Su Berraklığını Düzenle"), findsOneWidget);
   });
 
   testWidgets("New title", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveWaterClarityPage()));
-    expect(find.text("New Water Clarity"), findsOneWidget);
+    expect(find.text("Yeni Su Berraklığı"), findsOneWidget);
   });
 
   testWidgets("Save new", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveWaterClarityPage()));
 
-    await enterTextAndSettle(tester, find.byType(TextField), "Clear");
+    await enterTextAndSettle(tester, find.byType(TextField), "Açık");
     await tapAndSettle(tester, find.text("SAVE"));
 
     var result = verify(managers.waterClarityManager.addOrUpdate(captureAny));
     result.called(1);
 
     WaterClarity waterClarity = result.captured.first;
-    expect(waterClarity.name, "Clear");
+    expect(waterClarity.name, "Açık");
   });
 
   testWidgets("Editing", (tester) async {
     var waterClarity = WaterClarity()
       ..id = randomId()
-      ..name = "Clear";
+      ..name = "Açık";
 
     await tester.pumpWidget(
       Testable((_) => SaveWaterClarityPage.edit(waterClarity)),
     );
 
-    expect(find.text("Clear"), findsOneWidget);
+    expect(find.text("Açık"), findsOneWidget);
 
     await enterTextAndSettle(tester, find.byType(TextField), "Stained");
     await tapAndSettle(tester, find.text("SAVE"));

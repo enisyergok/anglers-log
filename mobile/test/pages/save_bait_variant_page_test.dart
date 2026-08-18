@@ -43,12 +43,12 @@ void main() {
 
     await pumpContext(tester, (_) => const SaveBaitVariantPage());
 
-    expect(find.text("Colour"), findsOneWidget);
-    expect(find.text("Size"), findsOneWidget);
-    expect(find.text("Model Number"), findsNothing);
-    expect(find.text("Minimum Dive Depth"), findsNothing);
-    expect(find.text("Maximum Dive Depth"), findsNothing);
-    expect(find.text("Description"), findsNothing);
+    expect(find.text("Renk"), findsOneWidget);
+    expect(find.text("Boyut"), findsOneWidget);
+    expect(find.text("Model Numarası"), findsNothing);
+    expect(find.text("Minimum Dalış Derinliği"), findsNothing);
+    expect(find.text("Maksimum Dalış Derinliği"), findsNothing);
+    expect(find.text("Açıklama"), findsNothing);
   });
 
   testWidgets("All fields shown when none are tracked", (tester) async {
@@ -58,13 +58,13 @@ void main() {
     // SingleImageInput uses a Future under the hood. Need to let it finish.
     await tester.pumpAndSettle();
 
-    expect(find.text("Photo"), findsOneWidget);
-    expect(find.text("Colour"), findsOneWidget);
-    expect(find.text("Size"), findsOneWidget);
-    expect(find.text("Model Number"), findsOneWidget);
-    expect(find.text("Minimum Dive Depth"), findsOneWidget);
-    expect(find.text("Maximum Dive Depth"), findsOneWidget);
-    expect(find.text("Description"), findsOneWidget);
+    expect(find.text("Fotoğraf"), findsOneWidget);
+    expect(find.text("Renk"), findsOneWidget);
+    expect(find.text("Boyut"), findsOneWidget);
+    expect(find.text("Model Numarası"), findsOneWidget);
+    expect(find.text("Minimum Dalış Derinliği"), findsOneWidget);
+    expect(find.text("Maksimum Dalış Derinliği"), findsOneWidget);
+    expect(find.text("Açıklama"), findsOneWidget);
   });
 
   testWidgets("Editing with all fields set", (tester) async {
@@ -85,7 +85,7 @@ void main() {
     when(managers.customEntityManager.entity(customEntityId)).thenReturn(
       CustomEntity(
         id: customEntityId,
-        name: "Custom Field",
+        name: "Özel Alan",
         type: CustomEntity_Type.text,
       ),
     );
@@ -169,7 +169,7 @@ void main() {
 
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextField, "Colour"),
+      find.widgetWithText(TextField, "Renk"),
       "Red",
     );
 
@@ -188,7 +188,7 @@ void main() {
     when(managers.customEntityManager.entity(customEntityId)).thenReturn(
       CustomEntity(
         id: customEntityId,
-        name: "Custom Field",
+        name: "Özel Alan",
         type: CustomEntity_Type.text,
       ),
     );
@@ -197,7 +197,7 @@ void main() {
 
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextField, "Custom Field"),
+      find.widgetWithText(TextField, "Özel Alan"),
       "Red",
     );
 

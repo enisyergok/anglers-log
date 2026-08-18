@@ -95,7 +95,7 @@ void main() {
     expect(listItem.subtitle3, isEmpty);
   });
 
-  testWidgets("New Fishing Spot", (tester) async {
+  testWidgets("Yeni Av Noktası", (tester) async {
     when(managers.bodyOfWaterManager.entity(any)).thenReturn(null);
 
     await tester.pumpWidget(
@@ -108,7 +108,7 @@ void main() {
     );
 
     var listItem = findFirst<ImageListItem>(tester);
-    expect(listItem.title, "New Fishing Spot");
+    expect(listItem.title, "Yeni Av Noktası");
     expect(listItem.subtitle, isNull);
     expect(listItem.subtitle2, "Lat: 1.234560, Lng: 6.543210");
     expect(listItem.subtitle3, isEmpty);
@@ -251,7 +251,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Save"), findsNothing);
+    expect(find.widgetWithText(ChipButton, "Kaydet"), findsNothing);
   });
 
   testWidgets("Save action hidden when picking", (tester) async {
@@ -267,7 +267,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Save"), findsNothing);
+    expect(find.widgetWithText(ChipButton, "Kaydet"), findsNothing);
   });
 
   testWidgets("Save action shown", (tester) async {
@@ -283,7 +283,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Save"), findsOneWidget);
+    expect(find.widgetWithText(ChipButton, "Kaydet"), findsOneWidget);
   });
 
   testWidgets("Add action hidden when spot doesn't exist", (tester) async {
@@ -298,7 +298,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Add Catch"), findsNothing);
+    expect(find.widgetWithText(ChipButton, "Av Ekle"), findsNothing);
   });
 
   testWidgets("Add action hidden when picking", (tester) async {
@@ -314,7 +314,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Add Catch"), findsNothing);
+    expect(find.widgetWithText(ChipButton, "Av Ekle"), findsNothing);
   });
 
   testWidgets("Add action shown", (tester) async {
@@ -330,7 +330,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Add Catch"), findsOneWidget);
+    expect(find.widgetWithText(ChipButton, "Av Ekle"), findsOneWidget);
   });
 
   testWidgets("Edit action hidden when spot doesn't exist and not picking", (
@@ -348,7 +348,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Edit"), findsNothing);
+    expect(find.widgetWithText(ChipButton, "Düzenle"), findsNothing);
   });
 
   testWidgets("Save details button in edit mode", (tester) async {
@@ -364,7 +364,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Edit"), findsOneWidget);
+    expect(find.widgetWithText(ChipButton, "Düzenle"), findsOneWidget);
     expect(find.byIcon(Icons.edit), findsOneWidget);
   });
 
@@ -381,7 +381,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Add Details"), findsOneWidget);
+    expect(find.widgetWithText(ChipButton, "Ayrıntı Ekle"), findsOneWidget);
     expect(find.byIcon(Icons.add), findsOneWidget);
   });
 
@@ -442,7 +442,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Directions"), findsNothing);
+    expect(find.widgetWithText(ChipButton, "Yol tarifi"), findsNothing);
   });
 
   testWidgets("Directions action shown", (tester) async {
@@ -456,7 +456,7 @@ void main() {
       ),
     );
 
-    expect(find.widgetWithText(ChipButton, "Directions"), findsOneWidget);
+    expect(find.widgetWithText(ChipButton, "Yol tarifi"), findsOneWidget);
   });
 
   testWidgets("Directions action shows all options", (tester) async {
@@ -470,7 +470,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Directions"));
+    await tapAndSettle(tester, find.text("Yol tarifi"));
     expect(find.text("Google Maps\u2122"), findsOneWidget);
     expect(find.text("Apple Maps\u2122"), findsOneWidget);
     expect(find.text("Waze\u2122"), findsOneWidget);
@@ -491,7 +491,7 @@ void main() {
     );
 
     // Open bottom sheet.
-    await tapAndSettle(tester, find.text("Directions"));
+    await tapAndSettle(tester, find.text("Yol tarifi"));
     expect(find.text("Google Maps\u2122"), findsOneWidget);
     expect(find.text("Apple Maps\u2122"), findsOneWidget);
     expect(find.text("Waze\u2122"), findsOneWidget);
@@ -531,7 +531,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Directions"));
+    await tapAndSettle(tester, find.text("Yol tarifi"));
 
     var result = verify(managers.urlLauncherWrapper.launch(captureAny));
     result.called(1);
@@ -563,7 +563,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Directions"));
+    await tapAndSettle(tester, find.text("Yol tarifi"));
     expect(find.byType(SnackBar), findsNothing);
 
     var result = verify(managers.urlLauncherWrapper.launch(captureAny));
@@ -591,7 +591,7 @@ void main() {
     ).thenAnswer((_) => throw PlatformException(code: "CODE"));
 
     // Open bottom sheet.
-    await tapAndSettle(tester, find.text("Directions"));
+    await tapAndSettle(tester, find.text("Yol tarifi"));
     await tapAndSettle(tester, find.text("Apple Maps\u2122"));
 
     verify(managers.urlLauncherWrapper.launch(any)).called(1);
@@ -615,7 +615,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Directions"));
+    await tapAndSettle(tester, find.text("Yol tarifi"));
     await tapAndSettle(tester, find.text("Apple Maps\u2122"));
 
     expect(find.byType(SnackBar), findsOneWidget);
@@ -709,8 +709,8 @@ void main() {
     );
 
     await tester.pumpAndSettle();
-    expect(find.text("1 Catch"), findsOneWidget);
-    await tapAndSettle(tester, find.text("1 Catch"));
+    expect(find.text("1 Av"), findsOneWidget);
+    await tapAndSettle(tester, find.text("1 Av"));
     expect(find.byType(CatchListPage), findsOneWidget);
   });
 

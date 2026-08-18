@@ -229,7 +229,7 @@ void main() {
     var context = await buildContext(tester);
     expect(
       gpsTrailManager.deleteMessage(context, gpsTrail),
-      "This GPS trail is associated with 1 trip; are you sure you want to delete it? This cannot be undone.",
+      "Bu GPS izi 1 gezi ile ilişkilidir; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
     );
   });
 

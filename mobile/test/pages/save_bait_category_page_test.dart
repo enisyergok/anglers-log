@@ -25,12 +25,12 @@ void main() {
     await tester.pumpWidget(
       Testable((_) => SaveBaitCategoryPage.edit(BaitCategory())),
     );
-    expect(find.text("Edit Bait Category"), findsOneWidget);
+    expect(find.text("Yem Kategorisini Düzenle"), findsOneWidget);
   });
 
   testWidgets("New title", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveBaitCategoryPage()));
-    expect(find.text("New Bait Category"), findsOneWidget);
+    expect(find.text("Yeni Yem Kategorisi"), findsOneWidget);
   });
 
   testWidgets("Save new", (tester) async {
@@ -80,6 +80,6 @@ void main() {
     );
 
     await enterTextAndSettle(tester, find.byType(TextField), "Rapala");
-    expect(find.text("Bait category already exists"), findsOneWidget);
+    expect(find.text("Yem kategorisi zaten var"), findsOneWidget);
   });
 }

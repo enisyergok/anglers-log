@@ -217,7 +217,7 @@ void main() {
 
       expect(controller.hasValue, isTrue);
 
-      await tapAndSettle(tester, find.text("None"));
+      await tapAndSettle(tester, find.text("Yok"));
       expect(controller.hasValue, isFalse);
     });
   });

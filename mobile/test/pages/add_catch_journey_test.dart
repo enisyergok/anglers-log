@@ -312,7 +312,7 @@ void main() {
     await tapAndSettle(tester, find.text("Steelhead"));
 
     expect(findFirst<SaveCatchPage>(tester).fishingSpot, isNull);
-    expect(find.text("Fishing Spot"), findsNothing);
+    expect(find.text("Av Noktası"), findsNothing);
   });
 
   testWidgets("Fishing spot is skipped when spot already exists", (
@@ -479,7 +479,7 @@ void main() {
         tester,
         (context) => presentAddCatchJourney(context),
       );
-      expect(find.text("Choose Photo Source"), findsOneWidget);
+      expect(find.text("Fotoğraf Kaynağını Seç"), findsOneWidget);
 
       await tester.tapAt(const Offset(10, 10));
       await tester.pumpAndSettle();

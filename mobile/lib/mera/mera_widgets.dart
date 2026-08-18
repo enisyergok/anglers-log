@@ -1,9 +1,49 @@
 import 'dart:math' as math;
+import 'dart:ui'; // Added for ImageFilter
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/siren_fish_art.dart';
+
+class MeraGlassPanel extends StatelessWidget {
+  final Widget child;
+  final double borderRadius;
+  final Color color;
+  final Border? border;
+  final EdgeInsetsGeometry padding;
+  final double blur;
+
+  const MeraGlassPanel({
+    super.key,
+    required this.child,
+    this.borderRadius = MeraRadii.sm,
+    this.color = MeraColors.hudGlass,
+    this.border,
+    this.padding = EdgeInsets.zero,
+    this.blur = 18.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+        child: Container(
+          padding: padding,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: border ?? Border.all(color: MeraColors.borderSecondary.withValues(alpha: 0.5)),
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
 
 class MeraCard extends StatelessWidget {
   final Widget child;

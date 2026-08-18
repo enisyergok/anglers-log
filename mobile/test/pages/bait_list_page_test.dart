@@ -41,10 +41,10 @@ void main() {
   var baitCategories = [
     BaitCategory()
       ..id = categoryId0
-      ..name = "Artificial",
+      ..name = "Yapay",
     BaitCategory()
       ..id = categoryId1
-      ..name = "Live",
+      ..name = "Canlı",
   ];
 
   var baits = [
@@ -141,8 +141,8 @@ void main() {
         .widgetList(find.listHeadingText(context))
         .toList();
     expect(baitCategoryHeadings.length, 2);
-    expect((baitCategoryHeadings[0] as Text).data, "Artificial");
-    expect((baitCategoryHeadings[1] as Text).data, "Live");
+    expect((baitCategoryHeadings[0] as Text).data, "Yapay");
+    expect((baitCategoryHeadings[1] as Text).data, "Canlı");
 
     var baitLabels = tester.widgetList(find.primaryText(context)).toList();
     expect(baitLabels.length, 5);
@@ -177,7 +177,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const BaitListPage()));
 
     expect(find.text("0 Catches"), findsNWidgets(4));
-    expect(find.text("1 Catch"), findsOneWidget);
+    expect(find.text("1 Av"), findsOneWidget);
   });
 
   testWidgets("Bait shows photo", (tester) async {
@@ -213,14 +213,14 @@ void main() {
   testWidgets("Bait shows number of variants", (tester) async {
     await tester.pumpWidget(Testable((_) => const BaitListPage()));
 
-    expect(find.text("1 Variant"), findsNWidgets(2));
+    expect(find.text("1 Varyant"), findsNWidgets(2));
     expect(find.text("0 Variants"), findsNWidgets(3));
   });
 
   testWidgets("Variant shows chip for normal text size", (tester) async {
     await tester.pumpWidget(Testable((_) => const BaitListPage()));
     expect(find.byType(MinChip), findsNWidgets(5));
-    expect(find.text("1 Variant"), findsNWidgets(2));
+    expect(find.text("1 Varyant"), findsNWidgets(2));
     expect(find.text("0 Variants"), findsNWidgets(3));
   });
 
@@ -234,7 +234,7 @@ void main() {
       ),
     );
     expect(find.byType(MinChip), findsNothing);
-    expect(find.text("1 Variant"), findsNWidgets(2));
+    expect(find.text("1 Varyant"), findsNWidgets(2));
     expect(find.text("0 Variants"), findsNWidgets(3));
   });
 
@@ -291,13 +291,13 @@ void main() {
       Testable(
         (_) => BaitPickerInput(
           controller: controller,
-          emptyValue: (_) => "No baits",
+          emptyValue: (_) => "Yem yok",
         ),
       ),
     );
 
     // Select variant.
-    await tapAndSettle(tester, find.text("No baits"));
+    await tapAndSettle(tester, find.text("Yem yok"));
     await tapAndSettle(
       tester,
       findManageableListItemCheckbox(tester, "Silver", skipOffstage: false),
@@ -325,14 +325,14 @@ void main() {
       Testable(
         (_) => BaitPickerInput(
           controller: controller,
-          emptyValue: (_) => "No baits",
+          emptyValue: (_) => "Yem yok",
           isAllEmpty: false,
         ),
       ),
     );
 
-    await tapAndSettle(tester, find.text("No baits"));
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await tapAndSettle(tester, find.text("Yem yok"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
     await tapAndSettle(tester, find.byType(BackButton));
 
     expect(controller.value.length, 5);
@@ -348,18 +348,18 @@ void main() {
       Testable(
         (_) => BaitPickerInput(
           controller: controller,
-          emptyValue: (_) => "No baits",
+          emptyValue: (_) => "Yem yok",
           isAllEmpty: true,
         ),
       ),
     );
 
-    await tapAndSettle(tester, find.text("No baits"));
+    await tapAndSettle(tester, find.text("Yem yok"));
 
     // Verify all items are selected, and do not change. In this case,
     // controller should be cleared.
     var allCheckbox = tester.widget<PaddedCheckbox>(
-      findManageableListItemCheckbox(tester, "All"),
+      findManageableListItemCheckbox(tester, "Tümü"),
     );
     expect(allCheckbox.isChecked, isTrue);
 
@@ -375,24 +375,24 @@ void main() {
       Testable(
         (_) => BaitPickerInput(
           controller: controller,
-          emptyValue: (_) => "No baits",
+          emptyValue: (_) => "Yem yok",
           isAllEmpty: false,
         ),
       ),
     );
 
     // Select all.
-    await tapAndSettle(tester, find.text("No baits"));
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await tapAndSettle(tester, find.text("Yem yok"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
     await tapAndSettle(tester, find.byType(BackButton));
     expect(controller.value.length, 5);
 
     // De-select all.
     await tapAndSettle(tester, find.byType(BaitPickerInput));
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
     await tapAndSettle(tester, find.byType(BackButton));
     expect(controller.value.isEmpty, isTrue);
-    expect(find.text("No baits"), findsOneWidget);
+    expect(find.text("Yem yok"), findsOneWidget);
   });
 
   testWidgets("Only bait objects without variants are passed to picker", (
@@ -408,7 +408,7 @@ void main() {
       Testable(
         (_) => BaitPickerInput(
           controller: controller,
-          emptyValue: (_) => "No baits",
+          emptyValue: (_) => "Yem yok",
         ),
       ),
     );
@@ -499,7 +499,7 @@ void main() {
       Testable(
         (_) => BaitPickerInput(
           controller: controller,
-          emptyValue: (_) => "No baits",
+          emptyValue: (_) => "Yem yok",
         ),
       ),
     );

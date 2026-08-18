@@ -84,9 +84,9 @@ void main() {
     await pumpContext(tester, (_) => PollsPage());
 
     expect(find.byType(Loading), findsOneWidget);
-    expect(find.text("Next Free Feature"), findsNothing);
-    expect(find.text("Next Pro Feature"), findsNothing);
-    expect(find.text("No Polls"), findsNothing);
+    expect(find.text("Sonraki Ücretsiz Özellik"), findsNothing);
+    expect(find.text("Sonraki Pro Özellik"), findsNothing);
+    expect(find.text("Anket Yok"), findsNothing);
 
     // Pump to ensure fetchPolls() future finishes.
     tester.pumpAndSettle(const Duration(milliseconds: 50));
@@ -102,9 +102,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(Loading), findsNothing);
-    expect(find.text("Next Free Feature"), findsNothing);
-    expect(find.text("Next Pro Feature"), findsNothing);
-    expect(find.text("No Polls"), findsOneWidget);
+    expect(find.text("Sonraki Ücretsiz Özellik"), findsNothing);
+    expect(find.text("Sonraki Pro Özellik"), findsNothing);
+    expect(find.text("Anket Yok"), findsOneWidget);
 
     when(managers.userPreferenceManager.userName).thenReturn(null);
     when(managers.userPreferenceManager.userEmail).thenReturn(null);
@@ -118,13 +118,13 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(Loading), findsNothing);
-    expect(find.text("Next Free Feature"), findsOneWidget);
-    expect(find.text("Coming Soon To Free Users (As Voted)"), findsOneWidget);
+    expect(find.text("Sonraki Ücretsiz Özellik"), findsOneWidget);
+    expect(find.text("Yakında Ücretsiz Kullanıcılara Sunulacak (Oy verildiği gibi)"), findsOneWidget);
     expect(find.text("Coming soon free"), findsOneWidget);
-    expect(find.text("Next Pro Feature"), findsOneWidget);
-    expect(find.text("Coming Soon To Pro Users (As Voted)"), findsOneWidget);
+    expect(find.text("Sonraki Pro Özellik"), findsOneWidget);
+    expect(find.text("Yakında Profesyonel Kullanıcılara Sunulacak (Oylamaya Göre)"), findsOneWidget);
     expect(find.text("Coming soon pro"), findsOneWidget);
-    expect(find.text("No Polls"), findsNothing);
+    expect(find.text("Anket Yok"), findsNothing);
   });
 
   testWidgets("Free poll hidden when null", (tester) async {
@@ -134,9 +134,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(Loading), findsNothing);
-    expect(find.text("Next Free Feature"), findsNothing);
-    expect(find.text("Next Pro Feature"), findsOneWidget);
-    expect(find.text("No Polls"), findsNothing);
+    expect(find.text("Sonraki Ücretsiz Özellik"), findsNothing);
+    expect(find.text("Sonraki Pro Özellik"), findsOneWidget);
+    expect(find.text("Anket Yok"), findsNothing);
   });
 
   testWidgets("Pro poll hidden when null", (tester) async {
@@ -146,9 +146,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(Loading), findsNothing);
-    expect(find.text("Next Free Feature"), findsOneWidget);
-    expect(find.text("Next Pro Feature"), findsNothing);
-    expect(find.text("No Polls"), findsNothing);
+    expect(find.text("Sonraki Ücretsiz Özellik"), findsOneWidget);
+    expect(find.text("Sonraki Pro Özellik"), findsNothing);
+    expect(find.text("Anket Yok"), findsNothing);
   });
 
   testWidgets("Polls disabled after vote", (tester) async {
@@ -159,11 +159,11 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.text("Thank you for voting in the free feature poll!"),
+      find.text("Ücretsiz özellik anketine oy verdiğiniz için teşekkür ederiz!"),
       findsOneWidget,
     );
     expect(
-      find.text("Thank you for voting in the pro feature poll!"),
+      find.text("Profesyonel özellik anketine oy verdiğiniz için teşekkür ederiz!"),
       findsOneWidget,
     );
     expect(find.byType(Column), findsNWidgets(8));
@@ -252,7 +252,7 @@ void main() {
     await tapAndSettle(tester, find.text("Free Feature 1"));
     expect(
       find.text(
-        "There was an error casting your vote. Please try again later.",
+        "Oyunuzu verirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
       ),
       findsOneWidget,
     );
@@ -260,7 +260,7 @@ void main() {
     await tapAndSettle(tester, find.text("Pro Feature 1"));
     expect(
       find.text(
-        "There was an error casting your vote. Please try again later.",
+        "Oyunuzu verirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
       ),
       findsNWidgets(2),
     );
@@ -276,7 +276,7 @@ void main() {
     polls.pro.comingSoon.clear();
     await pumpContext(tester, (_) => PollsPage());
     await tester.pumpAndSettle();
-    expect(find.text("Coming Soon To Pro Users (As Voted)"), findsNothing);
+    expect(find.text("Yakında Profesyonel Kullanıcılara Sunulacak (Oylamaya Göre)"), findsNothing);
     expect(find.text("Coming soon pro"), findsNothing);
   });
 

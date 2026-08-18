@@ -26,10 +26,10 @@ void main() {
   testWidgets("If title is empty, value is used as title", (tester) async {
     var context = await pumpContext(
       tester,
-      (_) => ListPickerInput(value: "Value"),
+      (_) => ListPickerInput(value: "Değer"),
     );
 
-    expect(find.secondaryText(context, text: "Value"), findsNothing);
+    expect(find.secondaryText(context, text: "Değer"), findsNothing);
     expect(find.byType(SizedBox), findsNWidgets(2));
   });
 
@@ -39,7 +39,7 @@ void main() {
       (_) => ListPickerInput(title: "Title"),
     );
 
-    expect(find.secondaryText(context, text: "Not Selected"), findsOneWidget);
+    expect(find.secondaryText(context, text: "Seçilmedi"), findsOneWidget);
   });
 
   testWidgets("withSinglePickerPage shows picker", (tester) async {
@@ -50,7 +50,7 @@ void main() {
           controller: InputController<Period>(),
           title: "Title",
           pickerTitle: "Picker Title",
-          valueDisplayName: "Value",
+          valueDisplayName: "Değer",
           noneItem: Period.period_none,
           itemBuilder: Periods.pickerItems,
           onPicked: (_) {},
@@ -74,7 +74,7 @@ void main() {
           controller: controller,
           title: "Title",
           pickerTitle: "Picker Title",
-          valueDisplayName: "Value",
+          valueDisplayName: "Değer",
           noneItem: Period.period_none,
           itemBuilder: Periods.pickerItems,
           onPicked: (_) {},
@@ -86,7 +86,7 @@ void main() {
 
     expect(find.byType(typeOf<PickerPage<Period>>()), findsOneWidget);
     expect(
-      siblingOfText(tester, ListItem, "Afternoon", find.byIcon(Icons.check)),
+      siblingOfText(tester, ListItem, "Öğleden sonra", find.byIcon(Icons.check)),
       findsOneWidget,
     );
   });
@@ -101,7 +101,7 @@ void main() {
           controller: InputController<Period>(),
           title: "Title",
           pickerTitle: "Picker Title",
-          valueDisplayName: "Value",
+          valueDisplayName: "Değer",
           noneItem: Period.period_none,
           itemBuilder: Periods.pickerItems,
           onPicked: (_) {},
@@ -113,12 +113,12 @@ void main() {
 
     expect(find.byType(typeOf<PickerPage<Period>>()), findsOneWidget);
     expect(
-      siblingOfText(tester, ListItem, "None", find.byIcon(Icons.check)),
+      siblingOfText(tester, ListItem, "Yok", find.byIcon(Icons.check)),
       findsOneWidget,
     );
   });
 
-  testWidgets("withSinglePickerPage selecting 'None' pops page", (
+  testWidgets("withSinglePickerPage selecting 'Yok' pops page", (
     tester,
   ) async {
     Period? picked;
@@ -130,7 +130,7 @@ void main() {
           controller: InputController<Period>(),
           title: "Title",
           pickerTitle: "Picker Title",
-          valueDisplayName: "Value",
+          valueDisplayName: "Değer",
           noneItem: Period.period_none,
           itemBuilder: Periods.pickerItems,
           onPicked: (period) => picked = period,
@@ -139,7 +139,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(ListPickerInput));
-    await tapAndSettle(tester, find.text("None"));
+    await tapAndSettle(tester, find.text("Yok"));
 
     expect(picked, isNull);
   });
@@ -154,7 +154,7 @@ void main() {
           controller: InputController<Period>(),
           title: "Title",
           pickerTitle: "Picker Title",
-          valueDisplayName: "Value",
+          valueDisplayName: "Değer",
           noneItem: Period.period_none,
           itemBuilder: Periods.pickerItems,
           onPicked: (period) => picked = period,
@@ -163,7 +163,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(ListPickerInput));
-    await tapAndSettle(tester, find.text("Afternoon"));
+    await tapAndSettle(tester, find.text("Öğleden sonra"));
 
     expect(picked, isNotNull);
     expect(picked, Period.afternoon);
@@ -175,7 +175,7 @@ void main() {
       (_) => ListPickerInput(title: "Title", placeholderText: "Placeholder"),
     );
 
-    expect(find.secondaryText(context, text: "Not Selected"), findsNothing);
+    expect(find.secondaryText(context, text: "Seçilmedi"), findsNothing);
     expect(find.secondaryText(context, text: "Placeholder"), findsOneWidget);
   });
 }

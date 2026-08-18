@@ -195,7 +195,7 @@ void main() {
       (_) => QuantityPickerInput(title: "Title", delegate: delegate),
     );
 
-    expect(find.text("Unknown"), findsOneWidget);
+    expect(find.text("Bilinmiyor"), findsOneWidget);
   });
 
   testWidgets("Delegate inputTypeEntityExists=true shows correct label", (

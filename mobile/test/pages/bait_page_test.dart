@@ -95,7 +95,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => BaitPage(Bait())));
 
     expect(find.byType(MinChip), findsOneWidget);
-    expect(find.text("Live"), findsOneWidget);
+    expect(find.text("Canlı"), findsOneWidget);
   });
 
   testWidgets("No variants", (tester) async {
@@ -110,7 +110,7 @@ void main() {
     expect(find.byType(BaitVariantListInput), findsNothing);
   });
 
-  testWidgets("Variants", (tester) async {
+  testWidgets("Varyantlar", (tester) async {
     when(
       managers.customEntityManager.customValuesDisplayValue(any, any),
     ).thenReturn("");

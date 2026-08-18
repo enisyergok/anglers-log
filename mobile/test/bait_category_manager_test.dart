@@ -69,7 +69,7 @@ void main() {
     testWidgets("Singular", (tester) async {
       var category = BaitCategory()
         ..id = randomId()
-        ..name = "Live";
+        ..name = "Canlı";
 
       when(baitManager.list()).thenReturn([
         Bait()
@@ -89,7 +89,7 @@ void main() {
     testWidgets("Plural zero", (tester) async {
       var category = BaitCategory()
         ..id = randomId()
-        ..name = "Live";
+        ..name = "Canlı";
       when(baitManager.list()).thenReturn([]);
 
       var context = await buildContext(tester);
@@ -103,7 +103,7 @@ void main() {
     testWidgets("Plural not zero", (tester) async {
       var category = BaitCategory()
         ..id = randomId()
-        ..name = "Live";
+        ..name = "Canlı";
       when(baitManager.list()).thenReturn([
         Bait()
           ..id = randomId()

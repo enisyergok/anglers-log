@@ -45,7 +45,7 @@ class __TestSlideState extends State<_TestSlide> {
         SlideUpTransition(
           isVisible: _isVisible,
           onDismissed: widget.onDismissed,
-          child: const Text("Text"),
+          child: const Text("Metin"),
         ),
       ],
     );

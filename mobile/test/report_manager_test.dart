@@ -63,7 +63,7 @@ void main() {
     var context = await buildContext(tester);
     expect(
       reportManager.displayName(context, Report(id: reportIdPersonalBests)),
-      "Personal Bests",
+      "Kişisel Rekorlar",
     );
   });
 

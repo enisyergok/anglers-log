@@ -16,7 +16,7 @@ void main() {
   var clarities = [
     WaterClarity()
       ..id = randomId()
-      ..name = "Clear",
+      ..name = "Açık",
     WaterClarity()
       ..id = randomId()
       ..name = "Stained",
@@ -43,7 +43,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text("Select Water Clarities"), findsOneWidget);
+    expect(find.text("Su Berraklığı Seç"), findsOneWidget);
   });
 
   testWidgets("Normal title", (tester) async {
@@ -62,7 +62,7 @@ void main() {
       ),
     ).thenReturn([clarities[0]]);
 
-    await enterTextAndSettle(tester, find.byType(CupertinoTextField), "Any");
+    await enterTextAndSettle(tester, find.byType(CupertinoTextField), "Herhangi");
     await tester.pumpAndSettle(const Duration(milliseconds: 600));
 
     expect(find.text("Water Clarities (1)"), findsOneWidget);
@@ -83,7 +83,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Clear"));
+    await tapAndSettle(tester, find.text("Açık"));
     expect(pickedClarity, isNotNull);
     expect(pickedClarity, clarities[0]);
   });

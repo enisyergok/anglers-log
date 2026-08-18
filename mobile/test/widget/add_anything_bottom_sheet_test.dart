@@ -33,18 +33,18 @@ void main() {
       (context) => showAddAnythingBottomSheet(context),
     );
 
-    expect(find.text("Angler"), findsOneWidget);
-    expect(find.text("Bait Category"), findsOneWidget);
-    expect(find.text("Bait"), findsOneWidget);
-    expect(find.text("Body of Water"), findsOneWidget);
-    expect(find.text("Catch"), findsOneWidget);
-    expect(find.text("Custom Field"), findsOneWidget);
-    expect(find.text("Fishing Method"), findsOneWidget);
-    expect(find.text("Species"), findsOneWidget);
-    expect(find.text("Trip"), findsOneWidget);
-    expect(find.text("Water Clarity"), findsOneWidget);
-    expect(find.text("Gear"), findsOneWidget);
-    expect(find.text("GPS Trail"), findsNothing);
+    expect(find.text("Balıkçı"), findsOneWidget);
+    expect(find.text("Yem Kategorisi"), findsOneWidget);
+    expect(find.text("Yem"), findsOneWidget);
+    expect(find.text("Su Kütlesi"), findsOneWidget);
+    expect(find.text("Av"), findsOneWidget);
+    expect(find.text("Özel Alan"), findsOneWidget);
+    expect(find.text("Balık Tutma Yöntemi"), findsOneWidget);
+    expect(find.text("Türler"), findsOneWidget);
+    expect(find.text("Gezi"), findsOneWidget);
+    expect(find.text("Su Berraklığı"), findsOneWidget);
+    expect(find.text("Ekipman"), findsOneWidget);
+    expect(find.text("GPS İzi"), findsNothing);
   });
 
   testWidgets("Entities not tracked aren't visible", (tester) async {
@@ -53,7 +53,7 @@ void main() {
       tester,
       (context) => showAddAnythingBottomSheet(context),
     );
-    expect(find.text("Fishing Method"), findsNothing);
+    expect(find.text("Balık Tutma Yöntemi"), findsNothing);
   });
 
   testWidgets("EntitySpec is returned when selected", (tester) async {
@@ -64,7 +64,7 @@ void main() {
           showAddAnythingBottomSheet(context).then((value) => spec = value),
     );
 
-    await tapAndSettle(tester, find.text("Angler"));
+    await tapAndSettle(tester, find.text("Balıkçı"));
 
     expect(spec, isNotNull);
     expect(spec!.icon, iconAngler);

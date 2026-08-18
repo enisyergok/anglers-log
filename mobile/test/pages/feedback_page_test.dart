@@ -78,7 +78,7 @@ void main() {
 
   testWidgets("Default title", (tester) async {
     await tester.pumpWidget(Testable((_) => const FeedbackPage()));
-    expect(find.text("Send Feedback"), findsOneWidget);
+    expect(find.text("Geri Bildirim Gönder"), findsOneWidget);
   });
 
   testWidgets("Warning message shown", (tester) async {
@@ -106,7 +106,7 @@ void main() {
 
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Message"),
+      find.widgetWithText(TextInput, "Mesaj"),
       "A message.",
     );
     await enterTextAndSettle(
@@ -152,31 +152,31 @@ void main() {
   testWidgets("Selecting type updates state", (tester) async {
     await tester.pumpWidget(Testable((_) => const FeedbackPage()));
     expect(
-      findSiblingOfText<Icon>(tester, InkWell, "Bug").icon,
+      findSiblingOfText<Icon>(tester, InkWell, "Hata").icon,
       Icons.radio_button_checked,
     );
 
-    await tapAndSettle(tester, find.text("Feedback"));
+    await tapAndSettle(tester, find.text("Geri bildirim"));
     expect(
-      findSiblingOfText<Icon>(tester, InkWell, "Bug").icon,
+      findSiblingOfText<Icon>(tester, InkWell, "Hata").icon,
       Icons.radio_button_unchecked,
     );
     expect(
-      findSiblingOfText<Icon>(tester, InkWell, "Feedback").icon,
+      findSiblingOfText<Icon>(tester, InkWell, "Geri bildirim").icon,
       Icons.radio_button_checked,
     );
 
-    await tapAndSettle(tester, find.text("Suggestion"));
+    await tapAndSettle(tester, find.text("Öneri"));
     expect(
-      findSiblingOfText<Icon>(tester, InkWell, "Bug").icon,
+      findSiblingOfText<Icon>(tester, InkWell, "Hata").icon,
       Icons.radio_button_unchecked,
     );
     expect(
-      findSiblingOfText<Icon>(tester, InkWell, "Feedback").icon,
+      findSiblingOfText<Icon>(tester, InkWell, "Geri bildirim").icon,
       Icons.radio_button_unchecked,
     );
     expect(
-      findSiblingOfText<Icon>(tester, InkWell, "Suggestion").icon,
+      findSiblingOfText<Icon>(tester, InkWell, "Öneri").icon,
       Icons.radio_button_checked,
     );
   });
@@ -193,7 +193,7 @@ void main() {
     expect(
       find.widgetWithText(
         SnackBar,
-        "No internet connection. Please check your connection and try again.",
+        "İnternet bağlantısı yok. Bağlantınızı kontrol edip yeniden deneyin.",
       ),
       findsOneWidget,
     );
@@ -296,7 +296,7 @@ void main() {
       isFalse,
     );
     expect(
-      findFirstWithText<TextInput>(tester, "Message").isAutofocused,
+      findFirstWithText<TextInput>(tester, "Mesaj").isAutofocused,
       isFalse,
     );
   });
@@ -310,7 +310,7 @@ void main() {
     expect(findFirstWithText<TextInput>(tester, "Name").isAutofocused, isFalse);
     expect(findFirstWithText<TextInput>(tester, "Email").isAutofocused, isTrue);
     expect(
-      findFirstWithText<TextInput>(tester, "Message").isAutofocused,
+      findFirstWithText<TextInput>(tester, "Mesaj").isAutofocused,
       isFalse,
     );
   });
@@ -327,7 +327,7 @@ void main() {
       isFalse,
     );
     expect(
-      findFirstWithText<TextInput>(tester, "Message").isAutofocused,
+      findFirstWithText<TextInput>(tester, "Mesaj").isAutofocused,
       isTrue,
     );
   });
@@ -342,12 +342,12 @@ void main() {
     await pumpContext(tester, (_) => const FeedbackPage());
 
     expect(
-      findSiblingOfText<Icon>(tester, InkWell, "Bug").icon,
+      findSiblingOfText<Icon>(tester, InkWell, "Hata").icon,
       Icons.radio_button_checked,
     );
     expect(findFirst<CheckboxInput>(tester).value, isTrue);
 
-    await tapAndSettle(tester, find.text("Feedback"));
+    await tapAndSettle(tester, find.text("Geri bildirim"));
     expect(find.byType(CheckboxInput), findsNothing);
   });
 
@@ -357,7 +357,7 @@ void main() {
     expect(findFirst<CheckboxInput>(tester).value, isTrue);
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Message"),
+      find.widgetWithText(TextInput, "Mesaj"),
       "Test",
     );
 
@@ -403,12 +403,12 @@ void main() {
   testWidgets("Data is excluded when not checked", (tester) async {
     await pumpContext(tester, (_) => const FeedbackPage());
 
-    await tapAndSettle(tester, find.text("Feedback"));
+    await tapAndSettle(tester, find.text("Geri bildirim"));
     expect(find.byType(CheckboxInput), findsNothing);
 
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextInput, "Message"),
+      find.widgetWithText(TextInput, "Mesaj"),
       "Test",
     );
 

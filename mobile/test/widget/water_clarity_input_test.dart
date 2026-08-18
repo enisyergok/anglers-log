@@ -23,7 +23,7 @@ void main() {
   testWidgets("Picker is shown", (tester) async {
     await pumpContext(tester, (_) => WaterClarityInput(IdInputController()));
 
-    await tapAndSettle(tester, find.text("Water Clarity"));
+    await tapAndSettle(tester, find.text("Su Berraklığı"));
     expect(find.byType(WaterClarityListPage), findsOneWidget);
   });
 }

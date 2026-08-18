@@ -87,7 +87,7 @@ void main() {
   }
 
   List<WaterClarity> defaultWaterClarities() {
-    return [WaterClarity(id: randomId(), name: "Clear")];
+    return [WaterClarity(id: randomId(), name: "Açık")];
   }
 
   Trip defaultTrip() {
@@ -350,7 +350,7 @@ void main() {
 
     await pumpContext(tester, (_) => TripPage(defaultTrip()));
 
-    expect(find.text("Catches Per Bait", skipOffstage: false), findsNothing);
+    expect(find.text("Yem Başına Avlar", skipOffstage: false), findsNothing);
   });
 
   testWidgets("Skunked hidden", (tester) async {
@@ -361,7 +361,7 @@ void main() {
       (_) => TripPage(defaultTrip()..clearAtmosphere()),
     );
 
-    expect(find.text("Skunked"), findsNothing);
+    expect(find.text("Boş Dönüldü"), findsNothing);
   });
 
   testWidgets("Skunked shown", (tester) async {

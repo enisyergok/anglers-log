@@ -437,7 +437,7 @@ void main() {
       entityManager.idsMatchFilter([id0, id2], context, "No match"),
       isFalse,
     );
-    expect(entityManager.idsMatchFilter([randomId()], context, "N/A"), isFalse);
+    expect(entityManager.idsMatchFilter([randomId()], context, "Yok"), isFalse);
   });
 
   test("numberOf returns 0 if input ID is null", () async {
@@ -542,7 +542,7 @@ void main() {
       entityManager.idsMatchFilter(
         [randomId(), randomId()],
         await buildContext(tester),
-        "Any",
+        "Herhangi",
       ),
       isTrue,
     );
@@ -554,7 +554,7 @@ void main() {
       entityManager.idsMatchFilter(
         [randomId(), randomId()],
         await buildContext(tester),
-        "Any",
+        "Herhangi",
       ),
       isFalse,
     );

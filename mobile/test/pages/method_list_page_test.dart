@@ -43,7 +43,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text("Select Fishing Methods"), findsOneWidget);
+    expect(find.text("Balık Tutma Yöntemi Seç"), findsOneWidget);
   });
 
   testWidgets("Normal title", (tester) async {
@@ -62,7 +62,7 @@ void main() {
       ),
     ).thenReturn([methods[0]]);
 
-    await enterTextAndSettle(tester, find.byType(CupertinoTextField), "Any");
+    await enterTextAndSettle(tester, find.byType(CupertinoTextField), "Herhangi");
     await tester.pumpAndSettle(const Duration(milliseconds: 600));
 
     expect(find.text("Fishing Methods (1)"), findsOneWidget);

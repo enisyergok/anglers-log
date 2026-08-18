@@ -102,14 +102,14 @@ void main() {
       tester,
       (context) => SaveGearPage.edit(Gear(id: randomId(), name: "Test")),
     );
-    expect(find.text("Edit Gear"), findsOneWidget);
-    expect(find.text("New Gear"), findsNothing);
+    expect(find.text("Ekipmanı Düzenle"), findsOneWidget);
+    expect(find.text("Yeni Ekipman"), findsNothing);
   });
 
   testWidgets("New title", (tester) async {
     await pumpContext(tester, (context) => const SaveGearPage());
-    expect(find.text("Edit Gear"), findsNothing);
-    expect(find.text("New Gear"), findsOneWidget);
+    expect(find.text("Ekipmanı Düzenle"), findsNothing);
+    expect(find.text("Yeni Ekipman"), findsOneWidget);
   });
 
   testWidgets("Editing with all fields set", (tester) async {
@@ -168,8 +168,8 @@ void main() {
     expect(find.text("Ugly Stick"), findsOneWidget);
     expect(find.text("ABC123"), findsOneWidget);
     expect(find.text("9"), findsOneWidget);
-    expect(find.text("Fast"), findsOneWidget);
-    expect(find.text("Light"), findsOneWidget);
+    expect(find.text("Hızlı"), findsOneWidget);
+    expect(find.text("Hafif"), findsOneWidget);
     expect(find.text("Pflueger"), findsOneWidget);
     expect(find.text("123ABC"), findsOneWidget);
     expect(find.text("3000"), findsOneWidget);
@@ -210,7 +210,7 @@ void main() {
     await pumpContext(tester, (context) => SaveGearPage.edit(gear));
 
     expect(find.byType(SafeImage), findsNothing);
-    expect(find.text("Not Selected"), findsNWidgets(2));
+    expect(find.text("Seçilmedi"), findsNWidgets(2));
 
     var count = 0;
     for (var widget in tester.widgetList<TextInput>(find.byType(TextInput))) {
@@ -282,7 +282,7 @@ void main() {
     context = await pumpContext(tester, (context) => const SaveGearPage());
 
     expect(
-      findPaddingOfMultiMeasurementInput(tester, context, "Rod Length").padding,
+      findPaddingOfMultiMeasurementInput(tester, context, "Olta Boyu").padding,
       insetsHorizontalDefaultBottomDefault,
     );
   });
@@ -293,7 +293,7 @@ void main() {
     await pumpContext(tester, (context) => const SaveGearPage());
 
     expect(
-      findPaddingOfListPickerInput(tester, "Rod Action").padding,
+      findPaddingOfListPickerInput(tester, "Olta Aksiyonu").padding,
       insetsTopDefault,
     );
   });
@@ -312,7 +312,7 @@ void main() {
     await pumpContext(tester, (context) => const SaveGearPage());
 
     expect(
-      findPaddingOfListPickerInput(tester, "Rod Action").padding,
+      findPaddingOfListPickerInput(tester, "Olta Aksiyonu").padding,
       insetsZero,
     );
   });
@@ -329,7 +329,7 @@ void main() {
     await pumpContext(tester, (context) => const SaveGearPage());
 
     expect(
-      findPaddingOfListPickerInput(tester, "Rod Power").padding,
+      findPaddingOfListPickerInput(tester, "Olta Gücü").padding,
       insetsTopDefault,
     );
   });
@@ -348,7 +348,7 @@ void main() {
     await pumpContext(tester, (context) => const SaveGearPage());
 
     expect(
-      findPaddingOfListPickerInput(tester, "Rod Power").padding,
+      findPaddingOfListPickerInput(tester, "Olta Gücü").padding,
       insetsZero,
     );
   });

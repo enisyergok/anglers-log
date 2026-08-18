@@ -74,7 +74,7 @@ void main() {
       findFirst<ManageableListImageItem>(tester).subtitle2Style!.color,
       Colors.red,
     );
-    expect(find.text("Skunked"), findsOneWidget);
+    expect(find.text("Boş Dönüldü"), findsOneWidget);
   });
 
   testWidgets("Trip with catches", (tester) async {

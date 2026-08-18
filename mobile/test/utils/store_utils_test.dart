@@ -42,7 +42,7 @@ void main() {
     await tapAndSettle(tester, find.byType(Button));
     expect(find.byType(SnackBar), findsOneWidget);
     expect(
-      find.text("Device does not have App Store installed."),
+      find.text("Cihazda App Store yüklü değil."),
       findsOneWidget,
     );
   });
@@ -97,7 +97,7 @@ void main() {
     expect(result.captured.first.contains("play.google.com"), isTrue);
     expect(find.byType(SnackBar), findsOneWidget);
     expect(
-      find.text("Device has no web browser app installed."),
+      find.text("Cihazda web tarayıcı uygulaması yüklü değil."),
       findsOneWidget,
     );
   });

@@ -179,12 +179,12 @@ void main() {
             PickerPageItem(title: "Option A", value: "Option A"),
           ],
           onFinishedPicking: (_, __) => {},
-          allItem: PickerPageItem(title: "All", value: "All"),
+          allItem: PickerPageItem(title: "Tümü", value: "Tümü"),
         ),
       ),
     );
 
-    expect(find.text("All"), findsOneWidget);
+    expect(find.text("Tümü"), findsOneWidget);
   });
 
   testWidgets("Divider item", (tester) async {
@@ -355,7 +355,7 @@ void main() {
             PickerPageItem(title: "Option C", value: "Option C"),
           ],
           onFinishedPicking: (_, __) => {},
-          allItem: PickerPageItem(title: "All", value: "All"),
+          allItem: PickerPageItem(title: "Tümü", value: "Tümü"),
           initialValues: const {"Option A", "Option B"},
         ),
       ),
@@ -364,12 +364,12 @@ void main() {
     await tapAndSettle(
       tester,
       find.descendant(
-        of: find.widgetWithText(ListItem, "All"),
+        of: find.widgetWithText(ListItem, "Tümü"),
         matching: find.byType(PaddedCheckbox),
       ),
     );
 
-    expect(findCheckbox(tester, "All")!.isChecked, isTrue);
+    expect(findCheckbox(tester, "Tümü")!.isChecked, isTrue);
     expect(findCheckbox(tester, "Option A")!.isChecked, isTrue);
     expect(findCheckbox(tester, "Option B")!.isChecked, isTrue);
     expect(findCheckbox(tester, "Option C")!.isChecked, isTrue);
@@ -377,11 +377,11 @@ void main() {
     await tapAndSettle(
       tester,
       find.descendant(
-        of: find.widgetWithText(ListItem, "All"),
+        of: find.widgetWithText(ListItem, "Tümü"),
         matching: find.byType(PaddedCheckbox),
       ),
     );
-    expect(findCheckbox(tester, "All")!.isChecked, isFalse);
+    expect(findCheckbox(tester, "Tümü")!.isChecked, isFalse);
     expect(findCheckbox(tester, "Option A")!.isChecked, isFalse);
     expect(findCheckbox(tester, "Option B")!.isChecked, isFalse);
     expect(findCheckbox(tester, "Option C")!.isChecked, isFalse);
@@ -397,8 +397,8 @@ void main() {
             PickerPageItem(title: "Option C", value: "Option C"),
           ],
           onFinishedPicking: (_, __) => {},
-          allItem: PickerPageItem(title: "All", value: "All"),
-          initialValues: const {"All"},
+          allItem: PickerPageItem(title: "Tümü", value: "Tümü"),
+          initialValues: const {"Tümü"},
         ),
       ),
     );
@@ -411,7 +411,7 @@ void main() {
       ),
     );
 
-    expect(findCheckbox(tester, "All")!.isChecked, isFalse);
+    expect(findCheckbox(tester, "Tümü")!.isChecked, isFalse);
     expect(findCheckbox(tester, "Option A")!.isChecked, isTrue);
     expect(findCheckbox(tester, "Option B")!.isChecked, isFalse);
     expect(findCheckbox(tester, "Option C")!.isChecked, isFalse);
@@ -431,8 +431,8 @@ void main() {
           ],
           onFinishedPicking: (_, items) => pickedItems = items,
           allItem: PickerPageItem(
-            title: "None",
-            value: "None",
+            title: "Yok",
+            value: "Yok",
             isMultiNone: true,
           ),
           initialValues: const {},
@@ -441,11 +441,11 @@ void main() {
       ),
     );
 
-    expect(find.text("None"), findsOneWidget);
+    expect(find.text("Yok"), findsOneWidget);
 
     var check = tester.widget<AnimatedVisibility>(
       find.descendant(
-        of: find.widgetWithText(PickerListItem, "None"),
+        of: find.widgetWithText(PickerListItem, "Yok"),
         matching: find.byType(AnimatedVisibility),
       ),
     );
@@ -463,13 +463,13 @@ void main() {
 
     check = tester.widget<AnimatedVisibility>(
       find.descendant(
-        of: find.widgetWithText(PickerListItem, "None"),
+        of: find.widgetWithText(PickerListItem, "Yok"),
         matching: find.byType(AnimatedVisibility),
       ),
     );
     expect(check.isVisible, isFalse);
 
-    await tapAndSettle(tester, find.text("None"));
+    await tapAndSettle(tester, find.text("Yok"));
     expect(pickedItems, isNotNull);
     expect(pickedItems!, isEmpty);
   });

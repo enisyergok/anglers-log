@@ -34,7 +34,7 @@ void main() {
       locale: const Locale("en"),
     );
 
-    await tapAndSettle(tester, find.text("Privacy Policy"));
+    await tapAndSettle(tester, find.text("Gizlilik Politikası"));
 
     var result = verify(managers.urlLauncherWrapper.launch(captureAny));
     result.called(1);

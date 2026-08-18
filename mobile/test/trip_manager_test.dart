@@ -491,11 +491,11 @@ void main() {
     var context = await buildContext(tester);
     var trip = defaultTrip()
       ..customEntityValues.add(
-        CustomEntityValue(customEntityId: randomId(), value: "Value"),
+        CustomEntityValue(customEntityId: randomId(), value: "Değer"),
       );
     await tripManager.addOrUpdate(trip);
 
-    expect(tripManager.matchesFilter(trip.id, context, "Value"), isTrue);
+    expect(tripManager.matchesFilter(trip.id, context, "Değer"), isTrue);
   });
 
   testWidgets("matchesFilter true for water depth", (tester) async {

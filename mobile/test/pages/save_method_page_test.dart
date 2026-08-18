@@ -23,12 +23,12 @@ void main() {
 
   testWidgets("Edit title", (tester) async {
     await tester.pumpWidget(Testable((_) => SaveMethodPage.edit(Method())));
-    expect(find.text("Edit Fishing Method"), findsOneWidget);
+    expect(find.text("Balık Tutma Yöntemini Düzenle"), findsOneWidget);
   });
 
   testWidgets("New title", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveMethodPage()));
-    expect(find.text("New Fishing Method"), findsOneWidget);
+    expect(find.text("Yeni Balık Tutma Yöntemi"), findsOneWidget);
   });
 
   testWidgets("Save new", (tester) async {

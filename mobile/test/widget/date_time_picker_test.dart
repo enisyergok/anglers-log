@@ -149,7 +149,7 @@ void main() {
       late DateTimeInputController controller;
       await pumpContext(tester, (context) {
         controller = DateTimeInputController(context);
-        return DatePicker(context, label: "Date", controller: controller);
+        return DatePicker(context, label: "Tarih", controller: controller);
       });
 
       // Verify the field is empty.
@@ -212,7 +212,7 @@ void main() {
 
       await pumpContext(tester, (context) {
         var controller = DateTimeInputController(context);
-        return TimePicker(context, label: "Time", controller: controller);
+        return TimePicker(context, label: "Saat", controller: controller);
       });
 
       // Verify the field is empty.

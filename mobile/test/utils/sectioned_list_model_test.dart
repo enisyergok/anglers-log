@@ -15,7 +15,7 @@ void main() {
     expect((model[0] as BaitCategory).name, "Bugger");
     expect((model[1] as Bait).name, "Cyan");
     expect((model[2] as Bait).name, "Olive");
-    expect((model[3] as BaitCategory).name, "Live");
+    expect((model[3] as BaitCategory).name, "Canlı");
     expect((model[4] as Bait).name, "Minnow");
     expect((model[5] as BaitCategory).name, "Other");
     expect((model[6] as Bait).name, "Crank");
@@ -47,7 +47,7 @@ void main() {
     );
     expect(
       ((itemModels[3].child as Padding).child as HeadingDivider).text,
-      "Live",
+      "Canlı",
     );
     expect((itemModels[4].child as Text).data, "Minnow");
 
@@ -68,7 +68,7 @@ class _TestModel extends SectionedListModel<BaitCategory, Bait> {
 
   final _baitCategories = <BaitCategory>[
     BaitCategory(id: randomId(), name: "Bugger"),
-    BaitCategory(id: randomId(), name: "Live"),
+    BaitCategory(id: randomId(), name: "Canlı"),
     BaitCategory(id: randomId(), name: "Roe"),
   ];
 

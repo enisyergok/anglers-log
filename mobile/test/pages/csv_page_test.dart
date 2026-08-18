@@ -96,12 +96,12 @@ void main() {
 
   testWidgets("Feedback description shows an error", (tester) async {
     await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Catches"));
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Trips"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Avlar"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Geziler"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
     expect(
-      find.text("Please select at least one export option above."),
+      find.text("Lütfen yukarıdan en az bir dışa aktarma seçeneği seçin."),
       findsOneWidget,
     );
   });
@@ -110,7 +110,7 @@ void main() {
     await pumpContext(tester, (_) => CsvPage());
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
-    expect(find.text("Success!"), findsOneWidget);
+    expect(find.text("Başarılı!"), findsOneWidget);
   });
 
   testWidgets("Feedback shows loading on action tap", (tester) async {
@@ -139,7 +139,7 @@ void main() {
 
   testWidgets("Only catches are exported", (tester) async {
     await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Trips"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Geziler"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
@@ -153,7 +153,7 @@ void main() {
 
   testWidgets("Only trips are exported", (tester) async {
     await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Catches"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Avlar"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
@@ -184,7 +184,7 @@ void main() {
     ).thenReturn([Catch(id: randomId(), timestamp: Int64(5000))]);
 
     await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Trips"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Geziler"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
@@ -239,14 +239,14 @@ void main() {
     var csvList = result.captured.first as List<List<dynamic>>;
     expect(csvList.length, 2);
     expect(csvList[0].length, 3); // Date, time, and sky conditions.
-    expect(csvList[0][2], "Sky Conditions");
+    expect(csvList[0][2], "Gökyüzü Koşulları");
     expect(csvList[1][2], "Cloudy, Drizzle");
 
     // Trips.
     csvList = result.captured.last as List<List<dynamic>>;
     expect(csvList.length, 2);
     expect(csvList[0].length, 5); // Date, time, and sky conditions.
-    expect(csvList[0][4], "Sky Conditions");
+    expect(csvList[0][4], "Gökyüzü Koşulları");
     expect(csvList[1][4], "Cloudy, Drizzle");
 
     var context = await pumpContext(tester, (_) => CsvPage());
@@ -269,22 +269,22 @@ void main() {
     expect(csvList.length, 2);
     // -1 for sky conditions, +2 for date and time.
     expect(csvList[0].length, allAtmosphereFields(context).length - 1 + 2);
-    expect(csvList[0][2], "Temperature");
-    expect(csvList[0][3], "Wind Direction");
-    expect(csvList[0][4], "Wind Speed");
-    expect(csvList[0][5], "Atmospheric Pressure");
-    expect(csvList[0][6], "Air Visibility");
-    expect(csvList[0][7], "Air Humidity");
-    expect(csvList[0][8], "Moon Phase");
-    expect(csvList[0][9], "Time of Sunrise");
-    expect(csvList[0][10], "Time of Sunset");
+    expect(csvList[0][2], "Sıcaklık");
+    expect(csvList[0][3], "Rüzgar Yönü");
+    expect(csvList[0][4], "Rüzgar Hızı");
+    expect(csvList[0][5], "Atmosfer Basıncı");
+    expect(csvList[0][6], "Hava Görüşü");
+    expect(csvList[0][7], "Hava Nemi");
+    expect(csvList[0][8], "Ay Evresi");
+    expect(csvList[0][9], "Gündoğumu Saati");
+    expect(csvList[0][10], "Günbatımı Saati");
     expect(csvList[1][2], "15°C");
-    expect(csvList[1][3], "N");
+    expect(csvList[1][3], "K");
     expect(csvList[1][4], "6.5 km/h");
     expect(csvList[1][5], "1000 MB");
     expect(csvList[1][6], "10 km");
     expect(csvList[1][7], "50%");
-    expect(csvList[1][8], "Full");
+    expect(csvList[1][8], "Dolunay");
     expect(csvList[1][9], "4:00 AM");
     expect(csvList[1][10], "1:00 PM");
 
@@ -293,22 +293,22 @@ void main() {
     expect(csvList.length, 2);
     // -1 for sky conditions, +4 for start/end date and start/end time.
     expect(csvList[0].length, allAtmosphereFields(context).length - 1 + 4);
-    expect(csvList[0][4], "Temperature");
-    expect(csvList[0][5], "Wind Direction");
-    expect(csvList[0][6], "Wind Speed");
-    expect(csvList[0][7], "Atmospheric Pressure");
-    expect(csvList[0][8], "Air Visibility");
-    expect(csvList[0][9], "Air Humidity");
-    expect(csvList[0][10], "Moon Phase");
-    expect(csvList[0][11], "Time of Sunrise");
-    expect(csvList[0][12], "Time of Sunset");
+    expect(csvList[0][4], "Sıcaklık");
+    expect(csvList[0][5], "Rüzgar Yönü");
+    expect(csvList[0][6], "Rüzgar Hızı");
+    expect(csvList[0][7], "Atmosfer Basıncı");
+    expect(csvList[0][8], "Hava Görüşü");
+    expect(csvList[0][9], "Hava Nemi");
+    expect(csvList[0][10], "Ay Evresi");
+    expect(csvList[0][11], "Gündoğumu Saati");
+    expect(csvList[0][12], "Günbatımı Saati");
     expect(csvList[1][4], "15°C");
-    expect(csvList[1][5], "N");
+    expect(csvList[1][5], "K");
     expect(csvList[1][6], "6.5 km/h");
     expect(csvList[1][7], "1000 MB");
     expect(csvList[1][8], "10 km");
     expect(csvList[1][9], "50%");
-    expect(csvList[1][10], "Full");
+    expect(csvList[1][10], "Dolunay");
     expect(csvList[1][11], "4:00 AM");
     expect(csvList[1][12], "1:00 PM");
   });
@@ -343,7 +343,7 @@ void main() {
     ).thenReturn("Rainbow");
     when(
       managers.waterClarityManager.displayNameFromId(any, any),
-    ).thenReturn("Clear");
+    ).thenReturn("Açık");
     when(
       managers.gearManager.displayNamesFromIds(any, any),
     ).thenReturn(["Gear A", "Gear B"]);
@@ -379,7 +379,7 @@ void main() {
     ]);
 
     var context = await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Trips"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Geziler"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
@@ -396,34 +396,34 @@ void main() {
           2 + // Date and time.
           2, // Coordinates.
     );
-    expect(csvList[0][0], "Date");
-    expect(csvList[0][1], "Time");
-    expect(csvList[0][2], "Time Zone");
-    expect(csvList[0][3], "Time of Day");
-    expect(csvList[0][4], "Season");
-    expect(csvList[0][5], "Species");
-    expect(csvList[0][6], "Bait");
-    expect(csvList[0][7], "Gear");
-    expect(csvList[0][8], "Fishing Spot");
-    expect(csvList[0][9], "Latitude");
-    expect(csvList[0][10], "Longitude");
-    expect(csvList[0][11], "Angler");
-    expect(csvList[0][12], "Catch and Release");
-    expect(csvList[0][13], "Favourite");
-    expect(csvList[0][14], "Fishing Methods");
-    expect(csvList[0][15], "Tide");
-    expect(csvList[0][16], "Water Clarity");
-    expect(csvList[0][17], "Water Depth");
-    expect(csvList[0][18], "Water Temperature");
-    expect(csvList[0][19], "Length");
-    expect(csvList[0][20], "Weight");
-    expect(csvList[0][21], "Quantity");
-    expect(csvList[0][22], "Notes");
+    expect(csvList[0][0], "Tarih");
+    expect(csvList[0][1], "Saat");
+    expect(csvList[0][2], "Saat Dilimi");
+    expect(csvList[0][3], "Günün Zamanı");
+    expect(csvList[0][4], "Mevsim");
+    expect(csvList[0][5], "Türler");
+    expect(csvList[0][6], "Yem");
+    expect(csvList[0][7], "Ekipman");
+    expect(csvList[0][8], "Av Noktası");
+    expect(csvList[0][9], "Enlem");
+    expect(csvList[0][10], "Boylam");
+    expect(csvList[0][11], "Balıkçı");
+    expect(csvList[0][12], "Yakala ve Bırak");
+    expect(csvList[0][13], "Favori");
+    expect(csvList[0][14], "Balık Tutma Yöntemleri");
+    expect(csvList[0][15], "Gelgit");
+    expect(csvList[0][16], "Su Berraklığı");
+    expect(csvList[0][17], "Su Derinliği");
+    expect(csvList[0][18], "Su Sıcaklığı");
+    expect(csvList[0][19], "Boy");
+    expect(csvList[0][20], "Ağırlık");
+    expect(csvList[0][21], "Adet");
+    expect(csvList[0][22], "Notlar");
     expect(csvList[1][0], "Dec 31, 1969");
     expect(csvList[1][1], "7:00 PM");
     expect(csvList[1][2], "America/New York");
-    expect(csvList[1][3], "Evening");
-    expect(csvList[1][4], "Winter");
+    expect(csvList[1][3], "Akşam");
+    expect(csvList[1][4], "Kış");
     expect(csvList[1][5], "Rainbow");
     expect(csvList[1][6], "Stone Fly, Bugger");
     expect(csvList[1][7], "Gear A, Gear B");
@@ -435,7 +435,7 @@ void main() {
     expect(csvList[1][13], "Yes");
     expect(csvList[1][14], "Shore, Cast");
     expect(csvList[1][15], "High, 0.25 m at 7:00 PM");
-    expect(csvList[1][16], "Clear");
+    expect(csvList[1][16], "Açık");
     expect(csvList[1][17], "15");
     expect(csvList[1][18], "60");
     expect(csvList[1][19], "25");
@@ -491,7 +491,7 @@ void main() {
     ).thenReturn("Rainbow");
     when(
       managers.waterClarityManager.displayNameFromId(any, any),
-    ).thenReturn("Clear");
+    ).thenReturn("Açık");
     when(
       managers.gearManager.displayNamesFromIds(any, any),
     ).thenReturn(["Gear A", "Gear B"]);
@@ -531,7 +531,7 @@ void main() {
     ]);
 
     context = await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Trips"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Geziler"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
@@ -551,36 +551,36 @@ void main() {
           2 + // Custom fields.
           2, // Coordinates.
     );
-    expect(csvList[0][0], "Date");
-    expect(csvList[0][1], "Time");
-    expect(csvList[0][2], "Time Zone");
-    expect(csvList[0][3], "Time of Day");
-    expect(csvList[0][4], "Season");
-    expect(csvList[0][5], "Species");
-    expect(csvList[0][6], "Bait");
-    expect(csvList[0][7], "Gear");
-    expect(csvList[0][8], "Fishing Spot");
-    expect(csvList[0][9], "Latitude");
-    expect(csvList[0][10], "Longitude");
-    expect(csvList[0][11], "Angler");
-    expect(csvList[0][12], "Catch and Release");
-    expect(csvList[0][13], "Favourite");
-    expect(csvList[0][14], "Fishing Methods");
-    expect(csvList[0][15], "Tide");
-    expect(csvList[0][16], "Water Clarity");
-    expect(csvList[0][17], "Water Depth");
-    expect(csvList[0][18], "Water Temperature");
-    expect(csvList[0][19], "Length");
-    expect(csvList[0][20], "Weight");
-    expect(csvList[0][21], "Quantity");
-    expect(csvList[0][22], "Notes");
+    expect(csvList[0][0], "Tarih");
+    expect(csvList[0][1], "Saat");
+    expect(csvList[0][2], "Saat Dilimi");
+    expect(csvList[0][3], "Günün Zamanı");
+    expect(csvList[0][4], "Mevsim");
+    expect(csvList[0][5], "Türler");
+    expect(csvList[0][6], "Yem");
+    expect(csvList[0][7], "Ekipman");
+    expect(csvList[0][8], "Av Noktası");
+    expect(csvList[0][9], "Enlem");
+    expect(csvList[0][10], "Boylam");
+    expect(csvList[0][11], "Balıkçı");
+    expect(csvList[0][12], "Yakala ve Bırak");
+    expect(csvList[0][13], "Favori");
+    expect(csvList[0][14], "Balık Tutma Yöntemleri");
+    expect(csvList[0][15], "Gelgit");
+    expect(csvList[0][16], "Su Berraklığı");
+    expect(csvList[0][17], "Su Derinliği");
+    expect(csvList[0][18], "Su Sıcaklığı");
+    expect(csvList[0][19], "Boy");
+    expect(csvList[0][20], "Ağırlık");
+    expect(csvList[0][21], "Adet");
+    expect(csvList[0][22], "Notlar");
     expect(csvList[0][23], "Hat Style");
     expect(csvList[0][24], "Number Of Anglers");
     expect(csvList[1][0], "Dec 31, 1969");
     expect(csvList[1][1], "7:00 PM");
     expect(csvList[1][2], "America/New York");
-    expect(csvList[1][3], "Evening");
-    expect(csvList[1][4], "Winter");
+    expect(csvList[1][3], "Akşam");
+    expect(csvList[1][4], "Kış");
     expect(csvList[1][5], "Rainbow");
     expect(csvList[1][6], "Stone Fly, Bugger");
     expect(csvList[1][7], "Gear A, Gear B");
@@ -592,7 +592,7 @@ void main() {
     expect(csvList[1][13], "Yes");
     expect(csvList[1][14], "Shore, Cast");
     expect(csvList[1][15], "High, 0.25 m at 7:00 PM");
-    expect(csvList[1][16], "Clear");
+    expect(csvList[1][16], "Açık");
     expect(csvList[1][17], "15");
     expect(csvList[1][18], "60");
     expect(csvList[1][19], "25");
@@ -630,7 +630,7 @@ void main() {
     ]);
 
     var context = await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Trips"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Geziler"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
@@ -694,7 +694,7 @@ void main() {
     ]);
 
     await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Catches"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Avlar"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
@@ -733,10 +733,10 @@ void main() {
     ).thenReturn("Rainbow");
     when(
       managers.baitManager.attachmentDisplayValue(any, any),
-    ).thenReturn("Bait");
+    ).thenReturn("Yem");
     when(
       managers.waterClarityManager.displayNameFromId(any, any),
-    ).thenReturn("Clear");
+    ).thenReturn("Açık");
 
     when(managers.tripManager.list()).thenReturn([
       Trip(
@@ -782,7 +782,7 @@ void main() {
     ]);
 
     var context = await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Catches"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Avlar"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
@@ -800,22 +800,22 @@ void main() {
           5 +
           4,
     );
-    expect(csvList[0][0], "Start Date");
-    expect(csvList[0][1], "Start Time");
-    expect(csvList[0][2], "End Date");
-    expect(csvList[0][3], "End Time");
-    expect(csvList[0][4], "Catches");
-    expect(csvList[0][5], "Bodies of Water");
-    expect(csvList[0][6], "Time Zone");
+    expect(csvList[0][0], "Başlangıç Tarihi");
+    expect(csvList[0][1], "Başlangıç Saati");
+    expect(csvList[0][2], "Bitiş Tarihi");
+    expect(csvList[0][3], "Bitiş Saati");
+    expect(csvList[0][4], "Avlar");
+    expect(csvList[0][5], "Su Kütleleri");
+    expect(csvList[0][6], "Saat Dilimi");
     expect(csvList[0][7], "Name");
-    expect(csvList[0][8], "Notes");
-    expect(csvList[0][9], "Water Clarity");
-    expect(csvList[0][10], "Water Depth");
-    expect(csvList[0][11], "Water Temperature");
-    expect(csvList[0][12], "Catches Per Angler");
-    expect(csvList[0][13], "Catches Per Bait");
-    expect(csvList[0][14], "Catches Per Fishing Spot");
-    expect(csvList[0][15], "Catches Per Species");
+    expect(csvList[0][8], "Notlar");
+    expect(csvList[0][9], "Su Berraklığı");
+    expect(csvList[0][10], "Su Derinliği");
+    expect(csvList[0][11], "Su Sıcaklığı");
+    expect(csvList[0][12], "Balıkçı Başına Avlar");
+    expect(csvList[0][13], "Yem Başına Avlar");
+    expect(csvList[0][14], "Av Noktası Başına Avlar");
+    expect(csvList[0][15], "Tür Başına Avlar");
     expect(csvList[1][0], "Dec 31, 1969");
     expect(csvList[1][1], "7:00 PM");
     expect(csvList[1][2], "Jan 1, 1970");
@@ -825,7 +825,7 @@ void main() {
     expect(csvList[1][6], "America/New York");
     expect(csvList[1][7], "Test Trip");
     expect(csvList[1][8], "Long trip, tons of fish.");
-    expect(csvList[1][9], "Clear");
+    expect(csvList[1][9], "Açık");
     expect(csvList[1][10], "10");
     expect(csvList[1][11], "65");
     expect(csvList[1][12], "Cohen: 10");
@@ -864,7 +864,7 @@ void main() {
     ).thenReturn(["Lake Huron", "Silver Lake"]);
     when(
       managers.waterClarityManager.displayNameFromId(any, any),
-    ).thenReturn("Clear");
+    ).thenReturn("Açık");
 
     var emptyId = randomId();
     when(managers.fishingSpotManager.displayNameFromId(any, any)).thenAnswer(
@@ -880,7 +880,7 @@ void main() {
     ).thenReturn("Rainbow");
     when(
       managers.baitManager.attachmentDisplayValue(any, any),
-    ).thenReturn("Bait");
+    ).thenReturn("Yem");
 
     when(managers.tripManager.list()).thenReturn([
       Trip(
@@ -930,7 +930,7 @@ void main() {
     ]);
 
     context = await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Catches"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Avlar"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
@@ -948,22 +948,22 @@ void main() {
           5 +
           6,
     );
-    expect(csvList[0][0], "Start Date");
-    expect(csvList[0][1], "Start Time");
-    expect(csvList[0][2], "End Date");
-    expect(csvList[0][3], "End Time");
-    expect(csvList[0][4], "Catches");
-    expect(csvList[0][5], "Bodies of Water");
-    expect(csvList[0][6], "Time Zone");
+    expect(csvList[0][0], "Başlangıç Tarihi");
+    expect(csvList[0][1], "Başlangıç Saati");
+    expect(csvList[0][2], "Bitiş Tarihi");
+    expect(csvList[0][3], "Bitiş Saati");
+    expect(csvList[0][4], "Avlar");
+    expect(csvList[0][5], "Su Kütleleri");
+    expect(csvList[0][6], "Saat Dilimi");
     expect(csvList[0][7], "Name");
-    expect(csvList[0][8], "Notes");
-    expect(csvList[0][9], "Water Clarity");
-    expect(csvList[0][10], "Water Depth");
-    expect(csvList[0][11], "Water Temperature");
-    expect(csvList[0][12], "Catches Per Angler");
-    expect(csvList[0][13], "Catches Per Bait");
-    expect(csvList[0][14], "Catches Per Fishing Spot");
-    expect(csvList[0][15], "Catches Per Species");
+    expect(csvList[0][8], "Notlar");
+    expect(csvList[0][9], "Su Berraklığı");
+    expect(csvList[0][10], "Su Derinliği");
+    expect(csvList[0][11], "Su Sıcaklığı");
+    expect(csvList[0][12], "Balıkçı Başına Avlar");
+    expect(csvList[0][13], "Yem Başına Avlar");
+    expect(csvList[0][14], "Av Noktası Başına Avlar");
+    expect(csvList[0][15], "Tür Başına Avlar");
     expect(csvList[1][0], "Dec 31, 1969");
     expect(csvList[1][1], "7:00 PM");
     expect(csvList[1][2], "Jan 1, 1970");
@@ -973,7 +973,7 @@ void main() {
     expect(csvList[1][6], "America/New York");
     expect(csvList[1][7], "Test Trip");
     expect(csvList[1][8], "Long trip, tons of fish.");
-    expect(csvList[1][9], "Clear");
+    expect(csvList[1][9], "Açık");
     expect(csvList[1][10], "10");
     expect(csvList[1][11], "65");
     expect(csvList[1][12], "Cohen: 10");
@@ -1010,7 +1010,7 @@ void main() {
     ]);
 
     var context = await pumpContext(tester, (_) => CsvPage());
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Catches"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Avlar"));
     await ensureVisibleAndSettle(tester, find.text("EXPORT"));
     await tapAndSettle(tester, find.text("EXPORT"));
 
@@ -1028,22 +1028,22 @@ void main() {
           5 +
           4,
     );
-    expect(csvList[0][0], "Start Date");
-    expect(csvList[0][1], "Start Time");
-    expect(csvList[0][2], "End Date");
-    expect(csvList[0][3], "End Time");
-    expect(csvList[0][4], "Catches");
-    expect(csvList[0][5], "Bodies of Water");
-    expect(csvList[0][6], "Time Zone");
+    expect(csvList[0][0], "Başlangıç Tarihi");
+    expect(csvList[0][1], "Başlangıç Saati");
+    expect(csvList[0][2], "Bitiş Tarihi");
+    expect(csvList[0][3], "Bitiş Saati");
+    expect(csvList[0][4], "Avlar");
+    expect(csvList[0][5], "Su Kütleleri");
+    expect(csvList[0][6], "Saat Dilimi");
     expect(csvList[0][7], "Name");
-    expect(csvList[0][8], "Notes");
-    expect(csvList[0][9], "Water Clarity");
-    expect(csvList[0][10], "Water Depth");
-    expect(csvList[0][11], "Water Temperature");
-    expect(csvList[0][12], "Catches Per Angler");
-    expect(csvList[0][13], "Catches Per Bait");
-    expect(csvList[0][14], "Catches Per Fishing Spot");
-    expect(csvList[0][15], "Catches Per Species");
+    expect(csvList[0][8], "Notlar");
+    expect(csvList[0][9], "Su Berraklığı");
+    expect(csvList[0][10], "Su Derinliği");
+    expect(csvList[0][11], "Su Sıcaklığı");
+    expect(csvList[0][12], "Balıkçı Başına Avlar");
+    expect(csvList[0][13], "Yem Başına Avlar");
+    expect(csvList[0][14], "Av Noktası Başına Avlar");
+    expect(csvList[0][15], "Tür Başına Avlar");
     expect(csvList[1][0], "Dec 31, 1969");
     expect(csvList[1][1], "7:00 PM");
     expect(csvList[1][2], "Jan 1, 1970");

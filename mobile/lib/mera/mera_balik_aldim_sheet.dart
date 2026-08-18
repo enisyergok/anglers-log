@@ -287,15 +287,14 @@ class _SpeciesField extends StatelessWidget {
                     width: 36 * scale * 0.55,
                   ),
                   SizedBox(width: 8 * scale * 0.5),
-                  Expanded(
-                    child: Text(
-                      s.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(
-                        color: MeraColors.textPrimary,
-                        fontSize: 6.5 * scale,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  const SizedBox(width: 4),
+                  Text(
+                    s.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(
+                      color: MeraColors.textPrimary,
+                      fontSize: 6.5 * scale,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
@@ -314,11 +313,9 @@ class _SpeciesField extends StatelessWidget {
                         width: 32,
                       ),
                       const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          s.name,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      Text(
+                        s.name,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),

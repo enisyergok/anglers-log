@@ -22,7 +22,7 @@ void main() {
 
   testWidgets("Short column renders row", (tester) async {
     await tester.pumpWidget(
-      Testable((_) => LabelValue(label: "Test", value: "Value")),
+      Testable((_) => LabelValue(label: "Test", value: "Değer")),
     );
     expect(find.byType(Row), findsOneWidget);
     expect(find.byType(Column), findsNothing);
@@ -33,7 +33,7 @@ void main() {
       Testable(
         (_) => LabelValue(
           label: "Test",
-          value: "Value",
+          value: "Değer",
           padding: const EdgeInsets.all(3),
         ),
       ),
@@ -43,7 +43,7 @@ void main() {
 
   testWidgets("Default padding", (tester) async {
     await tester.pumpWidget(
-      Testable((_) => LabelValue(label: "Test", value: "Value")),
+      Testable((_) => LabelValue(label: "Test", value: "Değer")),
     );
     expect(findFirst<Padding>(tester).padding, insetsDefault);
   });

@@ -16,10 +16,10 @@ void main() {
   var baitCategories = [
     BaitCategory()
       ..id = randomId()
-      ..name = "Artificial",
+      ..name = "Yapay",
     BaitCategory()
       ..id = randomId()
-      ..name = "Live",
+      ..name = "Canlı",
   ];
 
   setUp(() async {
@@ -44,7 +44,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text("Select Bait Category"), findsOneWidget);
+    expect(find.text("Yem Kategorisi Seç"), findsOneWidget);
   });
 
   testWidgets("Normal title", (tester) async {
@@ -63,7 +63,7 @@ void main() {
       ),
     ).thenReturn([baitCategories[0]]);
 
-    await enterTextAndSettle(tester, find.byType(CupertinoTextField), "Any");
+    await enterTextAndSettle(tester, find.byType(CupertinoTextField), "Herhangi");
     await tester.pumpAndSettle(const Duration(milliseconds: 600));
 
     expect(find.text("Bait Categories (1)"), findsOneWidget);
@@ -84,7 +84,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Artificial"));
+    await tapAndSettle(tester, find.text("Yapay"));
     expect(pickedCategory, isNotNull);
     expect(pickedCategory, baitCategories[0]);
   });

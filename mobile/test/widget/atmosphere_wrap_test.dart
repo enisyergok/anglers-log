@@ -70,10 +70,10 @@ void main() {
     expect(find.text("15\u00B0C"), findsOneWidget);
     expect(find.text("Cloudy, Drizzle"), findsOneWidget);
     expect(find.text("7 km/h"), findsOneWidget);
-    expect(find.text("N"), findsOneWidget);
+    expect(find.text("K"), findsOneWidget);
     expect(find.text("1000 MB"), findsOneWidget);
     expect(find.text("10 km"), findsOneWidget);
-    expect(find.text("Full"), findsOneWidget);
+    expect(find.text("Dolunay"), findsOneWidget);
     expect(find.text("50%"), findsOneWidget);
     expect(find.text("9:00 AM"), findsOneWidget);
     expect(find.text("3:00 PM"), findsOneWidget);
@@ -120,7 +120,7 @@ void main() {
 
     expect(find.byType(Text), findsNWidgets(2));
     expect(find.text("15 mph"), findsOneWidget);
-    expect(find.text("Wind"), findsOneWidget);
+    expect(find.text("Rüzgar"), findsOneWidget);
   });
 
   testWidgets("Wind direction shows", (tester) async {
@@ -140,7 +140,7 @@ void main() {
 
     expect(find.byType(Text), findsNWidgets(2));
     expect(find.text("15 mph"), findsOneWidget);
-    expect(find.text("N"), findsOneWidget);
+    expect(find.text("K"), findsOneWidget);
   });
 
   testWidgets("No temperature shows sky conditions", (tester) async {

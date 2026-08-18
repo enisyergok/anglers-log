@@ -66,7 +66,7 @@ void main() {
   testWidgets("Page is pushed", (tester) async {
     await tester.pumpWidget(Testable((_) => const MorePage()));
 
-    await tapAndSettle(tester, find.text("Bait Categories"));
+    await tapAndSettle(tester, find.text("Yem Kategorileri"));
 
     expect(find.byType(BaitCategoryListPage), findsOneWidget);
     expect(find.byType(BackButton), findsOneWidget);
@@ -78,8 +78,8 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => const MorePage()));
 
-    await tester.ensureVisible(find.text("Send Feedback"));
-    await tapAndSettle(tester, find.text("Send Feedback"));
+    await tester.ensureVisible(find.text("Geri Bildirim Gönder"));
+    await tapAndSettle(tester, find.text("Geri Bildirim Gönder"));
 
     expect(find.byType(FeedbackPage), findsOneWidget);
     expect(find.byType(CloseButton), findsOneWidget);
@@ -103,7 +103,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const MorePage()));
 
     expect(find.widgetWithText(Container, "Rate Anglers' Log"), findsNothing);
-    expect(find.widgetWithText(Container, "Send Feedback"), findsNothing);
+    expect(find.widgetWithText(Container, "Geri Bildirim Gönder"), findsNothing);
   });
 
   testWidgets("Rate and feedback are highlighted", (tester) async {
@@ -112,7 +112,7 @@ void main() {
     );
 
     expect(find.widgetWithText(Container, "Rate Anglers' Log"), findsOneWidget);
-    expect(find.widgetWithText(Container, "Send Feedback"), findsOneWidget);
+    expect(find.widgetWithText(Container, "Geri Bildirim Gönder"), findsOneWidget);
   });
 
   testWidgets("Menu item is hidden", (tester) async {
@@ -120,8 +120,8 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => const MorePage()));
 
-    expect(find.text("Baits"), findsNothing);
-    expect(find.text("Bait Categories"), findsNothing);
+    expect(find.text("Yemler"), findsNothing);
+    expect(find.text("Yem Kategorileri"), findsNothing);
   });
 
   testWidgets("Trailing widget is shown", (tester) async {
@@ -140,7 +140,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const MorePage()));
 
     expect(
-      findSiblingOfText<MyBadge>(tester, ListItem, "Backup").isVisible,
+      findSiblingOfText<MyBadge>(tester, ListItem, "Yedek").isVisible,
       isFalse,
     );
 
@@ -150,7 +150,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      findSiblingOfText<MyBadge>(tester, ListItem, "Backup").isVisible,
+      findSiblingOfText<MyBadge>(tester, ListItem, "Yedek").isVisible,
       isTrue,
     );
 
@@ -160,7 +160,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      findSiblingOfText<MyBadge>(tester, ListItem, "Backup").isVisible,
+      findSiblingOfText<MyBadge>(tester, ListItem, "Yedek").isVisible,
       isFalse,
     );
   });
@@ -174,12 +174,12 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => const MorePage()));
 
-    await tester.ensureVisible(find.text("Species Counter"));
+    await tester.ensureVisible(find.text("Tür Sayacı"));
 
     // For reasons I cannot explain, doing a normal tapAndSettle here
     // fails the hit test, so invoke onTap directly. Note that everything
     // works when testing in the app.
-    var counter = findFirstWithText<ListItem>(tester, "Species Counter");
+    var counter = findFirstWithText<ListItem>(tester, "Tür Sayacı");
     counter.onTap!();
     await tester.pumpAndSettle();
 
@@ -199,12 +199,12 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => const MorePage()));
 
-    await tester.ensureVisible(find.text("Species Counter"));
+    await tester.ensureVisible(find.text("Tür Sayacı"));
 
     // For reasons I cannot explain, doing a normal tapAndSettle here
     // fails the hit test, so invoke onTap directly. Note that everything
     // works when testing in the app.
-    var counter = findFirstWithText<ListItem>(tester, "Species Counter");
+    var counter = findFirstWithText<ListItem>(tester, "Tür Sayacı");
     counter.onTap!();
     await tester.pumpAndSettle();
 

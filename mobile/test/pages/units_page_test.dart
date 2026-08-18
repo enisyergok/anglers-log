@@ -79,7 +79,7 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => UnitsPage()));
 
-    var radioInput = findSiblingOfText<RadioInput>(tester, Column, "Length");
+    var radioInput = findSiblingOfText<RadioInput>(tester, Column, "Boy");
     expect(radioInput.initialSelectedIndex, 1);
   });
 
@@ -96,7 +96,7 @@ void main() {
     var radioInput = findSiblingOfText<RadioInput>(
       tester,
       Column,
-      "Atmospheric Pressure",
+      "Atmosfer Basıncı",
     );
     expect(radioInput.initialSelectedIndex, 0);
   });

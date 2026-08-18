@@ -251,9 +251,9 @@ void main() {
     ).thenReturn(trips);
 
     await pumpSummary(tester);
-    expect(find.text("Trip"), findsOneWidget);
+    expect(find.text("Gezi"), findsOneWidget);
 
-    await tapAndSettle(tester, find.text("Trip"));
+    await tapAndSettle(tester, find.text("Gezi"));
     expect(find.byType(TripListPage), findsOneWidget);
   });
 
@@ -263,18 +263,18 @@ void main() {
 
     await pumpSummary(tester);
 
-    expect(find.text("Trips"), findsOneWidget);
-    await tapAndSettle(tester, find.text("Trips"));
+    expect(find.text("Geziler"), findsOneWidget);
+    await tapAndSettle(tester, find.text("Geziler"));
     expect(find.byType(TripListPage), findsNothing);
 
-    expect(find.text("Longest Trip"), findsNothing);
-    await tapAndSettle(tester, find.text("Since Last Trip"));
+    expect(find.text("En Uzun Gezi"), findsNothing);
+    await tapAndSettle(tester, find.text("Son Geziden Bu Yana"));
     expect(find.byType(TripListPage), findsNothing);
 
-    expect(find.text("Weight Per Trip"), findsNothing);
-    expect(find.text("Best Weight"), findsNothing);
-    expect(find.text("Length Per Trip"), findsNothing);
-    expect(find.text("Best Length"), findsNothing);
+    expect(find.text("Gezi Başına Ağırlık"), findsNothing);
+    expect(find.text("En İyi Ağırlık"), findsNothing);
+    expect(find.text("Gezi Başına Boy"), findsNothing);
+    expect(find.text("En İyi Boy"), findsNothing);
   });
 
   testWidgets("Date range that doesn't include now", (tester) async {
@@ -285,8 +285,8 @@ void main() {
     await tapAndSettle(tester, find.text("All dates"));
     await tapAndSettle(tester, find.text("Last week"));
 
-    expect(find.text("Longest Trip"), findsNothing);
-    expect(find.text("Since Last Trip"), findsNothing);
+    expect(find.text("En Uzun Gezi"), findsNothing);
+    expect(find.text("Son Geziden Bu Yana"), findsNothing);
   });
 
   testWidgets("Since last trip is visible", (tester) async {
@@ -294,8 +294,8 @@ void main() {
 
     await pumpSummary(tester);
 
-    expect(find.text("Since Last Trip"), findsOneWidget);
-    await tapAndSettle(tester, find.text("Since Last Trip"));
+    expect(find.text("Son Geziden Bu Yana"), findsOneWidget);
+    await tapAndSettle(tester, find.text("Son Geziden Bu Yana"));
     expect(find.byType(TripPage), findsOneWidget);
   });
 
@@ -303,19 +303,19 @@ void main() {
     expect(trips.isNotEmpty, isTrue);
     await pumpSummary(tester);
 
-    expectTile("Trips", "3");
-    expectTile("Total Trip Time", "1h");
-    expectTile("Longest Trip", "5h");
-    expectTile("Since Last Trip", "339d");
-    expectTile("Average Trip Time", "30m");
-    expectTile("Between Trips", "20d");
-    expectTile("Between Catches", "1h");
-    expectTile("Catches Per Trip", "3.0");
-    expectTile("Catches Per Hour", "0.9");
-    expectTile("Weight Per Trip", "19.17 kg");
-    expectTile("Best Weight", "50 kg");
-    expectTile("Length Per Trip", "20 cm");
-    expectTile("Best Length", "40 cm");
+    expectTile("Geziler", "3");
+    expectTile("Toplam Gezi Süresi", "1h");
+    expectTile("En Uzun Gezi", "5h");
+    expectTile("Son Geziden Bu Yana", "339d");
+    expectTile("Ortalama Gezi Süresi", "30m");
+    expectTile("Geziler Arası", "20d");
+    expectTile("Avlar Arası", "1h");
+    expectTile("Gezi Başına Avlar", "3.0");
+    expectTile("Saat Başına Avlar", "0.9");
+    expectTile("Gezi Başına Ağırlık", "19.17 kg");
+    expectTile("En İyi Ağırlık", "50 kg");
+    expectTile("Gezi Başına Boy", "20 cm");
+    expectTile("En İyi Boy", "40 cm");
   });
 
   // https://github.com/cohenadair/anglers-log/issues/903
@@ -323,6 +323,6 @@ void main() {
     trips.add(Trip(id: randomId())); // Add a skunked trip.
 
     await pumpSummary(tester);
-    expectTile("Best Length", "40 cm");
+    expectTile("En İyi Boy", "40 cm");
   });
 }

@@ -69,8 +69,8 @@ void main() {
         ),
       ),
     );
-    expect(find.text("Photo"), findsOneWidget);
-    expect(find.text("Add Photos"), findsNothing);
+    expect(find.text("Fotoğraf"), findsOneWidget);
+    expect(find.text("Fotoğraf Ekle"), findsNothing);
   });
 
   testWidgets("Multiple selection", (tester) async {
@@ -79,8 +79,8 @@ void main() {
         (_) => ImagePicker(onImagesPicked: (_) {}, onImageDeleted: (_) {}),
       ),
     );
-    expect(find.text("Add Photos"), findsOneWidget);
-    expect(find.text("Photo"), findsNothing);
+    expect(find.text("Fotoğraf Ekle"), findsOneWidget);
+    expect(find.text("Fotoğraf"), findsNothing);
   });
 
   testWidgets("No images", (tester) async {
@@ -204,10 +204,10 @@ void main() {
 
     await tapAndSettle(tester, find.byType(InkWell));
 
-    expect(find.text("Gallery"), findsOneWidget);
-    expect(find.text("Camera"), findsOneWidget);
-    expect(find.text("Browse"), findsOneWidget);
-    expect(find.text("No Photo"), findsNothing);
+    expect(find.text("Galeri"), findsOneWidget);
+    expect(find.text("Kamera"), findsOneWidget);
+    expect(find.text("Gözat"), findsOneWidget);
+    expect(find.text("Fotoğraf Yok"), findsNothing);
   });
 
   testWidgets("Android dismissed bottom sheet does not invoke onImagesPicked", (
@@ -255,7 +255,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byType(InkWell));
-    await tapAndSettle(tester, find.text("Gallery"));
+    await tapAndSettle(tester, find.text("Galeri"));
     await tester.pumpAndSettle();
 
     expect(invoked, isFalse);
@@ -294,7 +294,7 @@ void main() {
       );
 
       await tapAndSettle(tester, find.byType(InkWell).first);
-      await tapAndSettle(tester, find.text("Gallery"));
+      await tapAndSettle(tester, find.text("Galeri"));
       await tester.pumpAndSettle();
 
       expect(result, isNotNull);
@@ -335,7 +335,7 @@ void main() {
       );
 
       await tapAndSettle(tester, find.byType(InkWell).first);
-      await tapAndSettle(tester, find.text("Gallery"));
+      await tapAndSettle(tester, find.text("Galeri"));
       await tester.pumpAndSettle();
 
       expect(result, isNotNull);

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/catch_manager.dart';
 import 'package:mobile/fishing_spot_manager.dart';
+import 'package:mobile/mera/mera_animated_entry.dart';
 import 'package:mobile/mera/mera_catch_view_page.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_no_catch_manager.dart';
@@ -63,10 +64,12 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
                       builder: (context, ___) {
                         final items = _buildItems(context);
                         if (items.isEmpty) {
-                          return const MeraEmptyState(
-                            icon: Icons.inbox_outlined,
-                            title: 'Henüz kayıt yok',
-                            subtitle: 'Haritadan BALIK ALDIM ile başlayın',
+                          return const MeraAnimatedEntry(
+                            child: MeraEmptyState(
+                              icon: Icons.inbox_outlined,
+                              title: 'Henüz kayıt yok',
+                              subtitle: 'Haritadan BALIK ALDIM ile başlayın',
+                            ),
                           );
                         }
                         return ListView.separated(
@@ -74,7 +77,10 @@ class _MeraRecordsPageState extends State<MeraRecordsPage> {
                           itemCount: items.length,
                           separatorBuilder: (_, __) =>
                               const SizedBox(height: 10),
-                          itemBuilder: (context, i) => items[i],
+                          itemBuilder: (context, i) => MeraAnimatedEntry(
+                            delay: Duration(milliseconds: 40 + i * 55),
+                            child: items[i],
+                          ),
                         );
                       },
                     );

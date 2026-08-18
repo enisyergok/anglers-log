@@ -40,14 +40,14 @@ void main() {
 
   testWidgets("Feedback and rate scrolling", (tester) async {
     await tester.pumpWidget(
-      Testable((_) => const HowToFeedbackPage(nextLabel: "Next")),
+      Testable((_) => const HowToFeedbackPage(nextLabel: "İleri")),
     );
 
     var scrollable = Scrollable.of(
       (tester
                   .firstWidget(
                     find.ancestor(
-                      of: find.widgetWithText(ListItem, "Send Feedback"),
+                      of: find.widgetWithText(ListItem, "Geri Bildirim Gönder"),
                       matching: find.byType(Container),
                     ),
                   )

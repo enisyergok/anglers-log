@@ -67,7 +67,7 @@ void main() {
           ),
         ),
       );
-      expect(find.text("Select Fishing Spot"), findsOneWidget);
+      expect(find.text("Av Noktası Seç"), findsOneWidget);
     });
 
     testWidgets("Multi title", (tester) async {
@@ -80,7 +80,7 @@ void main() {
           ),
         ),
       );
-      expect(find.text("Select Fishing Spots"), findsOneWidget);
+      expect(find.text("Av Noktası Seç"), findsOneWidget);
     });
 
     testWidgets("Has checkboxes", (tester) async {
@@ -123,7 +123,7 @@ void main() {
       );
 
       await tapAndSettle(tester, find.text("TEST"));
-      await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+      await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
       await tapAndSettle(tester, find.byType(BackButton));
 
       expect(pickedFishingSpots.length, 2);
@@ -148,7 +148,7 @@ void main() {
         ),
       );
 
-      await tapAndSettle(tester, find.text("None"));
+      await tapAndSettle(tester, find.text("Yok"));
 
       expect(invoked, isTrue);
       expect(picked, isNull);

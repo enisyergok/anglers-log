@@ -269,14 +269,14 @@ void main() {
       expect(find.text("Jan 1, 2020"), findsOneWidget);
       expect(find.text("3:30 PM"), findsOneWidget);
       expect(find.text("America/New York"), findsOneWidget);
-      expect(find.text("Winter"), findsOneWidget);
-      expect(find.text("No baits"), findsOneWidget);
+      expect(find.text("Kış"), findsOneWidget);
+      expect(find.text("Yem yok"), findsOneWidget);
 
       // Angler, time of day, and water clarity.
-      expect(find.text("Not Selected"), findsNWidgets(3));
+      expect(find.text("Seçilmedi"), findsNWidgets(3));
 
       expect(find.byType(FishingSpotDetails), findsOneWidget);
-      expect(find.text("Species"), findsOneWidget);
+      expect(find.text("Türler"), findsOneWidget);
       expect(find.text("Steelhead"), findsOneWidget);
       expect(find.byType(Image), findsOneWidget);
     });
@@ -310,7 +310,7 @@ void main() {
 
       var customEntity = CustomEntity()
         ..id = randomId()
-        ..name = "Colour"
+        ..name = "Renk"
         ..type = CustomEntity_Type.text;
       when(
         managers.customEntityManager.entity(customEntity.id),
@@ -350,7 +350,7 @@ void main() {
 
       var clarity = WaterClarity()
         ..id = randomId()
-        ..name = "Clear";
+        ..name = "Açık";
       when(managers.waterClarityManager.entity(any)).thenReturn(clarity);
       when(managers.waterClarityManager.entityExists(any)).thenReturn(true);
 
@@ -467,39 +467,39 @@ void main() {
       expect(find.text("Jan 1, 2020"), findsOneWidget);
       expect(find.text("3:30 PM"), findsOneWidget);
       expect(find.text("America/Chicago"), findsOneWidget);
-      expect(find.text("Dawn"), findsOneWidget);
-      expect(find.text("Summer"), findsOneWidget);
+      expect(find.text("Şafak"), findsOneWidget);
+      expect(find.text("Yaz"), findsOneWidget);
       expect(find.text("Casting"), findsOneWidget);
       expect(find.text("Kayak"), findsOneWidget);
       expect(find.text("Rapala"), findsOneWidget);
       expect(find.byType(FishingSpotDetails), findsOneWidget);
-      expect(find.text("Species"), findsOneWidget);
+      expect(find.text("Türler"), findsOneWidget);
       expect(find.text("Steelhead"), findsOneWidget);
-      expect(find.text("Angler"), findsOneWidget);
+      expect(find.text("Balıkçı"), findsOneWidget);
       expect(find.text("Cohen"), findsOneWidget);
       expect(find.byType(Image), findsOneWidget);
-      expect(find.text("Colour"), findsOneWidget);
+      expect(find.text("Renk"), findsOneWidget);
       expect(find.text("Minnow"), findsOneWidget);
-      expect(findCheckbox(tester, "Favourite")!.isChecked, isTrue);
-      expect(findCheckbox(tester, "Catch and Release")!.isChecked, isTrue);
-      expect(find.text("Clear"), findsOneWidget);
+      expect(findCheckbox(tester, "Favori")!.isChecked, isTrue);
+      expect(findCheckbox(tester, "Yakala ve Bırak")!.isChecked, isTrue);
+      expect(find.text("Açık"), findsOneWidget);
       expect(find.text("20"), findsOneWidget);
       expect(find.text("75"), findsOneWidget);
       expect(find.text("15"), findsOneWidget);
       expect(find.text("10"), findsOneWidget);
       expect(find.text("3"), findsOneWidget);
-      expect(find.text("Cloudy"), findsOneWidget);
+      expect(find.text("Bulutlu"), findsOneWidget);
       expect(find.text("58\u00B0F"), findsOneWidget);
       expect(find.text("7 km/h"), findsOneWidget);
-      expect(find.text("N"), findsOneWidget);
+      expect(find.text("K"), findsOneWidget);
       expect(find.text("1000 psi"), findsOneWidget);
       expect(find.text("10 mi"), findsOneWidget);
       expect(find.text("50%"), findsOneWidget);
-      expect(find.text("Sunrise"), findsOneWidget);
-      expect(find.text("Sunset"), findsOneWidget);
-      expect(find.text("Full"), findsOneWidget);
-      expect(find.text("Moon"), findsOneWidget);
-      expect(find.text("Outgoing"), findsOneWidget);
+      expect(find.text("Gündoğumu"), findsOneWidget);
+      expect(find.text("Günbatımı"), findsOneWidget);
+      expect(find.text("Dolunay"), findsOneWidget);
+      expect(find.text("Ay"), findsOneWidget);
+      expect(find.text("Çeken"), findsOneWidget);
       expect(find.text("Bass Rod"), findsOneWidget);
       expect(find.text("Pike Rod"), findsOneWidget);
     });
@@ -521,48 +521,48 @@ void main() {
       expect(find.text("Jan 1, 2020"), findsOneWidget);
       expect(find.text("3:30 PM"), findsOneWidget);
       expect(find.text("America/New York"), findsOneWidget);
-      expect(find.text("Species"), findsOneWidget);
+      expect(find.text("Türler"), findsOneWidget);
       expect(find.text("Steelhead"), findsOneWidget);
-      expect(find.text("No baits"), findsOneWidget);
+      expect(find.text("Yem yok"), findsOneWidget);
 
       // Angler, time of day, season, and water clarity.
-      expect(find.text("Not Selected"), findsNWidgets(4));
+      expect(find.text("Seçilmedi"), findsNWidgets(4));
 
       // Fishing methods.
-      expect(find.text("No fishing methods"), findsOneWidget);
+      expect(find.text("Balık tutma yöntemi yok"), findsOneWidget);
 
-      expect(find.text("Fishing Spot"), findsOneWidget);
+      expect(find.text("Av Noktası"), findsOneWidget);
       expect(find.byType(Image), findsNothing);
       expect(find.byType(FishingSpotDetails), findsNothing);
-      expect(findCheckbox(tester, "Favourite")!.isChecked, isFalse);
-      expect(findCheckbox(tester, "Catch and Release")!.isChecked, isFalse);
-      expect(find.text("Atmosphere and Weather"), findsOneWidget);
+      expect(findCheckbox(tester, "Favori")!.isChecked, isFalse);
+      expect(findCheckbox(tester, "Yakala ve Bırak")!.isChecked, isFalse);
+      expect(find.text("Atmosfer ve Hava Durumu"), findsOneWidget);
 
       expect(
-        findFirstWithText<TextInput>(tester, "Water Depth").controller?.value,
+        findFirstWithText<TextInput>(tester, "Su Derinliği").controller?.value,
         isNull,
       );
       expect(
         findFirstWithText<TextInput>(
           tester,
-          "Water Temperature",
+          "Su Sıcaklığı",
         ).controller?.value,
         isNull,
       );
       expect(
-        findFirstWithText<TextInput>(tester, "Length").controller?.value,
+        findFirstWithText<TextInput>(tester, "Boy").controller?.value,
         isNull,
       );
       expect(
-        findFirstWithText<TextInput>(tester, "Weight").controller?.value,
+        findFirstWithText<TextInput>(tester, "Ağırlık").controller?.value,
         isNull,
       );
       expect(
-        findFirstWithText<TextInput>(tester, "Quantity").controller?.value,
+        findFirstWithText<TextInput>(tester, "Adet").controller?.value,
         isNull,
       );
       expect(
-        findFirstWithText<TextInput>(tester, "Notes").controller?.value,
+        findFirstWithText<TextInput>(tester, "Notlar").controller?.value,
         isNull,
       );
 
@@ -573,7 +573,7 @@ void main() {
     testWidgets("Saving", (tester) async {
       var customEntity = CustomEntity()
         ..id = randomId()
-        ..name = "Colour"
+        ..name = "Renk"
         ..type = CustomEntity_Type.text;
       when(
         managers.customEntityManager.entity(customEntity.id),
@@ -616,7 +616,7 @@ void main() {
 
       var clarity = WaterClarity()
         ..id = randomId()
-        ..name = "Clear";
+        ..name = "Açık";
       when(managers.waterClarityManager.entity(any)).thenReturn(clarity);
       when(managers.waterClarityManager.entityExists(any)).thenReturn(true);
 
@@ -788,7 +788,7 @@ void main() {
     });
   });
 
-  group("New", () {
+  group("Yeni", () {
     testWidgets("All fields default correctly", (tester) async {
       var species = Species()
         ..id = randomId()
@@ -819,49 +819,49 @@ void main() {
       expect(find.text("Feb 1, 2020"), findsOneWidget);
       expect(find.text("10:30 AM"), findsOneWidget);
       expect(find.text("America/New York"), findsOneWidget);
-      expect(find.text("Species"), findsOneWidget);
+      expect(find.text("Türler"), findsOneWidget);
       expect(find.text("Steelhead"), findsOneWidget);
-      expect(find.text("No baits"), findsOneWidget);
-      expect(find.text("No gear"), findsOneWidget);
-      expect(find.text("Winter"), findsOneWidget);
+      expect(find.text("Yem yok"), findsOneWidget);
+      expect(find.text("Ekipman yok"), findsOneWidget);
+      expect(find.text("Kış"), findsOneWidget);
 
       // Angler, time of day, and water clarity.
-      expect(find.text("Not Selected"), findsNWidgets(3));
+      expect(find.text("Seçilmedi"), findsNWidgets(3));
 
       // Fishing methods.
-      expect(find.text("No fishing methods"), findsOneWidget);
+      expect(find.text("Balık tutma yöntemi yok"), findsOneWidget);
 
       expect(find.byType(FishingSpotDetails), findsOneWidget);
       expect(find.byType(Image), findsNothing);
-      expect(findCheckbox(tester, "Favourite")!.isChecked, isFalse);
-      expect(findCheckbox(tester, "Catch and Release")!.isChecked, isFalse);
-      expect(find.text("Atmosphere and Weather"), findsOneWidget);
+      expect(findCheckbox(tester, "Favori")!.isChecked, isFalse);
+      expect(findCheckbox(tester, "Yakala ve Bırak")!.isChecked, isFalse);
+      expect(find.text("Atmosfer ve Hava Durumu"), findsOneWidget);
 
       expect(
-        findFirstWithText<TextInput>(tester, "Water Depth").controller?.value,
+        findFirstWithText<TextInput>(tester, "Su Derinliği").controller?.value,
         isNull,
       );
       expect(
         findFirstWithText<TextInput>(
           tester,
-          "Water Temperature",
+          "Su Sıcaklığı",
         ).controller?.value,
         isNull,
       );
       expect(
-        findFirstWithText<TextInput>(tester, "Length").controller?.value,
+        findFirstWithText<TextInput>(tester, "Boy").controller?.value,
         isNull,
       );
       expect(
-        findFirstWithText<TextInput>(tester, "Weight").controller?.value,
+        findFirstWithText<TextInput>(tester, "Ağırlık").controller?.value,
         isNull,
       );
       expect(
-        findFirstWithText<TextInput>(tester, "Quantity").controller?.value,
+        findFirstWithText<TextInput>(tester, "Adet").controller?.value,
         isNull,
       );
       expect(
-        findFirstWithText<TextInput>(tester, "Notes").controller?.value,
+        findFirstWithText<TextInput>(tester, "Notlar").controller?.value,
         isNull,
       );
     });
@@ -951,7 +951,7 @@ void main() {
 
       var waterClarity = WaterClarity()
         ..id = randomId()
-        ..name = "Clear";
+        ..name = "Açık";
       when(
         managers.waterClarityManager.listSortedByDisplayName(
           any,
@@ -1009,19 +1009,19 @@ void main() {
       );
 
       // Select time zone.
-      await tapAndSettle(tester, find.text("Time Zone"));
+      await tapAndSettle(tester, find.text("Saat Dilimi"));
       await tapAndSettle(tester, find.text("America/New York"));
 
       // Select period.
-      await tapAndSettle(tester, find.text("Time of Day"));
-      await tapAndSettle(tester, find.text("Afternoon"));
+      await tapAndSettle(tester, find.text("Günün Zamanı"));
+      await tapAndSettle(tester, find.text("Öğleden sonra"));
 
       // Select season.
-      await tapAndSettle(tester, find.text("Season"));
-      await tapAndSettle(tester, find.text("Summer"));
+      await tapAndSettle(tester, find.text("Mevsim"));
+      await tapAndSettle(tester, find.text("Yaz"));
 
       // Select bait.
-      await tapAndSettle(tester, find.text("No baits"));
+      await tapAndSettle(tester, find.text("Yem yok"));
       await tapAndSettle(
         tester,
         findManageableListItemCheckbox(tester, "Rapala"),
@@ -1029,7 +1029,7 @@ void main() {
       await tapAndSettle(tester, find.byType(BackButton));
 
       // Select gear.
-      await tapAndSettle(tester, find.text("No gear"));
+      await tapAndSettle(tester, find.text("Ekipman yok"));
       await tapAndSettle(
         tester,
         findManageableListItemCheckbox(tester, "Bass Rod"),
@@ -1041,18 +1041,18 @@ void main() {
       await tapAndSettle(tester, find.byType(BackButton));
 
       // Select angler.
-      await tester.ensureVisible(find.text("Angler"));
-      await tapAndSettle(tester, find.text("Angler"));
+      await tester.ensureVisible(find.text("Balıkçı"));
+      await tapAndSettle(tester, find.text("Balıkçı"));
       await tapAndSettle(tester, find.text("Cohen"));
 
       // Select water clarity.
-      await tester.ensureVisible(find.text("Water Clarity"));
-      await tapAndSettle(tester, find.text("Water Clarity"));
-      await tapAndSettle(tester, find.text("Clear"));
+      await tester.ensureVisible(find.text("Su Berraklığı"));
+      await tapAndSettle(tester, find.text("Su Berraklığı"));
+      await tapAndSettle(tester, find.text("Açık"));
 
       // Select fishing methods.
-      await tester.ensureVisible(find.text("No fishing methods"));
-      await tapAndSettle(tester, find.text("No fishing methods"));
+      await tester.ensureVisible(find.text("Balık tutma yöntemi yok"));
+      await tapAndSettle(tester, find.text("Balık tutma yöntemi yok"));
       await tapAndSettle(
         tester,
         findManageableListItemCheckbox(tester, "Casting"),
@@ -1064,30 +1064,30 @@ void main() {
       await tapAndSettle(tester, find.byType(BackButton));
 
       // Set favourite.
-      await tester.ensureVisible(find.text("Favourite"));
-      await tapAndSettle(tester, findListItemCheckbox(tester, "Favourite"));
+      await tester.ensureVisible(find.text("Favori"));
+      await tapAndSettle(tester, findListItemCheckbox(tester, "Favori"));
 
       // Set catch and release.
-      await tester.ensureVisible(find.text("Catch and Release"));
+      await tester.ensureVisible(find.text("Yakala ve Bırak"));
       await tapAndSettle(
         tester,
-        findListItemCheckbox(tester, "Catch and Release"),
+        findListItemCheckbox(tester, "Yakala ve Bırak"),
       );
 
       // Set atmosphere.
-      await tester.ensureVisible(find.text("Atmosphere and Weather"));
-      await tapAndSettle(tester, find.text("Atmosphere and Weather"));
+      await tester.ensureVisible(find.text("Atmosfer ve Hava Durumu"));
+      await tapAndSettle(tester, find.text("Atmosfer ve Hava Durumu"));
       await enterTextAndSettle(
         tester,
-        find.widgetWithText(TextField, "Air Temperature"),
+        find.widgetWithText(TextField, "Hava Sıcaklığı"),
         "58",
       );
       await tapAndSettle(tester, find.byType(BackButtonIcon));
 
       // Tide.
-      await tester.ensureVisible(find.text("Tide"));
-      await tapAndSettle(tester, find.text("Tide"));
-      await tapAndSettle(tester, find.text("Outgoing"));
+      await tester.ensureVisible(find.text("Gelgit"));
+      await tapAndSettle(tester, find.text("Gelgit"));
+      await tapAndSettle(tester, find.text("Çeken"));
       await tapAndSettle(tester, find.byType(BackButtonIcon));
 
       await tapAndSettle(tester, find.text("SAVE"));
@@ -1136,7 +1136,7 @@ void main() {
       Testable((_) => SaveCatchPage(speciesId: randomId())),
     );
 
-    expect(find.text("New Catch"), findsOneWidget);
+    expect(find.text("Yeni Av"), findsOneWidget);
   });
 
   testWidgets("Edit title", (tester) async {
@@ -1147,13 +1147,13 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => SaveCatchPage.edit(cat)));
 
-    expect(find.text("Edit Catch"), findsOneWidget);
+    expect(find.text("Avı Düzenle"), findsOneWidget);
   });
 
   testWidgets("Copy title", (tester) async {
     await tester.pumpWidget(Testable((_) => SaveCatchPage.copied(Catch())));
 
-    expect(find.text("New Catch"), findsOneWidget);
+    expect(find.text("Yeni Av"), findsOneWidget);
   });
 
   testWidgets("Only show fields saved in preferences", (tester) async {
@@ -1181,9 +1181,9 @@ void main() {
       ),
     );
 
-    expect(find.text("Date"), findsOneWidget);
-    expect(find.text("Time"), findsOneWidget);
-    expect(find.text("Species"), findsOneWidget);
+    expect(find.text("Tarih"), findsOneWidget);
+    expect(find.text("Saat"), findsOneWidget);
+    expect(find.text("Türler"), findsOneWidget);
     expect(find.byType(FishingSpotDetails), findsNothing);
     expect(find.byType(ImagePicker), findsNothing);
   });
@@ -1322,7 +1322,7 @@ void main() {
     await tester.pumpAndSettle(const Duration(milliseconds: 300));
     await mapController.finishLoading(tester);
 
-    await tapAndSettle(tester, find.text("Edit"));
+    await tapAndSettle(tester, find.text("Düzenle"));
     await enterTextAndSettle(
       tester,
       find.widgetWithText(TextInput, "Name"),
@@ -1376,7 +1376,7 @@ void main() {
   ) async {
     var clarity = WaterClarity()
       ..id = randomId()
-      ..name = "Clear";
+      ..name = "Açık";
 
     // Use real AnglerManager to test listener notifications.
     var clarityManager = WaterClarityManager(managers.app);
@@ -1393,13 +1393,13 @@ void main() {
       ),
     );
 
-    expect(find.text("Clear"), findsOneWidget);
+    expect(find.text("Açık"), findsOneWidget);
 
     // Edit the selected water clarity.
-    await tester.ensureVisible(find.text("Clear"));
-    await tapAndSettle(tester, find.text("Clear"));
+    await tester.ensureVisible(find.text("Açık"));
+    await tapAndSettle(tester, find.text("Açık"));
     await tapAndSettle(tester, find.widgetWithText(ActionButton, "EDIT"));
-    await tapAndSettle(tester, find.text("Clear"));
+    await tapAndSettle(tester, find.text("Açık"));
     await enterTextAndSettle(tester, find.byType(TextInput), "Stained");
     await tapAndSettle(tester, find.text("SAVE"));
     await tapAndSettle(tester, find.byType(BackButtonIcon));
@@ -1568,10 +1568,10 @@ void main() {
     );
 
     expect(find.text("Feb 1, 2020"), findsOneWidget);
-    expect(find.text("Winter"), findsOneWidget);
+    expect(find.text("Kış"), findsOneWidget);
 
-    expect(find.text("Date"), findsOneWidget);
-    await tapAndSettle(tester, find.text("Date"));
+    expect(find.text("Tarih"), findsOneWidget);
+    await tapAndSettle(tester, find.text("Tarih"));
     await tapAndSettle(tester, find.byIcon(Icons.edit));
     await enterTextAndSettle(
       tester,
@@ -1580,7 +1580,7 @@ void main() {
     );
     await tapAndSettle(tester, find.text("OK"));
 
-    expect(find.text("Spring"), findsOneWidget);
+    expect(find.text("İlkbahar"), findsOneWidget);
   });
 
   testWidgets("Season updates when fishing spot changes", (tester) async {
@@ -1637,7 +1637,7 @@ void main() {
     );
 
     expect(find.text("Feb 1, 2020"), findsOneWidget);
-    expect(find.text("Winter"), findsOneWidget);
+    expect(find.text("Kış"), findsOneWidget);
 
     await tapAndSettle(tester, find.text("Lat: 13.000000, Lng: 45.000000"));
 
@@ -1649,7 +1649,7 @@ void main() {
     await tapAndSettle(tester, find.text("Spot B"));
     await tapAndSettle(tester, find.byType(BackButton));
 
-    expect(find.text("Summer"), findsOneWidget);
+    expect(find.text("Yaz"), findsOneWidget);
   });
 
   testWidgets("Season not updates automatically if picked by user", (
@@ -1677,16 +1677,16 @@ void main() {
     );
 
     expect(find.text("Feb 1, 2020"), findsOneWidget);
-    expect(find.text("Winter"), findsOneWidget);
+    expect(find.text("Kış"), findsOneWidget);
 
     // Manually pick a season.
-    await tapAndSettle(tester, find.text("Winter"));
-    await tapAndSettle(tester, find.text("Summer"));
-    expect(find.text("Winter"), findsNothing);
-    expect(find.text("Summer"), findsOneWidget);
+    await tapAndSettle(tester, find.text("Kış"));
+    await tapAndSettle(tester, find.text("Yaz"));
+    expect(find.text("Kış"), findsNothing);
+    expect(find.text("Yaz"), findsOneWidget);
 
     // Change the date.
-    await tapAndSettle(tester, find.text("Date"));
+    await tapAndSettle(tester, find.text("Tarih"));
     await tapAndSettle(tester, find.byIcon(Icons.edit));
     await enterTextAndSettle(
       tester,
@@ -1696,8 +1696,8 @@ void main() {
     await tapAndSettle(tester, find.text("OK"));
 
     // Verify that the season wasn't recalculated.
-    expect(find.text("Spring"), findsNothing);
-    expect(find.text("Summer"), findsOneWidget);
+    expect(find.text("İlkbahar"), findsNothing);
+    expect(find.text("Yaz"), findsOneWidget);
   });
 
   testWidgets("Season is not calculated if not tracking", (tester) async {
@@ -1929,7 +1929,7 @@ void main() {
     // Check TideInput data.
     await ensureVisibleAndSettle(tester, find.byType(TideInput));
     await tapAndSettle(tester, find.byType(TideInput));
-    expect(find.text("Current Location"), findsOneWidget);
+    expect(find.text("Mevcut Konum"), findsOneWidget);
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Select a different fishing spot.
@@ -1954,11 +1954,11 @@ void main() {
     ).thenReturn([]);
 
     // Pick a fishing spot.
-    await ensureVisibleAndSettle(tester, find.text("Fishing Spot"));
-    await tapAndSettle(tester, find.text("Fishing Spot"));
+    await ensureVisibleAndSettle(tester, find.text("Av Noktası"));
+    await tapAndSettle(tester, find.text("Av Noktası"));
     await tester.pumpAndSettle(const Duration(milliseconds: 300));
     await mapController.finishLoading(tester);
-    await tapAndSettle(tester, find.text("Search fishing spots"));
+    await tapAndSettle(tester, find.text("Av noktalarında ara"));
     await tapAndSettle(tester, find.text("Name"));
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -2095,15 +2095,15 @@ void main() {
       Testable((_) => SaveCatchPage(speciesId: randomId())),
     );
 
-    expect(find.widgetWithText(ListItem, "Fishing Spot"), findsOneWidget);
+    expect(find.widgetWithText(ListItem, "Av Noktası"), findsOneWidget);
 
     // Pick a fishing spot.
-    await tapAndSettle(tester, find.text("Fishing Spot"));
+    await tapAndSettle(tester, find.text("Av Noktası"));
     await tester.pumpAndSettle(const Duration(milliseconds: 300));
     await mapController.finishLoading(tester);
     await tapAndSettle(tester, find.byType(BackButton));
 
-    expect(find.widgetWithText(ListItem, "Fishing Spot"), findsNothing);
+    expect(find.widgetWithText(ListItem, "Av Noktası"), findsNothing);
     expect(find.byType(FishingSpotDetails), findsOneWidget);
 
     // Save and verify.
@@ -2167,7 +2167,7 @@ void main() {
     // Check AtmosphereInput data.
     await ensureVisibleAndSettle(tester, find.byType(AtmosphereInput));
     await tapAndSettle(tester, find.byType(AtmosphereInput));
-    expect(find.text("Current Location"), findsOneWidget);
+    expect(find.text("Mevcut Konum"), findsOneWidget);
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Pick a fishing spot.
@@ -2241,7 +2241,7 @@ void main() {
 
     // Deselect gear.
     await tapAndSettle(tester, find.text("Bass Rod"));
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Save.

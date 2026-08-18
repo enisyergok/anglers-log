@@ -49,7 +49,7 @@ void main() {
         Testable((context) => ActionButton.done(context)),
       );
       expect(find.text("DONE"), findsOneWidget);
-      expect(find.text("Done"), findsNothing);
+      expect(find.text("Tamam"), findsNothing);
     });
 
     testWidgets("Text color", (tester) async {
@@ -199,7 +199,7 @@ void main() {
         ).onPressed,
         isNotNull,
       );
-      expect(findFirst<Tooltip>(tester).message, "Back");
+      expect(findFirst<Tooltip>(tester).message, "Geri");
     });
 
     testWidgets("iOS back button", (tester) async {
@@ -217,7 +217,7 @@ void main() {
         ).onPressed,
         isNotNull,
       );
-      expect(findFirst<Tooltip>(tester).message, "Back");
+      expect(findFirst<Tooltip>(tester).message, "Geri");
     });
 
     testWidgets("Close button", (tester) async {
@@ -227,10 +227,10 @@ void main() {
         findFirstWithIcon<RawMaterialButton>(tester, Icons.close).onPressed,
         isNotNull,
       );
-      expect(findFirst<Tooltip>(tester).message, "Close");
+      expect(findFirst<Tooltip>(tester).message, "Kapat");
     });
 
-    testWidgets("Text", (tester) async {
+    testWidgets("Metin", (tester) async {
       await tester.pumpWidget(
         Testable((_) => FloatingButton(text: "Test", tooltip: "Tooltip")),
       );

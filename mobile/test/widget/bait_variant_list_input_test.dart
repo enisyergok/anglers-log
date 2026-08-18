@@ -103,7 +103,7 @@ void main() {
         showHeader: true,
       ),
     );
-    expect(find.text("Variants"), findsOneWidget);
+    expect(find.text("Varyantlar"), findsOneWidget);
   });
 
   testWidgets("Header is hidden", (tester) async {
@@ -114,7 +114,7 @@ void main() {
         showHeader: false,
       ),
     );
-    expect(find.text("Variants"), findsNothing);
+    expect(find.text("Varyantlar"), findsNothing);
   });
 
   testWidgets("Checkbox is shown", (tester) async {
@@ -212,7 +212,7 @@ void main() {
     await tapAndSettle(tester, find.text("EDIT"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextField, "Colour"),
+      find.widgetWithText(TextField, "Renk"),
       "Green",
     );
     await tapAndSettle(tester, find.text("SAVE"));
@@ -235,7 +235,7 @@ void main() {
     await tapAndSettle(tester, find.byIcon(Icons.add));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextField, "Colour"),
+      find.widgetWithText(TextField, "Renk"),
       "Green",
     );
     await tapAndSettle(tester, find.text("SAVE"));

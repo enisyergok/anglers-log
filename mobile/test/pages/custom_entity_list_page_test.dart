@@ -13,7 +13,7 @@ void main() {
   var entities = <CustomEntity>[
     CustomEntity()
       ..id = randomId()
-      ..name = "Water Depth"
+      ..name = "Su Derinliği"
       ..type = CustomEntity_Type.number
       ..description = "How deep the water is, in feet.",
     CustomEntity()
@@ -22,7 +22,7 @@ void main() {
       ..type = CustomEntity_Type.text,
     CustomEntity()
       ..id = randomId()
-      ..name = "Released"
+      ..name = "Bırakıldı"
       ..type = CustomEntity_Type.boolean,
   ];
 
@@ -40,8 +40,8 @@ void main() {
   testWidgets("CustomEntity description rendered correctly", (tester) async {
     await tester.pumpWidget(Testable((_) => const CustomEntityListPage()));
     expect(find.text("How deep the water is, in feet."), findsOneWidget);
-    expect(find.text("Water Depth"), findsOneWidget);
+    expect(find.text("Su Derinliği"), findsOneWidget);
     expect(find.text("Note"), findsOneWidget);
-    expect(find.text("Released"), findsOneWidget);
+    expect(find.text("Bırakıldı"), findsOneWidget);
   });
 }

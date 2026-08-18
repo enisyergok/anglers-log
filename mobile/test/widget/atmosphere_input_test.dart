@@ -156,19 +156,19 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Atmosphere and Weather"));
+    await tapAndSettle(tester, find.text("Atmosfer ve Hava Durumu"));
 
-    expect(find.text("None"), findsOneWidget);
-    expect(find.text("Air Temperature"), findsOneWidget);
-    expect(find.text("No sky conditions"), findsOneWidget);
-    expect(find.text("Wind Direction"), findsOneWidget);
-    expect(find.text("Wind Speed"), findsOneWidget);
-    expect(find.text("Atmospheric Pressure"), findsOneWidget);
-    expect(find.text("Air Visibility"), findsOneWidget);
-    expect(find.text("Air Humidity"), findsOneWidget);
-    expect(find.text("Moon Phase"), findsOneWidget);
-    expect(find.text("Time of Sunrise"), findsOneWidget);
-    expect(find.text("Time of Sunset"), findsOneWidget);
+    expect(find.text("Yok"), findsOneWidget);
+    expect(find.text("Hava Sıcaklığı"), findsOneWidget);
+    expect(find.text("Gökyüzü koşulu yok"), findsOneWidget);
+    expect(find.text("Rüzgar Yönü"), findsOneWidget);
+    expect(find.text("Rüzgar Hızı"), findsOneWidget);
+    expect(find.text("Atmosfer Basıncı"), findsOneWidget);
+    expect(find.text("Hava Görüşü"), findsOneWidget);
+    expect(find.text("Hava Nemi"), findsOneWidget);
+    expect(find.text("Ay Evresi"), findsOneWidget);
+    expect(find.text("Gündoğumu Saati"), findsOneWidget);
+    expect(find.text("Günbatımı Saati"), findsOneWidget);
   });
 
   testWidgets("Only fields in preferences are shown", (tester) async {
@@ -182,19 +182,19 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Atmosphere and Weather"));
+    await tapAndSettle(tester, find.text("Atmosfer ve Hava Durumu"));
 
-    expect(find.text("None"), findsOneWidget);
-    expect(find.text("Air Temperature"), findsOneWidget);
-    expect(find.text("No sky conditions"), findsOneWidget);
-    expect(find.text("Wind Direction"), findsNothing);
-    expect(find.text("Wind Speed"), findsNothing);
-    expect(find.text("Atmospheric Pressure"), findsNothing);
-    expect(find.text("Air Visibility"), findsNothing);
-    expect(find.text("Air Humidity"), findsNothing);
-    expect(find.text("Moon Phase"), findsNothing);
-    expect(find.text("Time of Sunrise"), findsNothing);
-    expect(find.text("Time of Sunset"), findsNothing);
+    expect(find.text("Yok"), findsOneWidget);
+    expect(find.text("Hava Sıcaklığı"), findsOneWidget);
+    expect(find.text("Gökyüzü koşulu yok"), findsOneWidget);
+    expect(find.text("Rüzgar Yönü"), findsNothing);
+    expect(find.text("Rüzgar Hızı"), findsNothing);
+    expect(find.text("Atmosfer Basıncı"), findsNothing);
+    expect(find.text("Hava Görüşü"), findsNothing);
+    expect(find.text("Hava Nemi"), findsNothing);
+    expect(find.text("Ay Evresi"), findsNothing);
+    expect(find.text("Gündoğumu Saati"), findsNothing);
+    expect(find.text("Günbatımı Saati"), findsNothing);
   });
 
   testWidgets("Editing atmosphere data", (tester) async {
@@ -243,44 +243,44 @@ void main() {
     // Set all values to something different.
     await enterTextFieldAndSettle(
       tester,
-      "Air Temperature",
+      "Hava Sıcaklığı",
       newAtmosphere.temperature.mainValue.value.toString(),
     );
 
-    await tapAndSettle(tester, find.text("Cloudy"));
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Clear"));
+    await tapAndSettle(tester, find.text("Bulutlu"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Açık"));
     await tapAndSettle(tester, find.byType(BackButton).last);
 
-    await tapAndSettle(tester, find.text("Wind Direction"));
-    await tapAndSettle(tester, find.text("NE"));
+    await tapAndSettle(tester, find.text("Rüzgar Yönü"));
+    await tapAndSettle(tester, find.text("KD"));
 
     await enterTextFieldAndSettle(
       tester,
-      "Wind Speed",
+      "Rüzgar Hızı",
       newAtmosphere.windSpeed.mainValue.value.toString(),
     );
     await enterTextFieldAndSettle(
       tester,
-      "Atmospheric Pressure",
+      "Atmosfer Basıncı",
       newAtmosphere.pressure.mainValue.value.toString(),
     );
     await enterTextFieldAndSettle(
       tester,
-      "Air Visibility",
+      "Hava Görüşü",
       newAtmosphere.visibility.mainValue.value.toString(),
     );
     await enterTextFieldAndSettle(
       tester,
-      "Air Humidity",
+      "Hava Nemi",
       newAtmosphere.humidity.mainValue.value.toString(),
     );
 
-    await tester.ensureVisible(find.text("Moon Phase"));
-    await tapAndSettle(tester, find.text("Moon Phase"));
-    await tapAndSettle(tester, find.text("New"));
+    await tester.ensureVisible(find.text("Ay Evresi"));
+    await tapAndSettle(tester, find.text("Ay Evresi"));
+    await tapAndSettle(tester, find.text("Yeni"));
 
-    await ensureVisibleAndSettle(tester, find.text("Time of Sunrise"));
-    await tapAndSettle(tester, find.text("Time of Sunrise"));
+    await ensureVisibleAndSettle(tester, find.text("Gündoğumu Saati"));
+    await tapAndSettle(tester, find.text("Gündoğumu Saati"));
     await pickTimeAndSettle(
       tester,
       oldHour: "4",
@@ -290,8 +290,8 @@ void main() {
       am: true,
     );
 
-    await ensureVisibleAndSettle(tester, find.text("Time of Sunset"));
-    await tapAndSettle(tester, find.text("Time of Sunset"));
+    await ensureVisibleAndSettle(tester, find.text("Günbatımı Saati"));
+    await tapAndSettle(tester, find.text("Günbatımı Saati"));
     await pickTimeAndSettle(
       tester,
       oldHour: "1",
@@ -324,9 +324,9 @@ void main() {
 
     await tapAndSettle(tester, find.byIcon(Icons.chevron_right));
     await tapAndSettle(tester, find.byIcon(Icons.more_vert));
-    await tapAndSettle(tester, find.text("Manage Fields"));
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Temperature"));
-    await tapAndSettle(tester, findListItemCheckbox(tester, "Wind Direction"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Sıcaklık"));
+    await tapAndSettle(tester, findListItemCheckbox(tester, "Rüzgar Yönü"));
     await tapAndSettle(tester, find.byType(CloseButton));
 
     expect(controller.hasValue, isTrue);
@@ -386,15 +386,15 @@ void main() {
 
     // Verify expected UI elements are showing.
     expect(find.widgetWithText(TextInput, "20"), findsOneWidget);
-    expect(find.text("Cloudy"), findsOneWidget);
-    expect(find.text("Drizzle"), findsOneWidget);
-    expect(find.text("Clear"), findsOneWidget);
+    expect(find.text("Bulutlu"), findsOneWidget);
+    expect(find.text("Çiseleme"), findsOneWidget);
+    expect(find.text("Açık"), findsOneWidget);
     expect(find.widgetWithText(TextInput, "9"), findsOneWidget);
-    expect(find.text("NE"), findsOneWidget);
+    expect(find.text("KD"), findsOneWidget);
     expect(find.widgetWithText(TextInput, "1200"), findsOneWidget);
     expect(find.widgetWithText(TextInput, "60"), findsOneWidget);
     expect(find.widgetWithText(TextInput, "12"), findsOneWidget);
-    expect(find.text("New"), findsOneWidget);
+    expect(find.text("Yeni"), findsOneWidget);
     expect(find.text("9:00 AM"), findsOneWidget);
     expect(find.text("3:00 PM"), findsOneWidget);
   });
@@ -427,7 +427,7 @@ void main() {
     expect(find.text("MB"), findsOneWidget);
     expect(find.text("\u00B0C"), findsOneWidget);
     expect(find.text("km"), findsOneWidget);
-    expect(find.text("km/h"), findsOneWidget);
+    expect(find.text("km/s"), findsOneWidget);
 
     await UserPreferenceManager.get.setAirTemperatureSystem(
       MeasurementSystem.imperial_decimal,
@@ -460,7 +460,7 @@ void main() {
 
     await tapAndSettle(tester, find.byIcon(Icons.chevron_right));
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Auto-fetch"));
+    await tapAndSettle(tester, find.text("Otomatik getir"));
 
     expect(find.byType(SettingsPage), findsOneWidget);
   });

@@ -177,14 +177,14 @@ void main() {
     when(managers.userPreferenceManager.mapType).thenReturn(MapType.light.id);
 
     await pumpContext(tester, (_) => SettingsPage());
-    expect(find.text("Dark"), findsNothing);
-    expect(find.text("Light"), findsOneWidget);
+    expect(find.text("Koyu"), findsNothing);
+    expect(find.text("Hafif"), findsOneWidget);
 
-    await tapAndSettle(tester, find.text("Theme"));
-    expect(find.text("Select Theme"), findsOneWidget);
+    await tapAndSettle(tester, find.text("Tema"));
+    expect(find.text("Tema Seç"), findsOneWidget);
 
-    await tapAndSettle(tester, find.text("Dark"));
-    expect(find.text("Select Theme"), findsNothing);
+    await tapAndSettle(tester, find.text("Koyu"));
+    expect(find.text("Tema Seç"), findsNothing);
 
     verify(
       managers.userPreferenceManager.setMapType(MapType.dark.id),
@@ -199,14 +199,14 @@ void main() {
     when(managers.userPreferenceManager.themeMode).thenReturn(ThemeMode.dark);
 
     await pumpContext(tester, (_) => SettingsPage(), themeMode: ThemeMode.dark);
-    expect(find.text("Dark"), findsOneWidget);
-    expect(find.text("Light"), findsNothing);
+    expect(find.text("Koyu"), findsOneWidget);
+    expect(find.text("Hafif"), findsNothing);
 
-    await tapAndSettle(tester, find.text("Theme"));
-    expect(find.text("Select Theme"), findsOneWidget);
+    await tapAndSettle(tester, find.text("Tema"));
+    expect(find.text("Tema Seç"), findsOneWidget);
 
-    await tapAndSettle(tester, find.text("Light"));
-    expect(find.text("Select Theme"), findsNothing);
+    await tapAndSettle(tester, find.text("Hafif"));
+    expect(find.text("Tema Seç"), findsNothing);
 
     verify(
       managers.userPreferenceManager.setMapType(MapType.light.id),
@@ -223,7 +223,7 @@ void main() {
       (_) => SettingsPage(),
       themeMode: ThemeMode.system,
     );
-    expect(find.text("System"), findsOneWidget);
+    expect(find.text("Sistem"), findsOneWidget);
   });
 
   testWidgets("Picking a theme doesn't update preferences", (tester) async {
@@ -232,14 +232,14 @@ void main() {
     ).thenReturn(MapType.satellite.id);
 
     await pumpContext(tester, (_) => SettingsPage());
-    expect(find.text("Dark"), findsNothing);
-    expect(find.text("Light"), findsOneWidget);
+    expect(find.text("Koyu"), findsNothing);
+    expect(find.text("Hafif"), findsOneWidget);
 
-    await tapAndSettle(tester, find.text("Theme"));
-    expect(find.text("Select Theme"), findsOneWidget);
+    await tapAndSettle(tester, find.text("Tema"));
+    expect(find.text("Tema Seç"), findsOneWidget);
 
-    await tapAndSettle(tester, find.text("Dark"));
-    expect(find.text("Select Theme"), findsNothing);
+    await tapAndSettle(tester, find.text("Koyu"));
+    expect(find.text("Tema Seç"), findsNothing);
 
     verifyNever(managers.userPreferenceManager.setMapType(any));
     verify(

@@ -62,7 +62,7 @@ void main() {
     testWidgets("Singular", (tester) async {
       var angler = WaterClarity()
         ..id = randomId()
-        ..name = "Clear";
+        ..name = "Açık";
 
       when(catchManager.list()).thenReturn([
         Catch()
@@ -81,7 +81,7 @@ void main() {
     testWidgets("Plural zero", (tester) async {
       var angler = WaterClarity()
         ..id = randomId()
-        ..name = "Clear";
+        ..name = "Açık";
       when(catchManager.list()).thenReturn([]);
 
       var context = await buildContext(tester);
@@ -95,7 +95,7 @@ void main() {
     testWidgets("Plural not zero", (tester) async {
       var angler = WaterClarity()
         ..id = randomId()
-        ..name = "Clear";
+        ..name = "Açık";
       when(catchManager.list()).thenReturn([
         Catch()
           ..id = randomId()

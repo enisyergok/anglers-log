@@ -124,7 +124,7 @@ void main() {
   }
 
   List<WaterClarity> defaultWaterClarities() {
-    return [WaterClarity(id: randomId(), name: "Clear")];
+    return [WaterClarity(id: randomId(), name: "Açık")];
   }
 
   Trip defaultTrip() {
@@ -357,10 +357,10 @@ void main() {
     expect(find.text("America/New York"), findsOneWidget);
     expect(find.text("Test Trip"), findsOneWidget);
     expect(find.text("Test notes for a test trip."), findsOneWidget);
-    expect(find.text("Clear"), findsOneWidget);
+    expect(find.text("Açık"), findsOneWidget);
     expect(find.text("12"), findsOneWidget);
     expect(find.text("65"), findsOneWidget);
-    expect(find.text("Cloudy"), findsOneWidget);
+    expect(find.text("Bulutlu"), findsOneWidget);
     expect(find.text("Rainbow Trout"), findsOneWidget);
     expect(find.text("5"), findsOneWidget);
     expect(find.text("Spot 1"), findsOneWidget);
@@ -379,14 +379,14 @@ void main() {
   testWidgets("Editing title", (tester) async {
     when(managers.tripManager.entityExists(any)).thenReturn(true);
     await tester.pumpWidget(Testable((_) => SaveTripPage.edit(defaultTrip())));
-    expect(find.text("Edit Trip"), findsOneWidget);
-    expect(find.text("New Trip"), findsNothing);
+    expect(find.text("Geziyi Düzenle"), findsOneWidget);
+    expect(find.text("Yeni Gezi"), findsNothing);
   });
 
   testWidgets("New title", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
-    expect(find.text("Edit Trip"), findsNothing);
-    expect(find.text("New Trip"), findsOneWidget);
+    expect(find.text("Geziyi Düzenle"), findsNothing);
+    expect(find.text("Yeni Gezi"), findsOneWidget);
   });
 
   testWidgets("Atmosphere fetcher uses first catch fishing spot location", (
@@ -436,12 +436,12 @@ void main() {
     ).thenReturn(catches);
 
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
-    expect(find.text("Atmosphere and Weather"), findsOneWidget);
+    expect(find.text("Atmosfer ve Hava Durumu"), findsOneWidget);
 
     when(managers.lib.subscriptionManager.isFree).thenReturn(true);
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -472,12 +472,12 @@ void main() {
     ).thenReturn(catches);
 
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
-    expect(find.text("Atmosphere and Weather"), findsNothing);
+    expect(find.text("Atmosfer ve Hava Durumu"), findsNothing);
 
     when(managers.lib.subscriptionManager.isFree).thenReturn(false);
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -511,13 +511,13 @@ void main() {
     ).thenReturn(catches);
 
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
-    expect(find.text("Atmosphere and Weather"), findsOneWidget);
+    expect(find.text("Atmosfer ve Hava Durumu"), findsOneWidget);
 
     when(managers.lib.subscriptionManager.isFree).thenReturn(false);
     when(managers.userPreferenceManager.autoFetchAtmosphere).thenReturn(false);
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -551,14 +551,14 @@ void main() {
     ).thenReturn(catches);
 
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
-    expect(find.text("Atmosphere and Weather"), findsOneWidget);
+    expect(find.text("Atmosfer ve Hava Durumu"), findsOneWidget);
 
     when(managers.lib.subscriptionManager.isFree).thenReturn(false);
     when(managers.userPreferenceManager.autoFetchAtmosphere).thenReturn(true);
     when(managers.userPreferenceManager.autoSetTripFields).thenReturn(false);
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -619,7 +619,7 @@ void main() {
     ).thenAnswer((_) => Future.value(response));
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -702,7 +702,7 @@ void main() {
     expect(timePickers.first.enabled, isFalse);
     expect(timePickers.last.enabled, isFalse);
 
-    // Verify "All Day" checkboxes are checked.
+    // Verify "Tüm Gün" checkboxes are checked.
     var checkboxes = tester
         .widgetList<PaddedCheckbox>(find.byType(PaddedCheckbox))
         .toList();
@@ -773,7 +773,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -804,7 +804,7 @@ void main() {
 
     when(managers.baitManager.entityExists(any)).thenReturn(true);
     when(managers.baitManager.entity(any)).thenReturn(Bait(id: randomId()));
-    when(managers.baitManager.displayName(any, any)).thenReturn("Bait");
+    when(managers.baitManager.displayName(any, any)).thenReturn("Yem");
 
     when(managers.fishingSpotManager.entityExists(any)).thenReturn(true);
     when(
@@ -823,7 +823,7 @@ void main() {
     when(
       managers.speciesManager.entity(any),
     ).thenReturn(Species(id: randomId()));
-    when(managers.speciesManager.displayName(any, any)).thenReturn("Species");
+    when(managers.speciesManager.displayName(any, any)).thenReturn("Türler");
 
     // Empty result shows all fields.
     when(managers.userPreferenceManager.tripFieldIds).thenReturn([]);
@@ -850,7 +850,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -879,7 +879,7 @@ void main() {
 
     when(managers.baitManager.entityExists(any)).thenReturn(true);
     when(managers.baitManager.entity(any)).thenReturn(Bait(id: randomId()));
-    when(managers.baitManager.displayName(any, any)).thenReturn("Bait");
+    when(managers.baitManager.displayName(any, any)).thenReturn("Yem");
 
     when(managers.fishingSpotManager.entityExists(any)).thenReturn(true);
     when(
@@ -898,7 +898,7 @@ void main() {
     when(
       managers.speciesManager.entity(any),
     ).thenReturn(Species(id: randomId()));
-    when(managers.speciesManager.displayName(any, any)).thenReturn("Species");
+    when(managers.speciesManager.displayName(any, any)).thenReturn("Türler");
 
     // Empty result shows all fields.
     when(managers.userPreferenceManager.tripFieldIds).thenReturn([]);
@@ -924,7 +924,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -989,7 +989,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -1048,7 +1048,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -1109,7 +1109,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const SaveTripPage()));
 
     // Select a catch to trigger auto updates.
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
 
@@ -1175,7 +1175,7 @@ void main() {
     // We aren't tracking images, nothing should be shown.
     expect(find.byType(Image), findsNothing);
 
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
@@ -1235,7 +1235,7 @@ void main() {
     // Until catches are selected, only old trip photos are shown.
     expect(find.byType(Image), findsOneWidget);
 
-    await tapAndSettle(tester, find.text("No catches"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox).first);
     await tapAndSettle(tester, find.byType(BackButton));
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
@@ -1293,9 +1293,9 @@ void main() {
     expect(find.text("Jan 1, 2020"), findsNWidgets(2));
     expect(find.text("3:30 AM"), findsNWidgets(2));
 
-    await ensureVisibleAndSettle(tester, find.text("No catches"));
-    await tapAndSettle(tester, find.text("No catches"));
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await ensureVisibleAndSettle(tester, find.text("Av yok"));
+    await tapAndSettle(tester, find.text("Av yok"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
     await tapAndSettle(tester, find.byType(BackButton));
 
     expect(find.text("Jan 1, 2020"), findsOneWidget);
@@ -1342,9 +1342,9 @@ void main() {
     expect(find.text("Jan 1, 2020"), findsNWidgets(2));
     expect(find.text("3:30 AM"), findsNWidgets(2));
 
-    await ensureVisibleAndSettle(tester, find.text("No catches"));
-    await tapAndSettle(tester, find.text("No catches"));
-    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+    await ensureVisibleAndSettle(tester, find.text("Av yok"));
+    await tapAndSettle(tester, find.text("Av yok"));
+    await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
     await tapAndSettle(tester, find.byType(BackButton));
 
     expect(find.text("Jan 1, 2020"), findsNWidgets(2));
@@ -1380,8 +1380,8 @@ void main() {
     expect(find.text("Jan 1, 2020"), findsNWidgets(2));
     expect(find.text("3:30 AM"), findsNWidgets(2));
 
-    await ensureVisibleAndSettle(tester, find.text("No catches"));
-    await tapAndSettle(tester, find.text("No catches"));
+    await ensureVisibleAndSettle(tester, find.text("Av yok"));
+    await tapAndSettle(tester, find.text("Av yok"));
     await tapAndSettle(tester, find.byType(BackButton));
 
     expect(find.text("Jan 1, 2020"), findsNWidgets(2));
@@ -1428,9 +1428,9 @@ void main() {
 
       expect(find.text("12:00 AM"), findsNWidgets(2));
 
-      await ensureVisibleAndSettle(tester, find.text("No catches"));
-      await tapAndSettle(tester, find.text("No catches"));
-      await tapAndSettle(tester, findManageableListItemCheckbox(tester, "All"));
+      await ensureVisibleAndSettle(tester, find.text("Av yok"));
+      await tapAndSettle(tester, find.text("Av yok"));
+      await tapAndSettle(tester, findManageableListItemCheckbox(tester, "Tümü"));
       await tapAndSettle(tester, find.byType(BackButton));
 
       expect(find.text("Jan 1, 2020"), findsOneWidget);

@@ -157,7 +157,7 @@ void main() {
   var fishingSpotMap = <Id, FishingSpot>{
     fishingSpotId0: FishingSpot()
       ..id = fishingSpotId0
-      ..name = "E"
+      ..name = "D"
       ..lat = 0.4
       ..lng = 0.0
       ..bodyOfWaterId = bodyOfWaterId0,
@@ -220,7 +220,7 @@ void main() {
       ..name = "Drift",
     methodId4: Method()
       ..id = methodId4
-      ..name = "Ice",
+      ..name = "Buz",
   };
 
   var baitMap = <Id, Bait>{
@@ -250,7 +250,7 @@ void main() {
   var clarityMap = <Id, WaterClarity>{
     clarityId0: WaterClarity()
       ..id = clarityId0
-      ..name = "Clear",
+      ..name = "Açık",
     clarityId1: WaterClarity()
       ..id = clarityId1
       ..name = "Tea Stained",
@@ -882,10 +882,10 @@ void main() {
         ),
       ),
     );
-    expect(find.text("Catch"), findsOneWidget);
+    expect(find.text("Av"), findsOneWidget);
 
     // Verify catch list is opened if there are catches in the current report.
-    await tapAndSettle(tester, find.text("Catch"));
+    await tapAndSettle(tester, find.text("Av"));
     expect(find.byType(CatchListPage), findsOneWidget);
   });
 
@@ -900,11 +900,11 @@ void main() {
         ),
       ),
     );
-    expect(find.text("Catches"), findsOneWidget);
+    expect(find.text("Avlar"), findsOneWidget);
 
     // Verify catch list is not opened if there are no catches in the current
     // report.
-    await tapAndSettle(tester, find.text("Catches"));
+    await tapAndSettle(tester, find.text("Avlar"));
     expect(find.byType(CatchListPage), findsNothing);
   });
 
@@ -923,7 +923,7 @@ void main() {
 
     var tileRow = findFirst<TileRow>(tester);
     expect(tileRow.items.length, 2);
-    expect(find.text("Catches"), findsNWidgets(2));
+    expect(find.text("Avlar"), findsNWidgets(2));
   });
 
   testWidgets("Catches right tile shows time since last catch", (tester) async {
@@ -938,8 +938,8 @@ void main() {
 
     var tileRow = findFirst<TileRow>(tester);
     expect(tileRow.items.length, 2);
-    expect(find.text("Catches"), findsOneWidget);
-    expect(find.text("Since Last Catch"), findsOneWidget);
+    expect(find.text("Avlar"), findsOneWidget);
+    expect(find.text("Son Avdan Bu Yana"), findsOneWidget);
   });
 
   testWidgets("Time since last catch shows CatchPage when tapped", (
@@ -952,7 +952,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Since Last Catch"));
+    await tapAndSettle(tester, find.text("Son Avdan Bu Yana"));
     expect(find.byType(CatchPage), findsOneWidget);
   });
 
@@ -967,7 +967,7 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Since Last Catch"));
+    await tapAndSettle(tester, find.text("Son Avdan Bu Yana"));
     expect(find.byType(CatchPage), findsNothing);
   });
 
@@ -978,9 +978,9 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Hour"), findsOneWidget);
+    expect(find.text("Saat Başına"), findsOneWidget);
 
-    await tapAndSettle(tester, find.text("View all hours"));
+    await tapAndSettle(tester, find.text("Tüm saatleri gör"));
 
     // 25 - 24 for each row, 1 for the back button.
     expect(find.byType(InkWell), findsNWidgets(25));
@@ -993,10 +993,10 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Month"), findsOneWidget);
+    expect(find.text("Ay Başına"), findsOneWidget);
 
-    await ensureVisibleAndSettle(tester, find.text("View all months"));
-    await tapAndSettle(tester, find.text("View all months"));
+    await ensureVisibleAndSettle(tester, find.text("Tüm ayları gör"));
+    await tapAndSettle(tester, find.text("Tüm ayları gör"));
 
     // 13 - 12 for each row, 1 for the back button.
     expect(find.byType(InkWell), findsNWidgets(13));
@@ -1013,7 +1013,7 @@ void main() {
       // work here.
       mediaQueryData: const MediaQueryData(size: Size(500, 5000)),
     );
-    expect(find.text("Per Species"), findsOneWidget);
+    expect(find.text("Tür Başına"), findsOneWidget);
 
     await tester.ensureVisible(find.text("Pike (4)"));
     await tapAndSettle(tester, find.text("Pike (4)"));
@@ -1165,7 +1165,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Species"), findsOneWidget);
+    expect(find.text("Tür Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per species hidden", (tester) async {
@@ -1176,7 +1176,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Species"), findsNothing);
+    expect(find.text("Tür Başına"), findsNothing);
   });
 
   testWidgets("Catches per fishing spot shown", (tester) async {
@@ -1189,7 +1189,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Fishing Spot"), findsOneWidget);
+    expect(find.text("Av Noktası Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per fishing spot hidden", (tester) async {
@@ -1202,7 +1202,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Fishing Spot"), findsNothing);
+    expect(find.text("Av Noktası Başına"), findsNothing);
   });
 
   testWidgets("Catches per bait shown", (tester) async {
@@ -1213,7 +1213,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Bait"), findsOneWidget);
+    expect(find.text("Yem Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per bait shows variants", (tester) async {
@@ -1248,7 +1248,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Bait"), findsNothing);
+    expect(find.text("Yem Başına"), findsNothing);
   });
 
   testWidgets("Catches per moon phase shown", (tester) async {
@@ -1259,7 +1259,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Moon Phase"), findsOneWidget);
+    expect(find.text("Ay Evresi Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per moon phase hidden", (tester) async {
@@ -1270,7 +1270,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Moon Phase"), findsNothing);
+    expect(find.text("Ay Evresi Başına"), findsNothing);
   });
 
   testWidgets("Catches per tide type shown", (tester) async {
@@ -1281,7 +1281,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Tide"), findsOneWidget);
+    expect(find.text("Gelgit Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per tide type hidden", (tester) async {
@@ -1292,7 +1292,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Tide"), findsNothing);
+    expect(find.text("Gelgit Başına"), findsNothing);
   });
 
   testWidgets("Catches per angler shown", (tester) async {
@@ -1303,7 +1303,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Angler"), findsOneWidget);
+    expect(find.text("Balıkçı Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per angler hidden", (tester) async {
@@ -1314,7 +1314,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Angler"), findsNothing);
+    expect(find.text("Balıkçı Başına"), findsNothing);
   });
 
   testWidgets("Catches per body of water shown", (tester) async {
@@ -1324,7 +1324,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Body of Water"), findsOneWidget);
+    expect(find.text("Su Kütlesi Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per body of water hidden", (tester) async {
@@ -1334,7 +1334,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Body of Water"), findsNothing);
+    expect(find.text("Su Kütlesi Başına"), findsNothing);
   });
 
   testWidgets("Catches per fishing method shown", (tester) async {
@@ -1345,7 +1345,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Fishing Method"), findsOneWidget);
+    expect(find.text("Balık Tutma Yöntemi Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per fishing method hidden", (tester) async {
@@ -1356,7 +1356,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Fishing Method"), findsNothing);
+    expect(find.text("Balık Tutma Yöntemi Başına"), findsNothing);
   });
 
   testWidgets("Catches per gear shown", (tester) async {
@@ -1367,7 +1367,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Gear"), findsOneWidget);
+    expect(find.text("Ekipman Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per gear hidden", (tester) async {
@@ -1378,7 +1378,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Gear"), findsNothing);
+    expect(find.text("Ekipman Başına"), findsNothing);
   });
 
   testWidgets("Catches per period shown", (tester) async {
@@ -1389,7 +1389,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Time of Day"), findsOneWidget);
+    expect(find.text("Günün Zamanı Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per period hidden", (tester) async {
@@ -1400,7 +1400,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Time of Day"), findsNothing);
+    expect(find.text("Günün Zamanı Başına"), findsNothing);
   });
 
   testWidgets("Catches per season shown", (tester) async {
@@ -1411,7 +1411,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Season"), findsOneWidget);
+    expect(find.text("Mevsim Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per season hidden", (tester) async {
@@ -1422,7 +1422,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Season"), findsNothing);
+    expect(find.text("Mevsim Başına"), findsNothing);
   });
 
   testWidgets("Catches per water clarity shown", (tester) async {
@@ -1435,7 +1435,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Water Clarity"), findsOneWidget);
+    expect(find.text("Su Berraklığı Başına"), findsOneWidget);
   });
 
   testWidgets("Catches per water clarity hidden", (tester) async {
@@ -1448,7 +1448,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Water Clarity"), findsNothing);
+    expect(find.text("Su Berraklığı Başına"), findsNothing);
   });
 
   testWidgets("Compute report multiple date ranges", (tester) async {
@@ -1574,7 +1574,7 @@ void main() {
       computeCatchReport(opt.writeToBuffer().toList()),
     );
     var filters = opt.displayFilters(await buildContext(tester), report);
-    expect(filters.contains("Catch and release only"), isTrue);
+    expect(filters.contains("Yalnızca yakala ve bırak"), isTrue);
   });
 
   testWidgets("Compute report filters includes favorites", (tester) async {
@@ -1587,7 +1587,7 @@ void main() {
       computeCatchReport(opt.writeToBuffer().toList()),
     );
     var filters = opt.displayFilters(await buildContext(tester), report);
-    expect(filters.contains("Favourites only"), isTrue);
+    expect(filters.contains("Yalnızca favoriler"), isTrue);
   });
 
   testWidgets("Compute report filters skip null number filters", (
@@ -1758,7 +1758,7 @@ void main() {
       ),
     );
 
-    expect(find.text("Per Fishing Spot"), findsNothing);
+    expect(find.text("Av Noktası Başına"), findsNothing);
   });
 
   testWidgets("Model increment entities no baits", (tester) async {
@@ -1934,8 +1934,8 @@ void main() {
     );
 
     // Species
-    await tester.ensureVisible(find.text("View all species"));
-    await tapAndSettle(tester, find.text("View all species"));
+    await tester.ensureVisible(find.text("Tüm türleri gör"));
+    await tapAndSettle(tester, find.text("Tüm türleri gör"));
     expect(find.text("Bluegill (1)"), findsOneWidget);
     expect(find.text("Pike (4)"), findsOneWidget);
     expect(find.text("Catfish (0)"), findsOneWidget);
@@ -1944,8 +1944,8 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Fishing Spots
-    await tester.ensureVisible(find.text("View all fishing spots"));
-    await tapAndSettle(tester, find.text("View all fishing spots"));
+    await tester.ensureVisible(find.text("Tüm av noktalarını gör"));
+    await tapAndSettle(tester, find.text("Tüm av noktalarını gör"));
     expect(find.text("E (1)"), findsOneWidget);
     expect(find.text("C (10)"), findsOneWidget);
     expect(find.text("B (1)"), findsOneWidget);
@@ -1954,8 +1954,8 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Baits
-    await tester.ensureVisible(find.text("View all baits"));
-    await tapAndSettle(tester, find.text("View all baits"));
+    await tester.ensureVisible(find.text("Tüm yemleri gör"));
+    await tapAndSettle(tester, find.text("Tüm yemleri gör"));
     expect(find.text("Attachment (1)"), findsNWidgets(2));
     expect(find.text("Attachment (9)"), findsOneWidget);
     expect(find.text("Attachment (3)"), findsOneWidget);
@@ -1963,8 +1963,8 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Moon phases
-    await tester.ensureVisible(find.text("View all moon phases"));
-    await tapAndSettle(tester, find.text("View all moon phases"));
+    await tester.ensureVisible(find.text("Tüm ay evrelerini gör"));
+    await tapAndSettle(tester, find.text("Tüm ay evrelerini gör"));
     expect(find.text("New (6)"), findsOneWidget);
     expect(find.text("Waxing Crescent (0)"), findsOneWidget);
     expect(find.text("1st Quarter (1)"), findsOneWidget);
@@ -1976,8 +1976,8 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Tides
-    await tester.ensureVisible(find.text("View all tide types"));
-    await tapAndSettle(tester, find.text("View all tide types"));
+    await tester.ensureVisible(find.text("Tüm gelgit türlerini gör"));
+    await tapAndSettle(tester, find.text("Tüm gelgit türlerini gör"));
     expect(find.text("Low (0)"), findsOneWidget);
     expect(find.text("Outgoing (0)"), findsOneWidget);
     expect(find.text("High (5)"), findsOneWidget);
@@ -1986,8 +1986,8 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Anglers
-    await tester.ensureVisible(find.text("View all anglers"));
-    await tapAndSettle(tester, find.text("View all anglers"));
+    await tester.ensureVisible(find.text("Tüm balıkçıları gör"));
+    await tapAndSettle(tester, find.text("Tüm balıkçıları gör"));
     expect(find.text("Cohen (5)"), findsOneWidget);
     expect(find.text("Eli (2)"), findsOneWidget);
     expect(find.text("Ethan (0)"), findsOneWidget);
@@ -1996,8 +1996,8 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Bodies of water
-    await tester.ensureVisible(find.text("View all bodies of water"));
-    await tapAndSettle(tester, find.text("View all bodies of water"));
+    await tester.ensureVisible(find.text("Tüm su kütlelerini gör"));
+    await tapAndSettle(tester, find.text("Tüm su kütlelerini gör"));
     expect(find.text("Lake Huron (1)"), findsOneWidget);
     expect(find.text("Tennessee River (10)"), findsOneWidget);
     expect(find.text("Bow River (1)"), findsOneWidget);
@@ -2006,8 +2006,8 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Fishing methods
-    await tester.ensureVisible(find.text("View all fishing methods"));
-    await tapAndSettle(tester, find.text("View all fishing methods"));
+    await tester.ensureVisible(find.text("Tüm balık tutma yöntemlerini gör"));
+    await tapAndSettle(tester, find.text("Tüm balık tutma yöntemlerini gör"));
     expect(find.text("Casting (7)"), findsOneWidget);
     expect(find.text("Shore (1)"), findsOneWidget);
     expect(find.text("Kayak (0)"), findsOneWidget);
@@ -2016,8 +2016,8 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Periods
-    await tester.ensureVisible(find.text("View all times of day"));
-    await tapAndSettle(tester, find.text("View all times of day"));
+    await tester.ensureVisible(find.text("Tüm günün zamanlarını gör"));
+    await tapAndSettle(tester, find.text("Tüm günün zamanlarını gör"));
     expect(find.text("Dawn (0)"), findsOneWidget);
     expect(find.text("Morning (6)"), findsOneWidget);
     expect(find.text("Midday (0)"), findsOneWidget);
@@ -2027,8 +2027,8 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Seasons
-    await tester.ensureVisible(find.text("View all seasons"));
-    await tapAndSettle(tester, find.text("View all seasons"));
+    await tester.ensureVisible(find.text("Tüm mevsimleri gör"));
+    await tapAndSettle(tester, find.text("Tüm mevsimleri gör"));
     expect(find.text("Winter (1)"), findsOneWidget);
     expect(find.text("Spring (0)"), findsOneWidget);
     expect(find.text("Summer (0)"), findsOneWidget);
@@ -2036,8 +2036,8 @@ void main() {
     await tapAndSettle(tester, find.byType(BackButton));
 
     // Water clarities
-    await tester.ensureVisible(find.text("View all water clarities"));
-    await tapAndSettle(tester, find.text("View all water clarities"));
+    await tester.ensureVisible(find.text("Tüm su berraklıklarını gör"));
+    await tapAndSettle(tester, find.text("Tüm su berraklıklarını gör"));
     expect(find.text("Clear (0)"), findsOneWidget);
     expect(find.text("Tea Stained (0)"), findsOneWidget);
     expect(find.text("Chocolate Milk (5)"), findsOneWidget);
@@ -2053,7 +2053,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Angler"), findsNothing);
+    expect(find.text("Balıkçı Başına"), findsNothing);
   });
 
   testWidgets("Model baits excluded when T is BaitAttachment", (tester) async {
@@ -2063,7 +2063,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Bait"), findsNothing);
+    expect(find.text("Yem Başına"), findsNothing);
   });
 
   testWidgets("Model bodies of water excluded when T is BodyOfWater", (
@@ -2085,7 +2085,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Fishing Method"), findsNothing);
+    expect(find.text("Balık Tutma Yöntemi Başına"), findsNothing);
   });
 
   testWidgets("Model gear excluded when T is Gear", (tester) async {
@@ -2094,7 +2094,7 @@ void main() {
       (context) =>
           CatchSummary<Gear>(filterOptionsBuilder: (_) => CatchFilterOptions()),
     );
-    expect(find.text("Per Gear"), findsNothing);
+    expect(find.text("Ekipman Başına"), findsNothing);
   });
 
   testWidgets("Model fishing spots excluded when T is FishingSpot", (
@@ -2106,7 +2106,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Fishing Spot"), findsNothing);
+    expect(find.text("Av Noktası Başına"), findsNothing);
   });
 
   testWidgets("Model moon phases excluded when T is MoonPhase", (tester) async {
@@ -2116,7 +2116,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Moon Phase"), findsNothing);
+    expect(find.text("Ay Evresi Başına"), findsNothing);
   });
 
   testWidgets("Model seasons excluded when T is Season", (tester) async {
@@ -2126,7 +2126,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Season"), findsNothing);
+    expect(find.text("Mevsim Başına"), findsNothing);
   });
 
   testWidgets("Model species excluded when T is Species", (tester) async {
@@ -2136,7 +2136,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Species"), findsNothing);
+    expect(find.text("Tür Başına"), findsNothing);
   });
 
   testWidgets("Model tide types excluded when T is TideType", (tester) async {
@@ -2146,7 +2146,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Tide"), findsNothing);
+    expect(find.text("Gelgit Başına"), findsNothing);
   });
 
   testWidgets("Model water clarities excluded when T is WaterClarity", (
@@ -2158,7 +2158,7 @@ void main() {
         filterOptionsBuilder: (_) => CatchFilterOptions(),
       ),
     );
-    expect(find.text("Per Water Clarity"), findsNothing);
+    expect(find.text("Su Berraklığı Başına"), findsNothing);
   });
 
   testWidgets("Default values are set for report input", (tester) async {

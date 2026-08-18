@@ -231,7 +231,7 @@ void main() {
     when(managers.waterClarityManager.entity(any)).thenReturn(
       WaterClarity()
         ..id = randomId()
-        ..name = "Clear",
+        ..name = "Açık",
     );
     await tester.pumpWidget(Testable((_) => CatchPage(Catch())));
     // Wait for map timer to finish.
@@ -325,7 +325,7 @@ void main() {
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
     expect(find.byIcon(Icons.check_circle), findsOneWidget);
-    expect(find.text("Released"), findsOneWidget);
+    expect(find.text("Bırakıldı"), findsOneWidget);
   });
 
   testWidgets("Catch and release is false", (tester) async {
@@ -344,7 +344,7 @@ void main() {
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
     expect(find.byIcon(Icons.error), findsOneWidget);
-    expect(find.text("Kept"), findsOneWidget);
+    expect(find.text("Tutuldu"), findsOneWidget);
   });
 
   testWidgets("No atmosphere renders empty", (tester) async {
@@ -657,7 +657,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
       expect(find.byIcon(Icons.waves), findsOneWidget);
-      expect(find.text("Outgoing Tide"), findsOneWidget);
+      expect(find.text("Çeken Gelgit"), findsOneWidget);
     });
 
     testWidgets("Catch doesn't have a tide value", (tester) async {
@@ -696,7 +696,7 @@ void main() {
 
       expect(find.byIcon(Icons.waves), findsOneWidget);
       expect(find.byType(TideChart), findsNothing);
-      expect(find.text("Incoming Tide"), findsOneWidget);
+      expect(find.text("Gelen Gelgit"), findsOneWidget);
     });
 
     testWidgets("Non-chart tide with extremes only", (tester) async {
@@ -768,7 +768,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
       expect(find.text("Chocolate Milk, 50\u00B0C, 10 ft"), findsOneWidget);
-      expect(find.text("Outgoing Tide"), findsOneWidget);
+      expect(find.text("Çeken Gelgit"), findsOneWidget);
     });
   });
 
@@ -784,7 +784,7 @@ void main() {
       expect(find.byIcon(CustomIcons.ruler), findsNothing);
     });
 
-    testWidgets("Weight", (tester) async {
+    testWidgets("Ağırlık", (tester) async {
       when(managers.catchManager.entity(any)).thenReturn(
         Catch(
           weight: MultiMeasurement(
@@ -803,7 +803,7 @@ void main() {
       expect(find.text("50 kg"), findsOneWidget);
     });
 
-    testWidgets("Length", (tester) async {
+    testWidgets("Boy", (tester) async {
       when(managers.catchManager.entity(any)).thenReturn(
         Catch(
           length: MultiMeasurement(
@@ -877,7 +877,7 @@ void main() {
       expect(find.byIcon(Icons.notes), findsNothing);
     });
 
-    testWidgets("Quantity", (tester) async {
+    testWidgets("Adet", (tester) async {
       when(managers.catchManager.entity(any)).thenReturn(Catch(quantity: 5));
       await tester.pumpWidget(Testable((_) => CatchPage(Catch())));
       // Wait for map timer to finish.
@@ -888,7 +888,7 @@ void main() {
       expect(find.text("Quantity: 5"), findsOneWidget);
     });
 
-    testWidgets("Notes", (tester) async {
+    testWidgets("Notlar", (tester) async {
       when(
         managers.catchManager.entity(any),
       ).thenReturn(Catch(notes: "Some notes."));

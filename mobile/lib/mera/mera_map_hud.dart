@@ -478,13 +478,11 @@ class _MeraMapHudState extends State<MeraMapHud> {
                         min: 108,
                         max: 132,
                       ),
-                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                      decoration: BoxDecoration(
-                        color: MeraColors.hudGlass,
-                        borderRadius: BorderRadius.circular(MeraRadii.sm),
-                        border: Border.all(color: MeraColors.borderSecondary),
-                      ),
-                      child: Column(
+                      child: MeraGlassPanel(
+                        padding: const EdgeInsets.all(8.0),
+                        borderRadius: MeraRadii.sm,
+                        border: Border.all(color: MeraColors.borderSecondary.withValues(alpha: 0.7)),
+                        child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -540,13 +538,11 @@ class _MeraMapHudState extends State<MeraMapHud> {
                         min: 108,
                         max: 132,
                       ),
-                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                      decoration: BoxDecoration(
-                        color: MeraColors.hudGlass,
-                        borderRadius: BorderRadius.circular(MeraRadii.sm),
-                        border: Border.all(color: MeraColors.borderSecondary),
-                      ),
-                      child: Row(
+                      child: MeraGlassPanel(
+                        padding: const EdgeInsets.all(8.0),
+                        borderRadius: MeraRadii.sm,
+                        border: Border.all(color: MeraColors.borderSecondary.withValues(alpha: 0.7)),
+                        child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Icon(

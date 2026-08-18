@@ -16,6 +16,7 @@ import 'package:mobile/location_monitor.dart';
 import 'package:mobile/mera/fish_activity/models.dart';
 import 'package:mobile/mera/fish_activity/service.dart';
 import 'package:mobile/mera/fish_activity/species_profiles.dart';
+import 'package:mobile/mera/mera_animated_entry.dart';
 import 'package:mobile/mera/mera_catch_activity_store.dart';
 import 'package:mobile/mera/mera_catch_success_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
@@ -77,150 +78,181 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
         children: [
-          MeraFishHero(label: widget.species.name),
+          MeraAnimatedEntry(
+            delay: const Duration(milliseconds: 60),
+            child: MeraFishHero(label: widget.species.name),
+          ),
           const SizedBox(height: 8),
-          Text(
-            widget.species.name,
-            style: GoogleFonts.inter(
-              fontSize: 22,
-              fontWeight: FontWeight.w800,
+          MeraAnimatedEntry(
+            delay: const Duration(milliseconds: 120),
+            child: Text(
+              widget.species.name,
+              style: GoogleFonts.inter(
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
           const SizedBox(height: 14),
-          MeraCard(
-            child: Column(
-              children: [
-                SwitchListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    'Ölçü kaydet',
-                    style: GoogleFonts.inter(fontWeight: FontWeight.w700),
-                  ),
-                  subtitle: Text(
-                    _measured
-                        ? 'Boy ve ağırlık zorunlu'
-                        : 'Ölçülmedi — boy/ağırlık kaydedilmez',
-                    style: GoogleFonts.inter(
-                      color: MeraColors.textSecondary,
-                      fontSize: 12,
+          MeraAnimatedEntry(
+            delay: const Duration(milliseconds: 180),
+            child: MeraCard(
+              child: Column(
+                children: [
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      'Ölçü kaydet',
+                      style: GoogleFonts.inter(fontWeight: FontWeight.w700),
                     ),
-                  ),
-                  value: _measured,
-                  activeThumbColor: MeraColors.green,
-                  onChanged: (v) => setState(() {
-                    _measured = v;
-                    if (v) {
-                      _lengthCm ??= 30;
-                      _weightKg ??= 0.5;
-                    } else {
-                      _lengthCm = null;
-                      _weightKg = null;
-                    }
-                  }),
-                ),
-                if (_measured) ...[
-                  const Divider(height: 22, color: MeraColors.cardBorder),
-                  _stepper(
-                    'Boy',
-                    '${_lengthCm!.toStringAsFixed(0)} cm',
-                    () => setState(
-                      () => _lengthCm = (_lengthCm! - 1).clamp(1, 300),
-                    ),
-                    () => setState(
-                      () => _lengthCm = (_lengthCm! + 1).clamp(1, 300),
-                    ),
-                  ),
-                  const Divider(height: 22, color: MeraColors.cardBorder),
-                  _stepper(
-                    'Ağırlık',
-                    '${_weightKg!.toStringAsFixed(1)} kg',
-                    () => setState(
-                      () => _weightKg = double.parse(
-                        (_weightKg! - 0.1).clamp(0.1, 200).toStringAsFixed(1),
+                    subtitle: Text(
+                      _measured
+                          ? 'Boy ve ağırlık zorunlu'
+                          : 'Ölçülmedi — boy/ağırlık kaydedilmez',
+                      style: GoogleFonts.inter(
+                        color: MeraColors.textSecondary,
+                        fontSize: 12,
                       ),
                     ),
-                    () => setState(
-                      () => _weightKg = double.parse(
-                        (_weightKg! + 0.1).clamp(0.1, 200).toStringAsFixed(1),
+                    value: _measured,
+                    activeThumbColor: MeraColors.green,
+                    onChanged: (v) => setState(() {
+                      _measured = v;
+                      if (v) {
+                        _lengthCm ??= 30;
+                        _weightKg ??= 0.5;
+                      } else {
+                        _lengthCm = null;
+                        _weightKg = null;
+                      }
+                    }),
+                  ),
+                  if (_measured) ...[
+                    const Divider(height: 22, color: MeraColors.cardBorder),
+                    _stepper(
+                      'Boy',
+                      '${_lengthCm!.toStringAsFixed(0)} cm',
+                      () => setState(
+                        () => _lengthCm = (_lengthCm! - 1).clamp(1, 300),
+                      ),
+                      () => setState(
+                        () => _lengthCm = (_lengthCm! + 1).clamp(1, 300),
                       ),
                     ),
+                    const Divider(height: 22, color: MeraColors.cardBorder),
+                    _stepper(
+                      'Ağırlık',
+                      '${_weightKg!.toStringAsFixed(1)} kg',
+                      () => setState(
+                        () => _weightKg = double.parse(
+                          (_weightKg! - 0.1).clamp(0.1, 200).toStringAsFixed(1),
+                        ),
+                      ),
+                      () => setState(
+                        () => _weightKg = double.parse(
+                          (_weightKg! + 0.1).clamp(0.1, 200).toStringAsFixed(1),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          MeraAnimatedEntry(
+            delay: const Duration(milliseconds: 240),
+            child: MeraCard(
+              child: Column(
+                children: [
+                  _meta(Icons.schedule, 'Yakalandığı Zaman', dateLabel),
+                  const SizedBox(height: 14),
+                  _meta(
+                    Icons.place_outlined,
+                    'Konum',
+                    loc == null
+                        ? 'Konum yok'
+                        : '${loc.lat.toStringAsFixed(5)}, ${loc.lng.toStringAsFixed(5)}',
                   ),
                 ],
-              ],
+              ),
             ),
           ),
           const SizedBox(height: 12),
-          MeraCard(
-            child: Column(
-              children: [
-                _meta(Icons.schedule, 'Yakalandığı Zaman', dateLabel),
-                const SizedBox(height: 14),
-                _meta(
-                  Icons.place_outlined,
-                  'Konum',
-                  loc == null
-                      ? 'Konum yok'
-                      : '${loc.lat.toStringAsFixed(5)}, ${loc.lng.toStringAsFixed(5)}',
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
-          MeraCard(
-            onTap: _pickPhoto,
-            child: Row(
-              children: [
-                if (_photo != null)
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.file(
-                      _photo!,
+          MeraAnimatedEntry(
+            delay: const Duration(milliseconds: 300),
+            child: MeraCard(
+              onTap: _pickPhoto,
+              child: Row(
+                children: [
+                  if (_photo != null)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.file(
+                        _photo!,
+                        width: 56,
+                        height: 56,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  else
+                    Container(
                       width: 56,
                       height: 56,
-                      fit: BoxFit.cover,
+                      decoration: BoxDecoration(
+                        color: MeraColors.surface,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: MeraColors.cardBorder),
+                      ),
+                      child: const Icon(
+                        Icons.add_a_photo_outlined,
+                        color: MeraColors.textMuted,
+                      ),
                     ),
-                  )
-                else
-                  Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      color: MeraColors.surface,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: MeraColors.cardBorder),
-                    ),
-                    child: const Icon(
-                      Icons.add_a_photo_outlined,
-                      color: MeraColors.textMuted,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      _photo == null
+                          ? 'Fotoğraf ekle (opsiyonel)'
+                          : 'Fotoğraf seçildi — değiştirmek için dokunun',
+                      style: GoogleFonts.inter(fontWeight: FontWeight.w600),
                     ),
                   ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    _photo == null
-                        ? 'Fotoğraf ekle (opsiyonel)'
-                        : 'Fotoğraf seçildi — değiştirmek için dokunun',
-                    style: GoogleFonts.inter(fontWeight: FontWeight.w600),
-                  ),
-                ),
-                if (_photo != null)
-                  IconButton(
-                    icon: const Icon(Icons.close, size: 18),
-                    onPressed: () => setState(() => _photo = null),
-                  ),
-              ],
+                  if (_photo != null)
+                    IconButton(
+                      icon: const Icon(Icons.close, size: 18),
+                      onPressed: () => setState(() => _photo = null),
+                    ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 12),
-          _baitPicker(),
+          MeraAnimatedEntry(
+            delay: const Duration(milliseconds: 360),
+            child: _baitPicker(),
+          ),
           const SizedBox(height: 12),
-          TextField(
-            controller: _notes,
-            maxLines: 3,
-            decoration: const InputDecoration(labelText: 'Not'),
+          MeraAnimatedEntry(
+            delay: const Duration(milliseconds: 400),
+            child: TextField(
+              controller: _notes,
+              maxLines: 3,
+              decoration: const InputDecoration(labelText: 'Not'),
+            ),
           ),
           const SizedBox(height: 22),
-          MeraPrimaryButton(label: 'KAYDET', loading: _saving, onPressed: _save),
+          MeraAnimatedEntry(
+            delay: const Duration(milliseconds: 460),
+            child: MeraBreathingGlow(
+              color: MeraColors.green,
+              child: MeraPrimaryButton(
+                label: 'KAYDET',
+                loading: _saving,
+                onPressed: _save,
+              ),
+            ),
+          ),
         ],
       ),
     );

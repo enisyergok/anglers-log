@@ -163,9 +163,9 @@ class BackupRestoreManager {
 
   EntityListener<T> _createEntityListener<T>() {
     return EntityListener<T>(
-      onAdd: (_) => _autoBackupIfNeeded(),
-      onDelete: (_) => _autoBackupIfNeeded(),
-      onUpdate: (_) => _autoBackupIfNeeded(),
+      onAdd: (T _) => _autoBackupIfNeeded(),
+      onDelete: (T _) => _autoBackupIfNeeded(),
+      onUpdate: (T _) => _autoBackupIfNeeded(),
     );
   }
 

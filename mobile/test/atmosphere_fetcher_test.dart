@@ -107,7 +107,7 @@ void main() {
     await tapAndSettle(tester, find.text("TEST"));
 
     // Explanation dialog.
-    expect(find.text("Location Access"), findsOneWidget);
+    expect(find.text("Konum Erişimi"), findsOneWidget);
 
     await tapAndSettle(tester, find.text("CANCEL"));
 

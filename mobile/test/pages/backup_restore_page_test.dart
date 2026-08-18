@@ -64,7 +64,7 @@ void main() {
   testWidgets("BackupPage shows last backup as never", (tester) async {
     when(managers.userPreferenceManager.lastBackupAt).thenReturn(null);
     await pumpContext(tester, (_) => BackupPage());
-    expect(find.text("Never"), findsOneWidget);
+    expect(find.text("Hiç"), findsOneWidget);
   });
 
   testWidgets("BackupPage shows last backup as a valid time", (tester) async {
@@ -108,28 +108,28 @@ void main() {
       tester,
       controller,
       .authClientError,
-      "Authentication error, please try again later.",
+      "Kimlik doğrulama hatası. Lütfen daha sonra tekrar deneyin.",
     );
 
     await verifyProgressUpdate(
       tester,
       controller,
       .createFolderError,
-      "Failed to create backup folder, please try again later.",
+      "yedek klasörü oluşturulamadı, lütfen daha sonra tekrar deneyin.",
     );
 
     await verifyProgressUpdate(
       tester,
       controller,
       .folderNotFound,
-      "Backup folder not found. You must backup your data before it can be restored.",
+      "Yedek klasör bulunamadı. Verilerinizin geri yükled olabilmesi için yedek yapmanız gerekir.",
     );
 
     await verifyProgressUpdate(
       tester,
       controller,
       .apiRequestError,
-      "The network may have been interrupted. Verify your internet connection and try again. If the issue persists, please send a report from the Feedback menu.",
+      "Ağ kesintiye uğramış olabilir. İnternet bağlantınızı doğrulayıp tekrar deneyin. Sorun devam ederse lütfen Geri Bildirim menüsünden bir rapor gönderin.",
     );
 
     await verifyProgressUpdate(
@@ -143,28 +143,28 @@ void main() {
       tester,
       controller,
       .databaseFileNotFound,
-      "Backup data file not found. You must backup your data before it can be restored.",
+      "Yedek veri dosyası bulunamadı. Verilerinizin geri yükled olabilmesi için yedek yapmanız gerekir.",
     );
 
     await verifyProgressUpdate(
       tester,
       controller,
       .authenticating,
-      "Authenticating...",
+      "Kimlik doğrulanıyor...",
     );
 
     await verifyProgressUpdate(
       tester,
       controller,
       .fetchingFiles,
-      "Fetching data...",
+      "Veriler getiriliyor...",
     );
 
     await verifyProgressUpdate(
       tester,
       controller,
       .creatingFolder,
-      "Creating backup folder...",
+      "yedek klasörü oluşturuluyor...",
     );
 
     await verifyProgressUpdate(
@@ -178,7 +178,7 @@ void main() {
       tester,
       controller,
       .restoringDatabase,
-      "Downloading database...",
+      "Veritabanı indiriliyor...",
     );
 
     await verifyProgressUpdate(
@@ -192,23 +192,23 @@ void main() {
       tester,
       controller,
       .reloadingData,
-      "Reloading data...",
+      "Veriler yeniden yükleniyor...",
     );
 
-    await verifyProgressUpdate(tester, controller, .finished, "Success!");
+    await verifyProgressUpdate(tester, controller, .finished, "Başarılı!");
 
     await verifyProgressUpdate(
       tester,
       controller,
       .networkError,
-      "Auto-backup failed due to a network connectivity issue. Please do a manual backup or wait for the next auto-backup attempt.",
+      "Ağ bağlantısı sorunu nedeniyle otomatik yedek başarısız oldu. Lütfen manuel yedek yapın veya bir sonraki otomatik yedek denemesini bekleyin.",
     );
 
     await verifyProgressUpdate(
       tester,
       controller,
       .signedOut,
-      "Auto-backup failed due to an authentication timeout. Please sign in again.",
+      "Kimlik doğrulama zaman aşımı nedeniyle otomatik yedek başarısız oldu. Lütfen tekrar oturum açın.",
     );
 
     await sendProgressUpdate(tester, controller, .cleared);
@@ -247,7 +247,7 @@ void main() {
       tester,
       controller,
       .storageFull,
-      "Your device storage is full. Please free some space and try again.",
+      "Cihazınızın depolama alanı dolu. Lütfen biraz yer açın ve tekrar deneyin.",
     );
 
     expect(find.text("SEND REPORT"), findsNothing);
@@ -321,6 +321,6 @@ void main() {
 
   testWidgets("RestorePage", (tester) async {
     await pumpContext(tester, (_) => RestorePage());
-    expect(find.text("Restore"), findsOneWidget);
+    expect(find.text("Geri Yükle"), findsOneWidget);
   });
 }

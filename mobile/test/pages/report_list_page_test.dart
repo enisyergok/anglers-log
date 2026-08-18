@@ -78,11 +78,11 @@ void main() {
     when(managers.reportManager.displayName(any, any)).thenAnswer((invocation) {
       var id = invocation.positionalArguments[1].id;
       if (id == reportIdPersonalBests) {
-        return "Personal Bests";
+        return "Kişisel Rekorlar";
       } else if (id == reportIdCatchSummary) {
-        return "Catch Summary";
+        return "Av Özeti";
       } else if (id == reportIdTripSummary) {
-        return "Trip Summary";
+        return "Gezi Özeti";
       }
       return invocation.positionalArguments[1].name;
     });
@@ -173,10 +173,10 @@ void main() {
       ),
     );
 
-    expect(find.text("Catch Summary"), findsOneWidget);
-    expect(find.text("Trip Summary"), findsOneWidget);
-    expect(find.text("Personal Bests"), findsOneWidget);
-    expect(find.text("Custom Reports"), findsOneWidget);
+    expect(find.text("Av Özeti"), findsOneWidget);
+    expect(find.text("Gezi Özeti"), findsOneWidget);
+    expect(find.text("Kişisel Rekorlar"), findsOneWidget);
+    expect(find.text("Özel Raporlar"), findsOneWidget);
     expect(find.text("Comparison 1"), findsOneWidget);
     expect(find.text("Comparison 2"), findsOneWidget);
     expect(find.text("Summary 1"), findsOneWidget);
@@ -226,7 +226,7 @@ void main() {
 
     var crossFade = tester.firstWidget<AnimatedCrossFade>(
       find.descendant(
-        of: find.widgetWithText(ManageableListItem, "Catch Summary"),
+        of: find.widgetWithText(ManageableListItem, "Av Özeti"),
         matching: find.byType(AnimatedCrossFade),
       ),
     );
@@ -269,15 +269,15 @@ void main() {
     );
     expect(
       (textWidgets.at(0).evaluate().single.widget as Text).data,
-      "Personal Bests",
+      "Kişisel Rekorlar",
     );
     expect(
       (textWidgets.at(2).evaluate().single.widget as Text).data,
-      "Catch Summary",
+      "Av Özeti",
     );
     expect(
       (textWidgets.at(4).evaluate().single.widget as Text).data,
-      "Trip Summary",
+      "Gezi Özeti",
     );
     expect(
       (textWidgets.at(6).evaluate().single.widget as Text).data,

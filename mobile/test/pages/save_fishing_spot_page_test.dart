@@ -80,7 +80,7 @@ void main() {
       Testable((_) => SaveFishingSpotPage.edit(FishingSpot())),
     );
 
-    expect(find.text("Not Selected"), findsOneWidget); // Body of water
+    expect(find.text("Seçilmedi"), findsOneWidget); // Body of water
     expect(find.text("0.000000, 0.000000"), findsOneWidget);
     expect(
       findFirstWithText<TextInput>(tester, "Name").controller?.value,
@@ -88,7 +88,7 @@ void main() {
     );
     expect(find.byType(Image), findsNothing);
     expect(
-      findFirstWithText<TextInput>(tester, "Notes").controller?.value,
+      findFirstWithText<TextInput>(tester, "Notlar").controller?.value,
       isNull,
     );
   });

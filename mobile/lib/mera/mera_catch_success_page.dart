@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile/mera/mera_animated_entry.dart';
 import 'package:mobile/mera/mera_records_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
@@ -47,101 +48,122 @@ class MeraCatchSuccessPage extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(),
-              const MeraGlowCheck(),
+              MeraAnimatedEntry(
+                delay: const Duration(milliseconds: 80),
+                child: const MeraGlowCheck(),
+              ),
               const SizedBox(height: 18),
-              Text(
-                'Başarıyla kaydedildi!',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
+              MeraAnimatedEntry(
+                delay: const Duration(milliseconds: 200),
+                child: Text(
+                  'Başarıyla kaydedildi!',
+                  style: GoogleFonts.inter(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
               const SizedBox(height: 22),
-              MeraCard(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 72,
-                      height: 48,
-                      child: SirenFishArt.image(
-                        speciesName: speciesName,
+              MeraAnimatedEntry(
+                delay: const Duration(milliseconds: 300),
+                child: MeraCard(
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 72,
                         height: 48,
+                        child: SirenFishArt.image(
+                          speciesName: speciesName,
+                          height: 48,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            speciesName,
-                            style: GoogleFonts.inter(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700,
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              speciesName,
+                              style: GoogleFonts.inter(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            measureLabel,
-                            style: GoogleFonts.inter(
-                              color: MeraColors.textSecondary,
-                              fontSize: 13,
+                            const SizedBox(height: 4),
+                            Text(
+                              measureLabel,
+                              style: GoogleFonts.inter(
+                                color: MeraColors.textSecondary,
+                                fontSize: 13,
+                              ),
                             ),
-                          ),
-                          Text(
-                            whenLabel,
-                            style: GoogleFonts.inter(
-                              color: MeraColors.textMuted,
-                              fontSize: 12,
+                            Text(
+                              whenLabel,
+                              style: GoogleFonts.inter(
+                                color: MeraColors.textMuted,
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
-                          Text(
-                            gps,
-                            style: GoogleFonts.inter(
-                              color: MeraColors.textMuted,
-                              fontSize: 11,
+                            Text(
+                              gps,
+                              style: GoogleFonts.inter(
+                                color: MeraColors.textMuted,
+                                fontSize: 11,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               const Spacer(),
-              MeraOutlineButton(
-                label: 'Paylaş',
-                icon: Icons.ios_share,
-                onPressed: () {
-                  SharePlusWrapper.of(context).share(
-                    'Mera Asistanı — $speciesName\n'
-                    '$measureLabel\n'
-                    '$whenLabel\n$gps',
-                    null,
-                  );
-                },
+              MeraAnimatedEntry(
+                delay: const Duration(milliseconds: 420),
+                child: MeraOutlineButton(
+                  label: 'Paylaş',
+                  icon: Icons.ios_share,
+                  onPressed: () {
+                    SharePlusWrapper.of(context).share(
+                      'Mera Asistanı — $speciesName\n'
+                      '$measureLabel\n'
+                      '$whenLabel\n$gps',
+                      null,
+                    );
+                  },
+                ),
               ),
               const SizedBox(height: 10),
-              MeraPrimaryButton(
-                label: 'Haritaya Dön',
-                color: MeraColors.blue,
-                onPressed: () =>
-                    Navigator.of(context).popUntil((r) => r.isFirst),
+              MeraAnimatedEntry(
+                delay: const Duration(milliseconds: 500),
+                child: MeraBreathingGlow(
+                  color: MeraColors.blue,
+                  child: MeraPrimaryButton(
+                    label: 'Haritaya Dön',
+                    color: MeraColors.blue,
+                    onPressed: () =>
+                        Navigator.of(context).popUntil((r) => r.isFirst),
+                  ),
+                ),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (_) => const MeraRecordsPage(),
+              MeraAnimatedEntry(
+                delay: const Duration(milliseconds: 560),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (_) => const MeraRecordsPage(),
+                      ),
+                      (route) => route.isFirst,
+                    );
+                  },
+                  child: Text(
+                    'Yakalamalarım',
+                    style: GoogleFonts.inter(
+                      color: MeraColors.textSecondary,
+                      fontWeight: FontWeight.w700,
                     ),
-                    (route) => route.isFirst,
-                  );
-                },
-                child: Text(
-                  'Yakalamalarım',
-                  style: GoogleFonts.inter(
-                    color: MeraColors.textSecondary,
-                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),

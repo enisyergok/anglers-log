@@ -109,12 +109,12 @@ void main() {
     await tapAndSettle(tester, find.text("Custom"));
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextField, "Start Date"),
+      find.widgetWithText(TextField, "Başlangıç Tarihi"),
       "12/01/2019",
     );
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextField, "End Date"),
+      find.widgetWithText(TextField, "Bitiş Tarihi"),
       "12/01/2019",
     );
     await tapAndSettle(tester, find.text("OK"));

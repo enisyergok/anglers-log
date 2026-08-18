@@ -18,7 +18,7 @@ void main() {
       const Testable(EmptyListPlaceholder.noSearchResults),
     );
 
-    expect(find.text("No results found"), findsOneWidget);
+    expect(find.text("Sonuç bulunamadı"), findsOneWidget);
     expect(
       find.text(
         "Please adjust your search filter to find what you're looking for.",

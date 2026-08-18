@@ -79,7 +79,7 @@ void main() {
   var fishingSpotMap = <Id, FishingSpot>{
     fishingSpotId0: FishingSpot()
       ..id = fishingSpotId0
-      ..name = "E"
+      ..name = "D"
       ..lat = 0.4
       ..lng = 0.0,
     fishingSpotId1: FishingSpot()
@@ -437,7 +437,7 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => StatsPage()));
 
-    await tapAndSettle(tester, find.text("Personal Bests"));
+    await tapAndSettle(tester, find.text("Kişisel Rekorlar"));
     await tapAndSettle(tester, find.text(reportName));
 
     expect(
@@ -451,19 +451,19 @@ void main() {
     stubSingleReport(
       Report()
         ..id = randomId()
-        ..name = "Summary"
+        ..name = "Özet"
         ..description = "A description"
         ..type = Report_Type.summary,
     );
 
     await tester.pumpWidget(Testable((_) => StatsPage()));
 
-    await tapAndSettle(tester, find.text("Personal Bests"));
-    await tapAndSettle(tester, find.text("Summary"));
+    await tapAndSettle(tester, find.text("Kişisel Rekorlar"));
+    await tapAndSettle(tester, find.text("Özet"));
 
-    expect(find.text("Summary"), findsOneWidget);
+    expect(find.text("Özet"), findsOneWidget);
     expect(find.text("A description"), findsOneWidget);
-    expect(find.text("Personal Bests"), findsNothing);
+    expect(find.text("Kişisel Rekorlar"), findsNothing);
   });
 
   testWidgets("Selecting comparison shows comparison", (tester) async {
@@ -471,19 +471,19 @@ void main() {
     stubSingleReport(
       Report()
         ..id = randomId()
-        ..name = "Comparison"
+        ..name = "Karşılaştırma"
         ..description = "A description"
         ..type = Report_Type.comparison,
     );
 
     await tester.pumpWidget(Testable((_) => StatsPage()));
 
-    await tapAndSettle(tester, find.text("Personal Bests"));
-    await tapAndSettle(tester, find.text("Comparison"));
+    await tapAndSettle(tester, find.text("Kişisel Rekorlar"));
+    await tapAndSettle(tester, find.text("Karşılaştırma"));
 
-    expect(find.text("Comparison"), findsOneWidget);
+    expect(find.text("Karşılaştırma"), findsOneWidget);
     expect(find.text("A description"), findsOneWidget);
-    expect(find.text("Personal Bests"), findsNothing);
+    expect(find.text("Kişisel Rekorlar"), findsNothing);
   });
 
   testWidgets("If current report is deleted, falls back to default", (
@@ -495,25 +495,25 @@ void main() {
     await reportManager.addOrUpdate(
       Report()
         ..id = reportId
-        ..name = "Comparison"
+        ..name = "Karşılaştırma"
         ..type = Report_Type.comparison,
     );
 
     await tester.pumpWidget(Testable((_) => StatsPage()));
 
     // Select a report.
-    await tapAndSettle(tester, find.text("Personal Bests"));
-    await tester.ensureVisible(find.text("Comparison"));
-    await tapAndSettle(tester, find.text("Comparison"));
-    expect(find.text("Comparison"), findsOneWidget);
+    await tapAndSettle(tester, find.text("Kişisel Rekorlar"));
+    await tester.ensureVisible(find.text("Karşılaştırma"));
+    await tapAndSettle(tester, find.text("Karşılaştırma"));
+    expect(find.text("Karşılaştırma"), findsOneWidget);
 
     // Simulate deleting the report.
     await reportManager.delete(reportId);
 
     // Wait for listeners to be invoked.
     await tester.pumpAndSettle(const Duration(milliseconds: 250));
-    expect(find.text("Comparison"), findsNothing);
-    expect(find.text("Personal Bests"), findsOneWidget);
+    expect(find.text("Karşılaştırma"), findsNothing);
+    expect(find.text("Kişisel Rekorlar"), findsOneWidget);
   });
 
   testWidgets("If current report is updated, state is updated", (tester) async {
@@ -523,7 +523,7 @@ void main() {
     await comparisonReportManager.addOrUpdate(
       Report()
         ..id = reportId
-        ..name = "Comparison"
+        ..name = "Karşılaştırma"
         ..description = "Test description."
         ..type = Report_Type.comparison,
     );
@@ -531,9 +531,9 @@ void main() {
     await tester.pumpWidget(Testable((_) => StatsPage()));
 
     // Select a report.
-    await tapAndSettle(tester, find.text("Personal Bests"));
-    await tapAndSettle(tester, find.text("Comparison"));
-    expect(find.text("Comparison"), findsOneWidget);
+    await tapAndSettle(tester, find.text("Kişisel Rekorlar"));
+    await tapAndSettle(tester, find.text("Karşılaştırma"));
+    expect(find.text("Karşılaştırma"), findsOneWidget);
     expect(find.text("Test description."), findsOneWidget);
 
     // Simulate editing the report.
@@ -549,9 +549,9 @@ void main() {
     await tester.pumpAndSettle(const Duration(milliseconds: 250));
     expect(find.text("Comparison 2"), findsOneWidget);
     expect(find.text("Test description 2."), findsOneWidget);
-    expect(find.text("Comparison"), findsNothing);
+    expect(find.text("Karşılaştırma"), findsNothing);
     expect(find.text("Test description."), findsNothing);
-    expect(find.text("Personal Bests"), findsNothing);
+    expect(find.text("Kişisel Rekorlar"), findsNothing);
   });
 
   testWidgets("If non-current report is deleted, report stays the same", (
@@ -563,36 +563,36 @@ void main() {
     await reportManager.addOrUpdate(
       Report()
         ..id = comparisonId
-        ..name = "Comparison"
+        ..name = "Karşılaştırma"
         ..type = Report_Type.comparison,
     );
     var summaryId = randomId();
     await reportManager.addOrUpdate(
       Report()
         ..id = summaryId
-        ..name = "Summary"
+        ..name = "Özet"
         ..type = Report_Type.summary,
     );
 
     await tester.pumpWidget(Testable((_) => StatsPage()));
 
     // Select a report.
-    await tapAndSettle(tester, find.text("Personal Bests"));
-    await tapAndSettle(tester, find.text("Comparison"));
+    await tapAndSettle(tester, find.text("Kişisel Rekorlar"));
+    await tapAndSettle(tester, find.text("Karşılaştırma"));
 
     // Simulate deleting a report that isn't selected.
     await reportManager.delete(summaryId);
 
     // Wait for listeners to be invoked.
     await tester.pumpAndSettle(const Duration(milliseconds: 250));
-    expect(find.text("Comparison"), findsOneWidget);
+    expect(find.text("Karşılaştırma"), findsOneWidget);
   });
 
   testWidgets("No rebuild when the same report is picked", (tester) async {
     stubSingleReport(
       Report()
         ..id = randomId()
-        ..name = "Summary"
+        ..name = "Özet"
         ..description = "A description"
         ..type = Report_Type.summary,
     );
@@ -602,13 +602,13 @@ void main() {
     verify(managers.reportManager.entity(any)).called(1);
 
     // Different report rebuilds widget.
-    await tapAndSettle(tester, find.text("Personal Bests"));
-    await tapAndSettle(tester, find.text("Summary"));
+    await tapAndSettle(tester, find.text("Kişisel Rekorlar"));
+    await tapAndSettle(tester, find.text("Özet"));
     verify(managers.reportManager.entity(any)).called(1);
 
     // Same report does not rebuild.
-    await tapAndSettle(tester, find.text("Summary"));
-    await tapAndSettle(tester, find.text("Summary"));
+    await tapAndSettle(tester, find.text("Özet"));
+    await tapAndSettle(tester, find.text("Özet"));
     verifyNever(managers.reportManager.entity(any));
   });
 
@@ -622,27 +622,27 @@ void main() {
 
   testWidgets("No catches shows empty watermark", (tester) async {
     await tester.pumpWidget(Testable((_) => StatsPage()));
-    expect(find.text("Empty Log"), findsOneWidget);
+    expect(find.text("Boş Günlük"), findsOneWidget);
   });
 
   testWidgets("Greater than 0 catches shows current report", (tester) async {
     stubCatchesByTimestamp();
     await tester.pumpWidget(Testable((_) => StatsPage()));
-    expect(find.text("Empty Log"), findsNothing);
+    expect(find.text("Boş Günlük"), findsNothing);
     expect(find.text("All dates"), findsOneWidget);
   });
 
   testWidgets("Catch summary is shown", (tester) async {
-    verifyReportSelection(tester, reportIdCatchSummary, "Catch Summary");
+    verifyReportSelection(tester, reportIdCatchSummary, "Av Özeti");
   });
 
   testWidgets("Species summary is shown", (tester) async {
-    verifyReportSelection(tester, reportIdSpeciesSummary, "Species Summary");
+    verifyReportSelection(tester, reportIdSpeciesSummary, "Tür Özeti");
   });
 
   testWidgets("Gear summary is shown", (tester) async {
     when(managers.gearManager.hasEntities).thenReturn(true);
-    verifyReportSelection(tester, reportIdGearSummary, "Gear Summary");
+    verifyReportSelection(tester, reportIdGearSummary, "Ekipman Özeti");
   });
 
   testWidgets("Gear summary is empty", (tester) async {
@@ -650,14 +650,14 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdGearSummary,
-      "Gear Summary",
+      "Ekipman Özeti",
       isVisible: false,
     );
   });
 
   testWidgets("Angler summary is shown", (tester) async {
     when(managers.anglerManager.hasEntities).thenReturn(true);
-    verifyReportSelection(tester, reportIdAnglerSummary, "Angler Summary");
+    verifyReportSelection(tester, reportIdAnglerSummary, "Balıkçı Özeti");
   });
 
   testWidgets("Angler summary is empty", (tester) async {
@@ -665,14 +665,14 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdAnglerSummary,
-      "Angler Summary",
+      "Balıkçı Özeti",
       isVisible: false,
     );
   });
 
   testWidgets("Bait summary is shown", (tester) async {
     when(managers.baitManager.hasEntities).thenReturn(true);
-    verifyReportSelection(tester, reportIdBaitSummary, "Bait Summary");
+    verifyReportSelection(tester, reportIdBaitSummary, "Yem Özeti");
   });
 
   testWidgets("Bait summary is empty", (tester) async {
@@ -680,7 +680,7 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdBaitSummary,
-      "Bait Summary",
+      "Yem Özeti",
       isVisible: false,
     );
   });
@@ -690,7 +690,7 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdBodyOfWaterSummary,
-      "Body of Water Summary",
+      "Su Kütlesi Özeti",
     );
   });
 
@@ -699,7 +699,7 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdBodyOfWaterSummary,
-      "Body of Water Summary",
+      "Su Kütlesi Özeti",
       isVisible: false,
     );
   });
@@ -709,7 +709,7 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdFishingSpotSummary,
-      "Fishing Spot Summary",
+      "Av Noktası Özeti",
     );
   });
 
@@ -718,7 +718,7 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdFishingSpotSummary,
-      "Fishing Spot Summary",
+      "Av Noktası Özeti",
       isVisible: false,
     );
   });
@@ -728,7 +728,7 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdMethodSummary,
-      "Fishing Method Summary",
+      "Balık Tutma Yöntemi Özeti",
     );
   });
 
@@ -737,7 +737,7 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdMethodSummary,
-      "Fishing Method Summary",
+      "Balık Tutma Yöntemi Özeti",
       isVisible: false,
     );
   });
@@ -746,20 +746,20 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdMoonPhaseSummary,
-      "Moon Phase Summary",
+      "Ay Evresi Özeti",
     );
   });
 
   testWidgets("Period summary is shown", (tester) async {
-    verifyReportSelection(tester, reportIdPeriodSummary, "Time of Day Summary");
+    verifyReportSelection(tester, reportIdPeriodSummary, "Günün Zamanı Özeti");
   });
 
   testWidgets("Season summary is shown", (tester) async {
-    verifyReportSelection(tester, reportIdSeasonSummary, "Season Summary");
+    verifyReportSelection(tester, reportIdSeasonSummary, "Mevsim Özeti");
   });
 
   testWidgets("Tide type summary is shown", (tester) async {
-    verifyReportSelection(tester, reportIdTideTypeSummary, "Tide Summary");
+    verifyReportSelection(tester, reportIdTideTypeSummary, "Gelgit Özeti");
   });
 
   testWidgets("Water clarity summary is shown", (tester) async {
@@ -767,7 +767,7 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdWaterClaritySummary,
-      "Water Clarity Summary",
+      "Su Berraklığı Özeti",
     );
   });
 
@@ -776,7 +776,7 @@ void main() {
     verifyReportSelection(
       tester,
       reportIdWaterClaritySummary,
-      "Water Clarity Summary",
+      "Su Berraklığı Özeti",
       isVisible: false,
     );
   });
@@ -795,8 +795,8 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => StatsPage()));
 
-    await tapAndSettle(tester, find.text("Personal Bests"));
-    await tapAndSettle(tester, find.text("Trip Summary"));
+    await tapAndSettle(tester, find.text("Kişisel Rekorlar"));
+    await tapAndSettle(tester, find.text("Gezi Özeti"));
 
     expect(find.byType(TripSummary), findsOneWidget);
   });
@@ -823,7 +823,7 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => StatsPage()));
 
-    await tapAndSettle(tester, find.text("Personal Bests"));
+    await tapAndSettle(tester, find.text("Kişisel Rekorlar"));
     await tapAndSettle(tester, find.text("Test Summary"));
 
     var filterOptionsBytes = verify(
@@ -851,7 +851,7 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => StatsPage()));
 
-    await tapAndSettle(tester, find.text("Personal Bests"));
+    await tapAndSettle(tester, find.text("Kişisel Rekorlar"));
     await tapAndSettle(tester, find.text("Test Summary"));
 
     var filterOptions =

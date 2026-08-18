@@ -238,7 +238,7 @@ void main() {
     await baitCategoryManager.addOrUpdate(category);
     bait.baitCategoryId = category.id;
     await baitManager.addOrUpdate(bait);
-    expect(baitManager.matchesFilter(baitId1, context, "Bug"), true);
+    expect(baitManager.matchesFilter(baitId1, context, "Hata"), true);
 
     // Type
     expect(baitManager.matchesFilter(baitId1, context, "artificial"), true);
@@ -335,7 +335,7 @@ void main() {
     ];
 
     expect(
-      baitManager.attachmentsMatchesFilter(attachments, "Live", context),
+      baitManager.attachmentsMatchesFilter(attachments, "Canlı", context),
       isFalse,
     );
     expect(
@@ -544,7 +544,7 @@ void main() {
     testWidgets("With bait category", (tester) async {
       var category = BaitCategory()
         ..id = randomId()
-        ..name = "Live";
+        ..name = "Canlı";
       baitCategoryManager.addOrUpdate(category);
 
       var bait = Bait()
@@ -738,7 +738,7 @@ void main() {
     var context = await buildContext(tester);
     expect(
       baitManager.attachmentDisplayValue(context, BaitAttachment()),
-      "Unknown Bait",
+      "Bilinmeyen Yem",
     );
   });
 
@@ -861,7 +861,7 @@ void main() {
         BaitAttachment(baitId: baitId1, variantId: variantId1),
         BaitAttachment(baitId: randomId(), variantId: randomId()),
       ]),
-      ["Test (Blue)", "Test 2 (Red)", "Unknown Bait"],
+      ["Test (Blue)", "Test 2 (Red)", "Bilinmeyen Yem"],
     );
   });
 
@@ -1026,7 +1026,7 @@ void main() {
   test("baitAttachmentComparator", () async {
     var categoryId = randomId();
     await baitCategoryManager.addOrUpdate(
-      BaitCategory(id: categoryId, name: "Live"),
+      BaitCategory(id: categoryId, name: "Canlı"),
     );
 
     var baitId0 = randomId();
@@ -1056,7 +1056,7 @@ void main() {
     expect(baitManager.entity(attachments[1].baitId)!.name, "B");
     expect(baitManager.entity(attachments[2].baitId)!.name, "D");
 
-    // Bait "C" has category "Live", so the sorting value is "Live - C" and
+    // Bait "C" has category "Canlı", so the sorting value is "Live - C" and
     // therefore, is last in the list.
     expect(baitManager.entity(attachments[3].baitId)!.name, "C");
   });

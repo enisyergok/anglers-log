@@ -87,24 +87,24 @@ void main() {
     await pumpContext(
       tester,
       (_) => BaitVariantListItem(
-        BaitVariant(color: "Red", description: "Description"),
+        BaitVariant(color: "Red", description: "Açıklama"),
       ),
     );
 
     expect(find.text("Red"), findsOneWidget);
-    expect(find.text("Description"), findsOneWidget);
+    expect(find.text("Açıklama"), findsOneWidget);
   });
 
   testWidgets("Description shown if not in title text", (tester) async {
     when(
       managers.baitManager.variantDisplayValue(any, any),
-    ).thenReturn("Description");
+    ).thenReturn("Açıklama");
 
     var context = await pumpContext(
       tester,
-      (_) => BaitVariantListItem(BaitVariant(description: "Description")),
+      (_) => BaitVariantListItem(BaitVariant(description: "Açıklama")),
     );
 
-    expect(find.primaryText(context, text: "Description"), findsOneWidget);
+    expect(find.primaryText(context, text: "Açıklama"), findsOneWidget);
   });
 }

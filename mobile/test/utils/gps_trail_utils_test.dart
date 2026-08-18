@@ -27,7 +27,7 @@ void main() {
       GpsTrail(startTimestamp: Int64(50000)),
     );
 
-    expect(model.subtitle, "In Progress");
+    expect(model.subtitle, "Devam Ediyor");
   });
 
   testWidgets("GpsTrailListItemModel normal case", (tester) async {
@@ -36,7 +36,7 @@ void main() {
     ).thenReturn("Lake Huron");
     when(
       managers.gpsTrailManager.displayName(any, any),
-    ).thenReturn("GPS Trail");
+    ).thenReturn("GPS İzi");
 
     var context = await buildContext(tester);
     var model = GpsTrailListItemModel(
@@ -44,7 +44,7 @@ void main() {
       GpsTrail(startTimestamp: Int64(50000), endTimestamp: Int64(500000)),
     );
 
-    expect(model.title, "GPS Trail");
+    expect(model.title, "GPS İzi");
     expect(model.subtitle, "Lake Huron");
     expect((model.trailing as MinChip).label, "0 Points");
   });

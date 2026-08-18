@@ -25,12 +25,12 @@ void main() {
     await tester.pumpWidget(
       Testable((_) => SaveBodyOfWaterPage.edit(BodyOfWater())),
     );
-    expect(find.text("Edit Body of Water"), findsOneWidget);
+    expect(find.text("Su Kütlesini Düzenle"), findsOneWidget);
   });
 
   testWidgets("New title", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveBodyOfWaterPage()));
-    expect(find.text("New Body of Water"), findsOneWidget);
+    expect(find.text("Yeni Su Kütlesi"), findsOneWidget);
   });
 
   testWidgets("Save new", (tester) async {
@@ -80,6 +80,6 @@ void main() {
     );
 
     await enterTextAndSettle(tester, find.byType(TextField), "Nine Mile");
-    expect(find.text("Body of water already exists"), findsOneWidget);
+    expect(find.text("Su kütlesi zaten var"), findsOneWidget);
   });
 }

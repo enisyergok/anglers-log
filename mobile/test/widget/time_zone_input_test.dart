@@ -49,7 +49,7 @@ void main() {
     var timezoneToTap = getLocation(defaultTimeZone).currentTimeZone.isDst
         ? "America/Chicago (UTC-05:00)"
         : "America/Chicago (UTC-06:00)";
-    await tapAndSettle(tester, find.text("Time Zone"));
+    await tapAndSettle(tester, find.text("Saat Dilimi"));
     await tapAndSettle(tester, find.text(timezoneToTap));
 
     expect(invoked, isTrue);

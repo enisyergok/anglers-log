@@ -169,13 +169,13 @@ void main() {
 
     expect(find.text(id1.toString()), findsOneWidget);
     expect(find.text(id2.toString()), findsOneWidget);
-    expect(find.text("Custom Fields"), findsOneWidget);
+    expect(find.text("Özel Alanlar"), findsOneWidget);
 
     await tapAndSettle(
       tester,
       find.widgetWithIcon(IconButton, Icons.more_vert),
     );
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
 
     expect(find.text("Input 1"), findsOneWidget);
     expect(find.text("Input 2"), findsOneWidget);
@@ -216,7 +216,7 @@ void main() {
       tester,
       find.widgetWithIcon(IconButton, Icons.more_vert),
     );
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
 
     expect(find.text("Input 1"), findsOneWidget);
     expect(find.text("Input 2"), findsOneWidget);
@@ -268,7 +268,7 @@ void main() {
       tester,
       find.widgetWithIcon(IconButton, Icons.more_vert),
     );
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
     await tapAndSettle(
       tester,
       find.descendant(
@@ -408,7 +408,7 @@ void main() {
       tester,
       find.widgetWithIcon(IconButton, Icons.more_vert),
     );
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
 
     expect(find.subtitleText(context), findsNWidgets(3));
     expect(find.text("Required"), findsOneWidget);
@@ -419,7 +419,7 @@ void main() {
   testWidgets("onCustomFieldChanged invoked", (tester) async {
     var custom1 = CustomEntity()
       ..id = randomId()
-      ..name = "Custom Field"
+      ..name = "Özel Alan"
       ..type = CustomEntity_Type.boolean;
     when(managers.customEntityManager.entity(custom1.id)).thenReturn(custom1);
     when(
@@ -460,7 +460,7 @@ void main() {
   testWidgets("Custom field header hides note when editable", (tester) async {
     var custom1 = CustomEntity()
       ..id = randomId()
-      ..name = "Custom Field"
+      ..name = "Özel Alan"
       ..type = CustomEntity_Type.text;
     when(managers.customEntityManager.entity(custom1.id)).thenReturn(custom1);
     when(

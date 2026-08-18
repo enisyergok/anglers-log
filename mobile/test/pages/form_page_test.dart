@@ -246,7 +246,7 @@ void main() {
     );
 
     expect(find.text("Name"), findsOneWidget);
-    expect(find.text("Description"), findsOneWidget);
+    expect(find.text("Açıklama"), findsOneWidget);
     expect(find.text("Age"), findsOneWidget);
     expect(find.text("Enabled"), findsOneWidget);
     expect(find.byType(TextInput), findsNWidgets(3));
@@ -360,7 +360,7 @@ void main() {
             ),
             Field(
               id: descriptionId,
-              name: (_) => "Description",
+              name: (_) => "Açıklama",
               isShowing: false,
               controller: InputController(),
             ),
@@ -383,9 +383,9 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
 
-    expect(find.text("Select Fields"), findsOneWidget);
+    expect(find.text("Alan Seç"), findsOneWidget);
 
     expect(find.text("Name"), findsOneWidget);
     expect(
@@ -393,12 +393,12 @@ void main() {
       isTrue,
     );
 
-    expect(find.text("Description"), findsOneWidget);
+    expect(find.text("Açıklama"), findsOneWidget);
     expect(
       findSiblingOfText<PaddedCheckbox>(
         tester,
         ListItem,
-        "Description",
+        "Açıklama",
       ).isChecked,
       isFalse,
     );
@@ -443,7 +443,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
     await tapAndSettle(tester, find.byType(CloseButton));
 
     expect(selectedIds, isNotNull);
@@ -476,7 +476,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
     await tapAndSettle(tester, find.byType(PaddedCheckbox));
     await tapAndSettle(tester, find.byType(CloseButton));
 
@@ -484,7 +484,7 @@ void main() {
     // when new fields are picked. That falls on the widget using the FormPage.
     expect(selectedIds, isNotNull);
     expect(selectedIds, isEmpty);
-    expect(find.text("Select Fields"), findsNothing);
+    expect(find.text("Alan Seç"), findsNothing);
   });
 
   testWidgets("Custom fields included in form are shown on selection page", (
@@ -520,7 +520,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
 
     expect(find.noteText(context), findsNothing);
     expect(find.text("Name"), findsOneWidget);
@@ -555,7 +555,7 @@ void main() {
       );
 
       await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-      await tapAndSettle(tester, find.text("Manage Fields"));
+      await tapAndSettle(tester, find.text("Alanları Yönet"));
 
       expect(find.byType(IconLabel), findsNothing);
       expect(find.text("Name"), findsOneWidget);
@@ -608,7 +608,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
 
     expect(
       find.descendant(
@@ -632,7 +632,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
 
     expect(find.byType(IconLabel), findsOneWidget);
   });
@@ -663,7 +663,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
 
     expect(find.byIcon(Icons.add), findsNothing);
     expect(find.byType(HeadingDivider), findsNothing);
@@ -681,7 +681,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
 
     // One in action bar, one in HeadingDivider.
     expect(find.byIcon(Icons.add), findsNWidgets(2));
@@ -704,7 +704,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
     await tapAndSettle(tester, find.byIcon(Icons.add).last);
 
     expect(find.byType(AnglersLogProPage), findsOneWidget);
@@ -727,7 +727,7 @@ void main() {
     );
 
     await tapAndSettle(tester, find.byIcon(FormPage.moreMenuIcon));
-    await tapAndSettle(tester, find.text("Manage Fields"));
+    await tapAndSettle(tester, find.text("Alanları Yönet"));
     await tapAndSettle(tester, find.byIcon(Icons.add).last);
 
     expect(find.byType(AnglersLogProPage), findsNothing);

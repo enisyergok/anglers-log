@@ -152,8 +152,8 @@ void main() {
     );
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
-    await tapAndSettle(tester, find.text("Gallery"));
-    await tapAndSettle(tester, find.text("Camera").last);
+    await tapAndSettle(tester, find.text("Galeri"));
+    await tapAndSettle(tester, find.text("Kamera").last);
 
     verify(managers.imagePickerWrapper.pickImage(any)).called(1);
     expect(called, isFalse);
@@ -172,8 +172,8 @@ void main() {
       managers.imagePickerWrapper.pickImage(any),
     ).thenAnswer((_) => Future.value(XFile("")));
 
-    await tapAndSettle(tester, find.text("Gallery"));
-    await tapAndSettle(tester, find.text("Camera").last);
+    await tapAndSettle(tester, find.text("Galeri"));
+    await tapAndSettle(tester, find.text("Kamera").last);
 
     verify(managers.imagePickerWrapper.pickImage(any)).called(1);
     expect(called, isTrue);
@@ -195,8 +195,8 @@ void main() {
       ),
     ).thenAnswer((_) => Future.value(null));
 
-    await tapAndSettle(tester, find.text("Gallery"));
-    await tapAndSettle(tester, find.text("Browse").last);
+    await tapAndSettle(tester, find.text("Galeri"));
+    await tapAndSettle(tester, find.text("Gözat").last);
 
     expect(called, isFalse);
     expect(find.text("Must select an image file."), findsNothing);
@@ -219,8 +219,8 @@ void main() {
       ),
     ).thenAnswer((_) => Future.value(null));
 
-    await tapAndSettle(tester, find.text("Gallery"));
-    await tapAndSettle(tester, find.text("Browse").last);
+    await tapAndSettle(tester, find.text("Galeri"));
+    await tapAndSettle(tester, find.text("Gözat").last);
 
     expect(called, isFalse);
     expect(find.text("Must select an image file."), findsNothing);
@@ -233,8 +233,8 @@ void main() {
       ),
     ).thenAnswer((_) => Future.value(const FilePickerResult([])));
 
-    await tapAndSettle(tester, find.text("Gallery"));
-    await tapAndSettle(tester, find.text("Browse").last);
+    await tapAndSettle(tester, find.text("Galeri"));
+    await tapAndSettle(tester, find.text("Gözat").last);
 
     expect(called, isFalse);
     expect(find.text("Must select an image file."), findsNothing);
@@ -264,8 +264,8 @@ void main() {
       ),
     );
 
-    await tapAndSettle(tester, find.text("Gallery"));
-    await tapAndSettle(tester, find.text("Browse").last);
+    await tapAndSettle(tester, find.text("Galeri"));
+    await tapAndSettle(tester, find.text("Gözat").last);
 
     expect(find.text("Must select image files."), findsNothing);
     expect(called, isTrue);
@@ -1088,7 +1088,7 @@ void main() {
     List<PickedImage>? result;
     await pumpAndroidPicker(tester, (r) => result = r, showNoPhotoOption: true);
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("No Photo"));
+    await tapAndSettle(tester, find.text("Fotoğraf Yok"));
     await tester.pumpAndSettle();
 
     expect(result, isNotNull);
@@ -1108,7 +1108,7 @@ void main() {
     List<PickedImage>? result;
     await pumpAndroidPicker(tester, (r) => result = r);
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("Gallery"));
+    await tapAndSettle(tester, find.text("Galeri"));
     await tester.pumpAndSettle();
 
     expect(result, isNotNull);
@@ -1125,7 +1125,7 @@ void main() {
       List<PickedImage>? result;
       await pumpAndroidPicker(tester, (r) => result = r);
       await tapAndSettle(tester, find.text("Pick"));
-      await tapAndSettle(tester, find.text("Gallery"));
+      await tapAndSettle(tester, find.text("Galeri"));
       await tester.pumpAndSettle();
 
       expect(result, isNotNull);
@@ -1143,7 +1143,7 @@ void main() {
     List<PickedImage>? result;
     await pumpAndroidPicker(tester, (r) => result = r, allowMultiple: false);
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("Gallery"));
+    await tapAndSettle(tester, find.text("Galeri"));
     await tester.pumpAndSettle();
 
     expect(result, isNotNull);
@@ -1161,7 +1161,7 @@ void main() {
       List<PickedImage>? result;
       await pumpAndroidPicker(tester, (r) => result = r, allowMultiple: false);
       await tapAndSettle(tester, find.text("Pick"));
-      await tapAndSettle(tester, find.text("Gallery"));
+      await tapAndSettle(tester, find.text("Galeri"));
       await tester.pumpAndSettle();
 
       expect(result, isNotNull);
@@ -1179,7 +1179,7 @@ void main() {
     List<PickedImage>? result;
     await pumpAndroidPicker(tester, (r) => result = r);
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("Camera"));
+    await tapAndSettle(tester, find.text("Kamera"));
     await tester.pumpAndSettle();
 
     expect(result, isNotNull);
@@ -1197,7 +1197,7 @@ void main() {
     List<PickedImage>? result;
     await pumpAndroidPicker(tester, (r) => result = r);
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("Camera"));
+    await tapAndSettle(tester, find.text("Kamera"));
     await tester.pumpAndSettle();
 
     expect(result, isNotNull);
@@ -1232,7 +1232,7 @@ void main() {
     List<PickedImage>? result;
     await pumpAndroidPicker(tester, (r) => result = r);
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("Browse"));
+    await tapAndSettle(tester, find.text("Gözat"));
     await tester.pumpAndSettle();
 
     expect(result, isNotNull);
@@ -1252,7 +1252,7 @@ void main() {
     List<PickedImage>? result;
     await pumpAndroidPicker(tester, (r) => result = r);
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("Browse"));
+    await tapAndSettle(tester, find.text("Gözat"));
     await tester.pumpAndSettle();
 
     expect(result, isNotNull);
@@ -1278,7 +1278,7 @@ void main() {
     List<PickedImage>? result;
     await pumpAndroidPicker(tester, (r) => result = r, allowMultiple: false);
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("Gallery"));
+    await tapAndSettle(tester, find.text("Galeri"));
     await tester.pumpAndSettle();
 
     expect(result, isNotNull);
@@ -1300,7 +1300,7 @@ void main() {
 
     await pumpAndroidPicker(tester, (_) {});
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("Gallery"));
+    await tapAndSettle(tester, find.text("Galeri"));
 
     verify(
       managers.lib.permissionHandlerWrapper.requestAccessMediaLocation(),
@@ -1321,7 +1321,7 @@ void main() {
 
     await pumpAndroidPicker(tester, (_) {});
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("Browse"));
+    await tapAndSettle(tester, find.text("Gözat"));
 
     verify(
       managers.lib.permissionHandlerWrapper.requestAccessMediaLocation(),
@@ -1336,7 +1336,7 @@ void main() {
 
     await pumpAndroidPicker(tester, (_) {});
     await tapAndSettle(tester, find.text("Pick"));
-    await tapAndSettle(tester, find.text("Camera"));
+    await tapAndSettle(tester, find.text("Kamera"));
 
     verifyNever(
       managers.lib.permissionHandlerWrapper.requestAccessMediaLocation(),

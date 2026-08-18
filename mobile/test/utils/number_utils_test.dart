@@ -72,7 +72,7 @@ void main() {
     expect(1000000.55.displayValue(), "1'000'000.55");
   });
 
-  test("percent", () {
+  test("yüzde", () {
     expect(percent(50, 200), 25);
     expect(percent(0, 200), 0);
     expect(percent(200, 200), 100);

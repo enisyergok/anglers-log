@@ -25,7 +25,7 @@ void main() {
 
   testWidgets("New title", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveCustomEntityPage()));
-    expect(find.text("New Field"), findsOneWidget);
+    expect(find.text("Yeni Alan"), findsOneWidget);
   });
 
   testWidgets("Edit title", (tester) async {
@@ -34,7 +34,7 @@ void main() {
         (_) => SaveCustomEntityPage.edit(CustomEntity()..id = randomId()),
       ),
     );
-    expect(find.text("Edit Field"), findsOneWidget);
+    expect(find.text("Alanı Düzenle"), findsOneWidget);
   });
 
   testWidgets("Save button state updates when name changes", (tester) async {
@@ -44,7 +44,7 @@ void main() {
     await enterTextAndSettle(
       tester,
       find.widgetWithText(TextField, "Name"),
-      "Water Depth",
+      "Su Derinliği",
     );
     expect(
       findFirstWithText<ActionButton>(tester, "SAVE").onPressed,
@@ -55,28 +55,28 @@ void main() {
   testWidgets("All type options are rendered", (tester) async {
     await tester.pumpWidget(Testable((_) => const SaveCustomEntityPage()));
 
-    expect(find.text("Number"), findsOneWidget);
-    expect(find.text("Checkbox"), findsOneWidget);
-    expect(find.text("Text"), findsOneWidget);
+    expect(find.text("Sayı"), findsOneWidget);
+    expect(find.text("Onay kutusu"), findsOneWidget);
+    expect(find.text("Metin"), findsOneWidget);
   });
 
   testWidgets("Editing", (tester) async {
     var entity = CustomEntity()
       ..id = randomId()
-      ..name = "Water Depth"
+      ..name = "Su Derinliği"
       ..description = "How deep the water is."
       ..type = CustomEntity_Type.number;
 
     await tester.pumpWidget(Testable((_) => SaveCustomEntityPage.edit(entity)));
 
-    expect(find.widgetWithText(TextField, "Water Depth"), findsOneWidget);
+    expect(find.widgetWithText(TextField, "Su Derinliği"), findsOneWidget);
     expect(
       find.widgetWithText(TextField, "How deep the water is."),
       findsOneWidget,
     );
     expect(
       find.descendant(
-        of: find.widgetWithText(InkWell, "Number"),
+        of: find.widgetWithText(InkWell, "Sayı"),
         matching: find.byIcon(Icons.radio_button_checked),
       ),
       findsOneWidget,
@@ -84,10 +84,10 @@ void main() {
 
     await enterTextAndSettle(
       tester,
-      find.widgetWithText(TextField, "Description"),
+      find.widgetWithText(TextField, "Açıklama"),
       "A description.",
     );
-    await tapAndSettle(tester, find.text("Checkbox"));
+    await tapAndSettle(tester, find.text("Onay kutusu"));
     await tapAndSettle(tester, find.text("SAVE"));
 
     var result = verify(managers.customEntityManager.addOrUpdate(captureAny));
@@ -95,7 +95,7 @@ void main() {
 
     CustomEntity newEntity = result.captured.first;
     expect(newEntity.id, entity.id);
-    expect(newEntity.name, "Water Depth");
+    expect(newEntity.name, "Su Derinliği");
     expect(newEntity.type, CustomEntity_Type.boolean);
     expect(newEntity.description, "A description.");
   });
