@@ -31,18 +31,18 @@ void main() {
     }
   });
 
-  test('photo species keep original Siren webp paths only', () {
+  test('photo and extracted species use real png/webp artwork', () {
     expect(
       TurkishSeaFishCatalog.byId('sparus-aurata')?.imageAsset,
-      'assets/fish/cipura.webp',
+      'assets/fish/cipura.png',
     );
     expect(
       TurkishSeaFishCatalog.byId('dicentrarchus-labrax')?.imageAsset,
-      'assets/fish/levrek.webp',
+      'assets/fish/levrek.png',
     );
     expect(
       TurkishSeaFishCatalog.byId('pagellus-erythrinus')?.imageAsset,
-      'assets/fish/mercan.webp',
+      'assets/fish/mercan.png',
     );
     expect(TurkishSeaFishCatalog.existingPhotoSlugs, {
       'cipura',
@@ -51,12 +51,12 @@ void main() {
     });
   });
 
-  test('non-photo species use their own svg — never cipura/generic', () {
-    expect(SirenFishArt.assetFor('Lüfer'), 'assets/fish/lufer.svg');
-    expect(SirenFishArt.assetFor('Palamut'), 'assets/fish/palamut.svg');
-    expect(SirenFishArt.assetFor('Hamsi'), 'assets/fish/hamsi.svg');
+  test('species map to dedicated png or svg — never cross-mapped', () {
+    expect(SirenFishArt.assetFor('Lüfer'), 'assets/fish/lufer.png');
+    expect(SirenFishArt.assetFor('Palamut'), 'assets/fish/palamut.png');
+    expect(SirenFishArt.assetFor('Hamsi'), 'assets/fish/hamsi.png');
     expect(SirenFishArt.assetFor('Kalamar'), 'assets/fish/kalamar.svg');
-    expect(SirenFishArt.assetFor('bass'), 'assets/fish/levrek.webp');
+    expect(SirenFishArt.assetFor('bass'), 'assets/fish/levrek.png');
   });
 
   test('unknown species does not steal another species art', () {

@@ -471,7 +471,7 @@ class _MeraMapHudState extends State<MeraMapHud> {
                 children: [
                   GestureDetector(
                     onTap: () => present(context, const MeraWeatherPage()),
-                    child: Container(
+                    child: SizedBox(
                       width: SirenScale.clampOf(
                         context,
                         120,
@@ -481,57 +481,60 @@ class _MeraMapHudState extends State<MeraMapHud> {
                       child: MeraGlassPanel(
                         padding: const EdgeInsets.all(8.0),
                         borderRadius: MeraRadii.sm,
-                        border: Border.all(color: MeraColors.borderSecondary.withValues(alpha: 0.7)),
+                        border: Border.all(
+                          color: MeraColors.borderSecondary.withValues(alpha: 0.7),
+                        ),
                         child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.wb_cloudy_outlined,
-                                color: MeraColors.warning,
-                                size: 16,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                temp == null
-                                    ? '—'
-                                    : '${temp.toStringAsFixed(1)}°C',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 13,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.wb_cloudy_outlined,
+                                  color: MeraColors.warning,
+                                  size: 16,
                                 ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  temp == null
+                                      ? '—'
+                                      : '${temp.toStringAsFixed(1)}°C',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              wind == null
+                                  ? 'Rüzgar —'
+                                  : 'Rüzgar ${(wind / 1.852).toStringAsFixed(0)} kn',
+                              style: const TextStyle(
+                                color: MeraColors.textSecondary,
+                                fontSize: 10,
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            wind == null
-                                ? 'Rüzgar —'
-                                : 'Rüzgar ${(wind / 1.852).toStringAsFixed(0)} kn',
-                            style: const TextStyle(
-                              color: MeraColors.textSecondary,
-                              fontSize: 10,
                             ),
-                          ),
-                          Text(
-                            wave == null
-                                ? 'Dalga —'
-                                : 'Dalga ${wave.toStringAsFixed(1)} m',
-                            style: const TextStyle(
-                              color: MeraColors.textSecondary,
-                              fontSize: 10,
+                            Text(
+                              wave == null
+                                  ? 'Dalga —'
+                                  : 'Dalga ${wave.toStringAsFixed(1)} m',
+                              style: const TextStyle(
+                                color: MeraColors.textSecondary,
+                                fontSize: 10,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 8),
                   GestureDetector(
                     onTap: () => present(context, const MeraSolunarPage()),
-                    child: Container(
+                    child: SizedBox(
                       width: SirenScale.clampOf(
                         context,
                         120,
@@ -541,43 +544,46 @@ class _MeraMapHudState extends State<MeraMapHud> {
                       child: MeraGlassPanel(
                         padding: const EdgeInsets.all(8.0),
                         borderRadius: MeraRadii.sm,
-                        border: Border.all(color: MeraColors.borderSecondary.withValues(alpha: 0.7)),
+                        border: Border.all(
+                          color: MeraColors.borderSecondary.withValues(alpha: 0.7),
+                        ),
                         child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.nightlight_round,
-                            color: MeraColors.blue,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 6),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  solunarScore == null
-                                      ? 'Av zamanı —'
-                                      : 'Av zamanı $solunarScore',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Text(
-                                  solunarDay == null
-                                      ? '—'
-                                      : (solunarDay.moonPhaseLabel),
-                                  style: const TextStyle(
-                                    color: MeraColors.textSecondary,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ],
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.nightlight_round,
+                              color: MeraColors.blue,
+                              size: 16,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    solunarScore == null
+                                        ? 'Av zamanı —'
+                                        : 'Av zamanı $solunarScore',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Text(
+                                    solunarDay == null
+                                        ? '—'
+                                        : (solunarDay.moonPhaseLabel),
+                                    style: const TextStyle(
+                                      color: MeraColors.textSecondary,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

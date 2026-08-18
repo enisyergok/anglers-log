@@ -21,7 +21,15 @@ class TurkishSeaFish {
   /// Existing silhouette path (always present for catalog entries).
   String get svgAsset => 'assets/fish/$slug.svg';
 
-  /// Existing Siren reference WebP for the three photo species only.
+  /// Existing PNG artwork path when present for the species.
+  String? get pngAsset {
+    if (TurkishSeaFishCatalog.existingPngSlugs.contains(slug)) {
+      return 'assets/fish/$slug.png';
+    }
+    return null;
+  }
+
+  /// Existing Siren reference WebP for photo species.
   String? get photoAsset {
     switch (slug) {
       case 'cipura':
@@ -33,8 +41,8 @@ class TurkishSeaFish {
     }
   }
 
-  /// Canonical display asset — existing WebP when present, else existing SVG.
-  String get imageAsset => photoAsset ?? svgAsset;
+  /// Canonical display asset — PNG photo when present, else WebP, else SVG.
+  String get imageAsset => pngAsset ?? photoAsset ?? svgAsset;
 }
 
 abstract final class TurkishSeaFishCatalog {
@@ -396,8 +404,57 @@ abstract final class TurkishSeaFishCatalog {
 
   static const digerAsset = 'assets/fish/diger.svg';
 
-  /// Existing raster photos already in the app (Siren reference) — do not expand
-  /// this set without shipping a real existing asset file.
+  /// Species with high-resolution full-color PNG artwork extracted from poster sprite.
+  static const Set<String> existingPngSlugs = {
+    'akya',
+    'barbun',
+    'caca',
+    'cinekop',
+    'cipura',
+    'dil',
+    'eskina',
+    'fangri',
+    'gelincik',
+    'granyoz',
+    'gumus',
+    'hamsi',
+    'horozbina',
+    'iskorpit',
+    'istavrit',
+    'izmarit',
+    'kalkan',
+    'karagoz',
+    'kayabaligi',
+    'kefal',
+    'kirlangic',
+    'kolyoz',
+    'kupes',
+    'lafina',
+    'lahos',
+    'levrek',
+    'lipsoz',
+    'lufer',
+    'melanur',
+    'mercan',
+    'mezgit',
+    'minakop',
+    'mirmir',
+    'orfoz',
+    'orkinos',
+    'palamut',
+    'sardalya',
+    'sargoz',
+    'sarikanat',
+    'sinagrit',
+    'tekir',
+    'torik',
+    'trakonya',
+    'uskumru',
+    'vatoz',
+    'zargana',
+  };
+
+  /// Existing raster photos already in the app.
   static const Set<String> existingPhotoSlugs = {
     'cipura',
     'levrek',
