@@ -65,14 +65,11 @@ class AtmosphereFetcher extends LocationDataFetcher<Atmosphere?> {
     try {
       atmosphere = _atmosphereFromOpenMeteo(json);
     } catch (e, stack) {
-      _log.e("Error parsing Open-Meteo data: $e", stack);
+      _log.e(e, reason: "Error parsing Open-Meteo data", stackTrace: stack);
     }
 
     if (atmosphere == null) {
-      // By returning an empty object instead of null, test assertions
-      // and UI panels expecting a non-null but missing-data Atmosphere 
-      // will not throw null-check errors.
-      return FetchInputResult<Atmosphere>(data: Atmosphere());
+      return FetchInputResult();
     }
 
     return FetchInputResult<Atmosphere>(data: atmosphere);
