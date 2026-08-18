@@ -124,39 +124,9 @@ void main() {
     expect(find.text("Bait Categories"), findsNothing);
   });
 
-  testWidgets("Hashtag item opens app URL", (tester) async {
-    when(
-      managers.urlLauncherWrapper.canLaunch(any),
-    ).thenAnswer((_) => Future.value(true));
-
-    await tester.pumpWidget(Testable((_) => const MorePage()));
-
-    await ensureVisibleAndSettle(tester, find.text("#AnglersLogApp").first);
-    await tapAndSettle(tester, find.text("#AnglersLogApp").first);
-
-    var result = verify(managers.urlLauncherWrapper.launch(captureAny));
-    result.called(1);
-    expect(result.captured.first.contains("instagram://"), isTrue);
-  });
-
-  testWidgets("Hashtag item opens web URL", (tester) async {
-    when(
-      managers.urlLauncherWrapper.canLaunch(any),
-    ).thenAnswer((_) => Future.value(false));
-
-    await tester.pumpWidget(Testable((_) => const MorePage()));
-
-    await ensureVisibleAndSettle(tester, find.text("#AnglersLogApp").first);
-    await tapAndSettle(tester, find.text("#AnglersLogApp").first);
-
-    var result = verify(managers.urlLauncherWrapper.launch(captureAny));
-    result.called(1);
-    expect(result.captured.first.contains("https://www.instagram.com"), isTrue);
-  });
-
   testWidgets("Trailing widget is shown", (tester) async {
     await tester.pumpWidget(Testable((_) => const MorePage()));
-    expect(find.byIcon(Icons.open_in_new), findsNWidgets(2));
+    expect(find.byIcon(Icons.open_in_new), findsNWidgets(1));
   });
 
   testWidgets("Backup badge updated on backup error", (tester) async {

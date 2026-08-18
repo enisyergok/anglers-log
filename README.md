@@ -1,46 +1,11 @@
-# Anglers' Log - Fishing Journal
+# Mera Asistanı
 
-<img src="https://github.com/cohenadair/anglers-log/blob/master/img/app_icon.png" height="150">
+Mera Asistanı, balık tutma günlüğü ve saha asistanı uygulamasıdır. Kayıtlarınız, fotoğraflarınız ve konum verileriniz yalnızca cihazınızda tutulur; bulut senkronizasyonu veya hesap gerektirmez.
 
-<a href="https://itunes.apple.com/ca/app/anglers-log-fishing-journal/id959989008"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" height="48"></a>
-<a href="https://play.google.com/store/apps/details?id=com.cohenadair.anglerslog"><img src="https://play.google.com/intl/en_us/badges/images/badge_new.png" height="48"></a>
-
-<a href="https://www.facebook.com/anglerslog/"><img src="https://github.com/cohenadair/anglers-log/blob/master/web/public/assets/img/facebook.png" height="48"></a>
-<a href="https://www.instagram.com/anglerslog/"><img src="https://github.com/cohenadair/anglers-log/blob/master/web/public/assets/img/instagram.png" height="48"></a>
-
-Anglers' Log is a mobile application that allows users to track, analyze, and share their catches in the sport of fishing.  It is available for free on the [App Store](https://itunes.apple.com/ca/app/anglers-log-fishing-journal/id959989008) and [Google Play](https://play.google.com/store/apps/details?id=com.cohenadair.anglerslog).
-
-[https://anglerslog.ca/](https://anglerslog.ca/)
-
-## Contributing
-
-Contributions are always welcome! Please run the test suite before opening a pull request, and create new tests where appropriate.
-
-## Setup
-
-For all setup instuctions and code guidelines, please refer to the [Anglers' Log Wiki](https://github.com/cohenadair/anglers-log/wiki).
-
-## A Plea
-
-Anglers' Log has evolved from a small school assignment into a usable, multiplatform application that I take great pride in; it has taken a lot of work and a lot of dedication. I encourage people to use my code as their own; we are all programmers helping each other learn and evolve. 
-
-I'm only saying this for good measure as I know the majority of people are good people, but I would greatly appreciate it if you didn't redistribute Anglers' Log under another name to any platform.
-
-Thank-you!
-
+Bu proje, [Cohen Adair](https://github.com/cohenadair)'ın GNU GPLv3 lisansı ile yayımladığı açık kaynaklı [Anglers' Log](https://github.com/cohenadair/anglers-log) uygulamasının bir türevidir (fork).
 
 ## License
 
-The source code to Anglers' Log is available under the GNU General Public License. See the [LICENSE](https://raw.githubusercontent.com/cohenadair/anglers-log/master/LICENSE) file for more information.
+Kaynak kod, GNU General Public License altında kullanılabilir. Ayrıntılar için [LICENSE](LICENSE) dosyasına bakın.
 
-Although allowed by the licensing terms, please do not submit your own version of Anglers' Log to the App Store, Google Play, or any other mobile app distribution platform.
-
-
-## Contact
-
-Cohen Adair
-
-* [GitHub](https://github.com/cohenadair)
-* [LinkedIn](https://ca.linkedin.com/in/cohenadair)
-* [Facebook](https://www.facebook.com/cohen.adair)
-
+Bu fork'un temel aldığı orijinal proje için: https://github.com/cohenadair/anglers-log

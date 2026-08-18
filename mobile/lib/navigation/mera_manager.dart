@@ -171,7 +171,7 @@ class MeraManager {
   String exportGpx() {
     final buf = StringBuffer()
       ..writeln('<?xml version="1.0" encoding="UTF-8"?>')
-      ..writeln('<gpx version="1.1" creator="BalikciGunlugu">')
+      ..writeln('<gpx version="1.1" creator="MeraAsistani">')
       ..writeln('<metadata><name>Mera noktaları</name></metadata>');
     for (final s in _spots) {
       buf.writeln(

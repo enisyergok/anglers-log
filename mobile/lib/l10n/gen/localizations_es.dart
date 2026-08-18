@@ -53,13 +53,14 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String get inputColorLabel => 'Color';
 
   @override
-  String get hashtag => '#AnglersLogApp';
+  String get hashtag => '#MeraAsistaniApp';
 
   @override
-  String get shareTextAndroid => 'Compartido con #AnglersLogApp para Android.';
+  String get shareTextAndroid =>
+      'Compartido con #MeraAsistaniApp para Android.';
 
   @override
-  String get shareTextApple => 'Compartido con #AnglersLogApp para iOS.';
+  String get shareTextApple => 'Compartido con #MeraAsistaniApp para iOS.';
 
   @override
   String shareLength(String value) {
@@ -85,19 +86,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String shareCatches(int value) {
     return 'Capturas: $value';
   }
-
-  @override
-  String get rateDialogTitle => 'Califica Anglers\' Log';
-
-  @override
-  String get rateDialogDescription =>
-      '¡Por favor, tómate un momento para escribir una reseña de Anglers\' Log. ¡Todos los comentarios son muy apreciados!';
-
-  @override
-  String get rateDialogRate => 'Calificar';
-
-  @override
-  String get rateDialogLater => 'Más tarde';
 
   @override
   String get done => 'Hecho';
@@ -181,12 +169,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String get unknownBait => 'Cebo desconocido';
 
   @override
-  String get viewDetails => 'Ver detalles';
-
-  @override
-  String get viewAll => 'Ver todo';
-
-  @override
   String get share => 'Compartir';
 
   @override
@@ -197,11 +179,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get fieldTypeText => 'Texto';
-
-  @override
-  String inputRequiredMessage(String inputLabel) {
-    return '$inputLabel es requerido';
-  }
 
   @override
   String get inputNotesLabel => 'Notas';
@@ -389,9 +366,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String get saveReportPageNameExists => 'El nombre del informe ya existe';
 
   @override
-  String get saveReportPageTypeTitle => 'Tipo';
-
-  @override
   String get saveReportPageComparison => 'Comparación';
 
   @override
@@ -449,11 +423,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get photosPageMenuLabel => 'Fotos';
-
-  @override
-  String photosPageTitle(int numOfPhotos) {
-    return 'Fotos ($numOfPhotos)';
-  }
 
   @override
   String get photosPageEmptyTitle => 'Sin fotos';
@@ -678,15 +647,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
       'Cuando se agreguen claridades de agua a su registro, se mostrará un resumen de sus capturas aquí.';
 
   @override
-  String get statsPageMenuTitle => 'Estadísticas';
-
-  @override
-  String get statsPageTitle => 'Estadísticas';
-
-  @override
-  String get statsPageNewReport => 'Nuevo informe';
-
-  @override
   String get statsPageSpeciesSummary => 'Resumen de especies';
 
   @override
@@ -775,20 +735,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
       'Aún no has agregado ninguna captura. Para agregar una captura, toca el ícono %s.';
 
   @override
-  String get reportViewNoCatches => 'No se encontraron capturas';
-
-  @override
-  String get reportViewNoCatchesDescription =>
-      'No se encontraron capturas en el rango de fechas seleccionado.';
-
-  @override
-  String get reportViewNoCatchesReportDescription =>
-      'No se encontraron capturas en el rango de fechas del informe seleccionado.';
-
-  @override
-  String get reportSummaryCatchTitle => 'Resumen de capturas';
-
-  @override
   String get reportSummaryPerSpecies => 'Por especie';
 
   @override
@@ -823,9 +769,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get reportSummarySinceLastCatch => 'Desde la última captura';
-
-  @override
-  String get reportSummaryNumberOfCatches => 'Número de capturas';
 
   @override
   String get reportSummaryFilters => 'Filtros';
@@ -942,10 +885,10 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String get morePageTitle => 'Más';
 
   @override
-  String get morePageRateApp => 'Califica Anglers\' Log';
+  String get morePageRateApp => 'Califica Mera Asistanı';
 
   @override
-  String get morePagePro => 'Anglers\' Log Pro';
+  String get morePagePro => 'Mera Asistanı Pro';
 
   @override
   String get morePageRateErrorApple =>
@@ -1070,13 +1013,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
       'Obtener automáticamente datos de mareas al agregar nuevas capturas.';
 
   @override
-  String get settingsPageLogout => 'Cerrar sesión';
-
-  @override
-  String get settingsPageLogoutConfirmMessage =>
-      '¿Estás seguro de que deseas cerrar sesión?';
-
-  @override
   String get settingsPageAbout => 'Acerca de, términos y privacidad';
 
   @override
@@ -1111,9 +1047,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get unitsPageTitle => 'Unidades de medida';
-
-  @override
-  String get unitsPageCatchLength => 'Longitud de captura';
 
   @override
   String unitsPageFractionalInches(String value) {
@@ -1202,16 +1135,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String get unitsPageDistanceTitle => 'Distancia';
 
   @override
-  String get unitsPageRodLengthTitle => 'Longitud de la caña';
-
-  @override
-  String get unitsPageLeaderLengthTitle => 'Longitud del líder';
-
-  @override
   String get unitsPageTippetLengthTitle => 'Longitud del tippet';
-
-  @override
-  String get mapPageMenuLabel => 'Mapa';
 
   @override
   String mapPageDeleteFishingSpot(String spot, int numOfCatches) {
@@ -1286,9 +1210,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String get mapPageAddTooltip => 'Agregar lugar de pesca';
 
   @override
-  String get saveFishingSpotPageNewTitle => 'Nuevo lugar de pesca';
-
-  @override
   String get saveFishingSpotPageEditTitle => 'Editar lugar de pesca';
 
   @override
@@ -1310,7 +1231,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get formPageManageFieldsProDescription =>
-      'Debes ser suscriptor de Anglers\' Log Pro para usar campos personalizados.';
+      'Debes ser suscriptor de Mera Asistanı Pro para usar campos personalizados.';
 
   @override
   String get formPageManageUnits => 'Gestionar unidades';
@@ -1367,9 +1288,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
       'Intenta cambiar la fuente de la foto desde el menú desplegable de arriba.';
 
   @override
-  String get imagePickerPageOpenCameraLabel => 'Abrir cámara';
-
-  @override
   String get imagePickerPageCameraLabel => 'Cámara';
 
   @override
@@ -1390,19 +1308,11 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   }
 
   @override
-  String get imagePickerPageInvalidSelectionSingle =>
-      'Debes seleccionar un archivo de imagen.';
-
-  @override
-  String get imagePickerPageInvalidSelectionPlural =>
-      'Debes seleccionar archivos de imagen.';
-
-  @override
   String get imagePickerPageNoPermissionTitle => 'Permiso requerido';
 
   @override
   String get imagePickerPageNoPermissionMessage =>
-      'Para agregar fotos, debes otorgar permiso a Anglers\' Log para acceder a tu biblioteca de fotos. Para hacerlo, abre la configuración de tu dispositivo.\n\nAlternativamente, puedes cambiar la fuente de fotos desde el menú desplegable arriba.';
+      'Para agregar fotos, debes otorgar permiso a Mera Asistanı para acceder a tu biblioteca de fotos. Para hacerlo, abre la configuración de tu dispositivo.\n\nAlternativamente, puedes cambiar la fuente de fotos desde el menú desplegable arriba.';
 
   @override
   String get imagePickerPageOpenSettings => 'Abrir configuración';
@@ -1429,7 +1339,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get reportListPageReportsProDescription =>
-      'Debes ser suscriptor Pro de Anglers\' Log para ver informes personalizados.';
+      'Debes ser suscriptor Pro de Mera Asistanı para ver informes personalizados.';
 
   @override
   String get saveSpeciesPageNewTitle => 'Nueva especie';
@@ -1474,10 +1384,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
       'Aún no has agregado ninguna especie. Toca el botón %s para comenzar.';
 
   @override
-  String get fishingSpotPickerPageHint =>
-      'Mantén presionado el mapa para elegir coordenadas exactas o selecciona un lugar de pesca existente.';
-
-  @override
   String fishingSpotListPageTitle(int numOfSpots) {
     return 'Lugares de pesca ($numOfSpots)';
   }
@@ -1498,10 +1404,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get fishingSpotListPageNoBodyOfWater => 'Sin cuerpo de agua';
-
-  @override
-  String get fishingSpotMapAddSpotHelp =>
-      'Mantén presionado en cualquier parte del mapa para dejar un pin y agregar un lugar de pesca.';
 
   @override
   String get editCoordinatesHint =>
@@ -1527,108 +1429,11 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get feedbackPageErrorSending =>
-      'Error al enviar comentarios. Por favor, inténtalo de nuevo más tarde o envía un correo a support@anglerslog.ca directamente.';
+      'Error al enviar comentarios. Por favor, inténtalo de nuevo más tarde.';
 
   @override
   String get feedbackPageConnectionError =>
       'Sin conexión a internet. Por favor, verifica tu conexión e inténtalo de nuevo.';
-
-  @override
-  String get feedbackPageSending => 'Enviando comentarios...';
-
-  @override
-  String get backupPageMoreTitle => 'Copia de seguridad y restauración';
-
-  @override
-  String get importPageMoreTitle => 'Importación heredada';
-
-  @override
-  String get importPageTitle => 'Importación heredada';
-
-  @override
-  String get importPageDescription =>
-      'La importación heredada requiere que elijas un archivo de respaldo (.zip) que creaste con una versión anterior de Anglers\' Log. Los datos heredados importados se añaden a tu registro existente.\n\nEl proceso de importación puede tardar varios minutos.';
-
-  @override
-  String get importPageImportingImages => 'Copiando imágenes...';
-
-  @override
-  String get importPageImportingData => 'Copiando datos de pesca...';
-
-  @override
-  String get importPageSuccess => '¡Datos importados con éxito!';
-
-  @override
-  String get importPageError =>
-      'Hubo un error al importar tus datos. Si el archivo de respaldo que elegiste fue creado usando Anglers\' Log, por favor envíanoslo para su investigación.';
-
-  @override
-  String get importPageErrorWarningMessage =>
-      'Al presionar enviar, Anglers\' Log enviará todos tus datos de pesca (excluyendo fotos). Tus datos no se compartirán fuera de la organización de Anglers\' Log.';
-
-  @override
-  String get importPageErrorTitle => 'Error de importación';
-
-  @override
-  String get dataImporterChooseFile => 'Elegir archivo';
-
-  @override
-  String get dataImporterStart => 'Iniciar';
-
-  @override
-  String get migrationPageMoreTitle => 'Migración legado';
-
-  @override
-  String get migrationPageTitle => 'Migración de datos';
-
-  @override
-  String get onboardingMigrationPageDescription =>
-      'Esta es tu primera vez abriendo Anglers\' Log desde la actualización a 2.0. Haz clic en el botón de abajo para comenzar el proceso de migración de datos.';
-
-  @override
-  String get migrationPageDescription =>
-      'Tienes datos heredados que necesitan ser migrados a Anglers\' Log 2.0. Haz clic en el botón de abajo para comenzar.';
-
-  @override
-  String get onboardingMigrationPageError =>
-      'Se produjo un error inesperado al migrar tus datos a Anglers\' Log 2.0. Por favor, envíanos el informe de error y lo investigaremos lo antes posible. Ten en cuenta que ninguno de tus datos se ha perdido. Visita la página de Configuración para volver a intentar la migración de datos una vez que se haya resuelto el problema.';
-
-  @override
-  String get migrationPageError =>
-      'Se produjo un error inesperado al migrar tus datos a Anglers\' Log 2.0. Por favor, envíanos el informe de error y lo investigaremos lo antes posible. Ten en cuenta que ninguno de tus datos antiguos se ha perdido. Por favor, vuelve a esta página para intentar la migración de datos después de que se haya resuelto el problema.';
-
-  @override
-  String get migrationPageLoading => 'Migrando datos a Anglers\' Log 2.0...';
-
-  @override
-  String get migrationPageSuccess => '¡Datos migrados con éxito!';
-
-  @override
-  String get migrationPageNothingToDoDescription =>
-      'La migración de datos es el proceso de convertir datos heredados de versiones antiguas de Anglers\' Log al formato de datos utilizado por las nuevas versiones.';
-
-  @override
-  String get migrationPageNothingToDoSuccess =>
-      '¡No tienes datos heredados para migrar!';
-
-  @override
-  String get migrationPageFeedbackTitle => 'Error de migración';
-
-  @override
-  String get anglerNameLabel => 'Pescador';
-
-  @override
-  String get onboardingJourneyWelcomeTitle => 'Bienvenido';
-
-  @override
-  String get onboardingJourneyStartDescription =>
-      '¡Bienvenido a Anglers\' Log! Comencemos por averiguar qué tipo de datos deseas rastrear.';
-
-  @override
-  String get onboardingJourneyStartButton => 'Comenzar';
-
-  @override
-  String get onboardingJourneySkip => 'No gracias, aprenderé sobre la marcha.';
 
   @override
   String get onboardingJourneyCatchFieldDescription =>
@@ -1640,9 +1445,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   @override
   String get onboardingJourneyManageFieldsDescription =>
       'Gestiona campos predeterminados o agrega campos personalizados en cualquier momento al agregar o editar equipo, una captura, cebo, viaje o clima.';
-
-  @override
-  String get onboardingJourneyManageFieldsSpecies => 'Trucha arcoíris';
 
   @override
   String get onboardingJourneyLocationAccessTitle => 'Acceso a la ubicación';
@@ -1670,7 +1472,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
       'Por favor, ajusta tu filtro de búsqueda para encontrar lo que estás buscando.';
 
   @override
-  String get proPageBackup => 'Copia de seguridad automática con Google Drive™';
+  String get proPageBackup => 'Copia de seguridad local automática';
 
   @override
   String get proPageCsv => 'Exportar registro a hoja de cálculo (CSV)';
@@ -2179,9 +1981,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String get pickerTitleMoonPhases => 'Seleccionar fases lunares';
 
   @override
-  String get pickerTitleSkyCondition => 'Seleccionar condición del cielo';
-
-  @override
   String get pickerTitleSkyConditions => 'Seleccionar condiciones del cielo';
 
   @override
@@ -2477,29 +2276,10 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String get saveBodyOfWaterPageExistsMessage => 'El cuerpo de agua ya existe';
 
   @override
-  String get mapAttributionTitleApple => 'SDK de Mapbox Maps para iOS';
-
-  @override
-  String get mapAttributionTitleAndroid => 'SDK de Mapbox Maps para Android';
-
-  @override
-  String get mapAttributionMapbox => '© Mapbox';
-
-  @override
   String get mapAttributionOpenStreetMap => '© OpenStreetMap';
 
   @override
   String get mapAttributionImproveThisMap => 'Mejorar este mapa';
-
-  @override
-  String get mapAttributionMaxar => '© Maxar';
-
-  @override
-  String get mapAttributionTelemetryTitle => 'Telemetría de Mapbox';
-
-  @override
-  String get mapAttributionTelemetryDescription =>
-      'Ayuda a mejorar los mapas de OpenStreetMap y Mapbox contribuyendo con datos de uso anónimos.';
 
   @override
   String get entityNameAnglers => 'Pescadores';
@@ -2611,7 +2391,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get backupPageDescription =>
-      'Tus datos se copian a una carpeta privada en tu Google Drive™ y no se comparten públicamente.\n\nEl proceso de copia de seguridad puede tardar varios minutos.';
+      'Tus datos se empaquetan en un archivo zip en tu dispositivo, que puedes guardar o compartir en la ubicación que prefieras.\n\nEl proceso de copia de seguridad puede tardar varios minutos.';
 
   @override
   String get backupPageAction => 'Hacer copia de seguridad ahora';
@@ -2633,7 +2413,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get restorePageDescription =>
-      'Restaurar datos reemplaza completamente su registro existente con los datos almacenados en Google Drive™. Si no hay datos, su registro permanece sin cambios.\n\nEl proceso de restauración puede tardar varios minutos.';
+      'Restaurar datos reemplaza completamente su registro existente con los datos del archivo de copia de seguridad que seleccione. Si no hay datos, su registro permanece sin cambios.\n\nEl proceso de restauración puede tardar varios minutos.';
 
   @override
   String get restorePageAction => 'Restaurar ahora';
@@ -2663,7 +2443,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get backupRestoreApiRequestError =>
-      'La red puede haber sido interrumpida. Verifica tu conexión a internet y vuelve a intentarlo. Si el problema persiste, por favor envía un informe a Anglers\' Log para su investigación.';
+      'La red puede haber sido interrumpida. Verifica tu conexión a internet y vuelve a intentarlo. Si el problema persiste, por favor envía un informe desde el menú de Comentarios.';
 
   @override
   String get backupRestoreDatabaseNotFound =>
@@ -2671,11 +2451,11 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get backupRestoreAccessDenied =>
-      'Anglers\' Log no tiene permiso para hacer una copia de seguridad de tus datos. Por favor, cierra sesión y vuelve a iniciar sesión, asegurándote de que la casilla \"Ver, crear y eliminar sus propios datos de configuración en tu Google Drive™.\" esté marcada, y vuelve a intentarlo.';
+      'La app no tiene permiso para crear archivos de copia de seguridad en tu dispositivo. Por favor revisa los permisos de almacenamiento de tu dispositivo y vuelve a intentarlo.';
 
   @override
   String get backupRestoreStorageFull =>
-      'Tu almacenamiento de Google Drive™ está lleno. Por favor libera algo de espacio e intenta de nuevo.';
+      'El almacenamiento de tu dispositivo está lleno. Por favor libera algo de espacio e intenta de nuevo.';
 
   @override
   String get backupRestoreAuthenticating => 'Autenticando...';
@@ -2685,10 +2465,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get backupRestoreCreatingFolder => 'Creando carpeta de respaldo...';
-
-  @override
-  String get backupRestoreBackingUpDatabase =>
-      'Haciendo copia de seguridad de la base de datos...';
 
   @override
   String get backupRestoreDownloadingDatabase => 'Descargando base de datos...';
@@ -2705,27 +2481,6 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String get backupRestoreSuccess => '¡Éxito!';
 
   @override
-  String get cloudAuthSignOut => 'Cerrar sesión';
-
-  @override
-  String get cloudAuthSignedInAs => 'Conectado como';
-
-  @override
-  String get cloudAuthSignInWithGoogle => 'Iniciar sesión con Google';
-
-  @override
-  String get cloudAuthDescription =>
-      'Para continuar, debes iniciar sesión en tu cuenta de Google. Los datos se guardan en una carpeta privada de Google Drive™ y solo pueden ser accedidos por Anglers\' Log.';
-
-  @override
-  String get cloudAuthError =>
-      'Error al iniciar sesión, por favor intenta de nuevo más tarde.';
-
-  @override
-  String get cloudAuthNetworkError =>
-      'Hubo un error de red al iniciar sesión. Por favor asegúrate de estar conectado a internet e intenta de nuevo.';
-
-  @override
   String get asyncFeedbackSendReport => 'Enviar informe';
 
   @override
@@ -2735,17 +2490,14 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
   String get proBlurUpgradeButton => 'Actualizar';
 
   @override
-  String get aboutPageEula => 'Términos de Uso (EULA)';
-
-  @override
   String get aboutPagePrivacy => 'Política de privacidad';
 
   @override
-  String get aboutPageWorldTides => 'Política de Privacidad de WorldTides™';
+  String get aboutPageWorldTides => 'Fuente de Datos de Mareas';
 
   @override
   String get aboutPageWorldTidePrivacy =>
-      'Datos de mareas recuperados de www.worldtides.info. Copyright © 2014-2023 Brainware LLC.\n\nLicenciado para el uso de coordenadas espaciales individuales por un usuario final.\n\nNO SE HACEN GARANTÍAS SOBRE LA CORRECCIÓN DE ESTOS DATOS DE MAREA.\nNo puede usar estos datos si alguien o algo podría resultar dañado como resultado de su uso (por ejemplo, para fines de navegación).\n\nLos datos de mareas se obtienen de varias fuentes y están cubiertos en parte o en su totalidad por varios derechos de autor. Para más detalles, consulte: http://www.worldtides.info/copyright';
+      'La información de mareas se obtiene del servicio gratuito TideTurtle (tideturtle.com), que no requiere clave de API. Solo se envía la latitud/longitud de la ubicación seleccionada con cada solicitud; no se comparte ningún otro dato personal.\n\nNO SE HACEN GARANTÍAS SOBRE LA CORRECCIÓN DE ESTOS DATOS DE MAREA.\nNo puede usar estos datos si alguien o algo podría resultar dañado como resultado de su uso (por ejemplo, para fines de navegación).\n\nPara más información, consulte: https://tideturtle.com';
 
   @override
   String get fishingSpotDetailsAddDetails => 'Agregar detalles';
@@ -2773,7 +2525,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get pollsPageDescription =>
-      'Vota para determinar qué características se agregarán en la próxima versión de Anglers\' Log.';
+      'Vota para determinar qué características se agregarán en la próxima versión de Mera Asistanı.';
 
   @override
   String get pollsPageNoPollsTitle => 'Sin encuestas';
@@ -2816,11 +2568,11 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get permissionCurrentLocationDescription =>
-      'Para mostrar tu ubicación actual, debes otorgar a Anglers\' Log acceso para leer la ubicación de tu dispositivo. Para hacerlo, abre la configuración de tu dispositivo.';
+      'Para mostrar tu ubicación actual, debes otorgar a Mera Asistanı acceso para leer la ubicación de tu dispositivo. Para hacerlo, abre la configuración de tu dispositivo.';
 
   @override
   String get permissionGpsTrailDescription =>
-      'Para crear un rastro GPS preciso, Anglers\' Log debe poder acceder a la ubicación de tu dispositivo en todo momento mientras el seguimiento esté activo. Para otorgar el permiso requerido, abre la configuración de tu dispositivo.';
+      'Para crear un rastro GPS preciso, Mera Asistanı debe poder acceder a la ubicación de tu dispositivo en todo momento mientras el seguimiento esté activo. Para otorgar el permiso requerido, abre la configuración de tu dispositivo.';
 
   @override
   String get permissionOpenSettings => 'Abrir configuración';
@@ -2890,7 +2642,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get csvPageBackupWarning =>
-      'Los archivos CSV no son copias de seguridad y no se pueden importar a Anglers\' Log. En su lugar, utiliza los botones de Copia de seguridad y Restaurar en la página Más.';
+      'Los archivos CSV no son copias de seguridad y no se pueden importar a Mera Asistanı. En su lugar, utiliza los botones de Copia de seguridad y Restaurar en la página Más.';
 
   @override
   String get csvPageSuccess => '¡Éxito!';
@@ -3070,7 +2822,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get notificationPermissionPageDesc =>
-      'Permitir que Anglers\' Log te notifique si una copia de seguridad de datos falla por cualquier motivo, incluyendo la necesidad de re-autenticación.';
+      'Permitir que Mera Asistanı te notifique si una copia de seguridad de datos falla por cualquier motivo, incluyendo la necesidad de re-autenticación.';
 
   @override
   String get notificationErrorBackupTitle => 'Error de copia de seguridad';
@@ -3107,11 +2859,11 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get locationDataFetcherErrorNoPermission =>
-      'Se requiere permiso para obtener datos. Por favor, concede a Anglers\' Log el permiso de ubicación y vuelve a intentarlo.';
+      'Se requiere permiso para obtener datos. Por favor, concede a Mera Asistanı el permiso de ubicación y vuelve a intentarlo.';
 
   @override
   String get locationDataFetcherPermissionError =>
-      'Hubo un error al solicitar el permiso de ubicación. El equipo de Anglers\' Log ha sido notificado y nos disculpamos por las molestias.';
+      'Hubo un error al solicitar el permiso de ubicación. El equipo de Mera Asistanı ha sido notificado y nos disculpamos por las molestias.';
 
   @override
   String get changeLogPageTitle => 'Novedades';
@@ -3522,22 +3274,7 @@ class AnglersLogLocalizationsEs extends AnglersLogLocalizations {
 
   @override
   String get translationWarningPageDescription =>
-      'El texto en Anglers\' Log ha sido traducido usando IA. Si notas un error o algo no tiene sentido, por favor toca Más y luego Enviar comentarios. ¡Tu ayuda siempre es apreciada, gracias!';
-
-  @override
-  String get backupRestorePageOpenDoc => 'Abrir documentación';
-
-  @override
-  String get backupRestorePageWarningApple =>
-      'La función de copia de seguridad y restauración ha demostrado ser poco confiable, y estamos considerando otras opciones. Mientras tanto, se recomienda encarecidamente que configures copias de seguridad automáticas para todo tu dispositivo a fin de garantizar que no se pierdan datos. Para obtener más información, visita la documentación de Apple.';
-
-  @override
-  String get backupRestorePageWarningGoogle =>
-      'La función de copia de seguridad y restauración ha demostrado ser poco confiable, y estamos considerando otras opciones. Mientras tanto, se recomienda encarecidamente que configures copias de seguridad automáticas para todo tu dispositivo a fin de garantizar que no se pierdan datos. Para obtener más información, visita la documentación de Google.';
-
-  @override
-  String get backupRestorePageWarningOwnRisk =>
-      'Utiliza esta función bajo tu propio riesgo.';
+      'El texto en Mera Asistanı ha sido traducido usando IA. Si notas un error o algo no tiene sentido, por favor toca Más y luego Enviar comentarios. ¡Tu ayuda siempre es apreciada, gracias!';
 
   @override
   String get proPageBackupWarning =>

@@ -111,9 +111,9 @@ flutter:
     - assets/inactive-pin.svg
     - assets/direction-arrow.svg
     - assets/feedback_template
+    - assets/sensitive.properties
     - assets/google-logo.svg
     - assets/mapbox-logo.svg
-    - assets/sensitive.properties
     - assets/fish/
 
     - packages/timezone/data/latest.tzf

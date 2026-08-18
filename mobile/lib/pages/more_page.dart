@@ -6,11 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile/backup_restore_manager.dart';
 import 'package:mobile/pages/species_counter_page.dart';
 import 'package:mobile/poll_manager.dart';
-import 'package:mobile/res/gen/custom_icons.dart';
-import 'package:mobile/res/theme.dart';
 import 'package:mobile/user_preference_manager.dart';
 import 'package:mobile/utils/entity_utils.dart';
-import 'package:mobile/wrappers/url_launcher_wrapper.dart';
 
 import '../pages/feedback_page.dart';
 import '../pages/photos_page.dart';
@@ -28,9 +25,6 @@ import 'map_region_page.dart';
 import 'polls_page.dart';
 
 class MorePage extends StatelessWidget {
-  static const _instagramWebUrl =
-      "https://www.instagram.com/explore/tags/anglerslogapp/?hl=en";
-  static const _instagramAppUrl = "instagram://tag?name=anglerslogapp";
   static const _feedbackBorderWidth = 1.0;
 
   /// A [GlobalKey] for the feedback row. Used for scrolling to the feedback
@@ -138,13 +132,6 @@ class MorePage extends StatelessWidget {
               presentPage: true,
             ),
             _buildRateAndFeedbackItems(context),
-            _buildHashtagItem(
-              context,
-              icon: CustomIcons.instagram,
-              iconColor: context.colorGreyAccent,
-              appUrl: _instagramAppUrl,
-              webUrl: _instagramWebUrl,
-            ),
             const MinDivider(),
             _buildPageItem(
               context,
@@ -187,28 +174,6 @@ class MorePage extends StatelessWidget {
         border: Border.all(width: _feedbackBorderWidth, color: Colors.green),
       ),
       child: column,
-    );
-  }
-
-  Widget _buildHashtagItem(
-    BuildContext context, {
-    required IconData icon,
-    Color? iconColor,
-    required String appUrl,
-    required String webUrl,
-  }) {
-    return ListItem(
-      title: Text(Strings.of(context).hashtag),
-      leading: Icon(icon, color: iconColor),
-      trailing: const OpenInWebIcon(),
-      onTap: () async {
-        var urlLauncher = UrlLauncherWrapper.of(context);
-        if (await urlLauncher.canLaunch(appUrl)) {
-          urlLauncher.launch(appUrl);
-        } else {
-          urlLauncher.launch(webUrl);
-        }
-      },
     );
   }
 

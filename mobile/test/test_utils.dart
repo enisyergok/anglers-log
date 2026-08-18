@@ -300,6 +300,7 @@ void stubRegionManager(MockRegionManager manager) {
   when(manager.init()).thenAnswer((_) => Future.value());
   when(manager.settings).thenReturn(
     RegionSettings(
+      locale: "en_US",
       temperatureUnits: TemperatureUnit.celsius,
       usesMetricSystem: true,
       firstDayOfWeek: 1,
@@ -308,10 +309,18 @@ void stubRegionManager(MockRegionManager manager) {
         medium: "MMM d, y",
         long: "MMMM d, y",
       ),
+      timeFormat: RegionTimeFormats(
+        short: "h:mm a",
+        medium: "h:mm:ss a",
+        long: "h:mm:ss a z",
+      ),
       numberFormat: RegionNumberFormats(
         integer: "#,###,###",
         decimal: "#,###,###.##",
       ),
+      icuNumberFormat: "#,###,###.##",
+      decimalSeparator: ".",
+      groupSeparator: ",",
     ),
   );
   when(manager.decimalFormat).thenReturn("#,###,###.##");
@@ -331,6 +340,8 @@ void stubIosDeviceInfo(
         model: "Test Model",
         modelName: "Test Model Name",
         localizedModel: "Test Localized Model Name",
+        freeDiskSize: 1000,
+        totalDiskSize: 2000,
         isPhysicalDevice: false,
         isiOSAppOnMac: false,
         physicalRamSize: 1000,

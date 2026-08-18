@@ -10,21 +10,16 @@ import 'package:mockito/mockito.dart';
 import '../../../../adair-flutter-lib/test/test_utils/finder.dart';
 import '../../../../adair-flutter-lib/test/test_utils/testable.dart';
 import '../../../../adair-flutter-lib/test/test_utils/widget.dart';
-import '../mocks/mocks.mocks.dart';
 import '../mocks/stubbed_managers.dart';
 import '../test_utils.dart';
 
-@Skip('Google Drive cloud backup UI retired in offline fork')
 void main() {
   late StubbedManagers managers;
-  late MockGoogleSignInAccount account;
 
   setUp(() async {
     managers = await StubbedManagers.create();
 
-    account = MockGoogleSignInAccount();
-    when(account.email).thenReturn("test@test.com");
-    when(managers.backupRestoreManager.currentUser).thenReturn(account);
+    when(managers.backupRestoreManager.currentUser).thenReturn(null);
     when(managers.backupRestoreManager.isSignedIn).thenReturn(true);
     when(
       managers.backupRestoreManager.authStream,
@@ -43,8 +38,6 @@ void main() {
       managers.userPreferenceManager.stream,
     ).thenAnswer((_) => const Stream.empty());
     when(managers.userPreferenceManager.lastBackupAt).thenReturn(null);
-
-    when(managers.lib.ioWrapper.isAndroid).thenReturn(true);
   });
 
   Future<void> sendProgressUpdate(
@@ -82,34 +75,11 @@ void main() {
     expect(find.text("Jan 1, 2020 at 12:00 AM"), findsOneWidget);
   });
 
-  testWidgets("Auth changes updates state", (tester) async {
-    var controller = StreamController<BackupRestoreAuthState>.broadcast();
-    var isSignedIn = false;
-    MockGoogleSignInAccount? account;
-
-    when(managers.backupRestoreManager.currentUser).thenAnswer((_) => account);
-    when(
-      managers.backupRestoreManager.isSignedIn,
-    ).thenAnswer((_) => isSignedIn);
-    when(
-      managers.backupRestoreManager.authStream,
-    ).thenAnswer((_) => controller.stream);
-
+  testWidgets("Action is always enabled (no cloud auth gating)", (
+    tester,
+  ) async {
     await pumpContext(tester, (_) => BackupPage());
-
-    // Verify action is disabled while signed out.
-    expect(findFirst<AsyncFeedback>(tester).action, isNull);
-
-    // Trigger sign in.
-    isSignedIn = true;
-    account = MockGoogleSignInAccount();
-    when(account.email).thenReturn("test@test.com");
-    controller.add(BackupRestoreAuthState.signedIn);
-    await tester.pumpAndSettle();
-
-    // Verify action is now clickable.
     expect(findFirst<AsyncFeedback>(tester).action, isNotNull);
-    verify(managers.backupRestoreManager.clearLastProgressError()).called(1);
   });
 
   testWidgets("Close button is disabled when in progress", (tester) async {
@@ -159,14 +129,14 @@ void main() {
       tester,
       controller,
       .apiRequestError,
-      "The network may have been interrupted. Verify your internet connection and try again. If the issue persists, please send Anglers' Log a report for investigation.",
+      "The network may have been interrupted. Verify your internet connection and try again. If the issue persists, please send a report from the Feedback menu.",
     );
 
     await verifyProgressUpdate(
       tester,
       controller,
       .accessDenied,
-      "Anglers' Log doesn't have permission to backup your data. Please sign out and sign back in, ensuring the \"See, create, and delete its own configuration data in your Google Drive™.\" box is checked, and try again.",
+      "The app doesn't have permission to create backup files on your device. Please check your device storage permissions and try again.",
     );
 
     await verifyProgressUpdate(
@@ -258,7 +228,7 @@ void main() {
       tester,
       controller,
       .accessDenied,
-      "Anglers' Log doesn't have permission to backup your data. Please sign out and sign back in, ensuring the \"See, create, and delete its own configuration data in your Google Drive™.\" box is checked, and try again.",
+      "The app doesn't have permission to create backup files on your device. Please check your device storage permissions and try again.",
     );
 
     expect(find.text("SEND REPORT"), findsNothing);
@@ -277,7 +247,7 @@ void main() {
       tester,
       controller,
       .storageFull,
-      "Your Google Drive™ storage is full. Please free some space and try again.",
+      "Your device storage is full. Please free some space and try again.",
     );
 
     expect(find.text("SEND REPORT"), findsNothing);
@@ -352,60 +322,5 @@ void main() {
   testWidgets("RestorePage", (tester) async {
     await pumpContext(tester, (_) => RestorePage());
     expect(find.text("Restore"), findsOneWidget);
-  });
-
-  testWidgets("Device backup: Android", (tester) async {
-    when(managers.lib.ioWrapper.isAndroid).thenReturn(true);
-    when(
-      managers.urlLauncherWrapper.launch(any, mode: anyNamed("mode")),
-    ).thenAnswer((_) => Future.value(true));
-
-    await pumpContext(tester, (_) => RestorePage());
-    await tapAndSettle(tester, find.text("OPEN DOCUMENTATION"));
-
-    var result = verify(
-      managers.urlLauncherWrapper.launch(captureAny, mode: anyNamed("mode")),
-    );
-    result.called(1);
-
-    expect(result.captured.first, contains("support.google.com"));
-  });
-
-  testWidgets("Device backup: iPhone", (tester) async {
-    when(managers.lib.ioWrapper.isAndroid).thenReturn(false);
-    when(managers.lib.ioWrapper.isIOS).thenReturn(true);
-    when(
-      managers.urlLauncherWrapper.launch(any, mode: anyNamed("mode")),
-    ).thenAnswer((_) => Future.value(true));
-    stubIosDeviceInfo(managers.lib.deviceInfoWrapper, name: "iphone");
-
-    await pumpContext(tester, (_) => RestorePage());
-    await tapAndSettle(tester, find.text("OPEN DOCUMENTATION"));
-
-    var result = verify(
-      managers.urlLauncherWrapper.launch(captureAny, mode: anyNamed("mode")),
-    );
-    result.called(1);
-
-    expect(result.captured.first, contains("ios"));
-  });
-
-  testWidgets("Device backup: iPad", (tester) async {
-    when(managers.lib.ioWrapper.isAndroid).thenReturn(false);
-    when(managers.lib.ioWrapper.isIOS).thenReturn(true);
-    when(
-      managers.urlLauncherWrapper.launch(any, mode: anyNamed("mode")),
-    ).thenAnswer((_) => Future.value(true));
-    stubIosDeviceInfo(managers.lib.deviceInfoWrapper, name: "ipad");
-
-    await pumpContext(tester, (_) => RestorePage());
-    await tapAndSettle(tester, find.text("OPEN DOCUMENTATION"));
-
-    var result = verify(
-      managers.urlLauncherWrapper.launch(captureAny, mode: anyNamed("mode")),
-    );
-    result.called(1);
-
-    expect(result.captured.first, contains("ipados"));
   });
 }

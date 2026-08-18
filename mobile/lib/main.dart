@@ -25,14 +25,12 @@ import 'package:quiver/strings.dart';
 import 'package:version/version.dart';
 
 import 'app_manager.dart';
-import 'channels/migration_channel.dart';
 import 'l10n/syncfusion/sf_localizations.dart';
 import 'pages/main_page.dart';
 import 'pages/onboarding/onboarding_journey.dart';
 import 'pages/onboarding/translation_warning_page.dart';
 import 'pages/save_bait_variant_page.dart';
 import 'user_preference_manager.dart';
-import 'wrappers/services_wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -83,9 +81,6 @@ class AnglersLogState extends State<AnglersLog> {
   late final Future<bool> _appInitializedFuture = _initApp();
   late _StartPageState _startPageState;
   late StreamSubscription<String> _userPreferenceSub;
-  LegacyJsonResult? _legacyJsonResult;
-
-  ServicesWrapper get _servicesWrapper => AppManager.get.servicesWrapper;
 
   TripManager get _tripManager => AppManager.get.tripManager;
 
@@ -95,7 +90,6 @@ class AnglersLogState extends State<AnglersLog> {
 
     AppConfig.get.init(
       appName: () => "Mera Asistanı",
-      companyName: () => "Cohen Adair",
       appIcon: CustomIcons.catches,
       colorAppTheme: Colors.green,
       colorAppBarContent: (isDark) => Colors.white,
@@ -189,7 +183,6 @@ class AnglersLogState extends State<AnglersLog> {
         return MainPage();
       case _StartPageState.onboarding:
         return OnboardingJourney(
-          legacyJsonResult: _legacyJsonResult,
           onFinished: (_) async {
             await UserPreferenceManager.get.setDidOnboard(true);
             await UserPreferenceManager.get.updateAppVersion();
@@ -214,11 +207,6 @@ class AnglersLogState extends State<AnglersLog> {
     } else if (UserPreferenceManager.get.didOnboard) {
       _startPageState = _StartPageState.mainPage;
     } else {
-      // If the user hasn't yet onboarded, see if there is any legacy data to
-      // migrate. We do this here to allow for a smoother transition between the
-      // login page and onboarding journey.
-      // TODO: Can probably remove legacy data importing at this point.
-      _legacyJsonResult = await legacyJson(_servicesWrapper);
       _startPageState = _StartPageState.onboarding;
     }
 

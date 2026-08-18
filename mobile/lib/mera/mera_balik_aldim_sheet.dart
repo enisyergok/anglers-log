@@ -87,6 +87,9 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
           color: Colors.transparent,
           child: Container(
             width: double.infinity,
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(context).height * 0.9,
+            ),
             padding: EdgeInsets.all(10 * scale),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -104,7 +107,8 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
                 ),
               ],
             ),
-            child: Column(
+            child: SingleChildScrollView(
+              child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Photographic fish hero — no cyan circle / icon badge.
@@ -219,6 +223,7 @@ class _BalikAldimSheetState extends State<_BalikAldimSheet> {
                   ),
                 ),
               ],
+              ),
             ),
           ),
         ),

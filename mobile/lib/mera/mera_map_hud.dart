@@ -976,7 +976,12 @@ class _MeraMapHudState extends State<MeraMapHud> {
             final currentType =
                 MapType.fromId(prefs.mapType) ?? MapType.satellite;
             return SafeArea(
-              child: Padding(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.sizeOf(ctx).height * 0.85,
+                ),
+                child: SingleChildScrollView(
+                  child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -1102,6 +1107,8 @@ class _MeraMapHudState extends State<MeraMapHud> {
                       },
                     ),
                   ],
+                ),
+              ),
                 ),
               ),
             );

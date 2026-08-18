@@ -102,6 +102,8 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
                                     children: [
                                       Text(
                                         _meraTitle(m),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 14,
@@ -172,6 +174,8 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
                                       children: [
                                         Text(
                                           s.name.isEmpty ? 'Nokta' : s.name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                             fontWeight: FontWeight.w700,
                                             fontSize: 14,

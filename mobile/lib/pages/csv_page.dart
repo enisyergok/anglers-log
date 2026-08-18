@@ -56,8 +56,8 @@ class CsvPage extends StatefulWidget {
 }
 
 class _CsvPageState extends State<CsvPage> {
-  static const _catchesFileName = "anglers-log-catches.csv";
-  static const _tripsFileName = "anglers-log-trips.csv";
+  static const _catchesFileName = "mera-asistani-catches.csv";
+  static const _tripsFileName = "mera-asistani-trips.csv";
 
   final _log = const Log("CsvPage");
   final _exportButtonKey = GlobalKey();

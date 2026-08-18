@@ -121,7 +121,13 @@ class MeraPrimaryButton extends StatelessWidget {
                     Icon(icon, size: 20),
                     const SizedBox(width: 8),
                   ],
-                  Text(label),
+                  Flexible(
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
       ),
@@ -166,7 +172,13 @@ class MeraOutlineButton extends StatelessWidget {
               Icon(icon, size: 18),
               const SizedBox(width: 8),
             ],
-            Text(label),
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),
@@ -292,6 +304,9 @@ class MeraModalShell extends StatelessWidget {
           color: Colors.transparent,
           child: Container(
             width: double.infinity,
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(context).height * 0.9,
+            ),
             padding: const EdgeInsets.fromLTRB(20, 14, 20, 18),
             decoration: BoxDecoration(
               color: MeraColors.card,
@@ -305,7 +320,7 @@ class MeraModalShell extends StatelessWidget {
                 ),
               ],
             ),
-            child: child,
+            child: SingleChildScrollView(child: child),
           ),
         ),
       ),

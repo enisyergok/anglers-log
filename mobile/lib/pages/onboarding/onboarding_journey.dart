@@ -5,25 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:mobile/pages/onboarding/onboarding_pro_page.dart';
 import 'package:mobile/utils/widget_utils.dart';
 
-import '../../channels/migration_channel.dart';
-import '../../database/legacy_importer.dart';
 import '../../utils/string_utils.dart';
 import 'catch_field_picker_page.dart';
 import 'how_to_feedback_page.dart';
 import 'how_to_manage_fields_page.dart';
 import 'location_permission_page.dart';
-import 'onboarding_migration_page.dart';
 
 class OnboardingJourney extends StatefulWidget {
-  final LegacyJsonResult? legacyJsonResult;
-  final VoidCallback? onFinishedMigration;
   final ContextCallback onFinished;
 
-  const OnboardingJourney({
-    this.legacyJsonResult,
-    this.onFinishedMigration,
-    required this.onFinished,
-  });
+  const OnboardingJourney({required this.onFinished});
 
   @override
   OnboardingJourneyState createState() => OnboardingJourneyState();
@@ -31,7 +22,6 @@ class OnboardingJourney extends StatefulWidget {
 
 class OnboardingJourneyState extends State<OnboardingJourney> {
   static const _routeRoot = "/";
-  static const _routeMigrateOrCatchFields = "migrate";
   static const _routeCatchFields = "catch_fields";
   static const _routeManageFields = "manage_fields";
   static const _routeLocationPermission = "location_permission";
@@ -46,9 +36,7 @@ class OnboardingJourneyState extends State<OnboardingJourney> {
       onGenerateRoute: (routeSettings) {
         var name = routeSettings.name;
         if (name == _routeRoot) {
-          return _buildMigrateOrCatchFields();
-        } else if (name == _routeMigrateOrCatchFields) {
-          return _buildMigrateOrCatchFields();
+          return _buildCatchFieldsRoute();
         } else if (name == _routeCatchFields) {
           return _buildCatchFieldsRoute();
         } else if (name == _routeManageFields) {
@@ -96,18 +84,6 @@ class OnboardingJourneyState extends State<OnboardingJourney> {
     );
   }
 
-  Route _buildMigrationPageRoute(LegacyJsonResult legacyJsonResult) {
-    return MaterialPageRoute(
-      builder: (context) => OnboardingMigrationPage(
-        importer: LegacyImporter.migrate(
-          legacyJsonResult,
-          widget.onFinishedMigration,
-        ),
-        onNext: (context) => Navigator.of(context).pushNamed(_routeCatchFields),
-      ),
-    );
-  }
-
   Route _buildCatchFieldsRoute() {
     return MaterialPageRoute(
       builder: (_) => CatchFieldPickerPage(
@@ -115,13 +91,5 @@ class OnboardingJourneyState extends State<OnboardingJourney> {
             Navigator.of(context).pushNamed(_routeManageFields),
       ),
     );
-  }
-
-  Route _buildMigrateOrCatchFields() {
-    if (widget.legacyJsonResult != null) {
-      return _buildMigrationPageRoute(widget.legacyJsonResult!);
-    } else {
-      return _buildCatchFieldsRoute();
-    }
   }
 }

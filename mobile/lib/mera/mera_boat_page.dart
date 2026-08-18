@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adair_flutter_lib/utils/number.dart';
 import 'package:adair_flutter_lib/utils/page.dart';
 import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
@@ -162,10 +163,10 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
       ),
     );
     if (ok != true) return;
-    final fuelVal = double.tryParse(fuel.text.trim()) ?? p.fuelPercent;
-    final cruiseVal = double.tryParse(cruise.text.trim()) ?? p.cruiseKnots;
+    final fuelVal = tryParseDouble(fuel.text.trim()) ?? p.fuelPercent;
+    final cruiseVal = tryParseDouble(cruise.text.trim()) ?? p.cruiseKnots;
     final alarmVal =
-        double.tryParse(alarmDepth.text.trim()) ?? p.depthAlarmMeters;
+        tryParseDouble(alarmDepth.text.trim()) ?? p.depthAlarmMeters;
     await MeraBoatProfileManager.get.save(
       p.copyWith(
         captainName: captain.text.trim().isEmpty ? 'Kaptan' : captain.text.trim(),
@@ -243,6 +244,8 @@ class _MeraBoatPageState extends State<MeraBoatPage> {
                       const SizedBox(height: 4),
                       Text(
                         profile.boatName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 15,

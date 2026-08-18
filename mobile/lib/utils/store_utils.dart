@@ -8,11 +8,13 @@ import '../wrappers/url_launcher_wrapper.dart';
 Future<void> launchStore(BuildContext context) async {
   var launcher = UrlLauncherWrapper.of(context);
 
-  var url = "itms-apps://apps.apple.com/app/id959989008?action=write-review";
+  // No public App Store listing for this app yet, so this URL is
+  // intentionally invalid; canLaunch below will fail gracefully and show
+  // `error` instead of misdirecting users to rate a different app.
+  var url = "itms-apps://apps.apple.com/app/id0?action=write-review";
   var error = Strings.of(context).morePageRateErrorApple;
   if (IoWrapper.get.isAndroid) {
-    url =
-        "https://play.google.com/store/apps/details?id=com.cohenadair.anglerslog";
+    url = "https://play.google.com/store/apps/details?id=com.mera.asistani";
     error = Strings.of(context).morePageRateErrorAndroid;
   }
 

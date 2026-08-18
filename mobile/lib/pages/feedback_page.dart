@@ -239,7 +239,7 @@ class FeedbackPageState extends State<FeedbackPage> {
       ],
       "from": {
         "name":
-            "Balıkçı Günlüğü ${IoWrapper.get.isAndroid ? "Android" : "iOS"} Uygulaması",
+            "Mera Asistanı ${IoWrapper.get.isAndroid ? "Android" : "iOS"} Uygulaması",
         "email": PropertiesManager.get.clientSenderEmail,
       },
       "reply_to": {"email": email, "name": name},
@@ -272,7 +272,7 @@ class FeedbackPageState extends State<FeedbackPage> {
         {
           "content": await LocalDatabaseManager.get.databaseAsBase64(),
           "filename":
-              "AnglersLog-${userId.substring(userId.length - 5)}-$dateFormat.db",
+              "MeraAsistani-${userId.substring(userId.length - 5)}-$dateFormat.db",
           "type": "application/x-sqlite3",
           "disposition": "attachment",
         },
@@ -283,7 +283,7 @@ class FeedbackPageState extends State<FeedbackPage> {
       Uri.parse(_urlSendGrid),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8",
-        "Authorization": "Bearer ${PropertiesManager.get.sendGridApiKey}",
+        "Authorization": "Bearer ${PropertiesManager.get.mailjetApiKey}",
       },
       body: jsonEncode(body),
     );

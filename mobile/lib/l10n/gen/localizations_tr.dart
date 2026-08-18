@@ -12,7 +12,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get catchFieldFavorite => 'Favori';
 
   @override
-  String get catchFieldFavoriteDescription => 'Bir avın favorilerinizden biri olup olmadığı.';
+  String get catchFieldFavoriteDescription =>
+      'Bir avın favorilerinizden biri olup olmadığı.';
 
   @override
   String get saveReportPageFavorites => 'Yalnızca Favoriler';
@@ -52,13 +53,14 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get inputColorLabel => 'Renk';
 
   @override
-  String get hashtag => '#BalikciGunluguApp';
+  String get hashtag => '#MeraAsistaniApp';
 
   @override
-  String get shareTextAndroid => '#BalikciGunluguApp ile Android için paylaşıldı.';
+  String get shareTextAndroid =>
+      '#MeraAsistaniApp ile Android için paylaşıldı.';
 
   @override
-  String get shareTextApple => '#BalikciGunluguApp ile iOS için paylaşıldı.';
+  String get shareTextApple => '#MeraAsistaniApp ile iOS için paylaşıldı.';
 
   @override
   String shareLength(String value) {
@@ -84,19 +86,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String shareCatches(int value) {
     return 'Avlar: $value';
   }
-
-  @override
-  String get rateDialogTitle => 'Balıkçı Günlüğü\'nü Değerlendir';
-
-  @override
-  String get rateDialogDescription =>
-      'Lütfen bir dakikanızı ayırıp Balıkçı Günlüğü hakkında bir inceleme yazın. Tüm geri bildirimleriniz çok değerli!';
-
-  @override
-  String get rateDialogRate => 'Değerlendir';
-
-  @override
-  String get rateDialogLater => 'Daha sonra';
 
   @override
   String get done => 'Tamam';
@@ -180,12 +169,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get unknownBait => 'Bilinmeyen Yem';
 
   @override
-  String get viewDetails => 'Ayrıntıları gör';
-
-  @override
-  String get viewAll => 'Tümünü gör';
-
-  @override
   String get share => 'Paylaş';
 
   @override
@@ -196,11 +179,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get fieldTypeText => 'Metin';
-
-  @override
-  String inputRequiredMessage(String inputLabel) {
-    return '$inputLabel zorunludur';
-  }
 
   @override
   String get inputNotesLabel => 'Notlar';
@@ -251,7 +229,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get catchListPageEmptyListTitle => 'Av Yok';
 
   @override
-  String get catchListPageEmptyListDescription => 'Henüz hiç av eklemediniz. Başlamak için %s düğmesine dokunun.';
+  String get catchListPageEmptyListDescription =>
+      'Henüz hiç av eklemediniz. Başlamak için %s düğmesine dokunun.';
 
   @override
   String catchListItemLength(String value) {
@@ -324,7 +303,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get catchFieldFishingSpot => 'Av Noktası';
 
   @override
-  String get catchFieldFishingSpotDescription => 'Avın yapıldığı konumun koordinatları.';
+  String get catchFieldFishingSpotDescription =>
+      'Avın yapıldığı konumun koordinatları.';
 
   @override
   String get catchFieldBait => 'Yem';
@@ -351,7 +331,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get catchFieldCatchAndRelease => 'Yakala ve Bırak';
 
   @override
-  String get catchFieldCatchAndReleaseDescription => 'Bu avın bırakılıp bırakılmadığı.';
+  String get catchFieldCatchAndReleaseDescription =>
+      'Bu avın bırakılıp bırakılmadığı.';
 
   @override
   String get catchFieldTideHeightLabel => 'Gelgit Yüksekliği';
@@ -379,9 +360,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get saveReportPageNameExists => 'Rapor adı zaten var';
-
-  @override
-  String get saveReportPageTypeTitle => 'Tür';
 
   @override
   String get saveReportPageComparison => 'Karşılaştırma';
@@ -441,11 +419,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get photosPageMenuLabel => 'Fotoğraflar';
 
   @override
-  String photosPageTitle(int numOfPhotos) {
-    return 'Fotoğraflar ($numOfPhotos)';
-  }
-
-  @override
   String get photosPageEmptyTitle => 'Fotoğraf Yok';
 
   @override
@@ -477,10 +450,12 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get baitListPageEmptyListTitle => 'Yem Yok';
 
   @override
-  String get baitListPageEmptyListDescription => 'Henüz hiç yem eklemediniz. Başlamak için %s düğmesine dokunun.';
+  String get baitListPageEmptyListDescription =>
+      'Henüz hiç yem eklemediniz. Başlamak için %s düğmesine dokunun.';
 
   @override
-  String get baitsSummaryEmpty => 'Günlüğünüze yem eklendiğinde, avlarının özeti burada gösterilir.';
+  String get baitsSummaryEmpty =>
+      'Günlüğünüze yem eklendiğinde, avlarının özeti burada gösterilir.';
 
   @override
   String baitListPageVariantsLabel(int numOfVariants) {
@@ -580,10 +555,12 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get anglerListPageEmptyListTitle => 'Balıkçı Yok';
 
   @override
-  String get anglerListPageEmptyListDescription => 'Henüz hiç balıkçı eklemediniz. Başlamak için %s düğmesine dokunun.';
+  String get anglerListPageEmptyListDescription =>
+      'Henüz hiç balıkçı eklemediniz. Başlamak için %s düğmesine dokunun.';
 
   @override
-  String get anglersSummaryEmpty => 'Günlüğünüze balıkçı eklendiğinde, avlarının özeti burada gösterilir.';
+  String get anglersSummaryEmpty =>
+      'Günlüğünüze balıkçı eklendiğinde, avlarının özeti burada gösterilir.';
 
   @override
   String get saveMethodPageNewTitle => 'Yeni Balık Tutma Yöntemi';
@@ -660,15 +637,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   @override
   String get waterClaritiesSummaryEmpty =>
       'Günlüğünüze su berraklığı eklendiğinde, avlarının özeti burada gösterilir.';
-
-  @override
-  String get statsPageMenuTitle => 'İstatistikler';
-
-  @override
-  String get statsPageTitle => 'İstatistikler';
-
-  @override
-  String get statsPageNewReport => 'Yeni Rapor';
 
   @override
   String get statsPageSpeciesSummary => 'Tür Özeti';
@@ -755,19 +723,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get reportViewEmptyLog => 'Boş Günlük';
 
   @override
-  String get reportViewEmptyLogDescription => 'Henüz hiç av eklemediniz. Av eklemek için %s simgesine dokunun.';
-
-  @override
-  String get reportViewNoCatches => 'Av bulunamadı';
-
-  @override
-  String get reportViewNoCatchesDescription => 'Seçilen tarih aralığında av bulunamadı.';
-
-  @override
-  String get reportViewNoCatchesReportDescription => 'Seçilen raporun tarih aralığında av bulunamadı.';
-
-  @override
-  String get reportSummaryCatchTitle => 'Av Özeti';
+  String get reportViewEmptyLogDescription =>
+      'Henüz hiç av eklemediniz. Av eklemek için %s simgesine dokunun.';
 
   @override
   String get reportSummaryPerSpecies => 'Tür Başına';
@@ -806,76 +763,84 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get reportSummarySinceLastCatch => 'Son Avdan Bu Yana';
 
   @override
-  String get reportSummaryNumberOfCatches => 'Av sayısı';
-
-  @override
   String get reportSummaryFilters => 'Filtreler';
 
   @override
   String get reportSummaryViewSpecies => 'Tüm türleri gör';
 
   @override
-  String get reportSummaryPerSpeciesDescription => 'Tür başına av sayısı gösteriliyor.';
+  String get reportSummaryPerSpeciesDescription =>
+      'Tür başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryViewFishingSpots => 'Tüm av noktalarını gör';
 
   @override
-  String get reportSummaryPerFishingSpotDescription => 'Av noktası başına av sayısı gösteriliyor.';
+  String get reportSummaryPerFishingSpotDescription =>
+      'Av noktası başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryViewBaits => 'Tüm yemleri gör';
 
   @override
-  String get reportSummaryPerBaitDescription => 'Yem başına av sayısı gösteriliyor.';
+  String get reportSummaryPerBaitDescription =>
+      'Yem başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryViewMoonPhases => 'Tüm ay evrelerini gör';
 
   @override
-  String get reportSummaryPerMoonPhaseDescription => 'Ay evresi başına av sayısı gösteriliyor.';
+  String get reportSummaryPerMoonPhaseDescription =>
+      'Ay evresi başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryViewTides => 'Tüm gelgit türlerini gör';
 
   @override
-  String get reportSummaryPerTideDescription => 'Gelgit türü başına av sayısı gösteriliyor.';
+  String get reportSummaryPerTideDescription =>
+      'Gelgit türü başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryViewAnglers => 'Tüm balıkçıları gör';
 
   @override
-  String get reportSummaryPerAnglerDescription => 'Balıkçı başına av sayısı gösteriliyor.';
+  String get reportSummaryPerAnglerDescription =>
+      'Balıkçı başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryViewBodiesOfWater => 'Tüm su kütlelerini gör';
 
   @override
-  String get reportSummaryPerBodyOfWaterDescription => 'Su kütlesi başına av sayısı gösteriliyor.';
+  String get reportSummaryPerBodyOfWaterDescription =>
+      'Su kütlesi başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryViewMethods => 'Tüm balık tutma yöntemlerini gör';
 
   @override
-  String get reportSummaryPerMethodDescription => 'Balık tutma yöntemi başına av sayısı gösteriliyor.';
+  String get reportSummaryPerMethodDescription =>
+      'Balık tutma yöntemi başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryViewPeriods => 'Tüm günün zamanlarını gör';
 
   @override
-  String get reportSummaryPerPeriodDescription => 'Günün zamanı başına av sayısı gösteriliyor.';
+  String get reportSummaryPerPeriodDescription =>
+      'Günün zamanı başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryViewSeasons => 'Tüm mevsimleri gör';
 
   @override
-  String get reportSummaryPerSeasonDescription => 'Mevsim başına av sayısı gösteriliyor.';
+  String get reportSummaryPerSeasonDescription =>
+      'Mevsim başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryViewWaterClarities => 'Tüm su berraklıklarını gör';
 
   @override
-  String get reportSummaryPerWaterClarityDescription => 'Su berraklığı başına av sayısı gösteriliyor.';
+  String get reportSummaryPerWaterClarityDescription =>
+      'Su berraklığı başına av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryPerHour => 'Saat Başına';
@@ -884,7 +849,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get reportSummaryViewAllHours => 'Tüm saatleri gör';
 
   @override
-  String get reportSummaryViewAllHoursDescription => 'Günün her saati için av sayısı gösteriliyor.';
+  String get reportSummaryViewAllHoursDescription =>
+      'Günün her saati için av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryPerMonth => 'Ay Başına';
@@ -893,7 +859,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get reportSummaryViewAllMonths => 'Tüm ayları gör';
 
   @override
-  String get reportSummaryViewAllMonthsDescription => 'Yılın her ayı için av sayısı gösteriliyor.';
+  String get reportSummaryViewAllMonthsDescription =>
+      'Yılın her ayı için av sayısı gösteriliyor.';
 
   @override
   String get reportSummaryPerGear => 'Ekipman Başına';
@@ -902,22 +869,24 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get reportSummaryViewGear => 'Tüm ekipmanı gör';
 
   @override
-  String get reportSummaryPerGearDescription => 'Ekipman başına av sayısı gösteriliyor.';
+  String get reportSummaryPerGearDescription =>
+      'Ekipman başına av sayısı gösteriliyor.';
 
   @override
   String get morePageTitle => 'Diğer';
 
   @override
-  String get morePageRateApp => 'Balıkçı Günlüğü\'nü Değerlendir';
+  String get morePageRateApp => 'Mera Asistanı\'nı Değerlendir';
 
   @override
-  String get morePagePro => 'Balıkçı Günlüğü Pro';
+  String get morePagePro => 'Mera Asistanı Pro';
 
   @override
   String get morePageRateErrorApple => 'Cihazda App Store yüklü değil.';
 
   @override
-  String get morePageRateErrorAndroid => 'Cihazda web tarayıcı uygulaması yüklü değil.';
+  String get morePageRateErrorAndroid =>
+      'Cihazda web tarayıcı uygulaması yüklü değil.';
 
   @override
   String tripListPageTitle(int numOfTrips) {
@@ -931,7 +900,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get tripListPageEmptyListTitle => 'Gezi Yok';
 
   @override
-  String get tripListPageEmptyListDescription => 'Henüz hiç gezi eklemediniz. Başlamak için %s düğmesine dokunun.';
+  String get tripListPageEmptyListDescription =>
+      'Henüz hiç gezi eklemediniz. Başlamak için %s düğmesine dokunun.';
 
   @override
   String tripListPageDeleteMessage(String trip) {
@@ -948,13 +918,15 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get saveTripPageAutoSetTitle => 'Alanları Otomatik Ayarla';
 
   @override
-  String get saveTripPageAutoSetDescription => 'Avlar seçildiğinde uygun alanları otomatik ayarla.';
+  String get saveTripPageAutoSetDescription =>
+      'Avlar seçildiğinde uygun alanları otomatik ayarla.';
 
   @override
   String get saveTripPageAutoAddCatchesTitle => 'Avları Otomatik Ekle';
 
   @override
-  String get saveTripPageAutoAddCatchesDescription => 'Gezinin zaman aralığına düşen avları otomatik ekle.';
+  String get saveTripPageAutoAddCatchesDescription =>
+      'Gezinin zaman aralığına düşen avları otomatik ekle.';
 
   @override
   String saveTripPageAutoAddCatchesPrompt(int numOfCatches) {
@@ -962,7 +934,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   }
 
   @override
-  String get saveTripPageAutoAddCatchesPromptSingular => 'Bu gezi sırasında henüz eklenmemiş 1 av yapıldı. Şimdi eklensin mi?';
+  String get saveTripPageAutoAddCatchesPromptSingular =>
+      'Bu gezi sırasında henüz eklenmemiş 1 av yapıldı. Şimdi eklensin mi?';
 
   @override
   String get saveTripPageStartDate => 'Başlangıç Tarihi';
@@ -1026,28 +999,26 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get settingsPageFetchTideTitle => 'Gelgiti Otomatik Getir';
 
   @override
-  String get settingsPageFetchTideDescription => 'Yeni av eklerken gelgit verilerini otomatik getir.';
-
-  @override
-  String get settingsPageLogout => 'Çıkış Yap';
-
-  @override
-  String get settingsPageLogoutConfirmMessage => 'Çıkış yapmak istediğinizden emin misiniz?';
+  String get settingsPageFetchTideDescription =>
+      'Yeni av eklerken gelgit verilerini otomatik getir.';
 
   @override
   String get settingsPageAbout => 'Hakkında, Koşullar ve Gizlilik';
 
   @override
-  String get settingsPageFishingSpotDistanceTitle => 'Otomatik Av Noktası Mesafesi';
+  String get settingsPageFishingSpotDistanceTitle =>
+      'Otomatik Av Noktası Mesafesi';
 
   @override
-  String get settingsPageFishingSpotDistanceDescription => 'Av eklerken av noktalarının otomatik seçileceği mesafe.';
+  String get settingsPageFishingSpotDistanceDescription =>
+      'Av eklerken av noktalarının otomatik seçileceği mesafe.';
 
   @override
   String get settingsPageMinGpsTrailDistanceTitle => 'GPS İzi Mesafesi';
 
   @override
-  String get settingsPageMinGpsTrailDistanceDescription => 'Bir GPS izindeki noktalar arasındaki minimum mesafe.';
+  String get settingsPageMinGpsTrailDistanceDescription =>
+      'Bir GPS izindeki noktalar arasındaki minimum mesafe.';
 
   @override
   String get settingsPageThemeTitle => 'Tema';
@@ -1066,9 +1037,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get unitsPageTitle => 'Ölçü Birimleri';
-
-  @override
-  String get unitsPageCatchLength => 'Av Boyu';
 
   @override
   String unitsPageFractionalInches(String value) {
@@ -1157,16 +1125,7 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get unitsPageDistanceTitle => 'Mesafe';
 
   @override
-  String get unitsPageRodLengthTitle => 'Çubuk Uzunluğu';
-
-  @override
-  String get unitsPageLeaderLengthTitle => 'Lider Uzunluğu';
-
-  @override
   String get unitsPageTippetLengthTitle => 'Atkı Uzunluğu';
-
-  @override
-  String get mapPageMenuLabel => 'Harita';
 
   @override
   String mapPageDeleteFishingSpot(String spot, int numOfCatches) {
@@ -1210,7 +1169,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Mevcut konum alınamadı. Cihazınızın konum hizmetlerinin açık olduğundan emin olun ve daha sonra yeniden deneyin.';
 
   @override
-  String get mapPageErrorOpeningDirections => 'Bu cihazda kullanılabilir bir navigasyon uygulaması yok.';
+  String get mapPageErrorOpeningDirections =>
+      'Bu cihazda kullanılabilir bir navigasyon uygulaması yok.';
 
   @override
   String get mapPageAppleMaps => 'Apple Haritalar™';
@@ -1240,9 +1200,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get mapPageAddTooltip => 'Av Noktası Ekle';
 
   @override
-  String get saveFishingSpotPageNewTitle => 'Yeni Av Noktası';
-
-  @override
   String get saveFishingSpotPageEditTitle => 'Av Noktasını Düzenle';
 
   @override
@@ -1255,14 +1212,16 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get formPageManageFieldText => 'Alanları Yönet';
 
   @override
-  String get formPageAddCustomFieldNote => 'Özel alan eklemek için %s simgesine dokunun.';
+  String get formPageAddCustomFieldNote =>
+      'Özel alan eklemek için %s simgesine dokunun.';
 
   @override
-  String get formPageManageFieldsNote => 'Alanları yönetmek için %s simgesine dokunun.';
+  String get formPageManageFieldsNote =>
+      'Alanları yönetmek için %s simgesine dokunun.';
 
   @override
   String get formPageManageFieldsProDescription =>
-      'Özel alanları kullanabilmek için Balıkçı Günlüğü Pro abonesi olmanız gerekir.';
+      'Özel alanları kullanabilmek için Mera Asistanı Pro abonesi olmanız gerekir.';
 
   @override
   String get formPageManageUnits => 'Birimleri Yönet';
@@ -1289,7 +1248,11 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   }
 
   @override
-  String customEntityListPageDelete(String field, int numOfCatches, int numOfBaits) {
+  String customEntityListPageDelete(
+    String field,
+    int numOfCatches,
+    int numOfBaits,
+  ) {
     return '$field özel alanı artık avlar ($numOfCatches) veya yemler ($numOfBaits) ile ilişkilendirilmeyecek; silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
   }
 
@@ -1300,19 +1263,19 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get customEntityListPageEmptyListTitle => 'Özel Alan Yok';
 
   @override
-  String get customEntityListPageEmptyListDescription => 'Henüz hiç özel alan eklemediniz. Başlamak için %s düğmesine dokunun.';
+  String get customEntityListPageEmptyListDescription =>
+      'Henüz hiç özel alan eklemediniz. Başlamak için %s düğmesine dokunun.';
 
   @override
-  String get imagePickerConfirmDelete => 'Bu fotoğrafı silmek istediğinizden emin misiniz?';
+  String get imagePickerConfirmDelete =>
+      'Bu fotoğrafı silmek istediğinizden emin misiniz?';
 
   @override
   String get imagePickerPageNoPhotosFoundTitle => 'Fotoğraf bulunamadı';
 
   @override
-  String get imagePickerPageNoPhotosFound => 'Yukarıdaki açılır menüden fotoğraf kaynağını değiştirmeyi deneyin.';
-
-  @override
-  String get imagePickerPageOpenCameraLabel => 'Kamerayı Aç';
+  String get imagePickerPageNoPhotosFound =>
+      'Yukarıdaki açılır menüden fotoğraf kaynağını değiştirmeyi deneyin.';
 
   @override
   String get imagePickerPageCameraLabel => 'Kamera';
@@ -1335,17 +1298,11 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   }
 
   @override
-  String get imagePickerPageInvalidSelectionSingle => 'Bir görüntü dosyası seçmelisiniz.';
-
-  @override
-  String get imagePickerPageInvalidSelectionPlural => 'Görüntü dosyaları seçmelisiniz.';
-
-  @override
   String get imagePickerPageNoPermissionTitle => 'İzin gerekli';
 
   @override
   String get imagePickerPageNoPermissionMessage =>
-      'Fotoğraf eklemek için Balıkçı Günlüğüne fotoğraf kitaplığınıza erişim izni vermelisiniz. Bunun için cihaz ayarlarını açın.\n\nAlternatif olarak yukarıdaki açılır menüden fotoğraf kaynağını değiştirebilirsiniz.';
+      'Fotoğraf eklemek için Mera Asistanı\'na fotoğraf kitaplığınıza erişim izni vermelisiniz. Bunun için cihaz ayarlarını açın.\n\nAlternatif olarak yukarıdaki açılır menüden fotoğraf kaynağını değiştirebilirsiniz.';
 
   @override
   String get imagePickerPageOpenSettings => 'Ayarları Aç';
@@ -1367,11 +1324,12 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get reportListPageReportTitle => 'Özel Raporlar';
 
   @override
-  String get reportListPageReportAddNote => 'Özel rapor eklemek için %s simgesine dokunun.';
+  String get reportListPageReportAddNote =>
+      'Özel rapor eklemek için %s simgesine dokunun.';
 
   @override
   String get reportListPageReportsProDescription =>
-      'Özel raporları görüntülemek için Balıkçı Günlüğü Pro abonesi olmanız gerekir.';
+      'Özel raporları görüntülemek için Mera Asistanı Pro abonesi olmanız gerekir.';
 
   @override
   String get saveSpeciesPageNewTitle => 'Yeni Tür';
@@ -1398,7 +1356,10 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   }
 
   @override
-  String speciesListPageCatchDeleteErrorPlural(String species, int numOfCatches) {
+  String speciesListPageCatchDeleteErrorPlural(
+    String species,
+    int numOfCatches,
+  ) {
     return '$species, $numOfCatches av ile ilişkilidir ve silinemez.';
   }
 
@@ -1409,11 +1370,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get speciesListPageEmptyListTitle => 'Tür Yok';
 
   @override
-  String get speciesListPageEmptyListDescription => 'Henüz hiç tür eklemediniz. Başlamak için %s düğmesine dokunun.';
-
-  @override
-  String get fishingSpotPickerPageHint =>
-      'Tam koordinat seçmek için haritaya uzun basın veya mevcut bir av noktası seçin.';
+  String get speciesListPageEmptyListDescription =>
+      'Henüz hiç tür eklemediniz. Başlamak için %s düğmesine dokunun.';
 
   @override
   String fishingSpotListPageTitle(int numOfSpots) {
@@ -1438,11 +1396,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get fishingSpotListPageNoBodyOfWater => 'Su Kütlesi Yok';
 
   @override
-  String get fishingSpotMapAddSpotHelp =>
-      'Av noktası eklemek için haritada herhangi bir yere uzun basıp bir pin bırakın.';
-
-  @override
-  String get editCoordinatesHint => 'Av noktasının koordinatlarını güncellemek için haritayı sürükleyin.';
+  String get editCoordinatesHint =>
+      'Av noktasının koordinatlarını güncellemek için haritayı sürükleyin.';
 
   @override
   String get feedbackPageTitle => 'Geri Bildirim Gönder';
@@ -1464,109 +1419,15 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get feedbackPageErrorSending =>
-      'Geri bildirim gönderilirken hata oluştu. Lütfen daha sonra yeniden deneyin veya doğrudan support@anglerslog.ca adresine e-posta gönderin.';
+      'Geri bildirim gönderilirken hata oluştu. Lütfen daha sonra yeniden deneyin.';
 
   @override
-  String get feedbackPageConnectionError => 'İnternet bağlantısı yok. Bağlantınızı kontrol edip yeniden deneyin.';
+  String get feedbackPageConnectionError =>
+      'İnternet bağlantısı yok. Bağlantınızı kontrol edip yeniden deneyin.';
 
   @override
-  String get feedbackPageSending => 'Geri bildirim gönderiliyor...';
-
-  @override
-  String get backupPageMoreTitle => 'Yedekleme ve Geri Yükleme';
-
-  @override
-  String get importPageMoreTitle => 'Eski İçe Aktarma';
-
-  @override
-  String get importPageTitle => 'Eski İçe Aktarma';
-
-  @override
-  String get importPageDescription =>
-      'Eski içe aktarma, Balıkçı Günlüğü\'nin eski sürümüyle oluşturduğunuz bir yedek dosyasını (.zip) seçmenizi gerektirir. İçe aktarılan eski veriler mevcut günlüğünüze eklenir.\n\nİçe aktarma işlemi birkaç dakika sürebilir.';
-
-  @override
-  String get importPageImportingImages => 'Resimler kopyalanıyor...';
-
-  @override
-  String get importPageImportingData => 'Balık tutma verileri kopyalanıyor...';
-
-  @override
-  String get importPageSuccess => 'Veriler başarıyla içe aktarıldı!';
-
-  @override
-  String get importPageError =>
-      'Verileriniz içe aktarılırken bir hata oluştu. Seçtiğiniz yedek dosyası Balıkçı Günlüğü kullanılarak oluşturulduysa lütfen incelenmesi için bize gönderin.';
-
-  @override
-  String get importPageErrorWarningMessage =>
-      'Gönder tuşuna bastığınızda tüm balıkçılık verileriniz (fotoğraflar hariç) Balıkçı Günlüğü gönderilir. Verileriniz Balıkçı Günlüğü kuruluşu dışında paylaşılmayacaktır.';
-
-  @override
-  String get importPageErrorTitle => 'İçe Aktarma Hatası';
-
-  @override
-  String get dataImporterChooseFile => 'Dosya Seç';
-
-  @override
-  String get dataImporterStart => 'Başlat';
-
-  @override
-  String get migrationPageMoreTitle => 'Eski Veri Taşıma';
-
-  @override
-  String get migrationPageTitle => 'Veri Taşıma';
-
-  @override
-  String get onboardingMigrationPageDescription =>
-      'Bu, 2.0\'a güncellemenizden bu yana Balıkçı Günlüğü\'yi ilk açışınız. Veri taşıma işlemini başlatmak için aşağıdaki düğmeyi tıklayın.';
-
-  @override
-  String get migrationPageDescription =>
-      'Balıkçı Günlüğü 2.0\'a taşınması gereken eski verileriniz var. Başlamak için aşağıdaki düğmeye tıklayın.';
-
-  @override
-  String get onboardingMigrationPageError =>
-      'Verileriniz Balıkçı Günlüğü 2.0\'a taşınırken beklenmeyen bir hata oluştu. Lütfen bize hata raporunu gönderin; mümkün olan en kısa sürede araştıracağız. Hiçbir verinizin kaybolmadığını unutmayın. Sorun çözüldükten sonra veri taşımayı yeniden denemek için lütfen Ayarlar sayfasını ziyaret edin.';
-
-  @override
-  String get migrationPageError =>
-      'Verileriniz Balıkçı Günlüğü 2.0\'a taşınırken beklenmeyen bir hata oluştu. Lütfen bize hata raporunu gönderin; mümkün olan en kısa sürede araştıracağız. Eski verilerinizin hiçbirinin kaybolmadığını unutmayın. Sorun çözüldükten sonra veri taşımayı yeniden denemek için lütfen bu sayfayı tekrar ziyaret edin.';
-
-  @override
-  String get migrationPageLoading => 'Veriler Balıkçı Günlüğü 2,0\'a taşınıyor...';
-
-  @override
-  String get migrationPageSuccess => 'Veriler başarıyla taşındı!';
-
-  @override
-  String get migrationPageNothingToDoDescription =>
-      'Veri taşıma, eski Balıkçı Günlüğü sürümlerindeki eski verileri yeni sürümlerin kullandığı veri biçimine dönüştürme işlemidir.';
-
-  @override
-  String get migrationPageNothingToDoSuccess => 'Taşınacak eski veriniz yok!';
-
-  @override
-  String get migrationPageFeedbackTitle => 'Taşıma Hatası';
-
-  @override
-  String get anglerNameLabel => 'Balıkçı';
-
-  @override
-  String get onboardingJourneyWelcomeTitle => 'Hoş Geldiniz';
-
-  @override
-  String get onboardingJourneyStartDescription =>
-      'Balıkçı Günlüğüne hoş geldiniz! Önce hangi verileri takip etmek istediğinizi belirleyelim.';
-
-  @override
-  String get onboardingJourneyStartButton => 'Başla';
-
-  @override
-  String get onboardingJourneySkip => 'Hayır teşekkürler, ilerlerken öğrenirim.';
-
-  @override
-  String get onboardingJourneyCatchFieldDescription => 'Bir av kaydederken ne bilmek istiyorsunuz?';
+  String get onboardingJourneyCatchFieldDescription =>
+      'Bir av kaydederken ne bilmek istiyorsunuz?';
 
   @override
   String get onboardingJourneyManageFieldsTitle => 'Alanları Yönet';
@@ -1576,14 +1437,11 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Varsayılan alanları yönetin veya ekipman, av, yem, gezi ya da hava durumu eklerken/düzenlerken istediğiniz zaman özel alan ekleyin.';
 
   @override
-  String get onboardingJourneyManageFieldsSpecies => 'Gökkuşağı Alabalığı';
-
-  @override
   String get onboardingJourneyLocationAccessTitle => 'Konum Erişimi';
 
   @override
   String get onboardingJourneyLocationAccessDescription =>
-      'Balıkçı Günlüğü, uygulama içi haritada konumunuzu göstermek, av eklerken av noktalarını otomatik oluşturmak ve balık tutarken GPS izleri oluşturmak için konum hizmetlerini kullanır.';
+      'Mera Asistanı, uygulama içi haritada konumunuzu göstermek, av eklerken av noktalarını otomatik oluşturmak ve balık tutarken GPS izleri oluşturmak için konum hizmetlerini kullanır.';
 
   @override
   String get onboardingJourneyHowToFeedbackTitle => 'Geri Bildirim Gönder';
@@ -1599,16 +1457,18 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get emptyListPlaceholderNoResultsTitle => 'Sonuç bulunamadı';
 
   @override
-  String get emptyListPlaceholderNoResultsDescription => 'Aradığınızı bulmak için lütfen arama filtrenizi ayarlayın.';
+  String get emptyListPlaceholderNoResultsDescription =>
+      'Aradığınızı bulmak için lütfen arama filtrenizi ayarlayın.';
 
   @override
-  String get proPageBackup => 'Google Drive™ ile otomatik yedekleme';
+  String get proPageBackup => 'Otomatik yerel yedekleme';
 
   @override
   String get proPageCsv => 'Günlüğü elektronik tabloya dışa aktar (CSV)';
 
   @override
-  String get proPageAtmosphere => 'Atmosfer, hava durumu ve gelgit verilerini getir';
+  String get proPageAtmosphere =>
+      'Atmosfer, hava durumu ve gelgit verilerini getir';
 
   @override
   String get proPageReports => 'Özel raporlar ve filtreler oluştur';
@@ -1617,7 +1477,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get proPageCustomFields => 'Özel giriş alanları oluştur';
 
   @override
-  String get proPageGpsTrails => 'Gerçek zamanlı GPS izleri oluştur ve takip et';
+  String get proPageGpsTrails =>
+      'Gerçek zamanlı GPS izleri oluştur ve takip et';
 
   @override
   String get proPageCopyCatch => 'Avları kopyala';
@@ -2110,9 +1971,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get pickerTitleMoonPhases => 'Ay Evresi Seç';
 
   @override
-  String get pickerTitleSkyCondition => 'Gökyüzü Koşulu Seç';
-
-  @override
   String get pickerTitleSkyConditions => 'Gökyüzü Koşulu Seç';
 
   @override
@@ -2167,7 +2025,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get keywordsAirPressureMetric => 'atmosferik hava basıncı milibar';
 
   @override
-  String get keywordsAirPressureImperial => 'atmosferik hava basıncı inç kare başına pound';
+  String get keywordsAirPressureImperial =>
+      'atmosferik hava basıncı inç kare başına pound';
 
   @override
   String get keywordsAirHumidity => 'nem yüzde nem';
@@ -2206,7 +2065,7 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get keywordsLengthMetric => 'uzunluk santimetre cm';
 
   @override
-  String get keywordsLengthImperial => 'uzunluk inç "';
+  String get keywordsLengthImperial => 'uzunluk inç \"';
 
   @override
   String get keywordsWeightMetric => 'ağırlık kilo kilogram kg';
@@ -2405,28 +2264,10 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get saveBodyOfWaterPageExistsMessage => 'Su kütlesi zaten var';
 
   @override
-  String get mapAttributionTitleApple => 'OSM / OpenSeaMap tabanlı harita';
-
-  @override
-  String get mapAttributionTitleAndroid => 'OSM / OpenSeaMap tabanlı harita';
-
-  @override
-  String get mapAttributionMapbox => '© OpenSeaMap';
-
-  @override
   String get mapAttributionOpenStreetMap => '© OpenStreetMap';
 
   @override
   String get mapAttributionImproveThisMap => 'Bu Haritayı İyileştir';
-
-  @override
-  String get mapAttributionMaxar => '© Maxar';
-
-  @override
-  String get mapAttributionTelemetryTitle => 'Telemetri kaldırıldı';
-
-  @override
-  String get mapAttributionTelemetryDescription => 'Harita telemetrisi devre dışı bırakıldı / kaldırıldı.';
 
   @override
   String get entityNameAnglers => 'Balıkçılar';
@@ -2538,7 +2379,7 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get backupPageDescription =>
-      'Verileriniz Google Drive™ içinde özel bir klasöre kopyalanır ve herkese açık paylaşılmaz.\n\nYedekleme işlemi birkaç dakika sürebilir.';
+      'Verileriniz cihazınızda bir zip dosyası olarak paketlenir; bu dosyayı dilediğiniz konuma kaydedebilir veya paylaşabilirsiniz.\n\nYedekleme işlemi birkaç dakika sürebilir.';
 
   @override
   String get backupPageAction => 'Şimdi Yedekle';
@@ -2560,7 +2401,7 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get restorePageDescription =>
-      'Verileri geri yüklemek, mevcut günlüğünüzü Google Drive™daki verilerle tamamen değiştirir. Veri yoksa günlüğünüz değişmez.\n\nGeri yükleme işlemi birkaç dakika sürebilir.';
+      'Verileri geri yüklemek, mevcut günlüğünüzü seçtiğiniz yedek dosyasındaki verilerle tamamen değiştirir. Veri yoksa günlüğünüz değişmez.\n\nGeri yükleme işlemi birkaç dakika sürebilir.';
 
   @override
   String get restorePageAction => 'Şimdi Geri Yükle';
@@ -2569,7 +2410,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get restorePageErrorTitle => 'Geri Yükleme Hatası';
 
   @override
-  String get backupRestoreAuthError => 'Kimlik doğrulama hatası. Lütfen daha sonra tekrar deneyin.';
+  String get backupRestoreAuthError =>
+      'Kimlik doğrulama hatası. Lütfen daha sonra tekrar deneyin.';
 
   @override
   String get backupRestoreAutoSignedOutError =>
@@ -2580,7 +2422,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Ağ bağlantısı sorunu nedeniyle otomatik yedek başarısız oldu. Lütfen manuel yedek yapın veya bir sonraki otomatik yedek denemesini bekleyin.';
 
   @override
-  String get backupRestoreCreateFolderError => 'yedek klasörü oluşturulamadı, lütfen daha sonra tekrar deneyin.';
+  String get backupRestoreCreateFolderError =>
+      'yedek klasörü oluşturulamadı, lütfen daha sonra tekrar deneyin.';
 
   @override
   String get backupRestoreFolderNotFound =>
@@ -2588,7 +2431,7 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get backupRestoreApiRequestError =>
-      'Ağ kesintiye uğramış olabilir. İnternet bağlantınızı doğrulayıp tekrar deneyin. Sorun devam ederse lütfen inceleme için Balıkçı Günlüğü bir rapor gönderin.';
+      'Ağ kesintiye uğramış olabilir. İnternet bağlantınızı doğrulayıp tekrar deneyin. Sorun devam ederse lütfen Geri Bildirim menüsünden bir rapor gönderin.';
 
   @override
   String get backupRestoreDatabaseNotFound =>
@@ -2596,11 +2439,11 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get backupRestoreAccessDenied =>
-      'Balıkçı Günlüğü verilerinizi yedek kullanma iznine sahip değil. Lütfen çıkış yapın ve tekrar oturum açarak "Google Drive\'ınızda kendi yapılandırma verilerini görün, oluşturun ve silin™" seçeneğinin olduğundan emin olun. kutucuğu işaretli ve tekrar deneyin.';
+      'Uygulamanın yedek dosyalarını cihazınızda oluşturma izni yok. Lütfen cihaz depolama izinlerini kontrol edip tekrar deneyin.';
 
   @override
   String get backupRestoreStorageFull =>
-      'Google Drive™ depolama alanınız dolu. Lütfen biraz yer açın ve tekrar deneyin.';
+      'Cihazınızın depolama alanı dolu. Lütfen biraz yer açın ve tekrar deneyin.';
 
   @override
   String get backupRestoreAuthenticating => 'Kimlik doğrulanıyor...';
@@ -2610,9 +2453,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get backupRestoreCreatingFolder => 'yedek klasörü oluşturuluyor...';
-
-  @override
-  String get backupRestoreBackingUpDatabase => 'Veritabanı yedekleniyor...';
 
   @override
   String get backupRestoreDownloadingDatabase => 'Veritabanı indiriliyor...';
@@ -2629,26 +2469,6 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get backupRestoreSuccess => 'Başarılı!';
 
   @override
-  String get cloudAuthSignOut => 'Çıkış yap';
-
-  @override
-  String get cloudAuthSignedInAs => 'Oturum açılan hesap';
-
-  @override
-  String get cloudAuthSignInWithGoogle => 'Google ile oturum aç';
-
-  @override
-  String get cloudAuthDescription =>
-      'Devam etmek için Google hesabınızda oturum açmalısınız. Veriler özel bir Google Drive™ klasörüne kaydedilir ve yalnızca Balıkçı Günlüğü tarafından erişilebilir.';
-
-  @override
-  String get cloudAuthError => 'Oturum açma hatası oluştu. Lütfen daha sonra tekrar deneyin.';
-
-  @override
-  String get cloudAuthNetworkError =>
-      'Oturum açarken bir ağ hatası oluştu. Lütfen internete bağlı olduğunuzdan emin olun ve tekrar deneyin.';
-
-  @override
   String get asyncFeedbackSendReport => 'Rapor Gönder';
 
   @override
@@ -2658,17 +2478,14 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get proBlurUpgradeButton => 'Yükselt';
 
   @override
-  String get aboutPageEula => 'Kullanım Koşulları (EULA)';
-
-  @override
   String get aboutPagePrivacy => 'Gizlilik Politikası';
 
   @override
-  String get aboutPageWorldTides => 'WorldTides™ Gizlilik Politikası';
+  String get aboutPageWorldTides => 'Gelgit Verisi Kaynağı';
 
   @override
   String get aboutPageWorldTidePrivacy =>
-      'Gelgit verileri www.worldtides.info adresinden alınmıştır. Telif hakkı © 2014-2023 Brainware LLC.\n\nSon kullanıcı tarafından bireysel mekânsal koordinatların kullanımı için lisanslanmıştır.\n\nBU GELGİT VERİLERİNİN DOĞRULUĞU KONUSUNDA HİÇBİR GARANTİ VERİLMEZ.\nBu verileri, kullanımı sonucu birinin veya bir şeyin zarar görebileceği durumlarda (ör. seyrüsefer amaçlı) kullanamazsınız.\n\nGelgit verileri çeşitli kaynaklardan elde edilir ve kısmen veya tamamen çeşitli telif haklarıyla korunur. Ayrıntılar için: http://www.worldtides.info/copyright';
+      'Gelgit bilgileri, ücretsiz ve API anahtarı gerektirmeyen TideTurtle servisinden (tideturtle.com) alınır. İstek sırasında yalnızca seçtiğiniz konumun enlem/boylam bilgisi gönderilir; başka bir kişisel veri paylaşılmaz.\n\nBU GELGİT VERİLERİNİN DOĞRULUĞU KONUSUNDA HİÇBİR GARANTİ VERİLMEZ.\nBu verileri, kullanımı sonucu birinin veya bir şeyin zarar görebileceği durumlarda (ör. seyrüsefer amaçlı) kullanamazsınız.\n\nDaha fazla bilgi için: https://tideturtle.com';
 
   @override
   String get fishingSpotDetailsAddDetails => 'Ayrıntı Ekle';
@@ -2685,7 +2502,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get timeZoneInputLabel => 'Saat Dilimi';
 
   @override
-  String get timeZoneInputDescription => 'Varsayılan olarak geçerli saat diliminiz kullanılır.';
+  String get timeZoneInputDescription =>
+      'Varsayılan olarak geçerli saat diliminiz kullanılır.';
 
   @override
   String get timeZoneInputSearchHint => 'Saat dilimlerinde ara';
@@ -2695,7 +2513,7 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get pollsPageDescription =>
-      'Balıkçı Günlüğünün sonraki sürümüne hangi özelliklerin ekleneceğini oylayarak belirleyin.';
+      'Mera Asistanı\'nın sonraki sürümüne hangi özelliklerin ekleneceğini oylayarak belirleyin.';
 
   @override
   String get pollsPageNoPollsTitle => 'Anket Yok';
@@ -2714,30 +2532,35 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get pollsPageNextProFeature => 'Sonraki Pro Özellik';
 
   @override
-  String get pollsPageThankYouFree => 'Ücretsiz özellik anketine oy verdiğiniz için teşekkür ederiz!';
+  String get pollsPageThankYouFree =>
+      'Ücretsiz özellik anketine oy verdiğiniz için teşekkür ederiz!';
 
   @override
-  String get pollsPageThankYouPro => 'Profesyonel özellik anketine oy verdiğiniz için teşekkür ederiz!';
+  String get pollsPageThankYouPro =>
+      'Profesyonel özellik anketine oy verdiğiniz için teşekkür ederiz!';
 
   @override
-  String get pollsPageError => 'Oyunuzu verirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
+  String get pollsPageError =>
+      'Oyunuzu verirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
 
   @override
-  String get pollsPageComingSoonFree => 'Yakında Ücretsiz Kullanıcılara Sunulacak (Oy verildiği gibi)';
+  String get pollsPageComingSoonFree =>
+      'Yakında Ücretsiz Kullanıcılara Sunulacak (Oy verildiği gibi)';
 
   @override
-  String get pollsPageComingSoonPro => 'Yakında Profesyonel Kullanıcılara Sunulacak (Oylamaya Göre)';
+  String get pollsPageComingSoonPro =>
+      'Yakında Profesyonel Kullanıcılara Sunulacak (Oylamaya Göre)';
 
   @override
   String get permissionLocationTitle => 'Konum Erişimi';
 
   @override
   String get permissionCurrentLocationDescription =>
-      'Mevcut konumunuzu göstermek için Balıkçı Günlüğü cihazınızın konumunu okuma erişimine izin vermelisiniz. Bunu yapmak için cihaz ayarlarınızı açın.';
+      'Mevcut konumunuzu göstermek için Mera Asistanı\'na cihazınızın konumunu okuma erişimine izin vermelisiniz. Bunu yapmak için cihaz ayarlarınızı açın.';
 
   @override
   String get permissionGpsTrailDescription =>
-      'Doğru bir GPS izi oluşturmak için Balıkçı Günlüğü, izleme etkinken cihazınızın konumuna her zaman erişebilmelidir. Gerekli izni vermek için cihazınızın ayarlarını açın.';
+      'Doğru bir GPS izi oluşturmak için Mera Asistanı, izleme etkinken cihazınızın konumuna her zaman erişebilmelidir. Gerekli izni vermek için cihazınızın ayarlarını açın.';
 
   @override
   String get permissionOpenSettings => 'Ayarları Aç';
@@ -2763,7 +2586,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get gpsTrailListPageEmptyListTitle => 'GPS İzi Yok';
 
   @override
-  String get gpsTrailListPageEmptyListDescription => 'GPS izi başlatmak için haritadaki %s düğmesine dokunun.';
+  String get gpsTrailListPageEmptyListDescription =>
+      'GPS izi başlatmak için haritadaki %s düğmesine dokunun.';
 
   @override
   String get gpsTrailListPageDeleteMessageSingular =>
@@ -2786,7 +2610,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get saveGpsTrailPageEditTitle => 'GPS İzini Düzenle';
 
   @override
-  String get tideFetcherErrorNoLocationFound => 'Getirme konumu gelgit bilgisi belirlemek için karada çok içeride.';
+  String get tideFetcherErrorNoLocationFound =>
+      'Getirme konumu gelgit bilgisi belirlemek için karada çok içeride.';
 
   @override
   String get csvPageTitle => 'CSV\'yi dışa aktar';
@@ -2795,7 +2620,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get csvPageAction => 'Dışa Aktar';
 
   @override
-  String get csvPageDescription => 'Aşağıdaki her seçim için ayrı bir CSV dosyası oluşturulur.';
+  String get csvPageDescription =>
+      'Aşağıdaki her seçim için ayrı bir CSV dosyası oluşturulur.';
 
   @override
   String get csvPageImportWarning =>
@@ -2803,13 +2629,14 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get csvPageBackupWarning =>
-      'CSV dosyaları yedek değildir ve Balıkçı Günlüğü\'ye aktarılamaz. Bunun yerine Diğer sayfasındaki Yedek ve Geri Yükle düğmelerini kullanın.';
+      'CSV dosyaları yedek değildir ve Mera Asistanı\'na aktarılamaz. Bunun yerine Diğer sayfasındaki Yedek ve Geri Yükle düğmelerini kullanın.';
 
   @override
   String get csvPageSuccess => 'Başarılı!';
 
   @override
-  String get csvPageMustSelect => 'Lütfen yukarıdan en az bir dışa aktarma seçeneği seçin.';
+  String get csvPageMustSelect =>
+      'Lütfen yukarıdan en az bir dışa aktarma seçeneği seçin.';
 
   @override
   String get tripFieldStartDate => 'Başlangıç Tarihi';
@@ -2848,10 +2675,12 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get gearListPageEmptyListTitle => 'Ekipman Yok';
 
   @override
-  String get gearListPageEmptyListDescription => 'Henüz hiç ekipman eklemediniz. Başlamak için %s düğmesine dokunun.';
+  String get gearListPageEmptyListDescription =>
+      'Henüz hiç ekipman eklemediniz. Başlamak için %s düğmesine dokunun.';
 
   @override
-  String get gearSummaryEmpty => 'Günlüğünüze ekipman eklendiğinde, avlarının özeti burada gösterilir.';
+  String get gearSummaryEmpty =>
+      'Günlüğünüze ekipman eklendiğinde, avlarının özeti burada gösterilir.';
 
   @override
   String get gearActionXFast => 'Çok Hızlı';
@@ -2980,7 +2809,7 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get notificationPermissionPageDesc =>
-      'Veri yedeklemesi herhangi bir nedenle (yeniden kimlik doğrulama gerekmesi dahil) başarısız olursa Balıkçı Günlüğünün sizi bilgilendirmesine izin verin.';
+      'Veri yedeklemesi herhangi bir nedenle (yeniden kimlik doğrulama gerekmesi dahil) başarısız olursa Mera Asistanı\'nın sizi bilgilendirmesine izin verin.';
 
   @override
   String get notificationErrorBackupTitle => 'Yedekleme Hatası';
@@ -3017,11 +2846,11 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get locationDataFetcherErrorNoPermission =>
-      'Verileri almak için izin gerekiyor. Lütfen Balıkçı Günlüğü konum iznini verin ve tekrar deneyin.';
+      'Verileri almak için izin gerekiyor. Lütfen Mera Asistanı konum iznini verin ve tekrar deneyin.';
 
   @override
   String get locationDataFetcherPermissionError =>
-      'Konum izni istenirken bir hata oluştu. Balıkçı Günlüğü ekibine bilgi verildi ve rahatsızlıktan dolayı özür dileriz.';
+      'Konum izni istenirken bir hata oluştu. Mera Asistanı ekibine bilgi verildi ve rahatsızlıktan dolayı özür dileriz.';
 
   @override
   String get changeLogPageTitle => 'Yenilikler';
@@ -3030,13 +2859,15 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get changeLogPagePreviousVersion => 'Önceki Sürümünüz';
 
   @override
-  String get changeLog_2022_1 => 'Balıkçı Günlüğü\'nin tamamen yeniden yazılması';
+  String get changeLog_2022_1 =>
+      'Balıkçı Günlüğü\'nin tamamen yeniden yazılması';
 
   @override
   String get changeLog_2022_2 => 'Taze ve modern bir görünüm ve his';
 
   @override
-  String get changeLog_2022_3 => 'Tamamen yeni, kapsamlı ve ayrıntılı bir istatistik özelliği';
+  String get changeLog_2022_3 =>
+      'Tamamen yeni, kapsamlı ve ayrıntılı bir istatistik özelliği';
 
   @override
   String get changeLog_2022_4 =>
@@ -3047,7 +2878,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Balıkçı Günlüğü Pro\'ye abone olarak Balıkçı Günlüğü\'den daha fazla yararlanın';
 
   @override
-  String get changeLog_2022_6 => 'Ayrıca kullanıcıların talep ettiği daha birçok özellik';
+  String get changeLog_2022_6 =>
+      'Ayrıca kullanıcıların talep ettiği daha birçok özellik';
 
   @override
   String get changeLog_210_1 =>
@@ -3066,10 +2898,12 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Otomatik av noktası toplama mesafesi artık Ayarlar\'da yapılandırılabilir';
 
   @override
-  String get changeLog_212_1 => 'Eski verileri içe aktarırken oluşan kilitlenme düzeltildi';
+  String get changeLog_212_1 =>
+      'Eski verileri içe aktarırken oluşan kilitlenme düzeltildi';
 
   @override
-  String get changeLog_212_2 => 'Karşılaştırma raporlarını düzenlerken oluşan kilitlenme düzeltildi';
+  String get changeLog_212_2 =>
+      'Karşılaştırma raporlarını düzenlerken oluşan kilitlenme düzeltildi';
 
   @override
   String get changeLog_212_3 =>
@@ -3083,7 +2917,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Veri geri yüklemenin bazen başarısız olmasına neden olan sorun düzeltildi';
 
   @override
-  String get changeLog_213_2 => 'Eski veri geçişi sırasındaki kilitlenme düzeltildi';
+  String get changeLog_213_2 =>
+      'Eski veri geçişi sırasındaki kilitlenme düzeltildi';
 
   @override
   String get changeLog_213_3 => 'Performans iyileştirmeleri';
@@ -3096,30 +2931,35 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Daha sorunsuz bir kullanıcı deneyimi sağlayan rapor hesaplamalarının verimliliği artırıldı';
 
   @override
-  String get changeLog_216_1 => 'Balık tutma noktası koordinatları artık düzenlenebilir';
+  String get changeLog_216_1 =>
+      'Balık tutma noktası koordinatları artık düzenlenebilir';
 
   @override
-  String get changeLog_216_2 => 'Geliştirilmiş yedek ve geri yükle hata mesajları';
+  String get changeLog_216_2 =>
+      'Geliştirilmiş yedek ve geri yükle hata mesajları';
 
   @override
   String get changeLog_216_3 =>
-      'av noktası "Yol Tarifi" düğmesinin bazen çalışmaması sorunu düzeltildi';
+      'av noktası \"Yol Tarifi\" düğmesinin bazen çalışmaması sorunu düzeltildi';
 
   @override
-  String get changeLog_216_4 => 'Fotoğraf galerisinin bazen boş görünmesi sorunu düzeltildi';
+  String get changeLog_216_4 =>
+      'Fotoğraf galerisinin bazen boş görünmesi sorunu düzeltildi';
 
   @override
   String get changeLog_216_5 => 'Birkaç çökme düzeltildi';
 
   @override
-  String get changeLog_220_1 => '"Diğer" sayfasına geziler ve avlar için takvim görünümü eklendi';
+  String get changeLog_220_1 =>
+      '\"Diğer\" sayfasına geziler ve avlar için takvim görünümü eklendi';
 
   @override
   String get changeLog_220_2 =>
-      '"İstatistikler" sayfasında yemlerin görüntülenmesiyle ilgili birden fazla sorun düzeltildi';
+      '\"İstatistikler\" sayfasında yemlerin görüntülenmesiyle ilgili birden fazla sorun düzeltildi';
 
   @override
-  String get changeLog_220_3 => 'Fotoğraf verileri okunamaz hale geldiğinde oluşan çökme düzeltildi';
+  String get changeLog_220_3 =>
+      'Fotoğraf verileri okunamaz hale geldiğinde oluşan çökme düzeltildi';
 
   @override
   String get changeLog_230_1 =>
@@ -3146,24 +2986,26 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get changeLog_233_1 =>
-      '"Alanları Yönet" menüsünden gezi başlangıç ​​ve bitiş tarihlerinin seçilememesi sorunu düzeltildi';
+      '\"Alanları Yönet\" menüsünden gezi başlangıç ​​ve bitiş tarihlerinin seçilememesi sorunu düzeltildi';
 
   @override
   String get changeLog_233_2 => 'Bazı genel kararlılık iyileştirmeleri';
 
   @override
   String get changeLog_234_1 =>
-      'Artık "KAYDET" butonuna basmadan bir sayfadan ayrılırken uyarılacaksınız';
+      'Artık \"KAYDET\" butonuna basmadan bir sayfadan ayrılırken uyarılacaksınız';
 
   @override
   String get changeLog_234_2 =>
       'Atmosfer ve hava durumu verileri alınırken artık gezi\'ın manuel olarak ayarlanan başlangıç ​​zamanı kullanılıyor';
 
   @override
-  String get changeLog_234_3 => 'av eklenirken fotoğrafların galeride görünmemesi sorunu düzeltildi';
+  String get changeLog_234_3 =>
+      'av eklenirken fotoğrafların galeride görünmemesi sorunu düzeltildi';
 
   @override
-  String get changeLog_234_4 => 'Haritanın her zaman mevcut konumunuzu getirememesi sorunu düzeltildi';
+  String get changeLog_234_4 =>
+      'Haritanın her zaman mevcut konumunuzu getirememesi sorunu düzeltildi';
 
   @override
   String get changeLog_240_1 => 'Karanlık Mod için destek eklendi';
@@ -3177,7 +3019,7 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'İstatistik zaman aralığı seçimi artık uygulama başlatıldığında kaydediliyor';
 
   @override
-  String get changeLog_240_4 => '"Güneşli" gökyüzü koşulu olarak eklendi';
+  String get changeLog_240_4 => '\"Güneşli\" gökyüzü koşulu olarak eklendi';
 
   @override
   String get changeLog_240_5 => 'Not alanları artık boş satırlar içerebiliyor';
@@ -3186,29 +3028,35 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get changeLog_240_6 => 'Not alanları artık 4 satıra kısaltılmıyor';
 
   @override
-  String get changeLog_241_1 => 'Atmosfer ve hava durumu verileri alınırken oluşan çökme düzeltildi';
+  String get changeLog_241_1 =>
+      'Atmosfer ve hava durumu verileri alınırken oluşan çökme düzeltildi';
 
   @override
-  String get changeLog_241_2 => 'av eklerken nadir görülen bir çökme düzeltildi';
+  String get changeLog_241_2 =>
+      'av eklerken nadir görülen bir çökme düzeltildi';
 
   @override
-  String get changeLog_241_3 => 'av eklenirken av noktası\'nin sıfırlanması sorunu düzeltildi';
+  String get changeLog_241_3 =>
+      'av eklenirken av noktası\'nin sıfırlanması sorunu düzeltildi';
 
   @override
   String get changeLog_241_4 =>
       'Gezi eklerken, seçilen avlara göre mevcut alanları otomatik ayarlama seçeneği sunuluyor';
 
   @override
-  String get changeLog_241_5 => 'Çeşitli genel kararlılık iyileştirmeleri ve kilitlenme düzeltmeleri';
+  String get changeLog_241_5 =>
+      'Çeşitli genel kararlılık iyileştirmeleri ve kilitlenme düzeltmeleri';
 
   @override
-  String get changeLog_243_1 => 'Yanlış getirilen atmosfer ve hava durumu verileri düzeltildi';
+  String get changeLog_243_1 =>
+      'Yanlış getirilen atmosfer ve hava durumu verileri düzeltildi';
 
   @override
-  String get changeLog_250_1 => 'Gelgit verileri artık WorldTides™ üzerinden getirilebilir';
+  String get changeLog_250_1 =>
+      'Gelgit verileri artık WorldTides™ üzerinden getirilebilir';
 
   @override
-  String get changeLog_250_2 => 'Günün "Akşam" saati eklendi';
+  String get changeLog_250_2 => 'Günün \"Akşam\" saati eklendi';
 
   @override
   String get changeLog_250_3 =>
@@ -3219,7 +3067,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Ayırıcı olarak virgül kullanan diller için ondalık değerlerin girilmesiyle ilgili sorun düzeltildi';
 
   @override
-  String get changeLog_250_5 => 'Konumun fotoğraflardan okunamaması sorunu düzeltildi';
+  String get changeLog_250_5 =>
+      'Konumun fotoğraflardan okunamaması sorunu düzeltildi';
 
   @override
   String get changeLog_251_1 =>
@@ -3230,7 +3079,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Otomatik yedek\'ler artık av, gezi ve yem değişikliklerinde tetikleniyor';
 
   @override
-  String get changeLog_252_2 => 'gelgit yükseklikte yinelenen negatif işaret düzeltildi';
+  String get changeLog_252_2 =>
+      'gelgit yükseklikte yinelenen negatif işaret düzeltildi';
 
   @override
   String get changeLog_252_3 =>
@@ -3265,7 +3115,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Diğer sayfasına gerçek zamanlı yakalanan tür sayacı (Pro özelliği) eklendi.';
 
   @override
-  String get changeLog_270_2 => 'av görüntülerken bir av kopyala düğmesi (Pro özelliği) eklendi.';
+  String get changeLog_270_2 =>
+      'av görüntülerken bir av kopyala düğmesi (Pro özelliği) eklendi.';
 
   @override
   String get changeLog_270_3 => 'yem varyantlara fotoğraf eklendi.';
@@ -3277,17 +3128,20 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get changeLog_270_5 => 'Başarısız yedek bildirimleri eklendi.';
 
   @override
-  String get changeLog_270_6 => 'gelgit çizelgelerine alçak ve yüksek yükseklikler eklendi.';
+  String get changeLog_270_6 =>
+      'gelgit çizelgelerine alçak ve yüksek yükseklikler eklendi.';
 
   @override
-  String get changeLog_270_7 => 'Rüzgar hızı birimi seçeneği olarak saniyede metre eklendi.';
+  String get changeLog_270_7 =>
+      'Rüzgar hızı birimi seçeneği olarak saniyede metre eklendi.';
 
   @override
   String get changeLog_270_8 =>
       'Raporların farklı zaman aralıkları için aynı verileri göstermesi sorunu düzeltildi.';
 
   @override
-  String get changeLog_270_9 => 'Bazı cihazlarda CSV kaydetme konumunu seçememeniz sorunu düzeltildi.';
+  String get changeLog_270_9 =>
+      'Bazı cihazlarda CSV kaydetme konumunu seçememeniz sorunu düzeltildi.';
 
   @override
   String get changeLog_270_10 =>
@@ -3302,10 +3156,12 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Bize geri bildirim göndermeye çalışırken oluşan hatalı ağ hatası düzeltildi.';
 
   @override
-  String get changeLog_270_13 => 'av eklenirken artık balık tutma noktası atlanabiliyor.';
+  String get changeLog_270_13 =>
+      'av eklenirken artık balık tutma noktası atlanabiliyor.';
 
   @override
-  String get changeLog_270_14 => 'Balık tutma noktası artık av\'den kaldırılabilir.';
+  String get changeLog_270_14 =>
+      'Balık tutma noktası artık av\'den kaldırılabilir.';
 
   @override
   String get changeLog_270_15 =>
@@ -3313,65 +3169,81 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get changeLog_270_16 =>
-      '"Skunked" damgası artık Birleşik Krallık\'taki kullanıcılar için "Boş" diyor.';
+      '\"Skunked\" damgası artık Birleşik Krallık\'taki kullanıcılar için \"Boş\" diyor.';
 
   @override
-  String get changeLog_271_1 => 'Gelgit grafik artık y ekseni etiketlerini doğru birimde gösteriyor.';
+  String get changeLog_271_1 =>
+      'Gelgit grafik artık y ekseni etiketlerini doğru birimde gösteriyor.';
 
   @override
   String get changeLog_271_2 =>
       'Uygulama güncellemesinden sonra bazı av fotoğrafların kaldırılması sorunu düzeltildi.';
 
   @override
-  String get changeLog_272_1 => 'Harici bağlantıları açarken oluşan kilitlenme düzeltildi.';
+  String get changeLog_272_1 =>
+      'Harici bağlantıları açarken oluşan kilitlenme düzeltildi.';
 
   @override
   String get changeLog_273_1 => 'Av noktası ayrıntılarına av sayısı eklendi.';
 
   @override
-  String get changeLog_273_2 => 'gelgit ayrıntılarına gelgit veri değeri eklendi.';
+  String get changeLog_273_2 =>
+      'gelgit ayrıntılarına gelgit veri değeri eklendi.';
 
   @override
-  String get changeLog_273_3 => 'Fotoğraflardaki güvenilmez yakınlaştırma düzeltildi.';
+  String get changeLog_273_3 =>
+      'Fotoğraflardaki güvenilmez yakınlaştırma düzeltildi.';
 
   @override
-  String get changeLog_273_4 => 'Hava durumu verileri alınırken oluşan hata düzeltildi.';
+  String get changeLog_273_4 =>
+      'Hava durumu verileri alınırken oluşan hata düzeltildi.';
 
   @override
   String get changeLog_273_5 => 'gelgit yükseklik değerleri düzeltildi.';
 
   @override
-  String get changeLog_273_6 => 'GPS izleri ile başlayan kilitlenme düzeltildi.';
+  String get changeLog_273_6 =>
+      'GPS izleri ile başlayan kilitlenme düzeltildi.';
 
   @override
-  String get changeLog_273_7 => 'İstatistik çubuğu grafiklerindeki metinlerin kesilmesi düzeltildi.';
+  String get changeLog_273_7 =>
+      'İstatistik çubuğu grafiklerindeki metinlerin kesilmesi düzeltildi.';
 
   @override
-  String get changeLog_274_1 => 'Bazı metin alanlarına metin ekleme sorunu düzeltildi.';
+  String get changeLog_274_1 =>
+      'Bazı metin alanlarına metin ekleme sorunu düzeltildi.';
 
   @override
-  String get changeLog_275_1 => 'av\'ın ağırlığından ondalık sayının kaldırılması düzeltildi.';
+  String get changeLog_275_1 =>
+      'av\'ın ağırlığından ondalık sayının kaldırılması düzeltildi.';
 
   @override
-  String get changeLog_275_2 => 'Su sıcaklıklarının bazı hatalı yuvarlanması düzeltildi.';
+  String get changeLog_275_2 =>
+      'Su sıcaklıklarının bazı hatalı yuvarlanması düzeltildi.';
 
   @override
-  String get changeLog_275_3 => 'CSV dışa aktarımına "içe aktarılamaz" uyarısı eklendi.';
+  String get changeLog_275_3 =>
+      'CSV dışa aktarımına \"içe aktarılamaz\" uyarısı eklendi.';
 
   @override
-  String get changeLog_276_1 => 'Bazı bölgelerdeki sayı biçimlendirmesi düzeltildi.';
+  String get changeLog_276_1 =>
+      'Bazı bölgelerdeki sayı biçimlendirmesi düzeltildi.';
 
   @override
-  String get changeLog_277_1 => 'Cihazın konumu kapatıldığında oluşan çökme düzeltildi.';
+  String get changeLog_277_1 =>
+      'Cihazın konumu kapatıldığında oluşan çökme düzeltildi.';
 
   @override
-  String get changeLog_277_2 => 'İlk katılım sırasında nadir görülen çökme düzeltildi.';
+  String get changeLog_277_2 =>
+      'İlk katılım sırasında nadir görülen çökme düzeltildi.';
 
   @override
-  String get changeLog_277_3 => 'Norveç\'teki kullanıcılar için sabit sayı biçimlendirmesi.';
+  String get changeLog_277_3 =>
+      'Norveç\'teki kullanıcılar için sabit sayı biçimlendirmesi.';
 
   @override
-  String get changeLog_278_1 => 'Konum izni istendiğinde oluşan kilitlenme düzeltildi.';
+  String get changeLog_278_1 =>
+      'Konum izni istendiğinde oluşan kilitlenme düzeltildi.';
 
   @override
   String get changeLog_278_2 =>
@@ -3382,21 +3254,7 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get translationWarningPageDescription =>
-      'Balıkçı Günlüğü\'ndeki metinler yapay zeka ile çevrilmiştir. Bir hata fark ederseniz veya bir şey mantıklı gelmezse Lütfen Diğer menüsünden Geri Bildirim Gönder\'e dokunarak bize ulaşın. Yardımınız her zaman değerlidir, teşekkürler!';
-
-  @override
-  String get backupRestorePageOpenDoc => 'Belgeleri Aç';
-
-  @override
-  String get backupRestorePageWarningApple =>
-      'yedek ve geri yükle özelliğinin güvenilmez olduğu kanıtlandı ve diğer seçenekleri değerlendiriyoruz. Bu arada hiçbir verinin kaybolmamasını sağlamak amacıyla tüm cihazınız için otomatik yedek\'ler ayarlamanız önemle tavsiye edilir. Daha fazla bilgi için Apple\'ın belgelerini ziyaret edin.';
-
-  @override
-  String get backupRestorePageWarningGoogle =>
-      'yedek ve geri yükle özelliğinin güvenilmez olduğu kanıtlandı ve diğer seçenekleri değerlendiriyoruz. Bu arada hiçbir verinin kaybolmamasını sağlamak amacıyla tüm cihazınız için otomatik yedek\'ler ayarlamanız önemle tavsiye edilir. Daha fazla bilgi için Google\'ın belgelerini ziyaret edin.';
-
-  @override
-  String get backupRestorePageWarningOwnRisk => 'Bu özelliği kendi sorumluluğunuzda kullanın.';
+      'Mera Asistanı\'ndaki metinler yapay zeka ile çevrilmiştir. Bir hata fark ederseniz veya bir şey mantıklı gelmezse Lütfen Diğer menüsünden Geri Bildirim Gönder\'e dokunarak bize ulaşın. Yardımınız her zaman değerlidir, teşekkürler!';
 
   @override
   String get proPageBackupWarning =>
@@ -3406,7 +3264,8 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
   String get changeLog_279_1 => 'Bazı kullanıcı arayüzü hataları düzeltildi.';
 
   @override
-  String get changeLog_279_2 => 'Bulutun güvenilmezliğini yansıtacak bir uyarı eklendi yedek.';
+  String get changeLog_279_2 =>
+      'Bulutun güvenilmezliğini yansıtacak bir uyarı eklendi yedek.';
 
   @override
   String get changeLog_279_3 => 'İspanyolca çeviriler eklendi.';
@@ -3416,17 +3275,20 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Kesme işareti kullanan bölgeler için büyük sayı biçimlendirmesi düzeltildi.';
 
   @override
-  String get changeLog_2710_2 => 'Profesyonel sayfasındaki bazı metin hizalama sorunları düzeltildi.';
+  String get changeLog_2710_2 =>
+      'Profesyonel sayfasındaki bazı metin hizalama sorunları düzeltildi.';
 
   @override
-  String get changeLog_2711_1 => 'E-posta adresi olmadan geri bildirim gönderme hatası düzeltildi.';
+  String get changeLog_2711_1 =>
+      'E-posta adresi olmadan geri bildirim gönderme hatası düzeltildi.';
 
   @override
-  String get changeLog_2711_2 => 'Gezi kaydetme sayfasını kapatmadan gezi eklerken av eklenebilir.';
+  String get changeLog_2711_2 =>
+      'Gezi kaydetme sayfasını kapatmadan gezi eklerken av eklenebilir.';
 
   @override
   String get changeLog_2711_3 =>
-      'Eksik "Son Av\'dan Beri" ve "Son Gezi\'dan Beri" istatistik kutucukları düzeltildi.';
+      'Eksik \"Son Av\'dan Beri\" ve \"Son Gezi\'dan Beri\" istatistik kutucukları düzeltildi.';
 
   @override
   String get feedbackPageSendData => 'Veri Gönder';
@@ -3436,13 +3298,16 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
       'Fotoğraflar hariç günlük verileriniz araştırmamıza yardımcı olmak için gönderilir.';
 
   @override
-  String get changeLog_2712_1 => 'Hata raporlarına günlük verilerini dahil etme seçeneği eklendi.';
+  String get changeLog_2712_1 =>
+      'Hata raporlarına günlük verilerini dahil etme seçeneği eklendi.';
 
   @override
-  String get changeLog_2712_2 => 'Özellik anketlerinde oy verirken yaşanan çökme sorunu düzeltildi.';
+  String get changeLog_2712_2 =>
+      'Özellik anketlerinde oy verirken yaşanan çökme sorunu düzeltildi.';
 
   @override
-  String get changeLog_2712_3 => 'Av eklerken veya güncellerken oluşan kilitlenme düzeltildi.';
+  String get changeLog_2712_3 =>
+      'Av eklerken veya güncellerken oluşan kilitlenme düzeltildi.';
 
   @override
   String backupRestoreBackingUpData(String percent) {
@@ -3463,23 +3328,27 @@ class AnglersLogLocalizationsTr extends AnglersLogLocalizations {
 
   @override
   String get changeLog_2716_1 =>
-      '"Gezi Başına Avlar" alanlarına girilen değerlerin 0\'a sıfırlanması sorunu düzeltildi.';
+      '\"Gezi Başına Avlar\" alanlarına girilen değerlerin 0\'a sıfırlanması sorunu düzeltildi.';
 
   @override
   String get changeLog_2715_1 =>
       'Haritayla etkileşimde bulunulurken nadir görülen bir çökme düzeltildi.';
 
   @override
-  String get changeLog_2714_1 => 'Av eklerken fotoğraf konumlarının kullanılmaması sorunu düzeltildi.';
+  String get changeLog_2714_1 =>
+      'Av eklerken fotoğraf konumlarının kullanılmaması sorunu düzeltildi.';
 
   @override
-  String get changeLog_2713_1 => 'Yedekleme ve geri yükleme artık çok daha hızlı.';
+  String get changeLog_2713_1 =>
+      'Yedekleme ve geri yükleme artık çok daha hızlı.';
 
   @override
-  String get changeLog_2713_2 => 'Kişisel Rekorlar raporu artık balıkçı\'ye göre filtrelenebilir.';
+  String get changeLog_2713_2 =>
+      'Kişisel Rekorlar raporu artık balıkçı\'ye göre filtrelenebilir.';
 
   @override
-  String get changeLog_2713_3 => 'Avlar artık isteğe bağlı olarak gezilere otomatik eklenebilir.';
+  String get changeLog_2713_3 =>
+      'Avlar artık isteğe bağlı olarak gezilere otomatik eklenebilir.';
 
   @override
   String get changeLog_2713_4 =>

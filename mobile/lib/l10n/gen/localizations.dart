@@ -174,19 +174,19 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @hashtag.
   ///
   /// In en, this message translates to:
-  /// **'#AnglersLogApp'**
+  /// **'#MeraAsistaniApp'**
   String get hashtag;
 
   /// No description provided for @shareTextAndroid.
   ///
   /// In en, this message translates to:
-  /// **'Shared with #AnglersLogApp for Android.'**
+  /// **'Shared with #MeraAsistaniApp for Android.'**
   String get shareTextAndroid;
 
   /// No description provided for @shareTextApple.
   ///
   /// In en, this message translates to:
-  /// **'Shared with #AnglersLogApp for iOS.'**
+  /// **'Shared with #MeraAsistaniApp for iOS.'**
   String get shareTextApple;
 
   /// No description provided for @shareLength.
@@ -218,30 +218,6 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'Catches: {value}'**
   String shareCatches(int value);
-
-  /// No description provided for @rateDialogTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Rate Anglers\'\' Log'**
-  String get rateDialogTitle;
-
-  /// No description provided for @rateDialogDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Please take a moment to write a review of Anglers\'\' Log. All feedback is greatly appreciated!'**
-  String get rateDialogDescription;
-
-  /// No description provided for @rateDialogRate.
-  ///
-  /// In en, this message translates to:
-  /// **'Rate'**
-  String get rateDialogRate;
-
-  /// No description provided for @rateDialogLater.
-  ///
-  /// In en, this message translates to:
-  /// **'Later'**
-  String get rateDialogLater;
 
   /// No description provided for @done.
   ///
@@ -393,18 +369,6 @@ abstract class AnglersLogLocalizations {
   /// **'Unknown Bait'**
   String get unknownBait;
 
-  /// No description provided for @viewDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'View Details'**
-  String get viewDetails;
-
-  /// No description provided for @viewAll.
-  ///
-  /// In en, this message translates to:
-  /// **'View All'**
-  String get viewAll;
-
   /// No description provided for @share.
   ///
   /// In en, this message translates to:
@@ -428,12 +392,6 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'Text'**
   String get fieldTypeText;
-
-  /// No description provided for @inputRequiredMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'{inputLabel} is required'**
-  String inputRequiredMessage(String inputLabel);
 
   /// No description provided for @inputNotesLabel.
   ///
@@ -765,12 +723,6 @@ abstract class AnglersLogLocalizations {
   /// **'Report name already exists'**
   String get saveReportPageNameExists;
 
-  /// No description provided for @saveReportPageTypeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Type'**
-  String get saveReportPageTypeTitle;
-
   /// No description provided for @saveReportPageComparison.
   ///
   /// In en, this message translates to:
@@ -884,12 +836,6 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'Photos'**
   String get photosPageMenuLabel;
-
-  /// No description provided for @photosPageTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Photos ({numOfPhotos})'**
-  String photosPageTitle(int numOfPhotos);
 
   /// No description provided for @photosPageEmptyTitle.
   ///
@@ -1239,24 +1185,6 @@ abstract class AnglersLogLocalizations {
   /// **'When water clarities are added to your log, a summary of their catches will be shown here.'**
   String get waterClaritiesSummaryEmpty;
 
-  /// No description provided for @statsPageMenuTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Stats'**
-  String get statsPageMenuTitle;
-
-  /// No description provided for @statsPageTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Stats'**
-  String get statsPageTitle;
-
-  /// No description provided for @statsPageNewReport.
-  ///
-  /// In en, this message translates to:
-  /// **'New Report'**
-  String get statsPageNewReport;
-
   /// No description provided for @statsPageSpeciesSummary.
   ///
   /// In en, this message translates to:
@@ -1425,30 +1353,6 @@ abstract class AnglersLogLocalizations {
   /// **'You haven\'\'t yet added any catches. To add a catch, tap the %s icon.'**
   String get reportViewEmptyLogDescription;
 
-  /// No description provided for @reportViewNoCatches.
-  ///
-  /// In en, this message translates to:
-  /// **'No catches found'**
-  String get reportViewNoCatches;
-
-  /// No description provided for @reportViewNoCatchesDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'No catches found in the selected date range.'**
-  String get reportViewNoCatchesDescription;
-
-  /// No description provided for @reportViewNoCatchesReportDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'No catches found in the selected report\'\'s date range.'**
-  String get reportViewNoCatchesReportDescription;
-
-  /// No description provided for @reportSummaryCatchTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Catch Summary'**
-  String get reportSummaryCatchTitle;
-
   /// No description provided for @reportSummaryPerSpecies.
   ///
   /// In en, this message translates to:
@@ -1520,12 +1424,6 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'Since Last Catch'**
   String get reportSummarySinceLastCatch;
-
-  /// No description provided for @reportSummaryNumberOfCatches.
-  ///
-  /// In en, this message translates to:
-  /// **'Number of catches'**
-  String get reportSummaryNumberOfCatches;
 
   /// No description provided for @reportSummaryFilters.
   ///
@@ -1728,13 +1626,13 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @morePageRateApp.
   ///
   /// In en, this message translates to:
-  /// **'Rate Anglers\'\' Log'**
+  /// **'Rate Mera Asistanı'**
   String get morePageRateApp;
 
   /// No description provided for @morePagePro.
   ///
   /// In en, this message translates to:
-  /// **'Anglers\'\' Log Pro'**
+  /// **'Mera Asistanı Pro'**
   String get morePagePro;
 
   /// No description provided for @morePageRateErrorApple.
@@ -1953,18 +1851,6 @@ abstract class AnglersLogLocalizations {
   /// **'Automatically fetch tide data when adding new catches.'**
   String get settingsPageFetchTideDescription;
 
-  /// No description provided for @settingsPageLogout.
-  ///
-  /// In en, this message translates to:
-  /// **'Logout'**
-  String get settingsPageLogout;
-
-  /// No description provided for @settingsPageLogoutConfirmMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to logout?'**
-  String get settingsPageLogoutConfirmMessage;
-
   /// No description provided for @settingsPageAbout.
   ///
   /// In en, this message translates to:
@@ -2030,12 +1916,6 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'Measurement Units'**
   String get unitsPageTitle;
-
-  /// No description provided for @unitsPageCatchLength.
-  ///
-  /// In en, this message translates to:
-  /// **'Catch Length'**
-  String get unitsPageCatchLength;
 
   /// No description provided for @unitsPageFractionalInches.
   ///
@@ -2145,29 +2025,11 @@ abstract class AnglersLogLocalizations {
   /// **'Distance'**
   String get unitsPageDistanceTitle;
 
-  /// No description provided for @unitsPageRodLengthTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Rod Length'**
-  String get unitsPageRodLengthTitle;
-
-  /// No description provided for @unitsPageLeaderLengthTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Leader Length'**
-  String get unitsPageLeaderLengthTitle;
-
   /// No description provided for @unitsPageTippetLengthTitle.
   ///
   /// In en, this message translates to:
   /// **'Tippet Length'**
   String get unitsPageTippetLengthTitle;
-
-  /// No description provided for @mapPageMenuLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Map'**
-  String get mapPageMenuLabel;
 
   /// No description provided for @mapPageDeleteFishingSpot.
   ///
@@ -2295,12 +2157,6 @@ abstract class AnglersLogLocalizations {
   /// **'Add Fishing Spot'**
   String get mapPageAddTooltip;
 
-  /// No description provided for @saveFishingSpotPageNewTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'New Fishing Spot'**
-  String get saveFishingSpotPageNewTitle;
-
   /// No description provided for @saveFishingSpotPageEditTitle.
   ///
   /// In en, this message translates to:
@@ -2340,7 +2196,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @formPageManageFieldsProDescription.
   ///
   /// In en, this message translates to:
-  /// **'You must be an Anglers\'\' Log Pro subscriber to use custom fields.'**
+  /// **'You must be an Mera Asistanı Pro subscriber to use custom fields.'**
   String get formPageManageFieldsProDescription;
 
   /// No description provided for @formPageManageUnits.
@@ -2431,12 +2287,6 @@ abstract class AnglersLogLocalizations {
   /// **'Try changing the photo source from the dropdown above.'**
   String get imagePickerPageNoPhotosFound;
 
-  /// No description provided for @imagePickerPageOpenCameraLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Open Camera'**
-  String get imagePickerPageOpenCameraLabel;
-
   /// No description provided for @imagePickerPageCameraLabel.
   ///
   /// In en, this message translates to:
@@ -2473,18 +2323,6 @@ abstract class AnglersLogLocalizations {
   /// **'{numSelected} / {numTotal} Selected'**
   String imagePickerPageSelectedLabel(int numSelected, int numTotal);
 
-  /// No description provided for @imagePickerPageInvalidSelectionSingle.
-  ///
-  /// In en, this message translates to:
-  /// **'Must select an image file.'**
-  String get imagePickerPageInvalidSelectionSingle;
-
-  /// No description provided for @imagePickerPageInvalidSelectionPlural.
-  ///
-  /// In en, this message translates to:
-  /// **'Must select image files.'**
-  String get imagePickerPageInvalidSelectionPlural;
-
   /// No description provided for @imagePickerPageNoPermissionTitle.
   ///
   /// In en, this message translates to:
@@ -2494,7 +2332,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @imagePickerPageNoPermissionMessage.
   ///
   /// In en, this message translates to:
-  /// **'To add photos, you must grant Anglers\'\' Log permission to access your photo library. To do so, open your device settings.\n\nAlternatively, you can change the photos source from the dropdown menu above.'**
+  /// **'To add photos, you must grant Mera Asistanı permission to access your photo library. To do so, open your device settings.\n\nAlternatively, you can change the photos source from the dropdown menu above.'**
   String get imagePickerPageNoPermissionMessage;
 
   /// No description provided for @imagePickerPageOpenSettings.
@@ -2536,7 +2374,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @reportListPageReportsProDescription.
   ///
   /// In en, this message translates to:
-  /// **'You must be an Anglers\'\' Log Pro subscriber to view custom reports.'**
+  /// **'You must be an Mera Asistanı Pro subscriber to view custom reports.'**
   String get reportListPageReportsProDescription;
 
   /// No description provided for @saveSpeciesPageNewTitle.
@@ -2602,12 +2440,6 @@ abstract class AnglersLogLocalizations {
   /// **'You haven\'\'t yet added any species. Tap the %s button to begin.'**
   String get speciesListPageEmptyListDescription;
 
-  /// No description provided for @fishingSpotPickerPageHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Long press the map to pick exact coordinates, or select an existing fishing spot.'**
-  String get fishingSpotPickerPageHint;
-
   /// No description provided for @fishingSpotListPageTitle.
   ///
   /// In en, this message translates to:
@@ -2643,12 +2475,6 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'No Body of Water'**
   String get fishingSpotListPageNoBodyOfWater;
-
-  /// No description provided for @fishingSpotMapAddSpotHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'Long press anywhere on the map to drop a pin and add a fishing spot.'**
-  String get fishingSpotMapAddSpotHelp;
 
   /// No description provided for @editCoordinatesHint.
   ///
@@ -2695,7 +2521,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @feedbackPageErrorSending.
   ///
   /// In en, this message translates to:
-  /// **'Error sending feedback. Please try again later, or email support@anglerslog.ca directly.'**
+  /// **'Error sending feedback. Please try again later.'**
   String get feedbackPageErrorSending;
 
   /// No description provided for @feedbackPageConnectionError.
@@ -2703,180 +2529,6 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'No internet connection. Please check your connection and try again.'**
   String get feedbackPageConnectionError;
-
-  /// No description provided for @feedbackPageSending.
-  ///
-  /// In en, this message translates to:
-  /// **'Sending feedback...'**
-  String get feedbackPageSending;
-
-  /// No description provided for @backupPageMoreTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Backup and Restore'**
-  String get backupPageMoreTitle;
-
-  /// No description provided for @importPageMoreTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Legacy Import'**
-  String get importPageMoreTitle;
-
-  /// No description provided for @importPageTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Legacy Import'**
-  String get importPageTitle;
-
-  /// No description provided for @importPageDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Legacy import requires you to choose a backup file (.zip) that you created with an older version of Anglers\'\' Log. Imported legacy data is added to your existing log.\n\nThe import process may take several minutes.'**
-  String get importPageDescription;
-
-  /// No description provided for @importPageImportingImages.
-  ///
-  /// In en, this message translates to:
-  /// **'Copying images...'**
-  String get importPageImportingImages;
-
-  /// No description provided for @importPageImportingData.
-  ///
-  /// In en, this message translates to:
-  /// **'Copying fishing data...'**
-  String get importPageImportingData;
-
-  /// No description provided for @importPageSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Successfully imported data!'**
-  String get importPageSuccess;
-
-  /// No description provided for @importPageError.
-  ///
-  /// In en, this message translates to:
-  /// **'There was an error importing your data. If the backup file you chose was created using Anglers\'\' Log, please send it to us for investigation.'**
-  String get importPageError;
-
-  /// No description provided for @importPageErrorWarningMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Pressing send will send Anglers\'\' Log all your fishing data (excluding photos). Your data will not be shared outside the Anglers\'\' Log organization.'**
-  String get importPageErrorWarningMessage;
-
-  /// No description provided for @importPageErrorTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Import Error'**
-  String get importPageErrorTitle;
-
-  /// No description provided for @dataImporterChooseFile.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose File'**
-  String get dataImporterChooseFile;
-
-  /// No description provided for @dataImporterStart.
-  ///
-  /// In en, this message translates to:
-  /// **'Start'**
-  String get dataImporterStart;
-
-  /// No description provided for @migrationPageMoreTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Legacy Migration'**
-  String get migrationPageMoreTitle;
-
-  /// No description provided for @migrationPageTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Data Migration'**
-  String get migrationPageTitle;
-
-  /// No description provided for @onboardingMigrationPageDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'This is your first time opening Anglers\'\' Log since updating to 2.0. Click the button below to start the data migration process.'**
-  String get onboardingMigrationPageDescription;
-
-  /// No description provided for @migrationPageDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'You have legacy data that needs to be migrated to Anglers\'\' Log 2.0. Click the button below to begin.'**
-  String get migrationPageDescription;
-
-  /// No description provided for @onboardingMigrationPageError.
-  ///
-  /// In en, this message translates to:
-  /// **'There was an unexpected error while migrating your data to Anglers\'\' Log 2.0. Please send us the error report and we will investigate as soon as possible. Note that none of your data has been lost. Please visit the Settings page to retry data migration after the issue has been resolved.'**
-  String get onboardingMigrationPageError;
-
-  /// No description provided for @migrationPageError.
-  ///
-  /// In en, this message translates to:
-  /// **'There was an unexpected error while migrating your data to Anglers\'\' Log 2.0. Please send us the error report and we will investigate as soon as possible. Note that none of your old data has been lost. Please revisit this page to retry data migration after the issue has been resolved.'**
-  String get migrationPageError;
-
-  /// No description provided for @migrationPageLoading.
-  ///
-  /// In en, this message translates to:
-  /// **'Migrating data to Anglers\'\' Log 2.0...'**
-  String get migrationPageLoading;
-
-  /// No description provided for @migrationPageSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Successfully migrated data!'**
-  String get migrationPageSuccess;
-
-  /// No description provided for @migrationPageNothingToDoDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Data migration is the process of converting legacy data from old versions of Anglers\'\' Log into the data format used by new versions.'**
-  String get migrationPageNothingToDoDescription;
-
-  /// No description provided for @migrationPageNothingToDoSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'You have no legacy data to migrate!'**
-  String get migrationPageNothingToDoSuccess;
-
-  /// No description provided for @migrationPageFeedbackTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Migration Error'**
-  String get migrationPageFeedbackTitle;
-
-  /// No description provided for @anglerNameLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Angler'**
-  String get anglerNameLabel;
-
-  /// No description provided for @onboardingJourneyWelcomeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome'**
-  String get onboardingJourneyWelcomeTitle;
-
-  /// No description provided for @onboardingJourneyStartDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome to Anglers\'\' Log! Let\'\'s start by figuring out what kind of data you want to track.'**
-  String get onboardingJourneyStartDescription;
-
-  /// No description provided for @onboardingJourneyStartButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Get Started'**
-  String get onboardingJourneyStartButton;
-
-  /// No description provided for @onboardingJourneySkip.
-  ///
-  /// In en, this message translates to:
-  /// **'No thanks, I\'\'ll learn as I go.'**
-  String get onboardingJourneySkip;
 
   /// No description provided for @onboardingJourneyCatchFieldDescription.
   ///
@@ -2896,12 +2548,6 @@ abstract class AnglersLogLocalizations {
   /// **'Manage default fields, or add custom fields at any time when adding or editing gear, a catch, bait, trip, or weather.'**
   String get onboardingJourneyManageFieldsDescription;
 
-  /// No description provided for @onboardingJourneyManageFieldsSpecies.
-  ///
-  /// In en, this message translates to:
-  /// **'Rainbow Trout'**
-  String get onboardingJourneyManageFieldsSpecies;
-
   /// No description provided for @onboardingJourneyLocationAccessTitle.
   ///
   /// In en, this message translates to:
@@ -2911,7 +2557,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @onboardingJourneyLocationAccessDescription.
   ///
   /// In en, this message translates to:
-  /// **'Anglers\'\' Log uses location services to show your current location on the in-app map, to automatically create fishing spots when adding catches, and to create GPS trails while fishing.'**
+  /// **'Mera Asistanı uses location services to show your current location on the in-app map, to automatically create fishing spots when adding catches, and to create GPS trails while fishing.'**
   String get onboardingJourneyLocationAccessDescription;
 
   /// No description provided for @onboardingJourneyHowToFeedbackTitle.
@@ -2947,7 +2593,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @proPageBackup.
   ///
   /// In en, this message translates to:
-  /// **'Automatic backup with Google Drive™'**
+  /// **'Automatic local backup'**
   String get proPageBackup;
 
   /// No description provided for @proPageCsv.
@@ -3880,12 +3526,6 @@ abstract class AnglersLogLocalizations {
   /// **'Select Moon Phases'**
   String get pickerTitleMoonPhases;
 
-  /// No description provided for @pickerTitleSkyCondition.
-  ///
-  /// In en, this message translates to:
-  /// **'Select Sky Condition'**
-  String get pickerTitleSkyCondition;
-
   /// No description provided for @pickerTitleSkyConditions.
   ///
   /// In en, this message translates to:
@@ -4438,24 +4078,6 @@ abstract class AnglersLogLocalizations {
   /// **'Body of water already exists'**
   String get saveBodyOfWaterPageExistsMessage;
 
-  /// No description provided for @mapAttributionTitleApple.
-  ///
-  /// In en, this message translates to:
-  /// **'OSM / OpenSeaMap based map'**
-  String get mapAttributionTitleApple;
-
-  /// No description provided for @mapAttributionTitleAndroid.
-  ///
-  /// In en, this message translates to:
-  /// **'OSM / OpenSeaMap based map'**
-  String get mapAttributionTitleAndroid;
-
-  /// No description provided for @mapAttributionMapbox.
-  ///
-  /// In en, this message translates to:
-  /// **'© OpenSeaMap'**
-  String get mapAttributionMapbox;
-
   /// No description provided for @mapAttributionOpenStreetMap.
   ///
   /// In en, this message translates to:
@@ -4467,24 +4089,6 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'Improve This Map'**
   String get mapAttributionImproveThisMap;
-
-  /// No description provided for @mapAttributionMaxar.
-  ///
-  /// In en, this message translates to:
-  /// **'© Maxar'**
-  String get mapAttributionMaxar;
-
-  /// No description provided for @mapAttributionTelemetryTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Telemetry removed'**
-  String get mapAttributionTelemetryTitle;
-
-  /// No description provided for @mapAttributionTelemetryDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Map telemetry has been disabled / removed.'**
-  String get mapAttributionTelemetryDescription;
 
   /// No description provided for @entityNameAnglers.
   ///
@@ -4705,7 +4309,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @backupPageDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your data is copied to a private folder in your Google Drive™ and is not shared publicly.\n\nThe backup process may take several minutes.'**
+  /// **'Your data is packaged into a zip file on your device, which you can save or share to a location of your choosing.\n\nThe backup process may take several minutes.'**
   String get backupPageDescription;
 
   /// No description provided for @backupPageAction.
@@ -4747,7 +4351,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @restorePageDescription.
   ///
   /// In en, this message translates to:
-  /// **'Restoring data completely replaces your existing log with the data stored in Google Drive™. If there is no data, your log remains unchanged.\n\nThe restore process may take several minutes.'**
+  /// **'Restoring data completely replaces your existing log with the data from the backup file you select. If there is no data, your log remains unchanged.\n\nThe restore process may take several minutes.'**
   String get restorePageDescription;
 
   /// No description provided for @restorePageAction.
@@ -4795,7 +4399,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @backupRestoreApiRequestError.
   ///
   /// In en, this message translates to:
-  /// **'The network may have been interrupted. Verify your internet connection and try again. If the issue persists, please send Anglers\'\' Log a report for investigation.'**
+  /// **'The network may have been interrupted. Verify your internet connection and try again. If the issue persists, please send a report from the Feedback menu.'**
   String get backupRestoreApiRequestError;
 
   /// No description provided for @backupRestoreDatabaseNotFound.
@@ -4807,13 +4411,13 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @backupRestoreAccessDenied.
   ///
   /// In en, this message translates to:
-  /// **'Anglers\'\' Log doesn\'\'t have permission to backup your data. Please sign out and sign back in, ensuring the \"See, create, and delete its own configuration data in your Google Drive™.\" box is checked, and try again.'**
+  /// **'The app doesn\'\'t have permission to create backup files on your device. Please check your device storage permissions and try again.'**
   String get backupRestoreAccessDenied;
 
   /// No description provided for @backupRestoreStorageFull.
   ///
   /// In en, this message translates to:
-  /// **'Your Google Drive™ storage is full. Please free some space and try again.'**
+  /// **'Your device storage is full. Please free some space and try again.'**
   String get backupRestoreStorageFull;
 
   /// No description provided for @backupRestoreAuthenticating.
@@ -4833,12 +4437,6 @@ abstract class AnglersLogLocalizations {
   /// In en, this message translates to:
   /// **'Creating backup folder...'**
   String get backupRestoreCreatingFolder;
-
-  /// No description provided for @backupRestoreBackingUpDatabase.
-  ///
-  /// In en, this message translates to:
-  /// **'Backing up database...'**
-  String get backupRestoreBackingUpDatabase;
 
   /// No description provided for @backupRestoreDownloadingDatabase.
   ///
@@ -4864,42 +4462,6 @@ abstract class AnglersLogLocalizations {
   /// **'Success!'**
   String get backupRestoreSuccess;
 
-  /// No description provided for @cloudAuthSignOut.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign out'**
-  String get cloudAuthSignOut;
-
-  /// No description provided for @cloudAuthSignedInAs.
-  ///
-  /// In en, this message translates to:
-  /// **'Signed in as'**
-  String get cloudAuthSignedInAs;
-
-  /// No description provided for @cloudAuthSignInWithGoogle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in with Google'**
-  String get cloudAuthSignInWithGoogle;
-
-  /// No description provided for @cloudAuthDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'To continue, you must sign in to your Google account. Data is saved to a private Google Drive™ folder and can only be accessed by Anglers\'\' Log.'**
-  String get cloudAuthDescription;
-
-  /// No description provided for @cloudAuthError.
-  ///
-  /// In en, this message translates to:
-  /// **'Error signing in, please try again later.'**
-  String get cloudAuthError;
-
-  /// No description provided for @cloudAuthNetworkError.
-  ///
-  /// In en, this message translates to:
-  /// **'There was a network error while signing in. Please ensure you are connected to the internet and try again.'**
-  String get cloudAuthNetworkError;
-
   /// No description provided for @asyncFeedbackSendReport.
   ///
   /// In en, this message translates to:
@@ -4918,12 +4480,6 @@ abstract class AnglersLogLocalizations {
   /// **'Upgrade'**
   String get proBlurUpgradeButton;
 
-  /// No description provided for @aboutPageEula.
-  ///
-  /// In en, this message translates to:
-  /// **'Terms of Use (EULA)'**
-  String get aboutPageEula;
-
   /// No description provided for @aboutPagePrivacy.
   ///
   /// In en, this message translates to:
@@ -4933,13 +4489,13 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @aboutPageWorldTides.
   ///
   /// In en, this message translates to:
-  /// **'WorldTides™ Privacy Policy'**
+  /// **'Tide Data Source'**
   String get aboutPageWorldTides;
 
   /// No description provided for @aboutPageWorldTidePrivacy.
   ///
   /// In en, this message translates to:
-  /// **'Tidal data retrieved from www.worldtides.info. Copyright © 2014-2023 Brainware LLC.\n\nLicensed for use of individual spatial coordinates by an end-user.\n\nNO GUARANTEES ARE MADE ABOUT THE CORRECTNESS OF THIS TIDAL DATA.\nYou may not use this data if anyone or anything could come to harm as a result of using it (e.g. for navigational purposes).\n\nTidal data is obtained from various sources and is covered in part or whole by various copyrights. For details see: http://www.worldtides.info/copyright'**
+  /// **'Tide information is retrieved from the free TideTurtle service (tideturtle.com), which requires no API key. Only the latitude/longitude of your selected location is sent with each request; no other personal data is shared.\n\nNO GUARANTEES ARE MADE ABOUT THE CORRECTNESS OF THIS TIDAL DATA.\nYou may not use this data if anyone or anything could come to harm as a result of using it (e.g. for navigational purposes).\n\nFor more information, see: https://tideturtle.com'**
   String get aboutPageWorldTidePrivacy;
 
   /// No description provided for @fishingSpotDetailsAddDetails.
@@ -4987,7 +4543,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @pollsPageDescription.
   ///
   /// In en, this message translates to:
-  /// **'Vote to determine which features will be added in the next version of Anglers\'\' Log.'**
+  /// **'Vote to determine which features will be added in the next version of Mera Asistanı.'**
   String get pollsPageDescription;
 
   /// No description provided for @pollsPageNoPollsTitle.
@@ -5059,13 +4615,13 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @permissionCurrentLocationDescription.
   ///
   /// In en, this message translates to:
-  /// **'To show your current location, you must grant Anglers\'\' Log access to read your device\'\'s location. To do so, open your device settings.'**
+  /// **'To show your current location, you must grant Mera Asistanı access to read your device\'\'s location. To do so, open your device settings.'**
   String get permissionCurrentLocationDescription;
 
   /// No description provided for @permissionGpsTrailDescription.
   ///
   /// In en, this message translates to:
-  /// **'To create an accurate GPS trail, Anglers\'\' Log must be able to access your device\'\'s location at all times while tracking is active. To grant the required permission, open your device\'\'s settings.'**
+  /// **'To create an accurate GPS trail, Mera Asistanı must be able to access your device\'\'s location at all times while tracking is active. To grant the required permission, open your device\'\'s settings.'**
   String get permissionGpsTrailDescription;
 
   /// No description provided for @permissionOpenSettings.
@@ -5179,7 +4735,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @csvPageBackupWarning.
   ///
   /// In en, this message translates to:
-  /// **'CSV files are not backups, and cannot be imported into Anglers\'\' Log. Instead, use the Backup and Restore buttons on the More page.'**
+  /// **'CSV files are not backups, and cannot be imported into Mera Asistanı. Instead, use the Backup and Restore buttons on the More page.'**
   String get csvPageBackupWarning;
 
   /// No description provided for @csvPageSuccess.
@@ -5503,7 +5059,7 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @notificationPermissionPageDesc.
   ///
   /// In en, this message translates to:
-  /// **'Allow Anglers\'\' Log to notify you if a data backup fails for any reason, including requiring re-authentication.'**
+  /// **'Allow Mera Asistanı to notify you if a data backup fails for any reason, including requiring re-authentication.'**
   String get notificationPermissionPageDesc;
 
   /// No description provided for @notificationErrorBackupTitle.
@@ -5569,13 +5125,13 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @locationDataFetcherErrorNoPermission.
   ///
   /// In en, this message translates to:
-  /// **'Permission is required to fetch data. Please grant Anglers\'\' Log the location permission and try again.'**
+  /// **'Permission is required to fetch data. Please grant Mera Asistanı the location permission and try again.'**
   String get locationDataFetcherErrorNoPermission;
 
   /// No description provided for @locationDataFetcherPermissionError.
   ///
   /// In en, this message translates to:
-  /// **'There was an error requesting location permission. The Anglers\'\' Log team has been notified, and we apologize for the inconvenience.'**
+  /// **'There was an error requesting location permission. The Mera Asistanı team has been notified, and we apologize for the inconvenience.'**
   String get locationDataFetcherPermissionError;
 
   /// No description provided for @changeLogPageTitle.
@@ -6211,32 +5767,8 @@ abstract class AnglersLogLocalizations {
   /// No description provided for @translationWarningPageDescription.
   ///
   /// In en, this message translates to:
-  /// **'The text in Anglers\'\' Log has been translated using AI. If you notice a mistake, or something doesn\'\'t make sense, please reach out by tapping More, then Send Feedback. Your help is always appreciated, thank you!'**
+  /// **'The text in Mera Asistanı has been translated using AI. If you notice a mistake, or something doesn\'\'t make sense, please reach out by tapping More, then Send Feedback. Your help is always appreciated, thank you!'**
   String get translationWarningPageDescription;
-
-  /// No description provided for @backupRestorePageOpenDoc.
-  ///
-  /// In en, this message translates to:
-  /// **'Open Documentation'**
-  String get backupRestorePageOpenDoc;
-
-  /// No description provided for @backupRestorePageWarningApple.
-  ///
-  /// In en, this message translates to:
-  /// **'The backup and restore feature has proven to be unreliable, and we are considering other options. In the meantime, it is highly recommended that you setup automatic backups for your entire device to ensure no data is lost. For more information, visit Apple\'\'s documentation.'**
-  String get backupRestorePageWarningApple;
-
-  /// No description provided for @backupRestorePageWarningGoogle.
-  ///
-  /// In en, this message translates to:
-  /// **'The backup and restore feature has proven to be unreliable, and we are considering other options. In the meantime, it is highly recommended that you setup automatic backups for your entire device to ensure no data is lost. For more information, visit Google\'\'s documentation.'**
-  String get backupRestorePageWarningGoogle;
-
-  /// No description provided for @backupRestorePageWarningOwnRisk.
-  ///
-  /// In en, this message translates to:
-  /// **'Use this feature at your own risk.'**
-  String get backupRestorePageWarningOwnRisk;
 
   /// No description provided for @proPageBackupWarning.
   ///

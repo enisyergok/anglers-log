@@ -159,6 +159,8 @@ class _MeraRoutesPageState extends State<MeraRoutesPage> {
                                     children: [
                                       Text(
                                         r.name,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w800,

@@ -1,12 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile/channels/migration_channel.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart';
 import 'package:mobile/pages/onboarding/catch_field_picker_page.dart';
 import 'package:mobile/pages/onboarding/how_to_feedback_page.dart';
 import 'package:mobile/pages/onboarding/how_to_manage_fields_page.dart';
 import 'package:mobile/pages/onboarding/location_permission_page.dart';
 import 'package:mobile/pages/onboarding/onboarding_journey.dart';
-import 'package:mobile/pages/onboarding/onboarding_migration_page.dart';
 import 'package:mobile/pages/onboarding/onboarding_pro_page.dart';
 import 'package:mobile/widgets/button.dart';
 import 'package:mockito/mockito.dart';
@@ -102,21 +100,8 @@ void main() {
 
     var finished = false;
     await tester.pumpWidget(
-      Testable(
-        (_) => OnboardingJourney(
-          onFinished: (_) => finished = true,
-          legacyJsonResult: LegacyJsonResult(
-            imagesPath: "path/to/images",
-            databasePath: "path/to/database",
-            json: {},
-          ),
-        ),
-      ),
+      Testable((_) => OnboardingJourney(onFinished: (_) => finished = true)),
     );
-
-    expect(find.byType(OnboardingMigrationPage), findsOneWidget);
-    await tapAndSettle(tester, find.text("START"));
-    await tapAndSettle(tester, find.text("NEXT"));
 
     expect(find.byType(CatchFieldPickerPage), findsOneWidget);
     await tapAndSettle(tester, find.text("NEXT"));
@@ -145,23 +130,8 @@ void main() {
 
     var finished = false;
     await tester.pumpWidget(
-      Testable(
-        (_) => OnboardingJourney(
-          onFinished: (_) => finished = true,
-          legacyJsonResult: LegacyJsonResult(
-            imagesPath: "path/to/images",
-            databasePath: "path/to/database",
-            json: {},
-          ),
-        ),
-      ),
+      Testable((_) => OnboardingJourney(onFinished: (_) => finished = true)),
     );
-
-    await tapAndSettle(tester, find.text("NEXT"));
-
-    expect(find.byType(OnboardingMigrationPage), findsOneWidget);
-    await tapAndSettle(tester, find.text("START"));
-    await tapAndSettle(tester, find.text("NEXT"));
 
     expect(find.byType(CatchFieldPickerPage), findsOneWidget);
     await tapAndSettle(tester, find.text("NEXT"));
@@ -182,11 +152,7 @@ void main() {
     expect(finished, isTrue);
   });
 
-  testWidgets("Migration page shown", (tester) async {
-    // This scenario is tested in the "Navigation" test.
-  });
-
-  testWidgets("Migration page skipped", (tester) async {
+  testWidgets("Root route always starts at catch fields", (tester) async {
     await tester.pumpWidget(
       Testable((_) => OnboardingJourney(onFinished: (_) {})),
     );
@@ -212,12 +178,7 @@ void main() {
 
     var finished = false;
     await tester.pumpWidget(
-      Testable(
-        (_) => OnboardingJourney(
-          onFinished: (_) => finished = true,
-          legacyJsonResult: null,
-        ),
-      ),
+      Testable((_) => OnboardingJourney(onFinished: (_) => finished = true)),
     );
 
     expect(find.byType(CatchFieldPickerPage), findsOneWidget);

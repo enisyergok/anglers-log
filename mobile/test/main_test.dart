@@ -286,30 +286,6 @@ void main() {
     expect(find.byType(MainPage), findsOneWidget);
   });
 
-  testWidgets("Legacy JSON is fetched if the user hasn't yet onboarded", (
-    tester,
-  ) async {
-    // Stub an initialization method taking some time.
-    when(managers.locationMonitor.initialize()).thenAnswer(
-      (_) => Future.delayed(const Duration(milliseconds: 50), () => true),
-    );
-    when(managers.userPreferenceManager.didOnboard).thenReturn(false);
-
-    var channel = MockMethodChannel();
-    when(
-      channel.invokeMethod(any),
-    ).thenAnswer((_) => Future.value({"db": "test/db"}));
-    when(managers.servicesWrapper.methodChannel(any)).thenReturn(channel);
-    await tester.pumpWidget(const AnglersLog());
-
-    // Wait for delayed initialization + AnimatedSwitcher.
-    await tester.pump(const Duration(milliseconds: 210));
-
-    verify(managers.servicesWrapper.methodChannel(any)).called(1);
-    var onboardingJourney = findFirst<OnboardingJourney>(tester);
-    expect(onboardingJourney.legacyJsonResult, isNotNull);
-  });
-
   testWidgets("Show change log page with lower old version", (tester) async {
     when(managers.userPreferenceManager.didOnboard).thenReturn(true);
     when(managers.userPreferenceManager.appVersion).thenReturn("1.0.0");

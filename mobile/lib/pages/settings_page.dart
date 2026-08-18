@@ -2,8 +2,6 @@ import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/page.dart';
 import 'package:adair_flutter_lib/widgets/checkbox_input.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/pages/import_page.dart';
-import 'package:mobile/pages/migration_page.dart';
 import 'package:mobile/res/style.dart';
 import 'package:mobile/widgets/input_controller.dart';
 import 'package:mobile/widgets/multi_measurement_input.dart';
@@ -38,9 +36,6 @@ class SettingsPageState extends State<SettingsPage> {
           _buildUnits(context),
           _buildFishingSpotDistance(context),
           _buildMinGpsTrailDistance(context),
-          const MinDivider(),
-          _buildLegacyImport(context),
-          _buildLegacyMigration(context),
           const MinDivider(),
           _buildAbout(),
         ],
@@ -155,20 +150,6 @@ class SettingsPageState extends State<SettingsPage> {
       initialValue: UserPreferenceManager.get.minGpsTrailDistance,
       onChanged: (value) =>
           UserPreferenceManager.get.setMinGpsTrailDistance(value),
-    );
-  }
-
-  Widget _buildLegacyImport(BuildContext context) {
-    return ListItem(
-      title: Text(Strings.of(context).importPageMoreTitle),
-      onTap: () => present(context, ImportPage()),
-    );
-  }
-
-  Widget _buildLegacyMigration(BuildContext context) {
-    return ListItem(
-      title: Text(Strings.of(context).migrationPageMoreTitle),
-      onTap: () => present(context, MigrationPage()),
     );
   }
 

@@ -48,10 +48,8 @@ class StubbedManagers {
   MockWaterClarityManager waterClarityManager = MockWaterClarityManager();
 
   MockCsvWrapper csvWrapper = MockCsvWrapper();
-  MockDriveApiWrapper driveApiWrapper = MockDriveApiWrapper();
   MockExifWrapper exifWrapper = MockExifWrapper();
   MockGeolocatorWrapper geolocatorWrapper = MockGeolocatorWrapper();
-  MockGoogleSignInWrapper googleSignInWrapper = MockGoogleSignInWrapper();
   MockHttpWrapper httpWrapper = MockHttpWrapper();
   MockImageCompressWrapper imageCompressWrapper = MockImageCompressWrapper();
   MockImagePickerWrapper imagePickerWrapper = MockImagePickerWrapper();
@@ -88,10 +86,8 @@ class StubbedManagers {
     when(app.tripManager).thenReturn(tripManager);
     when(app.waterClarityManager).thenReturn(waterClarityManager);
     when(app.csvWrapper).thenReturn(csvWrapper);
-    when(app.driveApiWrapper).thenReturn(driveApiWrapper);
     when(app.exifWrapper).thenReturn(exifWrapper);
     when(app.geolocatorWrapper).thenReturn(geolocatorWrapper);
-    when(app.googleSignInWrapper).thenReturn(googleSignInWrapper);
     when(app.httpWrapper).thenReturn(httpWrapper);
     when(app.imageCompressWrapper).thenReturn(imageCompressWrapper);
     when(app.imagePickerWrapper).thenReturn(imagePickerWrapper);

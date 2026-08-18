@@ -82,7 +82,7 @@ class BackupRestoreManager {
 
   static const _databaseName = "anglerslog.db";
   static const _imagesFolderName = "images";
-  static const _backupFilePrefix = "anglerslog-backup";
+  static const _backupFilePrefix = "mera-asistani-backup";
 
   /// Mera JSON files stored under app documents (see mera_* managers).
   static const meraJsonFileNames = [

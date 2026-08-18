@@ -1,3 +1,3 @@
-# Anglers' Log
+# Mera Asistanı
 
-Track, analyze, and share your catches in the sport of fishing.
+Kayıtlarınızı, fotoğraflarınızı ve konum verilerinizi tamamen cihazınızda tutan, çevrimdışı çalışan balık tutma asistanı.

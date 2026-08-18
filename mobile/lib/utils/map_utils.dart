@@ -40,7 +40,7 @@ const openSeaMapBathymetryWmsBaseUrl =
 const openSeaMapBathymetryWmsLayer = 'gebco2021:gebco_2021';
 
 /// Package name used for tile request User-Agent headers (OSM ToS).
-const mapTileUserAgentPackageName = 'com.cohenadair.anglerslog';
+const mapTileUserAgentPackageName = 'com.mera.asistani';
 
 // From https://sciencing.com/convert-distances-degrees-meters-7858322.html.
 const metersPerDegree = 111139;

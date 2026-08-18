@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/utils/number.dart';
 import 'package:adair_flutter_lib/utils/page.dart';
 import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart';
@@ -181,33 +182,35 @@ class _MeraSettingsPageState extends State<MeraSettingsPage> {
       builder: (ctx) => AlertDialog(
         backgroundColor: MeraColors.card,
         title: const Text('Profil'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Hesap yoktur — bilgiler yalnızca bu telefonda saklanır.',
-              style: TextStyle(color: MeraColors.textSecondary, fontSize: 12),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: captain,
-              decoration: const InputDecoration(labelText: 'Kaptan adı'),
-            ),
-            TextField(
-              controller: boat,
-              decoration: const InputDecoration(labelText: 'Tekne adı'),
-            ),
-            TextField(
-              controller: fuel,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Yakıt % (manuel)'),
-            ),
-            TextField(
-              controller: cruise,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(labelText: 'Seyir hızı (kn)'),
-            ),
-          ],
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Hesap yoktur — bilgiler yalnızca bu telefonda saklanır.',
+                style: TextStyle(color: MeraColors.textSecondary, fontSize: 12),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: captain,
+                decoration: const InputDecoration(labelText: 'Kaptan adı'),
+              ),
+              TextField(
+                controller: boat,
+                decoration: const InputDecoration(labelText: 'Tekne adı'),
+              ),
+              TextField(
+                controller: fuel,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(labelText: 'Yakıt % (manuel)'),
+              ),
+              TextField(
+                controller: cruise,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(labelText: 'Seyir hızı (kn)'),
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -222,8 +225,8 @@ class _MeraSettingsPageState extends State<MeraSettingsPage> {
       ),
     );
     if (ok != true) return;
-    final fuelVal = double.tryParse(fuel.text.trim()) ?? p.fuelPercent;
-    final cruiseVal = double.tryParse(cruise.text.trim()) ?? p.cruiseKnots;
+    final fuelVal = tryParseDouble(fuel.text.trim()) ?? p.fuelPercent;
+    final cruiseVal = tryParseDouble(cruise.text.trim()) ?? p.cruiseKnots;
     await MeraBoatProfileManager.get.save(
       p.copyWith(
         captainName:

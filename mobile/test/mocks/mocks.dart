@@ -8,9 +8,6 @@ import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:googleapis/drive/v3.dart' as g_drive;
-import 'package:googleapis_auth/googleapis_auth.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/angler_manager.dart';
@@ -22,7 +19,6 @@ import 'package:mobile/bait_manager.dart';
 import 'package:mobile/body_of_water_manager.dart';
 import 'package:mobile/catch_manager.dart';
 import 'package:mobile/custom_entity_manager.dart';
-import 'package:mobile/database/legacy_importer.dart';
 import 'package:mobile/entity_manager.dart';
 import 'package:mobile/fishing_spot_manager.dart';
 import 'package:mobile/gear_manager.dart';
@@ -47,10 +43,8 @@ import 'package:mobile/water_clarity_manager.dart';
 import 'package:mobile/widgets/input_controller.dart';
 import 'package:mobile/widgets/quantity_picker_input.dart';
 import 'package:mobile/wrappers/csv_wrapper.dart';
-import 'package:mobile/wrappers/drive_api_wrapper.dart';
 import 'package:mobile/wrappers/exif_wrapper.dart';
 import 'package:mobile/wrappers/geolocator_wrapper.dart';
-import 'package:mobile/wrappers/google_sign_in_wrapper.dart';
 import 'package:mobile/wrappers/http_wrapper.dart';
 import 'package:mobile/wrappers/image_compress_wrapper.dart';
 import 'package:mobile/wrappers/image_picker_wrapper.dart';
@@ -82,7 +76,6 @@ Trip_CatchesPerEntity newInputItemShim(dynamic pickerItem) =>
 @GenerateMocks([AndroidDeviceInfo])
 @GenerateMocks([AppManager])
 @GenerateMocks([], customMocks: [MockSpec<AtmosphereFetcher>()])
-@GenerateMocks([AuthClient])
 @GenerateMocks([BackupRestoreManager])
 @GenerateMocks([BackupRestoreProgress])
 @GenerateMocks([BaitCategoryManager])
@@ -90,16 +83,10 @@ Trip_CatchesPerEntity newInputItemShim(dynamic pickerItem) =>
 @GenerateMocks([BodyOfWaterManager])
 @GenerateMocks([CatchManager])
 @GenerateMocks([CustomEntityManager])
-@GenerateMocks([g_drive.DriveApi])
-@GenerateMocks([g_drive.FileList])
-@GenerateMocks([g_drive.FilesResource])
-@GenerateMocks([DriveApiWrapper])
 @GenerateMocks([Exif])
 @GenerateMocks([FishingSpotManager])
 @GenerateMocks([GearManager])
 @GenerateMocks([GeolocatorWrapper])
-@GenerateMocks([GoogleSignIn])
-@GenerateMocks([GoogleSignInAccount])
 @GenerateMocks([GpsTrailManager])
 @GenerateMocks([ImageManager])
 @GenerateMocks([], customMocks: [MockSpec<InputController>()])
@@ -121,7 +108,6 @@ Trip_CatchesPerEntity newInputItemShim(dynamic pickerItem) =>
 @GenerateMocks([CsvWrapper])
 @GenerateMocks([ExifWrapper])
 @GenerateMocks([], customMocks: [MockSpec<GlobalKey>()])
-@GenerateMocks([GoogleSignInWrapper])
 @GenerateMocks([HttpWrapper])
 @GenerateMocks([ImageCompressWrapper])
 @GenerateMocks([InAppReviewWrapper])
@@ -148,7 +134,6 @@ Trip_CatchesPerEntity newInputItemShim(dynamic pickerItem) =>
 @GenerateMocks([EntitlementInfos])
 @GenerateMocks([], customMocks: [MockSpec<EntityListener>()])
 @GenerateMocks([FileSystemEntity])
-@GenerateMocks([LegacyImporter])
 @GenerateMocks([LogInResult])
 @GenerateMocks([MethodChannel])
 @GenerateMocks([NameValidator])

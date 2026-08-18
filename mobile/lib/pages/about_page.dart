@@ -13,37 +13,66 @@ import '../utils/string_utils.dart';
 import '../widgets/widget.dart';
 
 class AboutPage extends StatelessWidget {
-  static const _urlPrivacy =
-      "https://anglerslog.ca/privacy/2.0/privacy-policy%s.html";
-
   const AboutPage();
 
   @override
   Widget build(BuildContext context) {
-    var urlLauncher = UrlLauncherWrapper.of(context);
-
     return ScrollPage(
       appBar: AppBar(),
       children: [
         AppVersion(inListTile: true, style: styleSecondary(context)),
-        ListItem(
-          title: Text(Strings.of(context).aboutPagePrivacy),
-          trailing: const OpenInWebIcon(),
-          onTap: () {
-            var languageCode = Localizations.localeOf(context).languageCode;
-            urlLauncher.launch(
-              format(_urlPrivacy, [
-                languageCode != "en" ? "-$languageCode" : "",
-              ]),
-            );
-          },
-        ),
-        _buildWorldTides(context),
+        _buildPrivacy(context),
+        _buildTideDataSource(context),
+        _buildOpenSourceAttribution(context),
       ],
     );
   }
 
-  Widget _buildWorldTides(BuildContext context) {
+  Widget _buildPrivacy(BuildContext context) {
+    return ListItem(
+      title: Text(Strings.of(context).aboutPagePrivacy),
+      trailing: RightChevronIcon(),
+      onTap: () => push(
+        context,
+        ScrollPage(
+          appBar: AppBar(),
+          padding: insetsDefault,
+          children: [
+            Text(
+              "Mera Asistanı tamamen cihazınızda çalışır. Kayıtlarınız, "
+              "fotoğraflarınız ve konum verileriniz yalnızca telefonunuzdaki "
+              "yerel veritabanında saklanır; hiçbir sunucuya veya buluta "
+              "gönderilmez.\n\n"
+              "Uygulama, gelgit bilgisi için TideTurtle servisini kullanır "
+              "(bkz. aşağıdaki Gelgit Verisi Kaynağı). Bunun dışında "
+              "hiçbir üçüncü taraf analiz, reklam veya takip servisi "
+              "kullanılmaz.\n\n"
+              "Yedekleme, cihazınızda oluşturulan bir zip dosyasını "
+              "paylaşma menüsü üzerinden dilediğiniz konuma kaydetmenizi "
+              "sağlar; bu işlem de tamamen yereldir ve hesap gerektirmez.",
+              style: stylePrimary(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOpenSourceAttribution(BuildContext context) {
+    return ListItem(
+      title: const Text("Açık Kaynak Lisansı"),
+      subtitle: const Text(
+        "Mera Asistanı, Cohen Adair tarafından GNU GPLv3 lisansı ile "
+        "yayımlanan açık kaynaklı \"Anglers' Log\" projesine dayanmaktadır.",
+      ),
+      trailing: const OpenInWebIcon(),
+      onTap: () => UrlLauncherWrapper.of(
+        context,
+      ).launch("https://github.com/cohenadair/anglers-log"),
+    );
+  }
+
+  Widget _buildTideDataSource(BuildContext context) {
     return ListItem(
       title: Text(Strings.of(context).aboutPageWorldTides),
       trailing: RightChevronIcon(),

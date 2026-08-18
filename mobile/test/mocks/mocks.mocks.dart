@@ -40,7 +40,6 @@ import 'package:mobile/bait_manager.dart' as _i9;
 import 'package:mobile/body_of_water_manager.dart' as _i10;
 import 'package:mobile/catch_manager.dart' as _i62;
 import 'package:mobile/custom_entity_manager.dart' as _i11;
-import 'package:mobile/database/legacy_importer.dart' as _i88;
 import 'package:mobile/entity_manager.dart' as _i58;
 import 'package:mobile/fishing_spot_manager.dart' as _i64;
 import 'package:mobile/gear_manager.dart' as _i12;
@@ -69,10 +68,8 @@ import 'package:mobile/widgets/fetch_input_header.dart' as _i38;
 import 'package:mobile/widgets/input_controller.dart' as _i55;
 import 'package:mobile/widgets/quantity_picker_input.dart' as _i92;
 import 'package:mobile/wrappers/csv_wrapper.dart' as _i22;
-import 'package:mobile/wrappers/drive_api_wrapper.dart' as _i23;
 import 'package:mobile/wrappers/exif_wrapper.dart' as _i24;
 import 'package:mobile/wrappers/geolocator_wrapper.dart' as _i25;
-import 'package:mobile/wrappers/google_sign_in_wrapper.dart' as _i26;
 import 'package:mobile/wrappers/http_wrapper.dart' as _i27;
 import 'package:mobile/wrappers/image_compress_wrapper.dart' as _i28;
 import 'package:mobile/wrappers/image_picker_wrapper.dart' as _i29;
@@ -248,12 +245,6 @@ class _FakeCsvWrapper_22 extends _i1.SmartFake implements _i22.CsvWrapper {
     : super(parent, parentInvocation);
 }
 
-class _FakeDriveApiWrapper_23 extends _i1.SmartFake
-    implements _i23.DriveApiWrapper {
-  _FakeDriveApiWrapper_23(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
 class _FakeExifWrapper_24 extends _i1.SmartFake implements _i24.ExifWrapper {
   _FakeExifWrapper_24(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
@@ -262,12 +253,6 @@ class _FakeExifWrapper_24 extends _i1.SmartFake implements _i24.ExifWrapper {
 class _FakeGeolocatorWrapper_25 extends _i1.SmartFake
     implements _i25.GeolocatorWrapper {
   _FakeGeolocatorWrapper_25(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeGoogleSignInWrapper_26 extends _i1.SmartFake
-    implements _i26.GoogleSignInWrapper {
-  _FakeGoogleSignInWrapper_26(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -1624,17 +1609,6 @@ class MockAppManager extends _i1.Mock implements _i3.AppManager {
           as _i22.CsvWrapper);
 
   @override
-  _i23.DriveApiWrapper get driveApiWrapper =>
-      (super.noSuchMethod(
-            Invocation.getter(#driveApiWrapper),
-            returnValue: _FakeDriveApiWrapper_23(
-              this,
-              Invocation.getter(#driveApiWrapper),
-            ),
-          )
-          as _i23.DriveApiWrapper);
-
-  @override
   _i24.ExifWrapper get exifWrapper =>
       (super.noSuchMethod(
             Invocation.getter(#exifWrapper),
@@ -1655,17 +1629,6 @@ class MockAppManager extends _i1.Mock implements _i3.AppManager {
             ),
           )
           as _i25.GeolocatorWrapper);
-
-  @override
-  _i26.GoogleSignInWrapper get googleSignInWrapper =>
-      (super.noSuchMethod(
-            Invocation.getter(#googleSignInWrapper),
-            returnValue: _FakeGoogleSignInWrapper_26(
-              this,
-              Invocation.getter(#googleSignInWrapper),
-            ),
-          )
-          as _i26.GoogleSignInWrapper);
 
   @override
   _i27.HttpWrapper get httpWrapper =>
@@ -4771,26 +4734,6 @@ class MockFilesResource extends _i1.Mock implements _i41.FilesResource {
             ),
           )
           as _i2.Future<_i42.$Channel01>);
-}
-
-/// A class which mocks [DriveApiWrapper].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockDriveApiWrapper extends _i1.Mock implements _i23.DriveApiWrapper {
-  MockDriveApiWrapper() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i41.DriveApi newInstance(_i40.Client? client) =>
-      (super.noSuchMethod(
-            Invocation.method(#newInstance, [client]),
-            returnValue: _FakeDriveApi_65(
-              this,
-              Invocation.method(#newInstance, [client]),
-            ),
-          )
-          as _i41.DriveApi);
 }
 
 /// A class which mocks [Exif].
@@ -9814,37 +9757,6 @@ class MockGlobalKey<T extends _i56.State<_i56.StatefulWidget>> extends _i1.Mock
   }
 }
 
-/// A class which mocks [GoogleSignInWrapper].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockGoogleSignInWrapper extends _i1.Mock
-    implements _i26.GoogleSignInWrapper {
-  MockGoogleSignInWrapper() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i43.GoogleSignIn newInstance(List<String>? scopes) =>
-      (super.noSuchMethod(
-            Invocation.method(#newInstance, [scopes]),
-            returnValue: _FakeGoogleSignIn_81(
-              this,
-              Invocation.method(#newInstance, [scopes]),
-            ),
-          )
-          as _i43.GoogleSignIn);
-
-  @override
-  _i2.Future<_i60.AuthClient?> authenticatedClient(
-    _i43.GoogleSignIn? googleSignIn,
-  ) =>
-      (super.noSuchMethod(
-            Invocation.method(#authenticatedClient, [googleSignIn]),
-            returnValue: _i2.Future<_i60.AuthClient?>.value(),
-          )
-          as _i2.Future<_i60.AuthClient?>);
-}
-
 /// A class which mocks [HttpWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -11859,11 +11771,13 @@ class MockAssetPathEntity extends _i1.Mock implements _i52.AssetPathEntity {
   _i2.Future<List<_i52.AssetEntity>> getAssetListPaged({
     required int? page,
     required int? size,
+    _i52.RequestType? type,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#getAssetListPaged, [], {
               #page: page,
               #size: size,
+              #type: type,
             }),
             returnValue: _i2.Future<List<_i52.AssetEntity>>.value(
               <_i52.AssetEntity>[],
@@ -11875,11 +11789,13 @@ class MockAssetPathEntity extends _i1.Mock implements _i52.AssetPathEntity {
   _i2.Future<List<_i52.AssetEntity>> getAssetListRange({
     required int? start,
     required int? end,
+    _i52.RequestType? type,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#getAssetListRange, [], {
               #start: start,
               #end: end,
+              #type: type,
             }),
             returnValue: _i2.Future<List<_i52.AssetEntity>>.value(
               <_i52.AssetEntity>[],
@@ -13090,24 +13006,6 @@ class MockFileSystemEntity extends _i1.Mock implements _i44.FileSystemEntity {
             returnValue: _i2.Stream<_i44.FileSystemEvent>.empty(),
           )
           as _i2.Stream<_i44.FileSystemEvent>);
-}
-
-/// A class which mocks [LegacyImporter].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockLegacyImporter extends _i1.Mock implements _i88.LegacyImporter {
-  MockLegacyImporter() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i2.Future<void> start() =>
-      (super.noSuchMethod(
-            Invocation.method(#start, []),
-            returnValue: _i2.Future<void>.value(),
-            returnValueForMissingStub: _i2.Future<void>.value(),
-          )
-          as _i2.Future<void>);
 }
 
 /// A class which mocks [LogInResult].

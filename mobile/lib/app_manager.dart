@@ -8,7 +8,6 @@ import 'package:mobile/region_manager.dart';
 import 'package:mobile/wrappers/csv_wrapper.dart';
 import 'package:mobile/wrappers/exif_wrapper.dart';
 import 'package:mobile/wrappers/geolocator_wrapper.dart';
-import 'package:mobile/wrappers/google_sign_in_wrapper.dart';
 import 'angler_manager.dart';
 import 'backup_restore_manager.dart';
 import 'bait_category_manager.dart';
@@ -28,7 +27,6 @@ import 'species_manager.dart';
 import 'trip_manager.dart';
 import 'user_preference_manager.dart';
 import 'water_clarity_manager.dart';
-import 'wrappers/drive_api_wrapper.dart';
 import 'wrappers/http_wrapper.dart';
 import 'wrappers/image_compress_wrapper.dart';
 import 'wrappers/image_picker_wrapper.dart';
@@ -77,10 +75,8 @@ class AppManager {
 
   // External dependency wrappers.
   CsvWrapper? _csvWrapper;
-  DriveApiWrapper? _driveApiWrapper;
   ExifWrapper? _exifWrapper;
   GeolocatorWrapper? _geolocatorWrapper;
-  GoogleSignInWrapper? _googleSignInWrapper;
   HttpWrapper? _httpWrapper;
   ImageCompressWrapper? _imageCompressWrapper;
   ImagePickerWrapper? _imagePickerWrapper;
@@ -177,11 +173,6 @@ class AppManager {
     return _csvWrapper!;
   }
 
-  DriveApiWrapper get driveApiWrapper {
-    _driveApiWrapper ??= DriveApiWrapper();
-    return _driveApiWrapper!;
-  }
-
   ExifWrapper get exifWrapper {
     _exifWrapper ??= ExifWrapper();
     return _exifWrapper!;
@@ -190,11 +181,6 @@ class AppManager {
   GeolocatorWrapper get geolocatorWrapper {
     _geolocatorWrapper ??= GeolocatorWrapper();
     return _geolocatorWrapper!;
-  }
-
-  GoogleSignInWrapper get googleSignInWrapper {
-    _googleSignInWrapper ??= GoogleSignInWrapper();
-    return _googleSignInWrapper!;
   }
 
   HttpWrapper get httpWrapper {
