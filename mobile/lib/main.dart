@@ -89,7 +89,7 @@ class AnglersLogState extends State<AnglersLog> {
     super.initState();
 
     AppConfig.get.init(
-      appName: () => "Mera Asistanı",
+      appName: () => "CASTIQ",
       appIcon: CustomIcons.catches,
       colorAppTheme: Colors.green,
       colorAppBarContent: (isDark) => Colors.white,

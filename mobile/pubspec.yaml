@@ -115,6 +115,8 @@ flutter:
     - assets/google-logo.svg
     - assets/mapbox-logo.svg
     - assets/fish/
+    - assets/castiq_logo.png
+    - assets/castiq_icon.png
 
     - packages/timezone/data/latest.tzf
 

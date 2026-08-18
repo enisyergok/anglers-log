@@ -54,6 +54,16 @@ class MeraCatchSuccessPage extends StatelessWidget {
                 delay: const Duration(milliseconds: 80),
                 child: const MeraGlowCheck(),
               ),
+              const SizedBox(height: 14),
+              MeraAnimatedEntry(
+                delay: const Duration(milliseconds: 140),
+                child: Image.asset(
+                  'assets/castiq_logo.png',
+                  height: 40,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                ),
+              ),
               const SizedBox(height: 18),
               MeraAnimatedEntry(
                 delay: const Duration(milliseconds: 200),
