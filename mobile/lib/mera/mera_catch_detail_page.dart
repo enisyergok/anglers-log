@@ -58,6 +58,9 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
   @override
   void dispose() {
     _notes.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final now = TimeManager.get.currentDateTime;
