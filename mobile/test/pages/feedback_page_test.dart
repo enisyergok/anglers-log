@@ -210,7 +210,7 @@ void main() {
       managers.lib.propertiesManager.clientSenderEmail,
     ).thenReturn("sender@test.com");
     when(
-      managers.lib.propertiesManager.sendGridApiKey,
+      managers.lib.propertiesManager.mailjetApiKey,
     ).thenReturn("random-api-key");
     when(
       managers.httpWrapper.post(
@@ -246,7 +246,7 @@ void main() {
       managers.lib.propertiesManager.clientSenderEmail,
     ).thenReturn("sender@test.com");
     when(
-      managers.lib.propertiesManager.sendGridApiKey,
+      managers.lib.propertiesManager.mailjetApiKey,
     ).thenReturn("random-api-key");
     when(
       managers.httpWrapper.post(
@@ -369,7 +369,7 @@ void main() {
       managers.lib.propertiesManager.clientSenderEmail,
     ).thenReturn("sender@test.com");
     when(
-      managers.lib.propertiesManager.sendGridApiKey,
+      managers.lib.propertiesManager.mailjetApiKey,
     ).thenReturn("random-api-key");
     when(
       managers.httpWrapper.post(
@@ -419,7 +419,7 @@ void main() {
       managers.lib.propertiesManager.clientSenderEmail,
     ).thenReturn("sender@test.com");
     when(
-      managers.lib.propertiesManager.sendGridApiKey,
+      managers.lib.propertiesManager.mailjetApiKey,
     ).thenReturn("random-api-key");
     when(
       managers.httpWrapper.post(

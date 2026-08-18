@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/atmosphere_fetcher.dart';
+import 'package:mobile/bait_manager.dart';
 import 'package:mobile/catch_manager.dart';
 import 'package:mobile/fishing_spot_manager.dart';
 import 'package:mobile/location_monitor.dart';
@@ -42,6 +43,7 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
   double? _weightKg;
   var _measured = false;
   File? _photo;
+  Id? _baitId;
   late final TextEditingController _notes;
   var _saving = false;
 
@@ -210,6 +212,8 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
             ),
           ),
           const SizedBox(height: 12),
+          _baitPicker(),
+          const SizedBox(height: 12),
           TextField(
             controller: _notes,
             maxLines: 3,
@@ -220,6 +224,78 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
         ],
       ),
     );
+  }
+
+  Widget _baitPicker() {
+    final baits = BaitManager.of(context).list()
+      ..sort((a, b) => a.name.compareTo(b.name));
+    return MeraCard(
+      child: Row(
+        children: [
+          const Icon(Icons.set_meal_outlined, size: 20, color: MeraColors.blue),
+          const SizedBox(width: 10),
+          Expanded(
+            child: DropdownButtonHideUnderline(
+              child: DropdownButtonFormField<Id?>(
+                initialValue: _baitId,
+                isExpanded: true,
+                decoration: const InputDecoration(
+                  labelText: 'Yem / Zoka',
+                  border: InputBorder.none,
+                ),
+                hint: const Text('Yem seç (opsiyonel)'),
+                items: [
+                  for (final b in baits)
+                    DropdownMenuItem(value: b.id, child: Text(b.name)),
+                ],
+                onChanged: (v) => setState(() => _baitId = v),
+              ),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.add_circle_outline, size: 22),
+            tooltip: 'Yeni yem ekle',
+            onPressed: _addNewBait,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _addNewBait() async {
+    final controller = TextEditingController();
+    final name = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: MeraColors.card,
+        title: const Text('Yeni yem'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            labelText: 'Yem adı',
+            hintText: 'Örn. Gümüş kaşık',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, controller.text.trim()),
+            child: const Text('Ekle'),
+          ),
+        ],
+      ),
+    );
+    if (name == null || name.isEmpty) return;
+    final bait = Bait()
+      ..id = randomId()
+      ..name = name;
+    await BaitManager.of(context).addOrUpdate(bait);
+    if (!mounted) return;
+    setState(() => _baitId = bait.id);
   }
 
   Future<void> _pickPhoto() async {
@@ -364,6 +440,9 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
       }
       final note = _notes.text.trim();
       if (note.isNotEmpty) cat.notes = note;
+      if (_baitId != null) {
+        cat.baits.add(BaitAttachment()..baitId = _baitId!);
+      }
 
       if (loc != null) {
         try {

@@ -14,7 +14,9 @@ import 'package:mobile/mera/mera_boat_profile.dart';
 import 'package:mobile/mera/mera_map_interaction.dart';
 import 'package:mobile/mera/mera_no_catch_sheet.dart';
 import 'package:mobile/mera/mera_route_manager.dart';
+import 'package:mobile/mera/fish_activity/solunar.dart';
 import 'package:mobile/mera/mera_shell.dart';
+import 'package:mobile/mera/mera_solunar_page.dart';
 import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_weather_page.dart';
 import 'package:mobile/mera/mera_widgets.dart';
@@ -353,6 +355,16 @@ class _MeraMapHudState extends State<MeraMapHud> {
     final wave = _telemetry?.waveHeightM;
     final temp = _airTempC ?? _telemetry?.waterTempC;
 
+    final solunarPos = _location.currentLatLng;
+    final solunarDay = solunarPos == null
+        ? null
+        : SolunarCalculator.calculate(
+            localDate: DateTime.now(),
+            lat: solunarPos.lat,
+            lng: solunarPos.lng,
+          );
+    final solunarScore = solunarDay?.activityScoreAt(DateTime.now());
+
     return Stack(
       children: [
         SafeArea(
@@ -453,61 +465,127 @@ class _MeraMapHudState extends State<MeraMapHud> {
                 top: SirenScale.clampOf(context, 70, min: 58, max: 80),
                 right: SirenScale.clampOf(context, 14, min: 10, max: 16),
               ),
-              child: GestureDetector(
-                onTap: () => present(context, const MeraWeatherPage()),
-                child: Container(
-                  width: SirenScale.clampOf(context, 120, min: 108, max: 132),
-                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                  decoration: BoxDecoration(
-                    color: MeraColors.hudGlass,
-                    borderRadius: BorderRadius.circular(MeraRadii.sm),
-                    border: Border.all(color: MeraColors.borderSecondary),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () => present(context, const MeraWeatherPage()),
+                    child: Container(
+                      width: SirenScale.clampOf(
+                        context,
+                        120,
+                        min: 108,
+                        max: 132,
+                      ),
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                      decoration: BoxDecoration(
+                        color: MeraColors.hudGlass,
+                        borderRadius: BorderRadius.circular(MeraRadii.sm),
+                        border: Border.all(color: MeraColors.borderSecondary),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
-                            Icons.wb_cloudy_outlined,
-                            color: MeraColors.warning,
-                            size: 16,
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.wb_cloudy_outlined,
+                                color: MeraColors.warning,
+                                size: 16,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                temp == null
+                                    ? '—'
+                                    : '${temp.toStringAsFixed(1)}°C',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 4),
+                          const SizedBox(height: 4),
                           Text(
-                            temp == null
-                                ? '—'
-                                : '${temp.toStringAsFixed(1)}°C',
+                            wind == null
+                                ? 'Rüzgar —'
+                                : 'Rüzgar ${(wind / 1.852).toStringAsFixed(0)} kn',
                             style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 13,
+                              color: MeraColors.textSecondary,
+                              fontSize: 10,
+                            ),
+                          ),
+                          Text(
+                            wave == null
+                                ? 'Dalga —'
+                                : 'Dalga ${wave.toStringAsFixed(1)} m',
+                            style: const TextStyle(
+                              color: MeraColors.textSecondary,
+                              fontSize: 10,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        wind == null
-                            ? 'Rüzgar —'
-                            : 'Rüzgar ${(wind / 1.852).toStringAsFixed(0)} kn',
-                        style: const TextStyle(
-                          color: MeraColors.textSecondary,
-                          fontSize: 10,
-                        ),
-                      ),
-                      Text(
-                        wave == null
-                            ? 'Dalga —'
-                            : 'Dalga ${wave.toStringAsFixed(1)} m',
-                        style: const TextStyle(
-                          color: MeraColors.textSecondary,
-                          fontSize: 10,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 8),
+                  GestureDetector(
+                    onTap: () => present(context, const MeraSolunarPage()),
+                    child: Container(
+                      width: SirenScale.clampOf(
+                        context,
+                        120,
+                        min: 108,
+                        max: 132,
+                      ),
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                      decoration: BoxDecoration(
+                        color: MeraColors.hudGlass,
+                        borderRadius: BorderRadius.circular(MeraRadii.sm),
+                        border: Border.all(color: MeraColors.borderSecondary),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.nightlight_round,
+                            color: MeraColors.blue,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  solunarScore == null
+                                      ? 'Av zamanı —'
+                                      : 'Av zamanı $solunarScore',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  solunarDay == null
+                                      ? '—'
+                                      : (solunarDay.moonPhaseLabel),
+                                  style: const TextStyle(
+                                    color: MeraColors.textSecondary,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

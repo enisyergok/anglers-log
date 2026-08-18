@@ -94,6 +94,9 @@ abstract final class AstronomyProvider {
     }
   }
 
+  /// Julian day number for [utc] (must already be UTC).
+  static double julianDay(DateTime utc) => _julianDay(utc);
+
   static double _julianDay(DateTime utc) {
     final y = utc.year;
     final m = utc.month;

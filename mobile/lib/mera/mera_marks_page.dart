@@ -11,7 +11,10 @@ import 'package:mobile/mera/mera_theme.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart';
 import 'package:mobile/navigation/mera_manager.dart';
+import 'package:mobile/navigation/nmea_udp_listener.dart';
 import 'package:mobile/utils/protobuf_utils.dart';
+
+const _targetSpeciesOptions = ['Levrek', 'Çipura', 'Lüfer', 'Mercan', 'Diğer'];
 
 /// Siren — İşaretlerim (marks + catch records / stats entry).
 class MeraMarksPage extends StatefulWidget {
@@ -111,7 +114,8 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
                                       ),
                                       Text(
                                         '${m.lat.toStringAsFixed(4)}°, ${m.lng.toStringAsFixed(4)}°'
-                                        '${m.depthM != null ? ' · ${m.depthM!.toStringAsFixed(1)} m' : ''}',
+                                        '${m.depthM != null ? ' · ${m.depthM!.toStringAsFixed(1)} m' : ''}'
+                                        '${m.targetSpecies != null ? ' · ${m.targetSpecies}' : ''}',
                                         style: const TextStyle(
                                           color: MeraColors.textSecondary,
                                           fontSize: 11,
@@ -453,29 +457,60 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
       return;
     }
     final note = TextEditingController();
+    final depth = TextEditingController(
+      text: NmeaUdpListener.get.latest?.depthM?.toStringAsFixed(1) ?? '',
+    );
+    String? targetSpecies;
     final ok = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: MeraColors.card,
-        title: const Text('Yeni işaret'),
-        content: TextField(
-          controller: note,
-          autofocus: true,
-          decoration: const InputDecoration(
-            labelText: 'Ad / not',
-            hintText: 'Örn. İskele yanı',
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setState) => AlertDialog(
+          backgroundColor: MeraColors.card,
+          title: const Text('Yeni işaret'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: note,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  labelText: 'Ad / not',
+                  hintText: 'Örn. İskele yanı',
+                ),
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                initialValue: targetSpecies,
+                decoration: const InputDecoration(labelText: 'Hedef tür'),
+                items: _targetSpeciesOptions
+                    .map((s) => DropdownMenuItem(value: s, child: Text(s)))
+                    .toList(),
+                onChanged: (v) => setState(() => targetSpecies = v),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: depth,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'Derinlik (m)',
+                  hintText: 'Örn. 12.5',
+                ),
+              ),
+            ],
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('İptal'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('Ekle'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('İptal'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Ekle'),
-          ),
-        ],
       ),
     );
     if (ok != true) return;
@@ -485,6 +520,8 @@ class _MeraMarksPageState extends State<MeraMarksPage> {
       lng: loc.lng,
       note: label,
       bottomType: 'pin',
+      targetSpecies: targetSpecies,
+      depthM: double.tryParse(depth.text.trim().replaceAll(',', '.')),
     );
     await FishingSpotManager.get.addOrUpdate(
       FishingSpot()
