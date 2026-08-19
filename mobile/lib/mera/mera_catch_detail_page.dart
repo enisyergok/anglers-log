@@ -260,7 +260,7 @@ class _MeraCatchDetailPageState extends State<MeraCatchDetailPage> {
   }
 
   Widget _baitPicker() {
-    final baits = BaitManager.of(context).list()
+    final baits = List.of(BaitManager.of(context).list())
       ..sort((a, b) => a.name.compareTo(b.name));
     return MeraCard(
       child: Row(
