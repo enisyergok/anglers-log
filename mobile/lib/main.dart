@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/l10n/gen/adair_flutter_lib_localizations.dart';
@@ -50,6 +51,35 @@ void main() async {
           (error.stacktrace?.contains("com.mapbox") ?? false);
     },
   );
+
+  // TEMP DEBUG: Firebase/Crashlytics is a no-op on this offline-local build,
+  // so widget-build errors normally just render as a blank gray box in
+  // release mode with no trace anywhere. Show the real error on-screen
+  // instead so the white-screen-on-save bug can be diagnosed from a device.
+  // Remove once root-caused.
+  final previousOnError = FlutterError.onError;
+  FlutterError.onError = (details) {
+    previousOnError?.call(details);
+    // ignore: avoid_print
+    print('MERA_CRASH (build): ${details.exceptionAsString()}\n${details.stack}');
+  };
+  ErrorWidget.builder = (details) => Material(
+    color: const Color(0xFFB00020),
+    child: SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          'HATA (debug):\n${details.exceptionAsString()}\n\n${details.stack}',
+          style: const TextStyle(color: Colors.white, fontSize: 11),
+        ),
+      ),
+    ),
+  );
+  PlatformDispatcher.instance.onError = (error, stack) {
+    // ignore: avoid_print
+    print('MERA_CRASH (async): $error\n$stack');
+    return false;
+  };
 
   // Restrict orientation to portrait for devices with a small width. A width
   // of 740 is less than the smallest iPad, and most Android tablets.
