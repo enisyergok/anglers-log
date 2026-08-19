@@ -18,6 +18,60 @@ import 'protobuf_utils.dart';
 
 const mapZoomDefault = 13.0;
 
+/// Max zoom level for raster (XYZ) tile layers; tiles are upscaled past
+/// [mapTileMaxNativeZoomBase]/[mapTileMaxNativeZoomMarine].
+const mapTileMaxZoom = 20.0;
+
+/// Max native zoom for the base XYZ layer on non-marine map types.
+const mapTileMaxNativeZoomBase = 19;
+
+/// Max native zoom for the base XYZ layer on the marine (ocean) map type.
+const mapTileMaxNativeZoomMarine = 16;
+
+/// Max native zoom for the OpenSeaMap seamark overlay.
+const mapTileMaxNativeZoomSeamarks = 18;
+
+/// Max native zoom for the Esri Ocean Reference overlay.
+const mapTileMaxNativeZoomOceanReference = 16;
+
+/// Max zoom level for WMS (bathymetry/contour) tile layers.
+const mapWmsMaxZoom = 18.0;
+
+/// Max native zoom for the EMODnet multicolour bathymetry layer.
+const mapWmsMaxNativeZoomEmodnetColor = 13;
+
+/// Max native zoom for the EMODnet depth contours layer.
+const mapWmsMaxNativeZoomEmodnetContours = 14;
+
+/// Max native zoom for the OpenSeaMap/GEBCO global bathymetry fallback.
+const mapWmsMaxNativeZoomGebco = 12;
+
+/// Device pixel ratio above which tiles are requested at retina resolution.
+const mapRetinaDevicePixelRatioThreshold = 1.5;
+
+/// Tile keep/pan buffer for XYZ layers (larger buffer = fewer reloads while
+/// panning, at the cost of extra off-screen tile fetches).
+const mapTileKeepBuffer = 4;
+const mapTilePanBuffer = 2;
+
+/// Tile keep/pan buffer for WMS layers.
+const mapWmsKeepBuffer = 3;
+const mapWmsPanBuffer = 1;
+
+/// Tile fade-in durations, so newly-loaded tiles don't pop in abruptly.
+const mapTileFadeInDuration = Duration(milliseconds: 120);
+const mapWmsFadeInDuration = Duration(milliseconds: 140);
+
+/// Marker count above which the marker layer switches from individual
+/// markers to a clustered layer, to keep large marker sets performant.
+const mapMarkerClusterThreshold = 15;
+
+/// Max pixel radius a marker cluster will absorb nearby markers from.
+const mapMarkerClusterMaxRadius = 60;
+
+/// Size (in logical pixels) of a cluster badge marker.
+const mapMarkerClusterBadgeSize = 40.0;
+
 /// OpenSeaMap seamark overlay tile URL template.
 const openSeaMapSeamarkUrl =
     'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png';

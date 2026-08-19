@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:adair_flutter_lib/widgets/async_builder.dart';
+import 'package:adair_flutter_lib/utils/log.dart';
 import 'package:adair_flutter_lib/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/location_monitor.dart';
 import 'package:mobile/map/flutter_map_controller.dart';
@@ -64,7 +65,8 @@ class DefaultMapboxMap extends StatefulWidget {
 }
 
 class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
-  late final Future<bool> _mapFuture;
+  static const _log = Log('DefaultMapboxMap');
+
   late final fm.MapController _fmController;
   late final FlutterMapController _controller;
 
@@ -72,6 +74,8 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
   MbtilesTileProvider? _mbtilesProvider;
   String? _mbtilesPath;
   Future<MbtilesTileProvider>? _mbtilesFuture;
+  String? _activeRegionIdForPathCache;
+  Future<String?>? _activeMbtilesPathFuture;
   StreamSubscription? _trackSub;
 
   LocationMonitor get _locationMonitor => LocationMonitor.of(context);
@@ -80,7 +84,6 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
   @override
   void initState() {
     super.initState();
-    _mapFuture = Future.delayed(const Duration(milliseconds: 300), () => true);
     _fmController = fm.MapController();
     _controller = FlutterMapController(_fmController);
     _interaction.addListener(_onInteractionChanged);
@@ -209,49 +212,63 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
     final start =
         widget.startPosition ?? _locationMonitor.currentLatLng ?? LatLngs.zero;
 
-    return AsyncBuilder<bool>.future(
-      future: _mapFuture,
-      errorReason: 'Loading map',
+    return StreamBuilder<void>(
+      stream: MapRegionManager.get.stream,
       builder: (context, _) {
-        return StreamBuilder<void>(
-          stream: MapRegionManager.get.stream,
+        return StreamBuilder<String>(
+          stream: UserPreferenceManager.get.stream,
           builder: (context, _) {
-            return StreamBuilder<String>(
-              stream: UserPreferenceManager.get.stream,
-              builder: (context, _) {
-                return FutureBuilder<String?>(
-                  future: MapRegionManager.get.activeMbtilesPath(),
-                  builder: (context, pathSnap) {
-                    final path = pathSnap.data;
-                    if (path != null) {
-                      return FutureBuilder<MbtilesTileProvider>(
-                        future: _mbtilesFutureFor(path),
-                        builder: (context, providerSnap) {
-                          if (!providerSnap.hasData) {
-                            if (providerSnap.hasError) {
-                              return _buildMap(context, start);
-                            }
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          return _buildMap(
-                            context,
-                            start,
-                            baseProvider: providerSnap.data,
-                          );
-                        },
+            return FutureBuilder<String?>(
+              future: _activeMbtilesPathFor(
+                MapRegionManager.get.activeRegionId,
+              ),
+              builder: (context, pathSnap) {
+                final path = pathSnap.data;
+                if (path != null) {
+                  return FutureBuilder<MbtilesTileProvider>(
+                    future: _mbtilesFutureFor(path),
+                    builder: (context, providerSnap) {
+                      if (!providerSnap.hasData) {
+                        if (providerSnap.hasError) {
+                          return _buildMap(context, start);
+                        }
+                        // Show the (online) map immediately with a small,
+                        // non-blocking indicator instead of freezing the
+                        // whole screen while the offline package opens.
+                        return _buildMap(
+                          context,
+                          start,
+                          showLoadingOverlay: true,
+                        );
+                      }
+                      return _buildMap(
+                        context,
+                        start,
+                        baseProvider: providerSnap.data,
                       );
-                    }
-                    return _buildMap(context, start);
-                  },
-                );
+                    },
+                  );
+                }
+                return _buildMap(context, start);
               },
             );
           },
         );
       },
     );
+  }
+
+  /// Caches [MapRegionManager.activeMbtilesPath] keyed by the active region
+  /// id, so switching layers (which fires [UserPreferenceManager.stream]) or
+  /// any other ancestor rebuild doesn't re-trigger a redundant async lookup.
+  Future<String?> _activeMbtilesPathFor(String? regionId) {
+    if (_activeRegionIdForPathCache == regionId &&
+        _activeMbtilesPathFuture != null) {
+      return _activeMbtilesPathFuture!;
+    }
+    _activeRegionIdForPathCache = regionId;
+    _activeMbtilesPathFuture = MapRegionManager.get.activeMbtilesPath();
+    return _activeMbtilesPathFuture!;
   }
 
   Future<MbtilesTileProvider> _mbtilesFutureFor(String path) {
@@ -273,6 +290,68 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
     BuildContext context,
     LatLng start, {
     fm.TileProvider? baseProvider,
+    bool showLoadingOverlay = false,
+  }) {
+    try {
+      return _buildMapContent(
+        context,
+        start,
+        baseProvider: baseProvider,
+        showLoadingOverlay: showLoadingOverlay,
+      );
+    } catch (e, stackTrace) {
+      _log.e(e, reason: 'Failed to build map', stackTrace: stackTrace);
+      return _buildMapErrorFallback();
+    }
+  }
+
+  Widget _buildMapErrorFallback() {
+    return ColoredBox(
+      color: MeraColors.bg,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.map_outlined,
+                color: MeraColors.textSecondary,
+                size: 40,
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Harita yüklenemedi',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'Bir sorun oluştu. Lütfen tekrar deneyin.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: MeraColors.textSecondary, fontSize: 13),
+              ),
+              const SizedBox(height: 16),
+              FilledButton.icon(
+                onPressed: () => setState(() {}),
+                icon: const Icon(Icons.refresh),
+                label: const Text('Tekrar dene'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMapContent(
+    BuildContext context,
+    LatLng start, {
+    fm.TileProvider? baseProvider,
+    bool showLoadingOverlay = false,
   }) {
     return ListenableBuilder(
       listenable: _controller,
@@ -282,35 +361,42 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
         final showBathymetry = UserPreferenceManager.get.showMapBathymetry;
         final showSeamarks = UserPreferenceManager.get.showMapSeamarks;
         final marine = baseUrl == MapType.ocean.url;
-        final retina = MediaQuery.devicePixelRatioOf(context) > 1.5;
+        final retina =
+            MediaQuery.devicePixelRatioOf(context) >
+            mapRetinaDevicePixelRatioThreshold;
         final routePts = _interaction.routePoints;
         final trackPts = MeraTrackManager.get.livePoints
             .map((p) => ll.LatLng(p.lat, p.lng))
             .toList();
 
-        Widget xyz(String url, {int maxNativeZoom = 18}) {
+        Widget xyz(String url, {Key? key, int maxNativeZoom = 18}) {
           return fm.TileLayer(
+            key: key,
             urlTemplate: url,
             subdomains: const ['a', 'b', 'c', 'd'],
             userAgentPackageName: mapTileUserAgentPackageName,
-            maxZoom: 20,
+            maxZoom: mapTileMaxZoom,
             maxNativeZoom: maxNativeZoom,
-            keepBuffer: 4,
-            panBuffer: 2,
+            keepBuffer: mapTileKeepBuffer,
+            panBuffer: mapTilePanBuffer,
             retinaMode: retina,
             tileDisplay: const fm.TileDisplay.fadeIn(
-              duration: Duration(milliseconds: 120),
+              duration: mapTileFadeInDuration,
             ),
+            errorTileCallback: (tile, error, stackTrace) =>
+                _log.w('Tile load failed for $url: $error'),
           );
         }
 
         Widget wms({
+          Key? key,
           required String base,
           required List<String> layers,
           List<String> styles = const [],
           int maxNativeZoom = 14,
         }) {
           return fm.TileLayer(
+            key: key,
             wmsOptions: fm.WMSTileLayerOptions(
               baseUrl: base,
               layers: layers,
@@ -320,40 +406,53 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
               version: '1.1.1',
             ),
             userAgentPackageName: mapTileUserAgentPackageName,
-            maxZoom: 18,
+            maxZoom: mapWmsMaxZoom,
             maxNativeZoom: maxNativeZoom,
-            keepBuffer: 3,
-            panBuffer: 1,
+            keepBuffer: mapWmsKeepBuffer,
+            panBuffer: mapWmsPanBuffer,
             retinaMode: retina,
             tileDisplay: const fm.TileDisplay.fadeIn(
-              duration: Duration(milliseconds: 140),
+              duration: mapWmsFadeInDuration,
             ),
+            errorTileCallback: (tile, error, stackTrace) =>
+                _log.w('WMS tile load failed for $base: $error'),
           );
         }
 
         final children = <Widget>[
           if (baseProvider != null)
-            fm.TileLayer(tileProvider: baseProvider)
+            fm.TileLayer(
+              key: const ValueKey('base-mbtiles'),
+              tileProvider: baseProvider,
+            )
           else
-            xyz(baseUrl, maxNativeZoom: marine ? 16 : 19),
+            xyz(
+              baseUrl,
+              key: const ValueKey('base-xyz'),
+              maxNativeZoom: marine
+                  ? mapTileMaxNativeZoomMarine
+                  : mapTileMaxNativeZoomBase,
+            ),
 
           // Best free European coastal depth (EMODnet multicolour + contours).
           if (showBathymetry && marine) ...[
             Opacity(
+              key: const ValueKey('bathymetry-emodnet-color'),
               opacity: 0.58,
               child: wms(
                 base: emodnetBathymetryWmsBaseUrl,
                 layers: const [emodnetBathymetryWmsLayer],
                 styles: const [emodnetBathymetryWmsStyle],
-                maxNativeZoom: 13,
+                maxNativeZoom: mapWmsMaxNativeZoomEmodnetColor,
               ),
             ),
             Opacity(
+              key: const ValueKey('bathymetry-emodnet-contours'),
               opacity: 0.78,
               child: wms(
                 base: emodnetBathymetryWmsBaseUrl,
                 layers: const [emodnetContoursWmsLayer],
-                maxNativeZoom: 14,
+                maxNativeZoom: mapWmsMaxNativeZoomEmodnetContours,
               ),
             ),
           ],
@@ -361,21 +460,33 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
           // Other basemaps: global GEBCO depth when toggle is on.
           if (showBathymetry && !marine)
             Opacity(
+              key: const ValueKey('bathymetry-gebco'),
               opacity: 0.7,
               child: wms(
                 base: openSeaMapBathymetryWmsBaseUrl,
                 layers: const [openSeaMapBathymetryWmsLayer],
-                maxNativeZoom: 12,
+                maxNativeZoom: mapWmsMaxNativeZoomGebco,
               ),
             ),
 
           // Chart-like labels / contours (Esri free Ocean Reference).
-          if (marine) xyz(esriOceanReferenceUrl, maxNativeZoom: 16),
+          if (marine)
+            xyz(
+              esriOceanReferenceUrl,
+              key: const ValueKey('ocean-reference'),
+              maxNativeZoom: mapTileMaxNativeZoomOceanReference,
+            ),
 
-          if (showSeamarks) xyz(openSeaMapSeamarkUrl, maxNativeZoom: 18),
+          if (showSeamarks)
+            xyz(
+              openSeaMapSeamarkUrl,
+              key: const ValueKey('seamarks'),
+              maxNativeZoom: mapTileMaxNativeZoomSeamarks,
+            ),
 
           if (routePts.length >= 2)
             fm.PolylineLayer(
+              key: const ValueKey('route-line'),
               polylines: [
                 fm.Polyline(
                   points: routePts,
@@ -388,6 +499,7 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
             ),
           if (trackPts.length >= 2)
             fm.PolylineLayer(
+              key: const ValueKey('track-line'),
               polylines: [
                 fm.Polyline(
                   points: trackPts,
@@ -396,14 +508,17 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
                 ),
               ],
             ),
-          fm.MarkerLayer(
-            markers: [
-              ..._controller.markers,
-              ..._routeEndpointMarkers(routePts),
-            ],
-          ),
+          _buildMarkersLayer(_controller.markers),
+          if (routePts.isNotEmpty)
+            fm.MarkerLayer(
+              key: const ValueKey('route-endpoints'),
+              markers: _routeEndpointMarkers(routePts),
+            ),
           if (widget.isMyLocationEnabled)
-            _MyLocationLayer(locationMonitor: _locationMonitor),
+            _MyLocationLayer(
+              key: const ValueKey('my-location'),
+              locationMonitor: _locationMonitor,
+            ),
         ];
 
         return Stack(
@@ -467,9 +582,59 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
                 ),
               ),
             ),
+            if (showLoadingOverlay)
+              const Positioned(
+                top: 12,
+                right: 12,
+                child: _LayerLoadingIndicator(),
+              ),
           ],
         );
       },
+    );
+  }
+
+  /// Renders [markers] individually, or as a clustered layer once the count
+  /// passes [mapMarkerClusterThreshold], so large marker sets (e.g. all
+  /// fishing spots) don't degrade pan/zoom performance.
+  Widget _buildMarkersLayer(List<fm.Marker> markers) {
+    if (markers.length < mapMarkerClusterThreshold) {
+      return fm.MarkerLayer(key: const ValueKey('markers'), markers: markers);
+    }
+    return MarkerClusterLayerWidget(
+      key: const ValueKey('markers-clustered'),
+      options: MarkerClusterLayerOptions(
+        maxClusterRadius: mapMarkerClusterMaxRadius,
+        size: const Size(
+          mapMarkerClusterBadgeSize,
+          mapMarkerClusterBadgeSize,
+        ),
+        markers: markers,
+        builder: (context, clusterMarkers) =>
+            _buildClusterBadge(clusterMarkers.length),
+      ),
+    );
+  }
+
+  Widget _buildClusterBadge(int count) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: MeraColors.blue,
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white, width: 2),
+        boxShadow: const [
+          BoxShadow(color: Color(0x66000000), blurRadius: 6),
+        ],
+      ),
+      child: Text(
+        '$count',
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w800,
+          fontSize: 13,
+        ),
+      ),
     );
   }
 
@@ -549,9 +714,37 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
   }
 }
 
+/// Small, non-blocking indicator shown in a corner while a layer (e.g. an
+/// offline MBTiles region) is loading in the background, so the map remains
+/// interactive instead of freezing behind a full-screen spinner.
+class _LayerLoadingIndicator extends StatelessWidget {
+  const _LayerLoadingIndicator();
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: const Color(0xB3000000),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const SizedBox(
+          width: 16,
+          height: 16,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 /// Large, high-contrast GPS marker (Siren-style boat + halo).
 class _MyLocationLayer extends StatelessWidget {
-  const _MyLocationLayer({required this.locationMonitor});
+  const _MyLocationLayer({super.key, required this.locationMonitor});
 
   final LocationMonitor locationMonitor;
 
