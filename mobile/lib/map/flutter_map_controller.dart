@@ -7,6 +7,7 @@ import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:mobile/map/map_controller.dart';
+import 'package:mobile/user_preference_manager.dart';
 import 'package:mobile/utils/protobuf_utils.dart';
 import 'package:uuid/uuid.dart';
 
@@ -25,7 +26,12 @@ class FlutterMapController extends MapController with ChangeNotifier {
 
   VoidCallback? _onMapMoveCallback;
   var _isCameraMoving = false;
-  MapType _mapType = MapType.ocean;
+  // Seeded from the persisted preference at construction time (rather than
+  // defaulting to MapType.ocean and waiting for setMapType() in
+  // onMapReady) so the very first frame already renders the saved map
+  // type instead of flashing the default before swapping.
+  MapType _mapType =
+      MapType.fromId(UserPreferenceManager.get.mapType) ?? MapType.ocean;
   double _attributionMarginBottom = 0;
 
   FlutterMapController(this.mapController);

@@ -22,6 +22,7 @@ import 'package:mobile/mera/mera_weather_page.dart';
 import 'package:mobile/mera/mera_widgets.dart';
 import 'package:mobile/mera/place_search.dart';
 import 'package:mobile/mera/mera_track_manager.dart';
+import 'package:mobile/navigation/land_polygon_catalog.dart';
 import 'package:mobile/navigation/mera_manager.dart';
 import 'package:mobile/navigation/marine_telemetry.dart';
 import 'package:mobile/navigation/nav_geo.dart';
@@ -1233,6 +1234,17 @@ class _MeraMapHudState extends State<MeraMapHud> {
       showErrorSnackBar(
         context,
         'Rota çok kısa — en az iki farklı noktaya dokunun',
+      );
+      return;
+    }
+    // Defense in depth: endpoints are already blocked at tap time
+    // (MeraMapInteraction.handleMapTap), but guard the save itself too in
+    // case points arrive some other way (e.g. edit-mode reload).
+    if (NavGeo.isPointOnLand(pts.first, LandPolygonCatalog.all) ||
+        NavGeo.isPointOnLand(pts.last, LandPolygonCatalog.all)) {
+      showErrorSnackBar(
+        context,
+        'Rota karada başlıyor/bitiyor — noktaları suya taşıyın',
       );
       return;
     }

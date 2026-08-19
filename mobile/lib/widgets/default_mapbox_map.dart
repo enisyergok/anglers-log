@@ -77,6 +77,7 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
   String? _activeRegionIdForPathCache;
   Future<String?>? _activeMbtilesPathFuture;
   StreamSubscription? _trackSub;
+  StreamSubscription? _meraSub;
 
   LocationMonitor get _locationMonitor => LocationMonitor.of(context);
   MeraMapInteraction get _interaction => MeraMapInteraction.instance;
@@ -91,6 +92,12 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
     _trackSub = MeraTrackManager.get.stream.listen((_) {
       if (mounted) setState(() {});
     });
+    // Mera pins are stored/added via MeraManager (not FlutterMapController's
+    // Symbol list), so this map must listen independently to render newly
+    // added pins immediately.
+    _meraSub = MeraManager.get.stream.listen((_) {
+      if (mounted) setState(() {});
+    });
   }
 
   void _onInteractionChanged() {
@@ -100,6 +107,7 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
   @override
   void dispose() {
     _trackSub?.cancel();
+    _meraSub?.cancel();
     _interaction.removeListener(_onInteractionChanged);
     _mbtilesProvider?.close();
     _controller.dispose();
@@ -508,7 +516,7 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
                 ),
               ],
             ),
-          _buildMarkersLayer(_controller.markers),
+          _buildMarkersLayer([..._controller.markers, ..._meraSpotMarkers()]),
           if (routePts.isNotEmpty)
             fm.MarkerLayer(
               key: const ValueKey('route-endpoints'),
@@ -534,8 +542,13 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
                 onTap: (_, point) async {
                   if (_interaction.routeMode || _interaction.pinMode) {
                     final wasPin = _interaction.pinMode;
-                    await _interaction.handleMapTap(point);
-                    if (wasPin && mounted) {
+                    final accepted = await _interaction.handleMapTap(point);
+                    if (!accepted && mounted) {
+                      showErrorSnackBar(
+                        context,
+                        'Bu nokta karada — rota noktaları suda olmalı',
+                      );
+                    } else if (wasPin && mounted) {
                       showSuccessSnackBar(context, 'İşaret eklendi');
                     }
                   }
@@ -635,6 +648,104 @@ class _DefaultMapboxMapState extends State<DefaultMapboxMap> {
           fontSize: 13,
         ),
       ),
+    );
+  }
+
+  /// Renders MeraManager's spots as map pins. These are stored outside of
+  /// [FlutterMapController]'s Symbol list, so they're built separately here
+  /// and merged into the marker/cluster layer.
+  List<fm.Marker> _meraSpotMarkers() {
+    return MeraManager.get.spots
+        .map(
+          (spot) => fm.Marker(
+            key: ValueKey('mera-spot-${spot.id}'),
+            point: ll.LatLng(spot.lat, spot.lng),
+            width: 34,
+            height: 34,
+            alignment: Alignment.center,
+            child: GestureDetector(
+              onTap: () => _showMeraSpotInfo(context, spot),
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: MeraColors.danger,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                  boxShadow: const [
+                    BoxShadow(color: Color(0x66000000), blurRadius: 6),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.location_on,
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ),
+            ),
+          ),
+        )
+        .toList(growable: false);
+  }
+
+  void _showMeraSpotInfo(BuildContext context, MeraSpot spot) {
+    final title = spot.note?.isNotEmpty == true
+        ? spot.note!
+        : (spot.bottomType?.isNotEmpty == true ? spot.bottomType! : 'Mera');
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: MeraColors.card,
+      builder: (ctx) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  '${spot.lat.toStringAsFixed(5)}, '
+                  '${spot.lng.toStringAsFixed(5)}'
+                  '${spot.depthM != null ? ' · ${spot.depthM!.toStringAsFixed(1)} m' : ''}'
+                  '${spot.targetSpecies != null ? ' · ${spot.targetSpecies}' : ''}',
+                  style: const TextStyle(
+                    color: MeraColors.textSecondary,
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      child: const Text('Kapat'),
+                    ),
+                    const Spacer(),
+                    TextButton.icon(
+                      onPressed: () async {
+                        Navigator.pop(ctx);
+                        await MeraManager.get.remove(spot.id);
+                      },
+                      icon: const Icon(Icons.delete, color: MeraColors.danger),
+                      label: const Text(
+                        'Sil',
+                        style: TextStyle(color: MeraColors.danger),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

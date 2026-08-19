@@ -6,6 +6,7 @@ import 'package:mobile/map/map_controller.dart';
 import 'package:mobile/model/gen/anglers_log.pb.dart' as pb;
 import 'package:mobile/navigation/land_polygon_catalog.dart';
 import 'package:mobile/navigation/mera_manager.dart';
+import 'package:mobile/navigation/nav_geo.dart';
 import 'package:mobile/navigation/nmea_udp_listener.dart';
 import 'package:mobile/navigation/water_route_planner.dart';
 import 'package:mobile/utils/map_utils.dart';
@@ -126,12 +127,29 @@ class MeraMapInteraction extends ChangeNotifier {
     }
   }
 
+  /// True when the last route-mode tap was rejected because it landed on a
+  /// known land polygon (see [handleMapTap]).
+  bool lastTapRejectedOnLand = false;
+
   /// Append a waypoint (route mode) or drop a MeraSpot (pin mode).
   ///
   /// In route mode, if the new leg crosses land, intermediate water
-  /// waypoints are inserted automatically.
-  Future<void> handleMapTap(ll.LatLng point) async {
+  /// waypoints are inserted automatically. Route *endpoints* (this tap's
+  /// point) are rejected outright if they fall on a known land polygon —
+  /// there is no maritime-only directions backend here, only manual
+  /// waypoints plus coarse land-avoidance, so this is the best available
+  /// guard against a route starting/ending on land.
+  ///
+  /// Returns false when the tap was rejected (on land); callers should
+  /// surface this to the user.
+  Future<bool> handleMapTap(ll.LatLng point) async {
     if (routeMode) {
+      if (NavGeo.isPointOnLand(point, LandPolygonCatalog.all)) {
+        lastTapRejectedOnLand = true;
+        notifyListeners();
+        return false;
+      }
+      lastTapRejectedOnLand = false;
       if (draftPoints.isEmpty) {
         draftPoints = [point];
         landRerouted = false;
@@ -148,11 +166,12 @@ class MeraMapInteraction extends ChangeNotifier {
         landRerouteFailed = plan.failed;
       }
       notifyListeners();
-      return;
+      return true;
     }
     if (pinMode) {
       await _addPinAt(point);
     }
+    return true;
   }
 
   /// Re-run land avoidance on the whole draft (e.g. after edit load).

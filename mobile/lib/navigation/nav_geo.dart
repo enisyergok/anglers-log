@@ -63,6 +63,21 @@ class NavGeo {
     return false;
   }
 
+  /// True if [point] falls inside any of [polygons] (e.g. land obstacles).
+  ///
+  /// Used to block route endpoints from being placed on land, since this
+  /// app has no true maritime-only directions backend — routes are built
+  /// from manual waypoints that only avoid the coarse [polygons] we embed.
+  static bool isPointOnLand(LatLng point, List<List<LatLng>> polygons) {
+    for (final poly in polygons) {
+      if (poly.length < 3) continue;
+      if (_pointInPolygon(point, poly)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /// True if any consecutive pair in [points] hits land.
   static bool pathHitsLand(List<LatLng> points, List<List<LatLng>> polygons) {
     for (var i = 0; i < points.length - 1; i++) {
