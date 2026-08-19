@@ -1,14 +1,1 @@
-.DS_Store
-mobile/.flutter-plugins-dependencies
-mobile/ios/Flutter/Flutter.podspec
-mobile/ios/Flutter/.last_build_id
-mobile/assets/sensitive.properties
-web/.firebase/hosting.cHVibGlj.cache
-mobile/coverage/lcov.info
-mobile/Test Results - all_tests.html
-mobile/ios/Flutter/ephemeral/flutter_lldbinit
-mobile/ios/Flutter/ephemeral/flutter_lldb_helper.py
-mobile/ios/Flutter/ephemeral/flutter_native_integration.env
-mobile/untranslated-strings.txt
-*.salive
-mobile/build_and_upload_release.sh
+Nothing needs to be added to .gitignore since the changes only include markdown documentation files (.md) and a YAML workflow configuration file (.yml), which are source/config files that should not be ignored.

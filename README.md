@@ -191,10 +191,25 @@ release APK on GitHub Actions. It:
    third-party keys to compile).
 3. Reconstructs the Android release-signing keystore from GitHub Secrets
    (`ANDROID_KEYSTORE_BASE64`, `ANDROID_STORE_PASSWORD`, `ANDROID_KEY_ALIAS`,
-   `ANDROID_KEY_PASSWORD`).
+   `ANDROID_KEY_PASSWORD`) — **optional**; if secrets are not provided, an
+   unsigned debug APK is built instead.
 4. Sets up Java 17 (Zulu) and the stable Flutter channel.
-5. Runs `flutter pub get` and `flutter build apk --release`.
-6. Uploads the resulting APK as a build artifact (`anglers-log-pro-apk`).
+5. Runs `flutter pub get`, `flutter analyze`, and `flutter build apk --release`.
+6. Uploads the resulting APK as a build artifact (`anglers-log-apk-{commit-sha}`).
+7. If triggered by a tag (e.g., `v1.0.0`), creates a GitHub Release with the APK attached.
+
+### Manual Build
+
+You can manually trigger a build from the **Actions** tab in your GitHub repository:
+
+1. Go to **Actions** > **Build Android APK**.
+2. Click **Run workflow**.
+3. Select the branch (default: `main`).
+4. Click **Run workflow** again.
+
+Once the build completes, download the APK from the **Artifacts** section.
+
+For detailed instructions on setting up secrets, downloading APKs, and troubleshooting, see [ANDROID_BUILD_GUIDE.md](ANDROID_BUILD_GUIDE.md).
 
 ## Known setup caveats
 
